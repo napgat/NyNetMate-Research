@@ -11,10 +11,12 @@
             "id": "07bb3ad43d50325d",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
+              "type": "image",
+              "state": {
+                "file": "Img/Pasted image 20260705163342.png"
+              },
+              "icon": "lucide-image",
+              "title": "Pasted image 20260705163342"
             }
           }
         ]
@@ -90,6 +92,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Img/Pasted image 20260705163342.png",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +102,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for Pasted image 20260705163342"
             }
           },
           {
@@ -108,11 +111,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Img/Pasted image 20260705163342.png",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from Pasted image 20260705163342"
             }
           },
           {
@@ -150,12 +154,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "Img/Pasted image 20260705163342.png",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of Pasted image 20260705163342"
             }
           }
         ]
@@ -178,6 +183,26 @@
   },
   "active": "07bb3ad43d50325d",
   "lastOpenFiles": [
+    "Img/Screenshot 2026-07-16 160329.png.tmp",
+    "Img/Screenshot 2026-07-16 160057.png.tmp",
+    "Img/Screenshot 2026-07-16 153918.png.tmp",
+    "Img/Pasted image 20260722144815.png.tmp",
+    "Img/Pasted image 20260722144809.png.tmp",
+    "Img/Pasted image 20260722144801.png.tmp",
+    "Img/Pasted image 20260722144737.png.tmp",
+    "Img/Pasted image 20260722144733.png.tmp",
+    "Img/Pasted image 20260722144650.png.tmp",
+    "Img/Pasted image 20260721214533.png.tmp",
+    "Img/Pasted image 20260721214520.png.tmp",
+    "Img/Pasted image 20260710144449.png",
+    "Img/Pasted image 20260715225624.png",
+    "Img/Pasted image 20260716123724.png",
+    "Img/Pasted image 20260716123833.png",
+    "Img/Pasted image 20260716122139.png",
+    "Img/Pasted image 20260716124856.png",
+    "Img/Pasted image 20260722144733.png",
+    "Img/Pasted image 20260721205153.png",
+    "Img/Pasted image 20260715224231.png",
     "03_tech_evaluations/NAPALM.md",
     "README.md",
     "AGENTS.md",

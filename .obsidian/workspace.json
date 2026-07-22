@@ -11,12 +11,12 @@
             "id": "07bb3ad43d50325d",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "pdf",
               "state": {
-                "file": "Img/Pasted image 20260705163342.png"
+                "file": "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.pdf"
               },
-              "icon": "lucide-image",
-              "title": "Pasted image 20260705163342"
+              "icon": "lucide-file-text",
+              "title": "คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้"
             }
           }
         ]
@@ -92,7 +92,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Img/Pasted image 20260705163342.png",
+                "file": "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Pasted image 20260705163342"
+              "title": "Backlinks for คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้"
             }
           },
           {
@@ -111,12 +111,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Img/Pasted image 20260705163342.png",
+                "file": "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Pasted image 20260705163342"
+              "title": "Outgoing links from คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้"
             }
           },
           {
@@ -154,13 +154,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Img/Pasted image 20260705163342.png",
+                "file": "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.pdf",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Pasted image 20260705163342"
+              "title": "Outline of คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้"
             }
           }
         ]
@@ -181,19 +181,22 @@
       "bases:Create new base": false
     }
   },
-  "active": "07bb3ad43d50325d",
+  "active": "fc176a42bf02d4e3",
   "lastOpenFiles": [
+    "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.md",
+    "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.pdf",
+    "04_project_management/วิชา CE Project 1/Project Orientation 2569.md",
+    "04_project_management/จุดตายในการพรีเซ็นตาม silde Present.md",
+    "Img/Pasted image 20260705163342.png",
+    "04_project_management/วิชา CE Project 1/handbook-student.pdf",
+    "04_project_management/handbook-student.pdf",
+    "handbook-student.pdf",
     "Img/Screenshot 2026-07-16 160329.png.tmp",
     "Img/Screenshot 2026-07-16 160057.png.tmp",
     "Img/Screenshot 2026-07-16 153918.png.tmp",
     "Img/Pasted image 20260722144815.png.tmp",
     "Img/Pasted image 20260722144809.png.tmp",
     "Img/Pasted image 20260722144801.png.tmp",
-    "Img/Pasted image 20260722144737.png.tmp",
-    "Img/Pasted image 20260722144733.png.tmp",
-    "Img/Pasted image 20260722144650.png.tmp",
-    "Img/Pasted image 20260721214533.png.tmp",
-    "Img/Pasted image 20260721214520.png.tmp",
     "Img/Pasted image 20260710144449.png",
     "Img/Pasted image 20260715225624.png",
     "Img/Pasted image 20260716123724.png",
@@ -212,13 +215,11 @@
     "04_project_management/Document Project/MyNetMate_Features_and_Tools_Comprehensive.md",
     "04_project_management/Document Project/gantt_chart.md",
     "04_project_management/Document Project/CEPP68-33 Proposal.md",
-    "04_project_management/จุดตายในการพรีเซ็นตาม silde Present.md",
     "04_project_management/TeacherSay.md",
     "04_project_management/TeacherSay/ความน่ากังวลของอาจารย์.md",
     "04_project_management/TeacherSay/คำแนะนำของอาจารย์ ณ ครั้งที่ 1 ปี 3 เทอม 1.md",
     "04_project_management/TeacherSay/คำแนะนำของอาจารย์ ตอนซ้อมพรีเซ็น.md",
     "04_project_management/TeacherSay/สรุปสิ่งที่ได้ไปพูดคุยกับอาจารย์.md",
-    "Img/Pasted image 20260705121218.png",
     "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/AI_Networking_Cookbook_TOC.md",
     "01_architecture_and_specs/Subscription Plan.md",
     "01_architecture_and_specs/System Diagram in Proposal.md",

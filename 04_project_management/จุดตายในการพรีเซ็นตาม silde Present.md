@@ -102,6 +102,16 @@ Scenario: ระบบของเราอยู่ Management Network
    → QR-2: ≥ 95% โดยผู้เชี่ยวชาญตรวจ (แต่ใครตรวจ? กี่ test case?)
 
 3. กรณีที่ gen ผิด → มีกลไกอะไรจับ?
+
+## 🔴 จุดตาย #7 — PII Masking IP Address และคำถามเรื่อง Reasoning Gap (คำถามอาจารย์ปริญญา)
+
+**คำถามของอาจารย์:** "เวลา PII mask IP Address มัน mask เป็นอะไรส่งไปให้ AI? แล้ว AI มันจะเข้าใจเหรอว่า IP ที่แปลงไปมีความสำคัญยังไง? จะเกิด Gap ในการวิเคราะห์ของ AI หรือไม่?"
+
+**คำตอบหลัก 3 ข้อ:**
+1. **Mask เป็นอะไร?** ใช้วิธี **Format-Preserving Pseudonymization / Topological Tokens** เช่น `192.168.10.5` ➔ `<IP_HOST_1>` หรือแมป Subnet ไปเป็น RFC 5737 เช่น `198.51.100.5` (คงค่า `/24` และ Host Offset ไว้)
+2. **AI รู้ความสำคัญไหม? (No Reasoning Gap):** AI/LLM มอง IP เป็น Logical Node ใน Network Graph Topology โดยอ่านจาก Syntax, Subnet Mask และ Interface Relationship (AI ไม่สนใจว่าตัวเลข IP เป็นเลขอะไร ขอแค่ความสัมพันธ์ทางตรรกะถูกต้อง)
+3. **การแปลงกลับ (Deanonymization):** Local Server เก็บบันทึก 1-to-1 Mapping Table ใน Memory แล้วสลับโทเค็นกลับเป็น IP จริงก่อนแสดงบน UI ให้วิศวกรตรวจสอบและอนุมัติ (100% Privacy + 0% Loss of Reasoning + 100% Usability)
+
 ## 🟡 ทิศทางที่ควรนำไปคิดต่อ (สำหรับโปรเจกต์ปีหน้า)
 
 ### สิ่งที่ควรทำก่อนพรีเซ็นครั้งถัดไป:

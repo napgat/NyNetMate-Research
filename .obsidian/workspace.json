@@ -11,12 +11,14 @@
             "id": "07bb3ad43d50325d",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.pdf"
+                "file": "03_tech_evaluations/Microsoft Presidio.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-file-text",
-              "title": "คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้"
+              "icon": "lucide-file",
+              "title": "Microsoft Presidio"
             }
           }
         ]
@@ -92,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.pdf",
+                "file": "03_tech_evaluations/Microsoft Presidio.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้"
+              "title": "Backlinks for Microsoft Presidio"
             }
           },
           {
@@ -111,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.pdf",
+                "file": "03_tech_evaluations/Microsoft Presidio.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้"
+              "title": "Outgoing links from Microsoft Presidio"
             }
           },
           {
@@ -154,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.pdf",
+                "file": "03_tech_evaluations/Microsoft Presidio.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้"
+              "title": "Outline of Microsoft Presidio"
             }
           }
         ]
@@ -181,12 +183,17 @@
       "bases:Create new base": false
     }
   },
-  "active": "fc176a42bf02d4e3",
+  "active": "07bb3ad43d50325d",
   "lastOpenFiles": [
-    "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.md",
-    "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.pdf",
-    "04_project_management/วิชา CE Project 1/Project Orientation 2569.md",
+    "03_tech_evaluations/NAPALM.md",
+    "03_tech_evaluations/Microsoft Presidio.md",
+    "03_tech_evaluations/SolarWinds Hybrid Cloud Observability.md",
+    "03_tech_evaluations/ค้นคว้าเครื่องมือ Netmik vs NAPALM vs Nornir vs Ansible.md",
+    "04_project_management/Advisor_Meeting_Feature_Strategy_Template.md",
     "04_project_management/จุดตายในการพรีเซ็นตาม silde Present.md",
+    "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.pdf",
+    "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.md",
+    "04_project_management/วิชา CE Project 1/Project Orientation 2569.md",
     "Img/Pasted image 20260705163342.png",
     "04_project_management/วิชา CE Project 1/handbook-student.pdf",
     "04_project_management/handbook-student.pdf",
@@ -206,7 +213,6 @@
     "Img/Pasted image 20260722144733.png",
     "Img/Pasted image 20260721205153.png",
     "Img/Pasted image 20260715224231.png",
-    "03_tech_evaluations/NAPALM.md",
     "README.md",
     "AGENTS.md",
     "03_tech_evaluations/Nornir.md",

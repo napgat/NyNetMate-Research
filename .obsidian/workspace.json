@@ -1,0 +1,202 @@
+{
+  "main": {
+    "id": "433830f0b76da726",
+    "type": "split",
+    "children": [
+      {
+        "id": "6dcaae0b7a39b24a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "07bb3ad43d50325d",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ac7a8769cc1dd170",
+    "type": "split",
+    "children": [
+      {
+        "id": "44ee3c0134a54837",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fc176a42bf02d4e3",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "b39949f20dc3fb0e",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "f1e47cb998ad0614",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 470.5
+  },
+  "right": {
+    "id": "2024716cf3b09ec9",
+    "type": "split",
+    "children": [
+      {
+        "id": "c7e4c62bb3ad8fa2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2a2f525259a602f2",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "7a897c8e5364f3df",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "5b1e52de9b50d259",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "8decbdb18fcb9d41",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "921cdcb92caaed29",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "07bb3ad43d50325d",
+  "lastOpenFiles": [
+    "03_tech_evaluations/NAPALM.md",
+    "README.md",
+    "AGENTS.md",
+    "03_tech_evaluations/Nornir.md",
+    "04_project_management/Document Project/MyNetMate_Tool_Weight_Analysis.md",
+    "04_project_management/Document Project/MyNetMate_Infographic.md",
+    "04_project_management/Document Project/MyNetMate_Features_and_Tools_Comprehensive.md",
+    "04_project_management/Document Project/gantt_chart.md",
+    "04_project_management/Document Project/CEPP68-33 Proposal.md",
+    "04_project_management/จุดตายในการพรีเซ็นตาม silde Present.md",
+    "04_project_management/TeacherSay.md",
+    "04_project_management/TeacherSay/ความน่ากังวลของอาจารย์.md",
+    "04_project_management/TeacherSay/คำแนะนำของอาจารย์ ณ ครั้งที่ 1 ปี 3 เทอม 1.md",
+    "04_project_management/TeacherSay/คำแนะนำของอาจารย์ ตอนซ้อมพรีเซ็น.md",
+    "04_project_management/TeacherSay/สรุปสิ่งที่ได้ไปพูดคุยกับอาจารย์.md",
+    "Img/Pasted image 20260705121218.png",
+    "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/AI_Networking_Cookbook_TOC.md",
+    "01_architecture_and_specs/Subscription Plan.md",
+    "01_architecture_and_specs/System Diagram in Proposal.md",
+    "01_architecture_and_specs/System.md"
+  ]
+}

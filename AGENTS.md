@@ -34,38 +34,49 @@
 AI Agents should use this map to quickly locate authoritative documentation:
 
 ### 🏛️ `01_architecture_and_specs/` — System Architecture & UI Specifications
-- [System Diagram.md](01_architecture_and_specs/System%20Diagram%20.md) — สถาปัตยกรรมระบบ 8 ส่วนหลัก
+- [System Diagram in Proposal.md](01_architecture_and_specs/System%20Diagram%20in%20Proposal.md) — สถาปัตยกรรมระบบ 8 ส่วนหลัก
 - [netconfig_full_page_specs.html](01_architecture_and_specs/netconfig_full_page_specs.html) — ข้อกำหนด UI/UX ละเอียดทั้ง 8 หน้า (P0-P7)
-- [จากภาพพี่ออม.md](01_architecture_and_specs/%E0%B8%88%E0%B8%B2%E0%B8%81%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%9E%E0%B8%B5%E0%B9%88%E0%B8%AD%E0%B8%AD%E0%B8%A1.md) — UI Mockup 6 แท็บสำหรับ Config Builder
-- [การตัดสินใจ ใช้ AI vs ไม่ใช้ AI ในโปรเจกต์.md](01_architecture_and_specs/%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%5F%E0%B8%95%E0%B8%B1%E0%B8%94%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B9%83%E0%B8%8 me_%E0%B9%83%E0%B8%8A%E0%B9%8B_AI_vs_%E0%B9%84%E0%B8%A1%E0%B9%8B%E0%B9%83%E0%B8%8A%E0%B9%8B_AI_%E0%B9%83%E0%B8%99%E0%B9%85%E0%B8%9B%E0%B8%A3%E0%B9%86%E0%B9%80%E0%B8%88%E0%B8%81%E0%B8%5F.md) — กรอบการตัดสินใจ AI 12 ฟังก์ชัน
-- [อ่านเนื้อหาเชิงลึกเพิ่มเติม SL.md](01_architecture_and_specs/%E0%B8%AD%E0%B9%8B%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%B7%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8D%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B9%8B%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20SL.md) — Software Layer & Async I/O Design
-- [Subscription.md](01_architecture_and_specs/Subscription.md) — Open Core Business Model (Free vs Pro)
+- [Mockup จากภาพพี่ออม.md](01_architecture_and_specs/Mockup%20%E0%B8%88%E0%B8%B2%E0%B8%81%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%9E%E0%B8%B5%E0%B9%88%E0%B8%AD%E0%B8%AD%E0%B8%A1.md) — UI Mockup 6 แท็บสำหรับ Config Builder
+- [Decision AI or NoAI in Project.md](01_architecture_and_specs/Decision%20AI%20or%20NoAI%20in%20Project.md) — กรอบการตัดสินใจ AI 12 ฟังก์ชัน
+- [Software Layer.md](01_architecture_and_specs/Software%20Layer.md) — Software Layer & Async I/O Design
+- [Subscription Plan.md](01_architecture_and_specs/Subscription%20Plan.md) — Open Core Business Model (Free vs Pro)
 
 ### 🔍 `02_feature_deep_dives/` — Deep Dives on Core Features
-- [อ่านเนื้อหาเชิงลึกเพิมเติม AII&CG.md](02_feature_deep_dives/%E0%B8%AD%E0%B9%8B%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%B7%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8D%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20AII%26CG.md) — AI Integration & Config Generation (RAG architecture)
-- [อ่านเนื้อหาเชิงลึกเพิ่มเติม ND.md](02_feature_deep_dives/%E0%B8%AD%E0%B9%8B%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%B7%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8D%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B9%8B%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20ND.md) — Network Discovery Pipeline (Collection → Parsing → Storage)
-- [อ่านเนื้อหาเชิงลึกเพิ่มเติม SA & PV.md](02_feature_deep_dives/%E0%B8%AD%E0%B9%8B%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%B7%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8D%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B9%8B%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20SA%20%26%20PV.md) — Security Automation & 24 CIS Rules Validation
-- [อ่านเนื้อหาเชิงลึกเพิ่มเติม SD& MVA.md](02_feature_deep_dives/%E0%B8%AD%E0%B9%8B%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%B7%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8D%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B9%8B%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20SD%26%20MVA.md) — Script-Driven Multi-Vendor Automation Progression
+- [อ่านเนื้อหาเชิงลึกเพิมเติม AII&CG.md](02_feature_deep_dives/%E0%B8%AD%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8A%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20AII%26CG.md) — AI Integration & Config Generation (RAG architecture)
+- [อ่านเนื้อหาเชิงลึกเพิ่มเติม ND.md](02_feature_deep_dives/%E0%B8%AD%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8A%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B9%88%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20ND.md) — Network Discovery Pipeline (Collection → Parsing → Storage)
+- [อ่านเนื้อหาเชิงลึกเพิ่มเติม SA & PV.md](02_feature_deep_dives/%E0%B8%AD%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8A%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B9%88%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20SA%20%26%20PV.md) — Security Automation & 24 CIS Rules Validation
+- [อ่านเนื้อหาเชิงลึกเพิ่มเติม SD& MVA.md](02_feature_deep_dives/%E0%B8%AD%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8A%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B9%88%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20SD%26%20MVA.md) — Script-Driven Multi-Vendor Automation Progression
+- [ค้นคว้า YANG MODEL.md](02_feature_deep_dives/%E0%B8%84%E0%B9%89%E0%B8%99%E0%B8%84%E0%B8%A7%E0%B9%89%E0%B8%B2%20YANG%20MODEL.md) — YANG Data Modeling Standard
 
 ### ⚖️ `03_tech_evaluations/` — Technology Research & Tool Selection
-- [เหตุผลเชิงลึกตามเครือง.md](03_tech_evaluations/%E0%B9%80%E0%B8%AB%E0%B8%95%E0%B8%B9%E0%B8%9C%E0%B8%A5%E0%B9%80%E0%B8%8D%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B8%5F%E0%B8%95%E0%B8%B2%E0%B8%A1%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B8%AD%E0%B8%87.md) — การเปรียบเทียบ Tool Abstraction Levels
+- [ค้นคว้าเครื่องมือ Netmik vs NAPALM vs Nornir vs Ansible.md](03_tech_evaluations/%E0%B8%84%E0%B9%89%E0%B8%99%E0%B8%84%E0%B8%A7%E0%B9%89%E0%B8%B2%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%A1%E0%B8%B7%E0%B8%AD%20Netmik%20vs%20NAPALM%20vs%20Nornir%20vs%20Ansible.md) — การเปรียบเทียบ Tool Abstraction Levels
 - [Microsoft Presidio.md](03_tech_evaluations/Microsoft%20Presidio.md) — Local PII Masking Guide
-- [NPA_The Netmiko Python Library.md](03_tech_evaluations/NPA_The%20Netmiko%20Python%20Library.md) — Netmiko Usage & TextFSM Integration
+- [Netmiko.md](03_tech_evaluations/Netmiko.md) — Netmiko Usage & TextFSM Integration
+- [NAPALM.md](03_tech_evaluations/NAPALM.md) — NAPALM Framework Evaluation
+- [Nornir.md](03_tech_evaluations/Nornir.md) — Nornir Automation Framework
+- [Ansible.md](03_tech_evaluations/Ansible.md) — Ansible Network Automation
 - [Netdisco.md](03_tech_evaluations/Netdisco.md) — Open-source NMS Reference
 - [SolarWinds Hybrid Cloud Observability.md](03_tech_evaluations/SolarWinds%20Hybrid%20Cloud%20Observability.md) — Commercial NMS Comparison
-- [YANG MODEL.md](03_tech_evaluations/YANG%20MODEL.md) — YANG Data Modeling Standard
-- [Config C2960 VLAN.md](03_tech_evaluations/Config%20C2960%20VLAN.md) — Cisco Catalyst 2960 IOS 15.2 Reference
 
 ### 📋 `04_project_management/` — Proposals, Reports, Estimates & Feedback
+- [CEPP68-33 Proposal.md](04_project_management/Document%20Project/CEPP68-33%20Proposal.md) — เอกสารข้อเสนอโครงงาน (Proposal)
 - [MyNetMate_Features_and_Tools_Comprehensive.md](04_project_management/Document%20Project/MyNetMate_Features_and_Tools_Comprehensive.md) — สรุปรวม Features และ Tools ทั้งหมดในระบบ
 - [MyNetMate_Infographic.md](04_project_management/Document%20Project/MyNetMate_Infographic.md) — Project Infographic (Obsidian Friendly)
 - [MyNetMate_Tool_Weight_Analysis.md](04_project_management/Document%20Project/MyNetMate_Tool_Weight_Analysis.md) — คะแนนน้ำหนักและการเปรียบเทียบเครื่องมือ 15 หมวด
-- [MyNetMate_Time_Estimate.md](04_project_management/Document%20Project/MyNetMate_Time_Estimate.md) — การประเมินเวลาและแผนการตัด Feature (Cut List)
+- [gantt_chart.md](04_project_management/Document%20Project/gantt_chart.md) — แผนการดำเนินงาน Gantt Chart
+- [จุดตายในการพรีเซ็นตาม silde Present.md](04_project_management/%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9E%E0%B8%A3%E0%B8%B5%E0%B9%80%E0%B8%8B%E0%B9%87%E0%B8%99%E0%B8%95%E0%B8%B2%E0%B8%A1%20silde%20Present.md) — ข้อควรระวังและแนวทางตอบคำถามพรีเซนต์
 - [TeacherSay/](04_project_management/TeacherSay) — คำแนะนำและ Feedback จากอาจารย์ปริญญา
+  - [สรุปสิ่งที่ได้ไปพูดคุยกับอาจารย์.md](04_project_management/TeacherSay/%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B%E0%B8%AA%E0%B8%B4%E0%B9%88%E0%B8%87%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B9%84%E0%B8%94%E0%B9%89%E0%B9%84%E0%B8%9B%E0%B8%9E%E0%B8%B9%E0%B8%94%E0%B8%84%E0%B8%B8%E0%B8%A2%E0%B8%81%E0%B8%B1%E0%B8%9A%E0%B8%AD%E0%B8%B2%E0%B8%88%E0%B8%B2%E0%B8%A3%E0%B8%A2%E0%B9%8C.md) — สรุปการเข้าพบอาจารย์
 
 ### 📚 `05_knowledge_base/` — Book Outlines & Summaries
-- **NPA2e (Network Programmability and Automation 2nd Ed.):** Ch.2 (Automation), Ch.8 (Data Models), Ch.9 (Jinja2), Ch.10 (APIs & Netmiko), Ch.12 (Ansible/Nornir/Terraform), Ch.14 (NAA Architecture)
-- **AI Networking Cookbook:** Ch.5 (LangChain), Ch.7 (LLM Backend), Ch.8 (Network Co-Pilot)
+- [What is Network Automationa.md](05_knowledge_base/What%20is%20Network%20Automationa.md) — Overview of Network Automation
+- **NPA2e (Network Programmability and Automation 2nd Ed.):**
+  - [NPA_The Netmiko Python Library.md](05_knowledge_base/%E0%B8%AB%E0%B8%99%E0%B8%B1%E0%B8%87%E0%B8%AA%E0%B8%B7%E0%B8%AD/NPA_The%20Netmiko%20Python%20Library.md) — Netmiko Chapter Summary
+  - [NPA2e_TableOfContents.md](05_knowledge_base/%E0%B8%AB%E0%B8%99%E0%B8%B1%E0%B8%87%E0%B8%AA%E0%B8%B7%E0%B8%AD/%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%B9%E0%B8%A5%E0%B8%88%E0%B8%B2%E0%B8%81%E0%B8%AB%E0%B8%99%E0%B8%B1%E0%B8%87%E0%B8%AA%E0%B8%B7%E0%B8%AD/NPA2e_TableOfContents.md) — Table of Contents
+  - Summaries: Ch.2 (Automation), Ch.8 (Data Models), Ch.9 (Jinja2), Ch.10 (APIs & Netmiko), Ch.12 (Ansible/Nornir/Terraform), Ch.14 (NAA Architecture)
+- **AI Networking Cookbook:**
+  - [AI_Networking_Cookbook_TOC.md](05_knowledge_base/%E0%B8%AB%E0%B8%99%E0%B8%B1%E0%B8%87%E0%B8%AA%E0%B8%B7%E0%B8%AD/%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%B9%E0%B8%A5%E0%B8%88%E0%B8%B2%E0%B8%81%E0%B8%AB%E0%B8%99%E0%B8%B1%E0%B8%87%E0%B8%AA%E0%B8%B7%E0%B8%AD/AI_Networking_Cookbook_TOC.md) — Table of Contents
+  - Summaries: Ch.5 (LangChain), Ch.7 (LLM Backend), Ch.8 (Network Co-Pilot)
 
 ---
 

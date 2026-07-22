@@ -1,30 +1,28 @@
 ## 🧠 สรุปว่า Mockup นี้บอกอะไรบ้าง
 
 Mockup นี้มี **6 Tab** ซึ่งแต่ละ Tab = **1 Config Use Case** ที่ระบบต้องรองรับ:
-
----
-
+![[Pasted image 20260722144650.png]]
 ### 📋 Tab 1 — Device (Basic Identity + Management)
 
-|Section|Field|ประเภทข้อมูล|⚠️ PII?|
-|---|---|---|---|
-|Basic Identity|Hostname|Text|❌|
-|Basic Identity|Domain name|Text|❌|
-|Basic Identity|Vendor|Dropdown (Cisco IOS/NX-OS, Juniper, MikroTik, Arista)|❌|
-|Basic Identity|Device role|Dropdown (Core switch, Router ฯลฯ)|❌|
-|Basic Identity|Site/location|Text|❌|
-|Management|Management IP|IP Address|✅ ต้อง Mask|
-|Management|Subnet mask|Text|✅ ต้อง Mask|
-|Management|Default gateway|IP Address|✅ ต้อง Mask|
-|Management|Enable password|Password|✅ **Critical**|
-|Management|SSH username|Text|✅ **Critical**|
-|NTP & DNS|NTP server 1, 2|IP/Hostname|⚠️ บางกรณี|
-|NTP & DNS|DNS server 1, 2|IP Address|⚠️ บางกรณี|
-|SNMP|Community RO/RW|String|✅ **Critical**|
-|SNMP|SNMP trap host|IP Address|✅ ต้อง Mask|
+| Section        | Field           | ประเภทข้อมูล                                          | ⚠️ PII?        |
+| -------------- | --------------- | ----------------------------------------------------- | -------------- |
+| Basic Identity | Hostname        | Text                                                  | ❌              |
+| Basic Identity | Domain name     | Text                                                  | ❌              |
+| Basic Identity | Vendor          | Dropdown (Cisco IOS/NX-OS, Juniper, MikroTik, Arista) | ❌              |
+| Basic Identity | Device role     | Dropdown (Core switch, Router ฯลฯ)                    | ❌              |
+| Basic Identity | Site/location   | Text                                                  | ❌              |
+| Management     | Management IP   | IP Address                                            | ✅ ต้อง Mask    |
+| Management     | Subnet mask     | Text                                                  | ✅ ต้อง Mask    |
+| Management     | Default gateway | IP Address                                            | ✅ ต้อง Mask    |
+| Management     | Enable password | Password                                              | ✅ **Critical** |
+| Management     | SSH username    | Text                                                  | ✅ **Critical** |
+| NTP & DNS      | NTP server 1, 2 | IP/Hostname                                           | ⚠️ บางกรณี     |
+| NTP & DNS      | DNS server 1, 2 | IP Address                                            | ⚠️ บางกรณี     |
+| SNMP           | Community RO/RW | String                                                | ✅ **Critical** |
+| SNMP           | SNMP trap host  | IP Address                                            | ✅ ต้อง Mask    |
 
 ---
-
+![[Pasted image 20260722144733.png]]
 ### 🔌 Tab 2 — Interfaces
 
 |Field|ค่าตัวอย่าง|หมายเหตุ|
@@ -36,7 +34,7 @@ Mockup นี้มี **6 Tab** ซึ่งแต่ละ Tab = **1 Config
 |Status|Up / Shutdown|Admin state|
 
 ---
-
+![[Pasted image 20260722144737.png]]
 ### 🗃️ Tab 3 — VLANs
 
 |Field|ค่าตัวอย่าง|หมายเหตุ|
@@ -46,7 +44,7 @@ Mockup นี้มี **6 Tab** ซึ่งแต่ละ Tab = **1 Config
 |SVI IP|10.0.0.1/24|Layer 3 Gateway (Optional)|
 
 ---
-
+![[Pasted image 20260722144801.png]]
 ### 🗺️ Tab 4 — Routing
 
 **Static Routes:**
@@ -61,7 +59,7 @@ Mockup นี้มี **6 Tab** ซึ่งแต่ละ Tab = **1 Config
 - Networks (one per line)
 
 ---
-
+![[Pasted image 20260722144809.png]]
 ### ⚙️ Tab 5 — Services (Toggle Checkboxes)
 
 ✅ SSH v2              ❌ Telnet (ปิดแนะนำ)
@@ -79,7 +77,7 @@ Mockup นี้มี **6 Tab** ซึ่งแต่ละ Tab = **1 Config
 - Log level (Informational / Warning / Error)
 
 ---
-
+![[Pasted image 20260722144815.png]]
 ### 👁️ Tab 6 — Config Preview
 
 > _"generates real vendor-specific syntax as you type"_

@@ -28,7 +28,7 @@
 	
 5. Software Layer (โครงสร้างสถาปัตยกรรมซอฟต์แวร์)** เจาะลึกแพลตฟอร์มที่ใช้เป็นตัวกลางระหว่างผู้ใช้งาน ผู้ดูแลระบบ และโครงสร้างเครือข่าย
 	* ***Tools:** `FastAPI` และ `SQLAlchemy` สำหรับจัดการระบบ Backend และฐานข้อมูล ทำงานควบคู่กับเทคโนโลยีฝั่ง Frontend เช่น `React`, `Next.js`, และ `Tailwind CSS` เพื่อแสดงผล UI/UX Dashboard
-	* [[อ่านเนื้อหาเชิงลึกเพิ่มเติม SL]]
+	* [[Software Layer]]
 
 
 ###  4 องค์ความรู้พื้นฐาน (Prerequisites) 
@@ -127,7 +127,7 @@
 **[[Netdisco]] กับ - [[SolarWinds Hybrid Cloud Observability]]
 
 
-[[จากภาพพี่ออม]]
+[[Mockup จากภาพพี่ออม]]
 ### ขั้นตอนที่บังคับให้ตัดสินใจก่อนว่าจะรองรับ Use Case อะไรบ้าง
  เช่น:
 - IP Interface
@@ -228,7 +228,7 @@ SENSITIVE_FIELDS = [
 
 
 ชื่อโปรเจค : MyNetMate
-## [[การตัดสินใจ ใช้ AI vs ไม่ใช้ AI ในโปรเจกต์]]
+## [[Decision AI or NoAI in Project]]
 
 
 ### VLAN Pattern / Jinja Template

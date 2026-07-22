@@ -9,35 +9,22 @@
 ### 📌 ตัวมันเองคืออะไร
 
 Microsoft Presidio
-
 = Open-source Library ของ Microsoft
-
 = ทำ PII Anonymization / Detection
-
 = รันบนเครื่องตัวเองทั้งหมด (Local = ไม่ส่งข้อมูลออกไปไหน)
-
 = รองรับ Text, Images, Structured Data
-
 ### 🔗 เกี่ยวกับโปรเจกต์เรายังไง
 
 ในโปรเจกต์เรา Presidio จะเป็น **PII Masking Engine** ที่อยู่ระหว่าง Backend และ Gemini API:
-
 Network Config (มี password, IP, SNMP)
-
         ↓
-
 [Presidio — รันบน Server เรา]
-
         ↓ Mask ข้อมูลออก
-
 Config ที่ปลอดภัย ([MASK_IP], [MASK_PWD], [MASK_SNMP])
-
         ↓
-
 ส่งไป Gemini API ได้อย่างปลอดภัย
 
 ---
-
 ## สิ่งที่ Presidio ทำได้ (ที่เกี่ยวกับ Network Config)
 
 |ความสามารถ|ตัวอย่างสำหรับโปรเจกต์เรา|
@@ -49,19 +36,15 @@ Config ที่ปลอดภัย ([MASK_IP], [MASK_PWD], [MASK_SNMP])
 |**100% Local**|ไม่ต้องส่งข้อมูลออกไปไหนเลย|
 
 ---
-
 ## คำตอบสำหรับคำถามอาจารย์ที่ค้างไว้
 
 > _"แล้วไปดูด้วยนะว่า Lib มันส่งข้อมูลของเราไปด้านนอกหรือป่าว"_
-
 **คำตอบ: ไม่ส่งออกเลยครับ** Presidio รันทั้งหมดบน Local — ไม่มี API call ออกไปข้างนอก เพราะ:
 
 - ใช้ **spaCy NLP model** ที่ download มาเก็บบนเครื่อง
 - ใช้ **Regex Engine** ที่รันในโปรเซสเดียวกัน
 - ไม่มี telemetry หรือ cloud endpoint ใดๆ
-
 ---
-
 ## สรุปสั้นๆ
 
 > `presidio.dataprivacystack.org` = เว็บ Docs ของ Microsoft Presidio (domain ใหม่)  

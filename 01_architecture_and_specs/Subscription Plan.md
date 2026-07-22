@@ -1,6 +1,4 @@
-
-
-1\. Standard Edition (Free)
+# 1\. Standard Edition (Free)
 
 ฟีเจอร์หลัก:
 
@@ -12,7 +10,7 @@
 * Bring your own key
 * PII
 
-2\. Professional Subscription (Paid - Annual Fee)
+# 2\. Professional Subscription (Paid - Annual Fee)
 
 นิยาม: อะไรใช้ Resource  Server ฝั่งเรา
 
@@ -26,5 +24,5 @@
 * Deploy
 
 
-###### 3.OPENSOURCE(ทั้งระบบ)
+# 3.OPENSOURCE(ทั้งระบบ)
 

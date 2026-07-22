@@ -85,8 +85,6 @@ Myers Diff Algorithm → แม่น 100% บอกบรรทัดที่�
 AI → อาจสรุป Diff ให้ Human อ่านง่าย แต่ไม่ควรใช้คำนวณ Diff จริง
 ```
 
-
-
 ### 6. Deploy via SSH (Push Config ไปอุปกรณ์จริง)
 
 **เหตุผล:**

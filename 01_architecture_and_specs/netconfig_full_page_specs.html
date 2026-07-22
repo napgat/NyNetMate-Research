@@ -1,0 +1,340 @@
+
+<style>
+.page-block { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1.5rem; background: var(--color-background-primary); }
+.page-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.page-badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: var(--border-radius-md); }
+.zone-tag { font-size: 11px; padding: 2px 8px; border-radius: var(--border-radius-md); background: var(--color-background-secondary); color: var(--color-text-secondary); }
+.section-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 0.75rem 0 0.4rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-bottom: 0.75rem; }
+.comp-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 12px; }
+.comp-card .label { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 4px; }
+.comp-card .desc { font-size: 12px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
+.flow-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 0.5rem; }
+.flow-step { font-size: 12px; background: var(--color-background-secondary); padding: 4px 10px; border-radius: var(--border-radius-md); color: var(--color-text-primary); }
+.flow-arrow { font-size: 12px; color: var(--color-text-tertiary); }
+.link-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 0.5rem; }
+.link-badge { font-size: 11px; padding: 3px 9px; border-radius: var(--border-radius-md); background: var(--color-background-info); color: var(--color-text-info); }
+.warn-badge { font-size: 11px; padding: 3px 9px; border-radius: var(--border-radius-md); background: var(--color-background-warning); color: var(--color-text-warning); }
+.danger-badge { font-size: 11px; padding: 3px 9px; border-radius: var(--border-radius-md); background: var(--color-background-danger); color: var(--color-text-danger); }
+.success-badge { font-size: 11px; padding: 3px 9px; border-radius: var(--border-radius-md); background: var(--color-background-success); color: var(--color-text-success); }
+.divider { height: 0.5px; background: var(--color-border-tertiary); margin: 0.75rem 0; }
+h2 { font-size: 18px; font-weight: 500; margin: 2rem 0 1rem; color: var(--color-text-primary); }
+h3 { font-size: 15px; font-weight: 500; margin: 0; color: var(--color-text-primary); }
+p.note { font-size: 12px; color: var(--color-text-secondary); margin: 0.4rem 0 0; line-height: 1.5; }
+</style>
+
+<h2>P0 — Login</h2>
+<div class="page-block">
+  <div class="page-header">
+    <span class="page-badge" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Auth gate</span>
+    <h3>หน้าเข้าสู่ระบบ</h3>
+    <span class="zone-tag">ไม่มี sidebar</span>
+  </div>
+  <div class="section-title">Components</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label"><i class="ti ti-lock" aria-hidden="true"></i> Username / Password</p><p class="desc">Input 2 ช่อง + ปุ่ม Sign in, auto-focus username</p></div>
+    <div class="comp-card"><p class="label"><i class="ti ti-alert-circle" aria-hidden="true"></i> Error state</p><p class="desc">แสดง inline เมื่อ credentials ผิด ไม่ redirect</p></div>
+    <div class="comp-card"><p class="label"><i class="ti ti-shield" aria-hidden="true"></i> Session token</p><p class="desc">เก็บ JWT ใน httpOnly cookie, expires 8h</p></div>
+  </div>
+  <div class="section-title">Flow หลัง login</div>
+  <div class="flow-row">
+    <span class="flow-step">Login success</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Redirect → P1 Dashboard</span>
+  </div>
+  <div class="flow-row">
+    <span class="flow-step">Session หมดอายุ</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Redirect กลับ P0 + toast "Session expired"</span>
+  </div>
+  <p class="note">ไม่มี Register / Forgot password ใน MVP — admin สร้าง user ผ่าน P7 Settings เท่านั้น</p>
+</div>
+
+<h2>P1 — Dashboard</h2>
+<div class="page-block">
+  <div class="page-header">
+    <span class="page-badge" style="background:var(--color-background-info);color:var(--color-text-info)">Zone 1</span>
+    <h3>หน้าแรกหลัง login — ภาพรวมระบบ</h3>
+  </div>
+  <div class="section-title">Metric cards (row บนสุด)</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Total devices</p><p class="desc">จำนวน device ทั้งหมด แยก Cisco / MikroTik</p></div>
+    <div class="comp-card"><p class="label">Online / Offline</p><p class="desc">นับจาก ping status ล่าสุด</p></div>
+    <div class="comp-card"><p class="label">Config changes today</p><p class="desc">จำนวน version ที่ save ในวันนี้</p></div>
+    <div class="comp-card"><p class="label">Security issues</p><p class="desc">จำนวน CIS rules ที่ fail อยู่ใน inventory</p></div>
+  </div>
+  <div class="section-title">Recent activity feed</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Activity list</p><p class="desc">แสดง 10 รายการล่าสุด: who · what device · what action · timestamp</p></div>
+    <div class="comp-card"><p class="label">Action types</p><p class="desc">Config generated / Deployed / Rolled back / Device added</p></div>
+  </div>
+  <div class="section-title">Quick actions</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">+ Add device</p><p class="desc">ไป P2 เปิด Add tab โดยตรง</p></div>
+    <div class="comp-card"><p class="label">Generate config</p><p class="desc">ไป P4 Config builder</p></div>
+    <div class="comp-card"><p class="label">View topology</p><p class="desc">ไป P3 Topology</p></div>
+  </div>
+  <div class="divider"></div>
+  <div class="section-title">Links ออก</div>
+  <div class="link-row">
+    <span class="link-badge">→ P2 Device management</span>
+    <span class="link-badge">→ P3 Topology</span>
+    <span class="link-badge">→ P4 Config builder</span>
+    <span class="link-badge">→ P6 Version control (คลิก activity item)</span>
+  </div>
+</div>
+
+<h2>P2 — Device management</h2>
+<div class="page-block">
+  <div class="page-header">
+    <span class="page-badge" style="background:var(--color-background-info);color:var(--color-text-info)">Zone 1</span>
+    <h3>จัดการคลังอุปกรณ์</h3>
+    <span class="zone-tag">2 tabs</span>
+  </div>
+
+  <div class="section-title">Tab A — Device list</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Table columns</p><p class="desc">Hostname · IP · Vendor · Model · OS version · Status · Last seen · Actions</p></div>
+    <div class="comp-card"><p class="label">Filter bar</p><p class="desc">Filter by vendor (All / Cisco / MikroTik) + search by hostname / IP</p></div>
+    <div class="comp-card"><p class="label">Row actions</p><p class="desc">Edit (inline drawer) · Delete (confirm modal) · Go to config history · Go to topology</p></div>
+    <div class="comp-card"><p class="label">Status badge</p><p class="desc">Online (green) / Offline (red) / Unknown (gray) — จาก ICMP ping</p></div>
+  </div>
+
+  <div class="section-title">Tab B — Add device</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Mode: Manual</p><p class="desc">กรอก Hostname, IP, Vendor, Model, OS version + upload running-config (optional)</p></div>
+    <div class="comp-card"><p class="label">Mode: Discovery</p><p class="desc">กรอก IP range → scan → ระบบ detect vendor/OS จาก SNMP sysDescr แล้วให้ confirm</p></div>
+    <div class="comp-card"><p class="label">SSH credentials</p><p class="desc">username + password/key สำหรับ deploy (เก็บ encrypted, แสดงแค่ masked)</p></div>
+    <div class="comp-card"><p class="label">SNMP credentials</p><p class="desc">community string สำหรับ polling (ใช้ PII masking ก่อนส่ง API)</p></div>
+  </div>
+
+  <div class="section-title">Validation ก่อน save</div>
+  <div class="flow-row">
+    <span class="flow-step">IP format check</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Duplicate IP check</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Ping reachability (optional)</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Save to inventory DB</span>
+  </div>
+  <div class="divider"></div>
+  <div class="section-title">Links ออก</div>
+  <div class="link-row">
+    <span class="link-badge">→ P3 Topology (ดู device บน canvas)</span>
+    <span class="link-badge">→ P4 Config builder (เลือก device นี้)</span>
+    <span class="link-badge">→ P6 Version control (ประวัติ device นี้)</span>
+  </div>
+</div>
+
+<h2>P3 — Network topology</h2>
+<div class="page-block">
+  <div class="page-header">
+    <span class="page-badge" style="background:var(--color-background-info);color:var(--color-text-info)">Zone 1</span>
+    <h3>แผนผังเครือข่าย</h3>
+    <span class="zone-tag">Canvas-based</span>
+  </div>
+  <div class="section-title">Canvas area</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Device nodes</p><p class="desc">Icon ตาม type (Router / Switch / AP) + hostname + status dot</p></div>
+    <div class="comp-card"><p class="label">Link lines</p><p class="desc">วาดเชื่อมระหว่าง device — label แสดง interface name ทั้ง 2 ฝั่ง</p></div>
+    <div class="comp-card"><p class="label">Drag &amp; drop</p><p class="desc">ย้าย node ได้อิสระ, zoom in/out, pan</p></div>
+    <div class="comp-card"><p class="label">Add link</p><p class="desc">คลิก node → คลิก "Add link" → คลิก node ปลายทาง → กรอก interface</p></div>
+  </div>
+  <div class="section-title">Right-click / node menu</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Go to config</p><p class="desc">ไป P4 Config builder โดยเลือก device นี้ไว้แล้ว</p></div>
+    <div class="comp-card"><p class="label">View history</p><p class="desc">ไป P6 Version control filter by device</p></div>
+    <div class="comp-card"><p class="label">Edit device info</p><p class="desc">เปิด inline drawer แก้ข้อมูลใน inventory</p></div>
+    <div class="comp-card"><p class="label">Remove from topology</p><p class="desc">ลบ node ออกจาก canvas (ไม่ลบจาก inventory)</p></div>
+  </div>
+  <div class="section-title">Toolbar บนสุด</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Add from inventory</p><p class="desc">เลือก device ที่ยังไม่ได้ลงในแผนผัง แล้ว drag มาวาง</p></div>
+    <div class="comp-card"><p class="label">Auto-arrange</p><p class="desc">จัดวาง node อัตโนมัติตาม topology tree</p></div>
+    <div class="comp-card"><p class="label">Export image</p><p class="desc">Export เป็น PNG สำหรับ documentation</p></div>
+  </div>
+  <p class="note">Data source: link ระหว่าง node เก็บใน DB ด้วยตนเอง (manual draw) — ไม่ได้ auto-discover จาก LLDP/CDP ใน MVP เพราะ require deploy จริง</p>
+  <div class="divider"></div>
+  <div class="section-title">Links ออก</div>
+  <div class="link-row">
+    <span class="link-badge">→ P2 Device management (edit node)</span>
+    <span class="link-badge">→ P4 Config builder</span>
+    <span class="link-badge">→ P6 Version control</span>
+  </div>
+</div>
+
+<h2>P4 — Configuration builder</h2>
+<div class="page-block">
+  <div class="page-header">
+    <span class="page-badge" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Zone 2</span>
+    <h3>สร้างชุดคำสั่ง — พระเอกของระบบ</h3>
+    <span class="zone-tag">4-step wizard</span>
+  </div>
+  <div class="section-title">Step 1 — เลือก device</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Device selector</p><p class="desc">Checkbox list ดึงจาก inventory — เลือกได้หลายตัว, แสดง vendor badge</p></div>
+    <div class="comp-card"><p class="label">Filter</p><p class="desc">filter by vendor เพราะ template แยกตาม Cisco / MikroTik</p></div>
+  </div>
+  <div class="section-title">Step 2 — เลือก template</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Template library</p><p class="desc">Grid card แสดงชื่อ template + description + vendor badge (Cisco / MikroTik)</p></div>
+    <div class="comp-card"><p class="label">Template categories</p><p class="desc">VLAN setup · Interface IP · Static route · ACL · OSPF area · NAT/PAT · SSH hardening · Banner · Port security · Spanning tree</p></div>
+    <div class="comp-card"><p class="label">Preview</p><p class="desc">คลิก template → โชว์ preview ว่า output จะหน้าตาเป็นยังไง ก่อน select</p></div>
+    <div class="comp-card"><p class="label">AI mode (fallback)</p><p class="desc">ถ้าไม่มี template ที่ตรง → สวิตช์ไป free-text prompt สั่ง AI แทน</p></div>
+  </div>
+  <div class="section-title">Step 3 — กรอก parameters</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Dynamic form</p><p class="desc">ฟอร์มเปลี่ยนตาม template ที่เลือก เช่น VLAN template → แค่ VLAN ID + VLAN name</p></div>
+    <div class="comp-card"><p class="label">Validation inline</p><p class="desc">IP format check, VLAN range (1-4094), ชื่อห้ามมีช่องว่าง — แสดงทันทีขณะพิมพ์</p></div>
+    <div class="comp-card"><p class="label">AI prompt box</p><p class="desc">Optional textbox สำหรับ context เพิ่มเติมให้ AI — เช่น "ให้ block telnet ด้วย"</p></div>
+  </div>
+  <div class="section-title">Step 4 — Generate</div>
+  <div class="flow-row">
+    <span class="flow-step">กด Generate</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Backend: PII masking</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Template render (Jinja2) + AI augment 20%</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Unmask PII</span><span class="flow-arrow">→</span>
+    <span class="flow-step">ไป P5 Review</span>
+  </div>
+  <p class="note">ถ้า API key ไม่ถูกตั้งค่าใน Settings → ระบบ fallback เป็น template-only mode แสดง warning banner แต่ยังใช้งานได้</p>
+  <div class="divider"></div>
+  <div class="link-row">
+    <span class="link-badge">→ P5 Review &amp; deploy (auto หลัง generate)</span>
+    <span class="link-badge">← P2 / P3 (เลือก device มาจาก)</span>
+    <span class="warn-badge">P7 Settings (ถ้า API key ยังไม่ได้ตั้ง)</span>
+  </div>
+</div>
+
+<h2>P5 — Review &amp; pre-deployment</h2>
+<div class="page-block">
+  <div class="page-header">
+    <span class="page-badge" style="background:var(--color-background-danger);color:var(--color-text-danger)">Zone 3</span>
+    <h3>ตรวจสอบก่อน deploy — จุดสกัดกั้นทุก risk</h3>
+    <span class="zone-tag">Gate page</span>
+  </div>
+  <div class="section-title">Panel ซ้าย — Code preview</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Config output</p><p class="desc">Syntax-highlighted CLI text — read-only แต่ copyable ทั้งหมด</p></div>
+    <div class="comp-card"><p class="label">PII masking status</p><p class="desc">ไฮไลท์สีเหลืองบรรทัดที่มี sensitive data ที่ผ่าน masking แล้ว เช่น password → *** พร้อม tooltip "masked before API call"</p></div>
+    <div class="comp-card"><p class="label">Manual edit</p><p class="desc">ปุ่ม "Edit" เปิด textarea แก้ได้ก่อน deploy — re-run PII check อัตโนมัติ</p></div>
+  </div>
+  <div class="section-title">Panel ขวา — Security validation</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">CIS rules checklist</p><p class="desc">แสดงรายการ rule ที่ pass (✓ สีเขียว) / fail (✗ สีแดง) / not applicable (— สีเทา)</p></div>
+    <div class="comp-card"><p class="label">Fail detail</p><p class="desc">คลิก rule ที่ fail → expand อธิบายว่าทำไมถึง fail + suggestion แก้ไข</p></div>
+    <div class="comp-card"><p class="label">Severity</p><p class="desc">Critical (block deploy) / Warning (แจ้งเตือนแต่ยังไป deploy ได้) / Info</p></div>
+    <div class="comp-card"><p class="label">Override</p><p class="desc">Warning-level สามารถ dismiss ได้ พร้อมกรอก reason — บันทึกใน audit trail</p></div>
+  </div>
+  <div class="section-title">Target device summary</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Device list</p><p class="desc">แสดง device ที่จะ deploy ไป พร้อม current status (online/offline)</p></div>
+    <div class="comp-card"><p class="label">Offline warning</p><p class="desc">ถ้า device offline → แสดง critical warning ห้าม deploy</p></div>
+  </div>
+  <div class="section-title">Action buttons</div>
+  <div class="flow-row">
+    <span class="flow-step">มี Critical fail</span><span class="flow-arrow">→</span>
+    <span class="danger-badge">Deploy ถูก disable</span>
+  </div>
+  <div class="flow-row">
+    <span class="flow-step">ผ่านทุก rule</span><span class="flow-arrow">→</span>
+    <span class="success-badge">กด Deploy → SSH push config → success toast</span>
+  </div>
+  <div class="flow-row">
+    <span class="flow-step">กด Save only</span><span class="flow-arrow">→</span>
+    <span class="link-badge">บันทึก version ไป P6 โดยไม่ deploy</span>
+  </div>
+  <div class="flow-row">
+    <span class="flow-step">กด Back</span><span class="flow-arrow">→</span>
+    <span class="link-badge">กลับ P4 แก้ parameters</span>
+  </div>
+  <div class="divider"></div>
+  <div class="link-row">
+    <span class="link-badge">→ P6 Version control (หลัง save/deploy สำเร็จ)</span>
+    <span class="link-badge">← P4 Config builder (back)</span>
+  </div>
+</div>
+
+<h2>P6 — Version control &amp; audit trail</h2>
+<div class="page-block">
+  <div class="page-header">
+    <span class="page-badge" style="background:var(--color-background-warning);color:var(--color-text-warning)">Zone 4</span>
+    <h3>ประวัติ + เปรียบเทียบ + rollback</h3>
+  </div>
+  <div class="section-title">Filter bar</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Device filter</p><p class="desc">Dropdown เลือก device — ถ้ามาจาก P2/P3 จะ pre-select อัตโนมัติ</p></div>
+    <div class="comp-card"><p class="label">Date range</p><p class="desc">Date picker ช่วงวันที่</p></div>
+    <div class="comp-card"><p class="label">Action type</p><p class="desc">All / Generated / Deployed / Rolled back / Saved only</p></div>
+  </div>
+  <div class="section-title">Version list (panel ซ้าย)</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Version row</p><p class="desc">Version ID · Timestamp · User · Action type · Device · Tag (optional)</p></div>
+    <div class="comp-card"><p class="label">Current badge</p><p class="desc">badge "current" บน version ที่ deploy อยู่ตอนนี้</p></div>
+    <div class="comp-card"><p class="label">Select 2 versions</p><p class="desc">checkbox เลือก 2 rows → ปุ่ม "Compare" activate</p></div>
+  </div>
+  <div class="section-title">Diff view (panel ขวา)</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Side-by-side diff</p><p class="desc">คอลัมน์ซ้าย = version เก่า, ขวา = version ใหม่ — ไฮไลท์แดง/เขียวต่างบรรทัด</p></div>
+    <div class="comp-card"><p class="label">Unified diff</p><p class="desc">สลับมุมมองเป็น unified diff (+ / - lines)</p></div>
+    <div class="comp-card"><p class="label">Full config view</p><p class="desc">ถ้าเลือก version เดียว → แสดง full config ของ version นั้น</p></div>
+  </div>
+  <div class="section-title">Rollback</div>
+  <div class="flow-row">
+    <span class="flow-step">เลือก version ที่ต้องการ</span><span class="flow-arrow">→</span>
+    <span class="flow-step">กด Rollback</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Confirm modal (แสดง diff กับ current)</span><span class="flow-arrow">→</span>
+    <span class="flow-step">ไป P5 Review พร้อม config เก่า</span>
+  </div>
+  <p class="note">Rollback ไม่ push config โดยตรง — ส่งกลับไป P5 ให้ผ่าน PII check + CIS validation อีกครั้งก่อน deploy เสมอ</p>
+  <div class="section-title">Audit trail tab</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Who/When/What</p><p class="desc">Log ทุก action: user · timestamp · action · device · IP · result (success/fail)</p></div>
+    <div class="comp-card"><p class="label">Override log</p><p class="desc">บันทึก CIS warning ที่ถูก dismiss พร้อม reason ที่กรอก</p></div>
+  </div>
+  <div class="divider"></div>
+  <div class="link-row">
+    <span class="link-badge">→ P5 Review (rollback flow)</span>
+    <span class="link-badge">← P1 Dashboard (activity click)</span>
+    <span class="link-badge">← P2 / P3 (device history)</span>
+    <span class="link-badge">← P5 (หลัง save/deploy)</span>
+  </div>
+</div>
+
+<h2>P7 — Settings</h2>
+<div class="page-block">
+  <div class="page-header">
+    <span class="page-badge" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">System</span>
+    <h3>ตั้งค่าระบบ</h3>
+    <span class="zone-tag">3 sections</span>
+  </div>
+  <div class="section-title">Section A — AI / API keys</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Gemini API key</p><p class="desc">Input + mask toggle — เก็บ encrypted, ทดสอบได้ด้วยปุ่ม "Test connection"</p></div>
+    <div class="comp-card"><p class="label">Model selection</p><p class="desc">เลือก Gemini model version — default gemini-1.5-flash (ประหยัด token)</p></div>
+    <div class="comp-card"><p class="label">Token budget</p><p class="desc">ตั้ง max tokens per request (default 8000) เพื่อควบคุม cost</p></div>
+    <div class="comp-card"><p class="label">Offline mode</p><p class="desc">Toggle ปิด AI ทั้งหมด → ระบบทำงาน template-only 100%</p></div>
+  </div>
+  <div class="section-title">Section B — User management</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">User list</p><p class="desc">รายชื่อ users ทั้งหมด + role (Admin / Operator / Viewer)</p></div>
+    <div class="comp-card"><p class="label">Add / Edit / Delete user</p><p class="desc">Admin เท่านั้นที่แก้ได้ — password reset ทำที่นี่</p></div>
+  </div>
+  <div class="section-title">Section C — System</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">PII patterns</p><p class="desc">ดู/แก้ regex patterns ที่ใช้ detect sensitive data — เพิ่ม custom pattern ได้</p></div>
+    <div class="comp-card"><p class="label">CIS rules</p><p class="desc">ดูรายการ rules ทั้งหมด — toggle เปิด/ปิดแต่ละ rule, ดู rule detail</p></div>
+    <div class="comp-card"><p class="label">Template library</p><p class="desc">ดู/แก้ Jinja2 templates — import template file (.j2) เพิ่มได้</p></div>
+    <div class="comp-card"><p class="label">System info</p><p class="desc">Version, uptime, disk usage, last backup timestamp</p></div>
+  </div>
+  <div class="divider"></div>
+  <div class="link-row">
+    <span class="warn-badge">← P4 redirect มาถ้ายังไม่มี API key</span>
+  </div>
+</div>
+
+<h2>Sidebar navigation (persistent)</h2>
+<div class="page-block">
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Top section</p><p class="desc">Logo · ชื่อ user + avatar · Role badge</p></div>
+    <div class="comp-card"><p class="label">Nav items</p><p class="desc">Dashboard · Devices · Topology · Config builder · Version control · Settings</p></div>
+    <div class="comp-card"><p class="label">Active highlight</p><p class="desc">Highlight หน้าปัจจุบัน + breadcrumb ใน top bar</p></div>
+    <div class="comp-card"><p class="label">Bottom</p><p class="desc">Logout button + system status dot (API connection)</p></div>
+  </div>
+  <p class="note">Sidebar collapse ได้เป็น icon-only mode สำหรับหน้าจอแคบ — P3 Topology ต้องการพื้นที่กว้างเป็นพิเศษ</p>
+</div>

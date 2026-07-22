@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "03_tech_evaluations/Microsoft Presidio.md",
+                "file": "04_project_management/Document Project/MyNetMate_Infographic.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Microsoft Presidio"
+              "title": "MyNetMate_Infographic"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "03_tech_evaluations/Microsoft Presidio.md",
+                "file": "04_project_management/Document Project/MyNetMate_Infographic.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Microsoft Presidio"
+              "title": "Backlinks for MyNetMate_Infographic"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "03_tech_evaluations/Microsoft Presidio.md",
+                "file": "04_project_management/Document Project/MyNetMate_Infographic.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Microsoft Presidio"
+              "title": "Outgoing links from MyNetMate_Infographic"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "03_tech_evaluations/Microsoft Presidio.md",
+                "file": "04_project_management/Document Project/MyNetMate_Infographic.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Microsoft Presidio"
+              "title": "Outline of MyNetMate_Infographic"
             }
           }
         ]
@@ -185,15 +185,32 @@
   },
   "active": "07bb3ad43d50325d",
   "lastOpenFiles": [
-    "03_tech_evaluations/NAPALM.md",
-    "03_tech_evaluations/Microsoft Presidio.md",
-    "03_tech_evaluations/SolarWinds Hybrid Cloud Observability.md",
+    "04_project_management/Document Project/MyNetMate_Features_and_Tools_Comprehensive.md",
+    "04_project_management/ความคืบหน้า รายงานส่งอาจารย์ ตอนปี 2 เทอม 2/CEPP-Report.md",
     "03_tech_evaluations/ค้นคว้าเครื่องมือ Netmik vs NAPALM vs Nornir vs Ansible.md",
     "04_project_management/Advisor_Meeting_Feature_Strategy_Template.md",
     "04_project_management/จุดตายในการพรีเซ็นตาม silde Present.md",
+    "03_tech_evaluations/SolarWinds Hybrid Cloud Observability.md",
+    "03_tech_evaluations/Nornir.md",
+    "03_tech_evaluations/Netdisco.md",
+    "03_tech_evaluations/Microsoft Presidio.md",
+    "03_tech_evaluations/NAPALM.md",
+    "03_tech_evaluations/Netmiko.md",
+    "01_architecture_and_specs/Software Layer.md",
+    "03_tech_evaluations/Ansible.md",
+    "01_architecture_and_specs/Decision AI or NoAI in Project.md",
+    "04_project_management/แผนการค้นหาข้อมูล Project 1 - Week 1/แผนการค้นหาข้อมูล.md",
     "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.pdf",
     "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.md",
     "04_project_management/วิชา CE Project 1/Project Orientation 2569.md",
+    "04_project_management/Document Project/gantt_chart.md",
+    "04_project_management/Document Project/CEPP68-33 Proposal.md",
+    "04_project_management/Document Project/word and pdf/CEPP68-33 Proposal.pdf",
+    "04_project_management/Document Project/word and pdf/CEPP68-33 Presentation.pdf",
+    "04_project_management/Document Project/MyNetMate_Infographic.md",
+    "04_project_management/Document Project/MyNetMate_Tool_Weight_Analysis.md",
+    "04_project_management/Document Project/ทำไมเราถึงต้องทำโปรเจกต์นี้ เพราะปั.md",
+    "Img/Pasted image 20260705121218.png",
     "Img/Pasted image 20260705163342.png",
     "04_project_management/วิชา CE Project 1/handbook-student.pdf",
     "04_project_management/handbook-student.pdf",
@@ -202,8 +219,6 @@
     "Img/Screenshot 2026-07-16 160057.png.tmp",
     "Img/Screenshot 2026-07-16 153918.png.tmp",
     "Img/Pasted image 20260722144815.png.tmp",
-    "Img/Pasted image 20260722144809.png.tmp",
-    "Img/Pasted image 20260722144801.png.tmp",
     "Img/Pasted image 20260710144449.png",
     "Img/Pasted image 20260715225624.png",
     "Img/Pasted image 20260716123724.png",
@@ -212,23 +227,9 @@
     "Img/Pasted image 20260716124856.png",
     "Img/Pasted image 20260722144733.png",
     "Img/Pasted image 20260721205153.png",
-    "Img/Pasted image 20260715224231.png",
     "README.md",
     "AGENTS.md",
-    "03_tech_evaluations/Nornir.md",
-    "04_project_management/Document Project/MyNetMate_Tool_Weight_Analysis.md",
-    "04_project_management/Document Project/MyNetMate_Infographic.md",
-    "04_project_management/Document Project/MyNetMate_Features_and_Tools_Comprehensive.md",
-    "04_project_management/Document Project/gantt_chart.md",
-    "04_project_management/Document Project/CEPP68-33 Proposal.md",
     "04_project_management/TeacherSay.md",
-    "04_project_management/TeacherSay/ความน่ากังวลของอาจารย์.md",
-    "04_project_management/TeacherSay/คำแนะนำของอาจารย์ ณ ครั้งที่ 1 ปี 3 เทอม 1.md",
-    "04_project_management/TeacherSay/คำแนะนำของอาจารย์ ตอนซ้อมพรีเซ็น.md",
-    "04_project_management/TeacherSay/สรุปสิ่งที่ได้ไปพูดคุยกับอาจารย์.md",
-    "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/AI_Networking_Cookbook_TOC.md",
-    "01_architecture_and_specs/Subscription Plan.md",
-    "01_architecture_and_specs/System Diagram in Proposal.md",
-    "01_architecture_and_specs/System.md"
+    "04_project_management/TeacherSay/ความน่ากังวลของอาจารย์.md"
   ]
 }

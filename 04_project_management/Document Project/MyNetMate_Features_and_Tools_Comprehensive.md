@@ -29,20 +29,21 @@
 
 ### 1.1 Template-Based Configuration (80% — Non-AI)
 
-| Feature | รายละเอียด | เครื่องมือ Implementation |
-|---------|-----------|--------------------------|
-| **Form-to-CLI Rendering** | ผู้ใช้กรอกฟอร์ม (VLAN, Interface, Routing) → Render เป็น CLI syntax แบบ Real-time | Jinja2 + React State |
-| **Multi-Vendor Templates** | Template แยกตาม Vendor (Cisco IOS `.j2`, MikroTik `.j2`) | Jinja2 Template Inheritance (`extends`, `block`) |
-| **VLAN Configuration** | สร้าง/แก้ไข VLAN ID, Name, Access/Trunk Mode, Native VLAN | Jinja2 Loops + Conditionals |
-| **Interface Configuration** | ตั้งค่า IP Address, Subnet Mask, Description, Shutdown/No Shutdown | Jinja2 + Pydantic Validation |
-| **SVI (Switch Virtual Interface)** | สร้าง Interface VLAN สำหรับ Layer 3 Routing | Jinja2 Template |
-| **Static Routing** | เพิ่ม/ลบ Static Route, Default Route | Jinja2 Template |
-| **OSPF Configuration** | ตั้งค่า OSPF Process ID, Network Statements, Area | Jinja2 Template |
-| **ACL (Access Control List)** | สร้าง Standard/Extended ACL | Jinja2 Template |
-| **Services (Toggle)** | เปิด/ปิด Services: SSH, Telnet, HTTP Server, SNMP, NTP, Logging | Jinja2 + CIS Default Commands |
-| **Banner Configuration** | ตั้งค่า MOTD Banner, Login Banner | Jinja2 Template |
-| **Port Security** | Sticky MAC, Maximum MAC, Violation Mode | Jinja2 Template |
-| **Spanning Tree** | STP Mode (PVST/Rapid-PVST), Root Bridge Priority | Jinja2 Template |
+| Feature                            | รายละเอียด                                                                        | เครื่องมือ Implementation                        |
+| ---------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------ |
+| **Form-to-CLI Rendering**          | ผู้ใช้กรอกฟอร์ม (VLAN, Interface, Routing) → Render เป็น CLI syntax แบบ Real-time | Jinja2 + React State                             |
+| **Multi-Vendor Templates**         | Template แยกตาม Vendor (Cisco IOS `.j2`, MikroTik `.j2`)                          | Jinja2 Template Inheritance (`extends`, `block`) |
+| **VLAN Configuration**             | สร้าง/แก้ไข VLAN ID, Name, Access/Trunk Mode, Native VLAN                         | Jinja2 Loops + Conditionals                      |
+| **Interface Configuration**        | ตั้งค่า IP Address, Subnet Mask, Description, Shutdown/No Shutdown                | Jinja2 + Pydantic Validation                     |
+| **SVI (Switch Virtual Interface)** | สร้าง Interface VLAN สำหรับ Layer 3 Routing                                       | Jinja2 Template                                  |
+| **Static Routing**                 | เพิ่ม/ลบ Static Route, Default Route                                              | Jinja2 Template                                  |
+| **OSPF Configuration**             | ตั้งค่า OSPF Process ID, Network Statements, Area                                 | Jinja2 Template                                  |
+| **ACL (Access Control List)**      | สร้าง Standard/Extended ACL                                                       | Jinja2 Template                                  |
+| **Services (Toggle)**              | เปิด/ปิด Services: SSH, Telnet, HTTP Server, SNMP, NTP, Logging                   | Jinja2 + CIS Default Commands                    |
+| **Banner Configuration**           | ตั้งค่า MOTD Banner, Login Banner                                                 | Jinja2 Template                                  |
+| **Port Security**                  | Sticky MAC, Maximum MAC, Violation Mode                                           | Jinja2 Template                                  |
+| **Spanning Tree**                  | STP Mode (PVST/Rapid-PVST), Root Bridge Priority                                  | Jinja2 Template                                  |
+|                                    |                                                                                   |                                                  |
 
 **วิธีทำงาน:**
 ```
@@ -54,15 +55,15 @@ User Form Input (React)
 
 ### 1.2 AI-Powered Configuration (20% — Gemini + RAG)
 
-| Feature | รายละเอียด | เครื่องมือ Implementation |
-|---------|-----------|--------------------------|
-| **Natural Language Config Gen** | ผู้ใช้พิมพ์ภาษาธรรมชาติ เช่น "block telnet and harden SSH" → AI สร้าง Config | Gemini API + Dynamic System Prompt |
-| **Complex Multi-Vendor Policy** | นโยบายที่ต้องตัดสินใจหลายขั้น (เช่น ACL ข้ามอุปกรณ์) | RAG (Vector DB + Vendor Docs) |
-| **Legacy/Unsupported Device Fallback** | อุปกรณ์ที่ไม่มี Template สำเร็จรูป → AI สร้าง Config จากความรู้ | Gemini Pro + Context Injection |
-| **AI Config Review ("Ask AI to Review")** | ปุ่มให้ AI วิเคราะห์ Config ที่สร้างแล้ว ก่อน Deploy | Gemini API (On-demand, ไม่ Auto) |
-| **Automated Risk Assessment** | AI จัดเกรดความเสี่ยง (HIGH/MEDIUM/LOW) พร้อมระบุจุดอ่อน | Gemini + Prompt Template |
-| **MOP Generation** | สร้าง Method of Procedure (ขั้นตอนปฏิบัติงาน) อัตโนมัติ | Gemini + Structured Output |
-| **Auto-Documentation** | สร้างสรุปการเปลี่ยนแปลง Config เป็นภาษามนุษย์อ่านง่าย | Gemini API |
+| Feature                                   | รายละเอียด                                                                   | เครื่องมือ Implementation          |
+| ----------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------- |
+| **Natural Language Config Gen**           | ผู้ใช้พิมพ์ภาษาธรรมชาติ เช่น "block telnet and harden SSH" → AI สร้าง Config | Gemini API + Dynamic System Prompt |
+| **Complex Multi-Vendor Policy**           | นโยบายที่ต้องตัดสินใจหลายขั้น (เช่น ACL ข้ามอุปกรณ์)                         | RAG (Vector DB + Vendor Docs)      |
+| **Legacy/Unsupported Device Fallback**    | อุปกรณ์ที่ไม่มี Template สำเร็จรูป → AI สร้าง Config จากความรู้              | Gemini Pro + Context Injection     |
+| **AI Config Review ("Ask AI to Review")** | ปุ่มให้ AI วิเคราะห์ Config ที่สร้างแล้ว ก่อน Deploy                         | Gemini API (On-demand, ไม่ Auto)   |
+| **Automated Risk Assessment**             | AI จัดเกรดความเสี่ยง (HIGH/MEDIUM/LOW) พร้อมระบุจุดอ่อน                      | Gemini + Prompt Template           |
+| **MOP Generation**                        | สร้าง Method of Procedure (ขั้นตอนปฏิบัติงาน) อัตโนมัติ                      | Gemini + Structured Output         |
+| **Auto-Documentation**                    | สร้างสรุปการเปลี่ยนแปลง Config เป็นภาษามนุษย์อ่านง่าย                        | Gemini API                         |
 
 **วิธีทำงาน:**
 ```
@@ -80,23 +81,23 @@ User NL Prompt (React)
 
 ### 2.1 Manual Device Management (Non-AI)
 
-| Feature | รายละเอียด | เครื่องมือ Implementation |
-|---------|-----------|--------------------------|
-| **Manual Device Entry** | กรอก Hostname, IP, Vendor, Model, Credentials (SSH/SNMP) | React Form + FastAPI + PostgreSQL |
-| **Running-Config Upload** | อัปโหลดไฟล์ Config เข้าระบบ | FastAPI File Upload + PostgreSQL |
-| **Device Status Monitoring** | แสดงสถานะ Online/Offline (ICMP Ping) | Python `ping` + WebSocket Push |
-| **Device CRUD** | สร้าง/อ่าน/แก้ไข/ลบอุปกรณ์ | FastAPI REST API + SQLAlchemy ORM |
-| **Device Grouping** | จัดกลุ่มอุปกรณ์ตาม Site, Function, Vendor | PostgreSQL Relations |
+| Feature                      | รายละเอียด                                               | เครื่องมือ Implementation         |
+| ---------------------------- | -------------------------------------------------------- | --------------------------------- |
+| **Manual Device Entry**      | กรอก Hostname, IP, Vendor, Model, Credentials (SSH/SNMP) | React Form + FastAPI + PostgreSQL |
+| **Running-Config Upload**    | อัปโหลดไฟล์ Config เข้าระบบ                              | FastAPI File Upload + PostgreSQL  |
+| **Device Status Monitoring** | แสดงสถานะ Online/Offline (ICMP Ping)                     | Python `ping` + WebSocket Push    |
+| **Device CRUD**              | สร้าง/อ่าน/แก้ไข/ลบอุปกรณ์                               | FastAPI REST API + SQLAlchemy ORM |
+| **Device Grouping**          | จัดกลุ่มอุปกรณ์ตาม Site, Function, Vendor                | PostgreSQL Relations              |
 
 ### 2.2 Network Discovery (Non-AI)
 
-| Feature | รายละเอียด | เครื่องมือ Implementation |
-|---------|-----------|--------------------------|
-| **IP Range Ping Sweep** | สแกน IP range ด้วย ICMP | Python `ping` / `asyncio` |
-| **SNMP sysDescr Polling** | ดึงข้อมูล Vendor/Model จาก SNMP MIB | Python `pysnmp` |
-| **LLDP/CDP Neighbor Discovery** | ค้นหาอุปกรณ์ข้างเคียงผ่าน Protocol | Netmiko `show lldp neighbors` + TextFSM |
-| **OS Fingerprinting** | ระบุ OS Version จาก SSH Banner/SNMP | Netmiko + Regex |
-| **3-Stage Discovery Pipeline** | Collection → Parsing → Enrichment & Storage | RESTCONF/NETCONF/Netmiko → Genie/TextFSM → SQLAlchemy |
+| Feature                         | รายละเอียด                                  | เครื่องมือ Implementation                             |
+| ------------------------------- | ------------------------------------------- | ----------------------------------------------------- |
+| **IP Range Ping Sweep**         | สแกน IP range ด้วย ICMP                     | Python `ping` / `asyncio`                             |
+| **SNMP sysDescr Polling**       | ดึงข้อมูล Vendor/Model จาก SNMP MIB         | Python `pysnmp`                                       |
+| **LLDP/CDP Neighbor Discovery** | ค้นหาอุปกรณ์ข้างเคียงผ่าน Protocol          | Netmiko `show lldp neighbors` + TextFSM               |
+| **OS Fingerprinting**           | ระบุ OS Version จาก SSH Banner/SNMP         | Netmiko + Regex                                       |
+| **3-Stage Discovery Pipeline**  | Collection → Parsing → Enrichment & Storage | RESTCONF/NETCONF/Netmiko → Genie/TextFSM → SQLAlchemy |
 
 **วิธีทำงาน:**
 ```
@@ -112,13 +113,13 @@ Discovery Trigger (React UI)
 
 ## 3. 🗺️ Network Topology Visualization (Non-AI)
 
-| Feature | รายละเอียด | เครื่องมือ Implementation |
-|---------|-----------|--------------------------|
-| **Interactive Canvas** | Drag-and-drop device nodes บน Canvas | React + Canvas/SVG Library |
-| **Device Icons** | แสดง Icon ตามประเภท (Router/Switch/AP) | SVG Icons + Tabler Icons |
-| **Manual Link Connection** | ลากเส้นเชื่อมอุปกรณ์ พร้อม Port Labels | React Canvas |
-| **Right-Click Context Menu** | คลิกขวาเพื่อ Edit/Delete/View Details | React Context Menu |
-| **PNG Export** | ส่งออก Topology เป็นรูปภาพ | Canvas `toDataURL()` |
+| Feature                        | รายละเอียด                                    | เครื่องมือ Implementation              |
+| ------------------------------ | --------------------------------------------- | -------------------------------------- |
+| **Interactive Canvas**         | Drag-and-drop device nodes บน Canvas          | React + Canvas/SVG Library             |
+| **Device Icons**               | แสดง Icon ตามประเภท (Router/Switch/AP)        | SVG Icons + Tabler Icons               |
+| **Manual Link Connection**     | ลากเส้นเชื่อมอุปกรณ์ พร้อม Port Labels        | React Canvas                           |
+| **Right-Click Context Menu**   | คลิกขวาเพื่อ Edit/Delete/View Details         | React Context Menu                     |
+| **PNG Export**(ไม่เอา)         | ส่งออก Topology เป็นรูปภาพ                    | Canvas `toDataURL()`                   |
 | **Auto-Layout from Discovery** | จัดวาง Topology จากข้อมูล Discovery อัตโนมัติ | LLDP/CDP Data → Graph Layout Algorithm |
 
 ---
@@ -127,17 +128,17 @@ Discovery Trigger (React UI)
 
 ### 4.1 CIS Benchmark Scanning (24 Rules)
 
-| # | กฎตัวอย่าง | Severity |
-|---|-----------|----------|
-| 1 | `enable secret` ต้องตั้งค่า | Critical |
-| 2 | `service password-encryption` ต้องเปิด | Critical |
-| 3 | `ip ssh version 2` ต้องบังคับ | Critical |
-| 4 | Telnet ต้องปิด (`transport input ssh`) | Critical |
-| 5 | `ip http server` ต้องปิด | Warning |
-| 6 | SNMP Community String ห้ามใช้ค่า Default | Warning |
-| 7 | VTY Line ต้องมี `access-class` | Warning |
-| 8 | STP ต้องเปิดใช้งาน | Warning |
-| ... | (รวม 24 กฎ) | — |
+| #   | กฎตัวอย่าง                               | Severity |
+| --- | ---------------------------------------- | -------- |
+| 1   | `enable secret` ต้องตั้งค่า              | Critical |
+| 2   | `service password-encryption` ต้องเปิด   | Critical |
+| 3   | `ip ssh version 2` ต้องบังคับ            | Critical |
+| 4   | Telnet ต้องปิด (`transport input ssh`)   | Critical |
+| 5   | `ip http server` ต้องปิด                 | Warning  |
+| 6   | SNMP Community String ห้ามใช้ค่า Default | Warning  |
+| 7   | VTY Line ต้องมี `access-class`           | Warning  |
+| 8   | STP ต้องเปิดใช้งาน                       | Warning  |
+| ... | (รวม 24 กฎ)                              | —        |
 
 | Feature | รายละเอียด | เครื่องมือ Implementation |
 |---------|-----------|--------------------------|
@@ -171,17 +172,17 @@ Discovery Trigger (React UI)
 
 ## 6. 📜 Version Control & Audit Trail (Non-AI)
 
-| Feature | รายละเอียด | เครื่องมือ Implementation |
-|---------|-----------|--------------------------|
-| **Pre-Deploy Snapshot** | SSH ดึง `show running-config` ก่อน Push Config | Netmiko → PostgreSQL (`source='pre_deploy'`) |
-| **Post-Deploy Snapshot** | SSH ดึง Config หลัง Push สำเร็จ | Netmiko → PostgreSQL (`source='post_deploy'`) |
-| **Manual SSH Pull** | Admin กดดึง Config เมื่อต้องการ (จับ Out-of-Band changes) | Netmiko → PostgreSQL (`source='manual'`) |
-| **Side-by-Side Diff** | เปรียบเทียบ Config 2 เวอร์ชันแบบ Split Panel | Myers Diff Algorithm + React |
-| **Unified Diff** | Diff แบบรวมบรรทัด (+/-) | Myers Diff Algorithm |
-| **One-Click Rollback** | กดปุ่มคืนค่า Config กลับไปเวอร์ชันก่อนหน้า | Netmiko Push `pre_deploy` snapshot |
-| **Auto-Rollback on Error** | Deploy ล้มเหลว → Rollback อัตโนมัติ | FastAPI Error Handler + Netmiko |
-| **Audit Trail** | บันทึก Who/When/What ทุกการเปลี่ยนแปลง | PostgreSQL Audit Log |
-| **CIS Override Logging** | บันทึกเหตุผลเมื่อ Dismiss Warning | PostgreSQL + React Form |
+| Feature                    | รายละเอียด                                                | เครื่องมือ Implementation                     |
+| -------------------------- | --------------------------------------------------------- | --------------------------------------------- |
+| **Pre-Deploy Snapshot**    | SSH ดึง `show running-config` ก่อน Push Config            | Netmiko → PostgreSQL (`source='pre_deploy'`)  |
+| **Post-Deploy Snapshot**   | SSH ดึง Config หลัง Push สำเร็จ                           | Netmiko → PostgreSQL (`source='post_deploy'`) |
+| **Manual SSH Pull**        | Admin กดดึง Config เมื่อต้องการ (จับ Out-of-Band changes) | Netmiko → PostgreSQL (`source='manual'`)      |
+| **Side-by-Side Diff**      | เปรียบเทียบ Config 2 เวอร์ชันแบบ Split Panel              | Myers Diff Algorithm + React                  |
+| **Unified Diff**           | Diff แบบรวมบรรทัด (+/-)                                   | Myers Diff Algorithm                          |
+| **One-Click Rollback**     | กดปุ่มคืนค่า Config กลับไปเวอร์ชันก่อนหน้า                | Netmiko Push `pre_deploy` snapshot            |
+| **Auto-Rollback on Error** | Deploy ล้มเหลว → Rollback อัตโนมัติ                       | FastAPI Error Handler + Netmiko               |
+| **Audit Trail**            | บันทึก Who/When/What ทุกการเปลี่ยนแปลง                    | PostgreSQL Audit Log                          |
+| **CIS Override Logging**   | บันทึกเหตุผลเมื่อ Dismiss Warning                         | PostgreSQL + React Form                       |
 
 **Database Schema:**
 ```sql
@@ -201,14 +202,14 @@ CREATE TABLE config_snapshots (
 
 ## 7. 🚀 Configuration Deployment & Execution (Non-AI)
 
-| Feature | รายละเอียด | เครื่องมือ Implementation |
-|---------|-----------|--------------------------|
-| **SSH Command Push** | ส่ง CLI commands ไปยังอุปกรณ์ผ่าน SSH | Netmiko `send_config_set()` |
-| **Write Memory** | บันทึก Config ลง Startup-config หลัง Deploy | Netmiko `save_config()` |
-| **Idempotency Check** | ตรวจสอบก่อน Push — ถ้า Config ตรงอยู่แล้ว ไม่ Push ซ้ำ | Diff Compare (Current vs Target) |
-| **Plan → Apply Workflow** | แสดง Preview/Diff ก่อน Deploy → ให้ Engineer กดยืนยัน | React Review Page (P5) |
-| **Multi-Device Batch Deploy** | Deploy ไปหลายอุปกรณ์พร้อมกัน | Python `asyncio` / Thread Pool |
-| **Real-time Deploy Logs** | แสดง Log การ Deploy แบบ Real-time | WebSocket + React Terminal |
+| Feature                       | รายละเอียด                                             | เครื่องมือ Implementation        |
+| ----------------------------- | ------------------------------------------------------ | -------------------------------- |
+| **SSH Command Push**          | ส่ง CLI commands ไปยังอุปกรณ์ผ่าน SSH                  | Netmiko `send_config_set()`      |
+| **Write Memory**              | บันทึก Config ลง Startup-config หลัง Deploy            | Netmiko `save_config()`          |
+| **Idempotency Check**         | ตรวจสอบก่อน Push — ถ้า Config ตรงอยู่แล้ว ไม่ Push ซ้ำ | Diff Compare (Current vs Target) |
+| **Plan → Apply Workflow**     | แสดง Preview/Diff ก่อน Deploy → ให้ Engineer กดยืนยัน  | React Review Page (P5)           |
+| **Multi-Device Batch Deploy** | Deploy ไปหลายอุปกรณ์พร้อมกัน                           | Python `asyncio` / Thread Pool   |
+| **Real-time Deploy Logs**     | แสดง Log การ Deploy แบบ Real-time                      | WebSocket + React Terminal       |
 
 **Execution Pipeline (9 ขั้นตอน):**
 ```
@@ -257,12 +258,12 @@ CREATE TABLE config_snapshots (
 
 ### 8.4 Safety Guardrails
 
-| กฎ | รายละเอียด |
-|----|-----------|
-| **Human-in-the-Loop** | AI แนะนำ Action เท่านั้น ห้าม Execute Config โดยตรง |
-| **AI Config Flagging** | ทุก Config จาก AI ติด Label: `⚠️ AI-generated, review required` |
-| **PII Pre-Filter** | Mask ข้อมูลอ่อนไหว 100% ก่อนส่ง API |
-| **Security Gate** | Config ต้องผ่าน CIS 24-Rule ก่อน Deploy (ไม่ว่าจะมาจาก AI หรือ Template) |
+| กฎ                     | รายละเอียด                                                               |
+| ---------------------- | ------------------------------------------------------------------------ |
+| **Human-in-the-Loop**  | AI แนะนำ Action เท่านั้น ห้าม Execute Config โดยตรง                      |
+| **AI Config Flagging** | ทุก Config จาก AI ติด Label: `⚠️ AI-generated, review required`          |
+| **PII Pre-Filter**     | Mask ข้อมูลอ่อนไหว 100% ก่อนส่ง API                                      |
+| **Security Gate**      | Config ต้องผ่าน CIS 24-Rule ก่อน Deploy (ไม่ว่าจะมาจาก AI หรือ Template) |
 
 ---
 
@@ -279,15 +280,15 @@ CREATE TABLE config_snapshots (
 
 ## 10. ⚙️ Settings & Administration (Non-AI)
 
-| Feature | รายละเอียด | เครื่องมือ Implementation |
-|---------|-----------|--------------------------|
-| **Gemini API Key Config** | ตั้งค่า API Key, Model Selection (Flash/Pro) | React Settings Form |
-| **Token Budget** | กำหนดงบ Token ต่อเดือน | Backend Counter |
-| **Offline Mode** | ปิด AI → ใช้ 100% Template Fallback | Feature Flag |
-| **User Management** | 3 Roles: Admin / Operator / Viewer | JWT Authentication + PostgreSQL |
-| **CIS Rule Toggles** | เปิด/ปิดกฎ CIS แต่ละข้อ | React Toggles + DB |
-| **Jinja2 Template Manager** | เพิ่ม/แก้ไข/ลบ Template | File Manager + DB |
-| **PII Regex Editor** | แก้ไข Regex Pattern สำหรับ Masking | React Code Editor |
+| Feature                     | รายละเอียด                                   | เครื่องมือ Implementation       |
+| --------------------------- | -------------------------------------------- | ------------------------------- |
+| **Gemini API Key Config**   | ตั้งค่า API Key, Model Selection (Flash/Pro) | React Settings Form             |
+| **Token Budget**            | กำหนดงบ Token ต่อเดือน                       | Backend Counter                 |
+| **Offline Mode**            | ปิด AI → ใช้ 100% Template Fallback          | Feature Flag                    |
+| **User Management**         | 3 Roles: Admin / Operator / Viewer           | JWT Authentication + PostgreSQL |
+| **CIS Rule Toggles**        | เปิด/ปิดกฎ CIS แต่ละข้อ                      | React Toggles + DB              |
+| **Jinja2 Template Manager** | เพิ่ม/แก้ไข/ลบ Template                      | File Manager + DB               |
+| **PII Regex Editor**        | แก้ไข Regex Pattern สำหรับ Masking           | React Code Editor               |
 
 ---
 

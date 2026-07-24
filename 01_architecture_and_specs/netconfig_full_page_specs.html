@@ -56,10 +56,10 @@ p.note { font-size: 12px; color: var(--color-text-secondary); margin: 0.4rem 0 0
   </div>
   <div class="section-title">Metric cards (row บนสุด)</div>
   <div class="comp-grid">
-    <div class="comp-card"><p class="label">Total devices</p><p class="desc">จำนวน device ทั้งหมด แยก Cisco / MikroTik</p></div>
-    <div class="comp-card"><p class="label">Online / Offline</p><p class="desc">นับจาก ping status ล่าสุด</p></div>
-    <div class="comp-card"><p class="label">Config changes today</p><p class="desc">จำนวน version ที่ save ในวันนี้</p></div>
-    <div class="comp-card"><p class="label">Security issues</p><p class="desc">จำนวน CIS rules ที่ fail อยู่ใน inventory</p></div>
+    <div class="comp-card"><p class="label">Total devices</p><p class="desc">จำนวน device ทั้งหมด แยกตาม Vendor (Cisco / MikroTik / Huawei) และ Type (Switch / Router)</p></div>
+    <div class="comp-card"><p class="label">Online / Offline</p><p class="desc">นับจาก ping status ล่าสุด — แสดง uptime ของแต่ละ vendor แยกกัน</p></div>
+    <div class="comp-card"><p class="label">Config changes today</p><p class="desc">จำนวน version ที่ save ในวันนี้ + จำนวน deploy สำเร็จ</p></div>
+    <div class="comp-card"><p class="label">Security issues</p><p class="desc">จำนวน CIS rules ที่ fail อยู่ใน inventory รวมทุก vendor</p></div>
   </div>
   <div class="section-title">Recent activity feed</div>
   <div class="comp-grid">
@@ -92,18 +92,33 @@ p.note { font-size: 12px; color: var(--color-text-secondary); margin: 0.4rem 0 0
 
   <div class="section-title">Tab A — Device list</div>
   <div class="comp-grid">
-    <div class="comp-card"><p class="label">Table columns</p><p class="desc">Hostname · IP · Vendor · Model · OS version · Status · Last seen · Actions</p></div>
-    <div class="comp-card"><p class="label">Filter bar</p><p class="desc">Filter by vendor (All / Cisco / MikroTik) + search by hostname / IP</p></div>
-    <div class="comp-card"><p class="label">Row actions</p><p class="desc">Edit (inline drawer) · Delete (confirm modal) · Go to config history · Go to topology</p></div>
-    <div class="comp-card"><p class="label">Status badge</p><p class="desc">Online (green) / Offline (red) / Unknown (gray) — จาก ICMP ping</p></div>
+    <div class="comp-card"><p class="label">Table columns</p><p class="desc">Hostname · IP · Vendor · Model · OS version · Type (Switch/Router) · Group · Status · Last seen · Actions</p></div>
+    <div class="comp-card"><p class="label">Filter bar</p><p class="desc">Filter by vendor (All / Cisco / MikroTik / Huawei) + filter by Group + search by hostname / IP</p></div>
+    <div class="comp-card"><p class="label">Row actions</p><p class="desc">Edit (inline drawer) · Delete (confirm modal) · Go to config history · Go to topology · Assign group</p></div>
+    <div class="comp-card"><p class="label">Status badge</p><p class="desc">Online (green) / Offline (red) / Unknown (gray) — จาก ICMP ping ทุก interval ที่ตั้งไว้</p></div>
   </div>
 
-  <div class="section-title">Tab B — Add device</div>
+  <div class="section-title">Tab B — Add device (Manual)</div>
   <div class="comp-grid">
-    <div class="comp-card"><p class="label">Mode: Manual</p><p class="desc">กรอก Hostname, IP, Vendor, Model, OS version + upload running-config (optional)</p></div>
-    <div class="comp-card"><p class="label">Mode: Discovery</p><p class="desc">กรอก IP range → scan → ระบบ detect vendor/OS จาก SNMP sysDescr แล้วให้ confirm</p></div>
-    <div class="comp-card"><p class="label">SSH credentials</p><p class="desc">username + password/key สำหรับ deploy (เก็บ encrypted, แสดงแค่ masked)</p></div>
-    <div class="comp-card"><p class="label">SNMP credentials</p><p class="desc">community string สำหรับ polling (ใช้ PII masking ก่อนส่ง API)</p></div>
+    <div class="comp-card"><p class="label">Mode: Manual Form</p><p class="desc">กรอก Hostname, IP, Vendor (Cisco/MikroTik/Huawei), Model, OS version, Type (Switch/Router), Group + upload running-config (optional, ระบบ parse ดึง facts อัตโนมัติ)</p></div>
+    <div class="comp-card"><p class="label">SSH credentials</p><p class="desc">username + password/key สำหรับ deploy (เก็บ encrypted, แสดงแค่ masked) — ใช้ร่วมกัน Credential Profile</p></div>
+    <div class="comp-card"><p class="label">SNMP credentials</p><p class="desc">community string (Read-Only) สำหรับ Discovery polling (ใช้ PII masking ก่อนส่ง API)</p></div>
+    <div class="comp-card"><p class="label">Credential Profile</p><p class="desc">เลือกจาก Profile ที่บันทึกไว้ล่วงหน้า (เช่น "ชุดรหัสผ่านแผนก IT") แทนการกรอกซ้ำทุกครั้ง</p></div>
+  </div>
+  <div class="section-title">Tab C — Auto Discovery</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Discovery Scope</p><p class="desc">กรอก Seed IP (เริ่มจาก Core Switch แล้วกระโดดตาม LLDP/CDP) หรือ IP Range เช่น 192.168.1.0/24</p></div>
+    <div class="comp-card"><p class="label">Credential Profiles</p><p class="desc">เลือกชุดรหัสผ่านหลายชุด (ระบบสุ่มลองทีละชุดจนกว่าจะเข้าได้) — เช่น SSH Profile, SNMP Community</p></div>
+    <div class="comp-card"><p class="label">Protocol & Ports</p><p class="desc">เลือก Protocol ที่ใช้ scan: SSH (port 22), NETCONF (port 830), SNMP (UDP 161) + กำหนด Timeout</p></div>
+    <div class="comp-card"><p class="label">Exclusion Rules</p><p class="desc">ระบุ IP range ที่ห้าม scan (เช่น Server VLAN, IP ผู้บริหาร) + กำหนด Hop depth limit</p></div>
+    <div class="comp-card"><p class="label">Scan Result Review</p><p class="desc">แสดงรายการอุปกรณ์ที่เจอ พร้อม Vendor/Model ที่ detect ได้ — user ต้อง confirm ก่อนบันทึกลง Inventory</p></div>
+    <div class="comp-card"><p class="label">Vendor Detection</p><p class="desc">ใช้ SNMP sysDescr + SSH banner fingerprinting ตรวจ vendor/OS → เรียก Driver Plugin ที่ตรงกันมาดึงข้อมูล</p></div>
+  </div>
+  <div class="section-title">Tab D — Device Groups</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Grouping</p><p class="desc">สร้าง / แก้ไข / ลบ Group (เช่น "Floor 1 Switches", "Core Routers") — device 1 ตัวอยู่ได้หลาย Group</p></div>
+    <div class="comp-card"><p class="label">Bulk assign</p><p class="desc">เลือกหลาย device แล้ว assign เข้า Group พร้อมกัน — ใช้ filter vendor ช่วยเลือกได้</p></div>
+    <div class="comp-card"><p class="label">Group-level actions</p><p class="desc">สั่ง Generate config หรือ Deploy ไปยัง device ทั้ง Group ได้พร้อมกัน (Nornir parallel execution)</p></div>
   </div>
 
   <div class="section-title">Validation ก่อน save</div>
@@ -168,15 +183,16 @@ p.note { font-size: 12px; color: var(--color-text-secondary); margin: 0.4rem 0 0
   </div>
   <div class="section-title">Step 1 — เลือก device</div>
   <div class="comp-grid">
-    <div class="comp-card"><p class="label">Device selector</p><p class="desc">Checkbox list ดึงจาก inventory — เลือกได้หลายตัว, แสดง vendor badge</p></div>
-    <div class="comp-card"><p class="label">Filter</p><p class="desc">filter by vendor เพราะ template แยกตาม Cisco / MikroTik</p></div>
+    <div class="comp-card"><p class="label">Device selector</p><p class="desc">Checkbox list ดึงจาก inventory — เลือกได้หลายตัว, แสดง vendor badge (Cisco / MikroTik / Huawei)</p></div>
+    <div class="comp-card"><p class="label">Filter by vendor / group</p><p class="desc">Filter by vendor เพราะ template แยกตาม vendor + filter by Group เพื่อ batch deploy ทั้ง group</p></div>
+    <div class="comp-card"><p class="label">Driver indicator</p><p class="desc">แสดง Driver Plugin ที่จะใช้กับ device นั้น เช่น "Cisco IOS Driver v1.2" ยืนยันว่า driver พร้อมใช้งาน</p></div>
   </div>
   <div class="section-title">Step 2 — เลือก template</div>
   <div class="comp-grid">
-    <div class="comp-card"><p class="label">Template library</p><p class="desc">Grid card แสดงชื่อ template + description + vendor badge (Cisco / MikroTik)</p></div>
+    <div class="comp-card"><p class="label">Template library</p><p class="desc">Grid card แสดงชื่อ template + description + vendor badge (Cisco / MikroTik / Huawei) — template แยกต่างหากต่อ vendor</p></div>
     <div class="comp-card"><p class="label">Template categories</p><p class="desc">VLAN setup · Interface IP · Static route · ACL · OSPF area · NAT/PAT · SSH hardening · Banner · Port security · Spanning tree</p></div>
     <div class="comp-card"><p class="label">Preview</p><p class="desc">คลิก template → โชว์ preview ว่า output จะหน้าตาเป็นยังไง ก่อน select</p></div>
-    <div class="comp-card"><p class="label">AI mode (fallback)</p><p class="desc">ถ้าไม่มี template ที่ตรง → สวิตช์ไป free-text prompt สั่ง AI แทน</p></div>
+    <div class="comp-card"><p class="label">AI mode (fallback)</p><p class="desc">ถ้าไม่มี template ที่ตรง → สวิตช์ไป free-text prompt สั่ง AI แทน — output จะ tag "⚡ AI-generated, review required"</p></div>
   </div>
   <div class="section-title">Step 3 — กรอก parameters</div>
   <div class="comp-grid">
@@ -223,17 +239,38 @@ p.note { font-size: 12px; color: var(--color-text-secondary); margin: 0.4rem 0 0
   </div>
   <div class="section-title">Target device summary</div>
   <div class="comp-grid">
-    <div class="comp-card"><p class="label">Device list</p><p class="desc">แสดง device ที่จะ deploy ไป พร้อม current status (online/offline)</p></div>
-    <div class="comp-card"><p class="label">Offline warning</p><p class="desc">ถ้า device offline → แสดง critical warning ห้าม deploy</p></div>
+    <div class="comp-card"><p class="label">Device list</p><p class="desc">แสดง device ที่จะ deploy ไป พร้อม current status (online/offline) + Driver Plugin ที่ใช้</p></div>
+    <div class="comp-card"><p class="label">Offline warning</p><p class="desc">ถ้า device offline → แสดง critical warning ห้าม deploy เด็ดขาด</p></div>
   </div>
+  <div class="section-title">Pre-flight Check (ก่อน Deploy)</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Management IP check</p><p class="desc">ตรวจว่า Config ใหม่ไม่ได้เปลี่ยน / ลบ Management IP ของ device — ป้องกันตัดขาตัวเอง</p></div>
+    <div class="comp-card"><p class="label">SSH availability check</p><p class="desc">ตรวจว่า Config ใหม่ไม่ปิด SSH หรือเปลี่ยน Port 22 โดยไม่ตั้งใจ</p></div>
+    <div class="comp-card"><p class="label">ACL self-lockout check</p><p class="desc">ตรวจ ACL ใหม่ว่าไม่มี deny ครอบคลุม Management Server IP</p></div>
+  </div>
+  <div class="section-title">Safe Deploy — Commit Confirmed</div>
+  <div class="flow-row">
+    <span class="flow-step">กด Deploy</span><span class="flow-arrow">→</span>
+    <span class="flow-step">Push config via SSH (via Driver Plugin)</span><span class="flow-arrow">→</span>
+    <span class="flow-step">เปิด Countdown Timer (30-120 วินาที)</span>
+  </div>
+  <div class="flow-row">
+    <span class="flow-step">Backend ทดสอบ SSH reconnect กลับ</span><span class="flow-arrow">→</span>
+    <span class="success-badge">SSH ติด → Commit! บันทึก version สำเร็จ</span>
+  </div>
+  <div class="flow-row">
+    <span class="flow-step">SSH ไม่ติดภายใน timeout</span><span class="flow-arrow">→</span>
+    <span class="danger-badge">แจ้งเตือน "Connection lost — Manual intervention required" + บันทึก incident log</span>
+  </div>
+  <p class="note">Commit Confirmed pattern — inspired by Juniper JunOS "commit confirmed X" และ Cisco IOS "configure replace revert timer" เพื่อป้องกัน Management Plane Disconnect</p>
   <div class="section-title">Action buttons</div>
   <div class="flow-row">
-    <span class="flow-step">มี Critical fail</span><span class="flow-arrow">→</span>
+    <span class="flow-step">มี Critical fail (CIS หรือ Pre-flight)</span><span class="flow-arrow">→</span>
     <span class="danger-badge">Deploy ถูก disable</span>
   </div>
   <div class="flow-row">
-    <span class="flow-step">ผ่านทุก rule</span><span class="flow-arrow">→</span>
-    <span class="success-badge">กด Deploy → SSH push config → success toast</span>
+    <span class="flow-step">ผ่านทุก check</span><span class="flow-arrow">→</span>
+    <span class="success-badge">กด Deploy → Safe Deploy flow → success toast</span>
   </div>
   <div class="flow-row">
     <span class="flow-step">กด Save only</span><span class="flow-arrow">→</span>
@@ -307,7 +344,7 @@ p.note { font-size: 12px; color: var(--color-text-secondary); margin: 0.4rem 0 0
   <div class="comp-grid">
     <div class="comp-card"><p class="label">Gemini API key</p><p class="desc">Input + mask toggle — เก็บ encrypted, ทดสอบได้ด้วยปุ่ม "Test connection"</p></div>
     <div class="comp-card"><p class="label">Model selection</p><p class="desc">เลือก Gemini model version — default gemini-1.5-flash (ประหยัด token)</p></div>
-    <div class="comp-card"><p class="label">Token budget</p><p class="desc">ตั้ง max tokens per request (default 8000) เพื่อควบคุม cost</p></div>
+    <div class="comp-card"><p class="label">Token budget</p><p class="desc">ตั้ง max tokens per request (default 8000) เพื่อควบคุม cost + แสดง estimated cost ต่อ operation</p></div>
     <div class="comp-card"><p class="label">Offline mode</p><p class="desc">Toggle ปิด AI ทั้งหมด → ระบบทำงาน template-only 100%</p></div>
   </div>
   <div class="section-title">Section B — User management</div>
@@ -315,12 +352,24 @@ p.note { font-size: 12px; color: var(--color-text-secondary); margin: 0.4rem 0 0
     <div class="comp-card"><p class="label">User list</p><p class="desc">รายชื่อ users ทั้งหมด + role (Admin / Operator / Viewer)</p></div>
     <div class="comp-card"><p class="label">Add / Edit / Delete user</p><p class="desc">Admin เท่านั้นที่แก้ได้ — password reset ทำที่นี่</p></div>
   </div>
-  <div class="section-title">Section C — System</div>
+  <div class="section-title">Section C — Driver / Plugin Management</div>
   <div class="comp-grid">
-    <div class="comp-card"><p class="label">PII patterns</p><p class="desc">ดู/แก้ regex patterns ที่ใช้ detect sensitive data — เพิ่ม custom pattern ได้</p></div>
-    <div class="comp-card"><p class="label">CIS rules</p><p class="desc">ดูรายการ rules ทั้งหมด — toggle เปิด/ปิดแต่ละ rule, ดู rule detail</p></div>
-    <div class="comp-card"><p class="label">Template library</p><p class="desc">ดู/แก้ Jinja2 templates — import template file (.j2) เพิ่มได้</p></div>
-    <div class="comp-card"><p class="label">System info</p><p class="desc">Version, uptime, disk usage, last backup timestamp</p></div>
+    <div class="comp-card"><p class="label">Installed Drivers</p><p class="desc">รายการ Driver Plugin ที่ติดตั้งอยู่ (Cisco IOS, MikroTik RouterOS, Huawei VRP) + version ของแต่ละ Driver</p></div>
+    <div class="comp-card"><p class="label">Driver detail</p><p class="desc">คลิก Driver → ดู supported methods (get_facts, get_running_config, apply_config), vendor docs link</p></div>
+    <div class="comp-card"><p class="label">Install new Driver</p><p class="desc">Upload Driver Package ใหม่ (ZIP / Python file) — ระบบ validate ว่า implement Base Interface ครบก่อน activate</p></div>
+    <div class="comp-card"><p class="label">Safe Deploy settings</p><p class="desc">ตั้งค่า Commit Confirmed timeout (30–300 วินาที) — ระยะเวลา reconnect ทดสอบหลัง deploy ก่อน commit จริง</p></div>
+  </div>
+  <div class="section-title">Section D — Credential Profiles</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">Profile list</p><p class="desc">รายการ Credential Profile ที่บันทึกไว้ (เช่น "SSH Admin", "SNMP Read-Only") — เก็บ encrypted</p></div>
+    <div class="comp-card"><p class="label">Add / Edit / Delete profile</p><p class="desc">กรอก SSH username/password/key หรือ SNMP community — Admin เท่านั้นที่แก้ได้</p></div>
+  </div>
+  <div class="section-title">Section E — System Configuration</div>
+  <div class="comp-grid">
+    <div class="comp-card"><p class="label">PII patterns</p><p class="desc">ดู/แก้ regex patterns ที่ใช้ detect sensitive data — เพิ่ม custom pattern ได้ (เช่น pattern เฉพาะ Huawei VRP)</p></div>
+    <div class="comp-card"><p class="label">CIS rules</p><p class="desc">ดูรายการ rules ทั้งหมด — toggle เปิด/ปิดแต่ละ rule, ดู rule detail + รองรับ rules ตาม vendor</p></div>
+    <div class="comp-card"><p class="label">Template library</p><p class="desc">ดู/แก้ Jinja2 templates แยกตาม vendor — import template file (.j2) เพิ่มได้, export backup ได้</p></div>
+    <div class="comp-card"><p class="label">System info</p><p class="desc">Version, uptime, disk usage, last backup timestamp, active drivers count</p></div>
   </div>
   <div class="divider"></div>
   <div class="link-row">

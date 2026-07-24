@@ -20,6 +20,7 @@ Welcome to the **MyNetMate** project repository! This directory contains full ar
 - [อ่านเนื้อหาเชิงลึกเพิ่มเติม SA & PV.md](./02_feature_deep_dives/%E0%B8%AD%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8A%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B9%88%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20SA%20%26%20PV.md) — Security Automation & CIS Validation
 - [อ่านเนื้อหาเชิงลึกเพิ่มเติม SD& MVA.md](./02_feature_deep_dives/%E0%B8%AD%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8A%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B9%88%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20SD%26%20MVA.md) — Multi-Vendor Automation Progression
 - [ค้นคว้า YANG MODEL.md](./02_feature_deep_dives/%E0%B8%84%E0%B9%89%E0%B8%99%E0%B8%84%E0%B8%A7%E0%B9%89%E0%B8%B2%20YANG%20MODEL.md) — YANG Data Modeling Standard
+- [Cutting Your Own Legs.md](./02_feature_deep_dives/Cutting%20Your%20Own%20Legs.md) — Cutting Your Own Legs Feature Design
 
 ### ⚖️ [03_tech_evaluations](./03_tech_evaluations/) — Research & Tool Evaluations
 - [ค้นคว้าเครื่องมือ Netmik vs NAPALM vs Nornir vs Ansible.md](./03_tech_evaluations/%E0%B8%84%E0%B9%89%E0%B8%99%E0%B8%84%E0%B8%A7%E0%B9%89%E0%B8%B2%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%A1%E0%B8%B7%E0%B8%AD%20Netmik%20vs%20NAPALM%20vs%20Nornir%20vs%20Ansible.md) — Tool Abstraction Level Comparison

@@ -35,3 +35,51 @@
 - **SolarWinds:** มีโครงสร้างรองรับสเกลขนาดใหญ่ (Enterprise Scale) สามารถเพิ่ม Poller สำหรับอุปกรณ์มากกว่า 1,000 Node และยังเปิดให้สามารถนำระบบแบบติดตั้งเอง (Self-Hosted) ไปเชื่อมต่อกับระบบบนคลาวด์ (SaaS) แบบ Hybrid ได้โดยไม่ต้องรื้อระบบเดิม
     
 หากระบบที่คุณกำลังพัฒนา (ระบบ Network Management 5 กลุ่มหลัก) ต้องการตัวกลางสำหรับดึงข้อมูลโครงสร้างดิบ (Discovery) ไปเขียนสคริปต์ต่อเอง การประยุกต์ใช้แนวคิดแบบ Netdisco หรือพัฒนาเองด้วย Python จะมีความยืดหยุ่นสูงกว่า แต่หากต้องการแพลตฟอร์มที่ครอบคลุมงาน Operation และพร้อมใช้ทันที SolarWinds จะตอบโจทย์ในฐานะผลิตภัณฑ์สำเร็จรูปครับ
+
+
+
+เมื่อนำ **SolarWinds Hybrid Cloud Observability (Enterprise Commercial Product)** มาเปรียบเทียบกับ **โปรเจกต์ CEPP68-33 ของเรา** สรุปภาพรวมและจุดต่างสำคัญได้ดังนี้ครับ:
+
+---
+
+### 💡 สรุปความต่างใน 1 ประโยค
+
+> **SolarWinds คือ "ยักษ์ใหญ่ระดับองค์กร (Enterprise Suite)"** ที่เน้นวัดประสิทธิภาพระบบทั้งองค์กร (Full-Stack Observability) และใช้ Machine Learning ลด Alert ซ้ำซ้อน 
+> **ในขณะที่โปรเจกต์เราคือ "เครื่องมือเฉพาะทางเบาและฉลาด (AI-Native Automation)"** ที่เน้นให้ Human พิมพ์ความต้องการ แล้วใช้ Generative AI + Template ช่วยสร้างและตรวจสอบ Config อุปกรณ์เครือข่าย
+
+---
+
+### 📊 ตารางเปรียบเทียบเชิงมิติ (Side-by-Side)
+
+| มิติการทำงาน                     | 🏢 SolarWinds Observability                                                              | 🚀 โปรเจกต์เรา (CEPP68-33)                                                                 |
+| -------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| **กลุ่มเป้าหมาย & ราคา**         | องค์กรใหญ่ (Enterprise), **ราคาแพงมาก** คิดเงินตามจำนวน Node                             | องค์กรขนาดกลาง/เล็ก หรือระบบ Self-Hosted **ต้นทุนต่ำ เข้าถึงง่าย**                         |
+| **ขอบเขตการทำงาน (Scope)**       | **Full-Stack:** ดูตั้งแต่ Network, Server, Cloud, App, DB, NetFlow, Logs                 | **Focused Network:** โฟกัสลึกเฉพาะ Switch/Router (Cisco, MikroTik, Huawei)                 |
+| **บทบาทของ AI**                  | **AIOps (Machine Learning):** สถิติวัด Anomaly Detection และลดขยะ Alert (Alert Fatigue)  | **Generative AI (LLM):** ช่วยอ่าน/สร้าง Config จากความต้องการผู้ใช้, ตรวจ PII และ Security |
+| **การสร้าง Config (Config Gen)** | ⚠️ **ใช้ Form/Script ดิม:** ต้องเขียน Template/Script เองล่วงหน้า ไม่มี Prompt-to-Config | ✅ **Prompt & Template:** แปลงความต้องการเป็น Config จริง + มี AI Review ช่วยแต่ง Syntax    |
+| **ความซับซ้อนในการใช้งาน**       | เมนูเยอะมาก ต้องใช้วิศวกรที่ผ่านการเทรน SolarWinds เฉพาะ                                 | หน้าตาเรียบง่าย (Interactive UI), มี Form + AI Assist สำหรับ IT Admin                      |
+
+---
+
+### 🎯 3 ประเด็นสำคัญที่โปรเจกต์เราต่างจาก SolarWinds ชัดเจน
+
+#### 1. Generative AI vs. Statistical AIOps (ต่างกันที่ประเภท AI)
+* **SolarWinds:** ใช้ AI แบบ **Predictive/Statistical (AIOps)** คอยจับตาดูความเร็วเครือข่ายแล้วบอกว่า *"ช่วงนี้ Bandwidth วิ่งแปลกๆ นะ"*
+* **โปรเจกต์เรา:** ใช้ **Generative AI (LLM + LangChain + RAG)** มาช่วยอ่านและสร้างคำสั่ง CLI เช่น *"อยากได้ VLAN 10 กับ 20 บน Cisco และ MikroTik"* แล้วระบบสร้าง Config พร้อมสแกน PII/Security ให้ทันที
+
+#### 2. Natural Language Config Generation (แก้ Pain Point เรื่องเวลา)
+ใน SolarWinds หากต้องการปรับแต่งอุปกรณ์ แอดมินยังคงต้องมีความรู้ไวยากรณ์ CLI ของยี่ห้อนั้นๆ อย่างแม่นยำเพื่อไปเขียนสคริปต์ NCM แต่โปรเจกต์เรามีระบบ **Human-in-the-loop Prompting** ที่ช่วยให้คนที่ไม่เชี่ยวชาญ CLI ทุกค่าย สามารถสร้าง Config ที่ถูกต้องตามมาตรฐาน CIS Benchmarks ได้รวดเร็วกว่า
+
+#### 3. ความเบาและการเป็น Self-Hosted ที่ยืดหยุ่น (Agile & Lightweight)
+SolarWinds ต้องการเครื่อง Server ขนาดใหญ่ในการรัน Poller และดูแลระบบฐานข้อมูลที่ซับซ้อน ส่วนโปรเจกต์เราใช้สถาปัตยกรรม **FastAPI + React + Nornir/Netmiko** ซึ่งเบา รันบน Docker/ContainerLab ได้ง่าย และขยายผ่านระบบ Plugin/Driver ได้โดยไม่ต้องจ่ายค่า License เพิ่ม
+
+---
+
+### 💬 วิธีนำไปตอบอาจารย์ (กรรมการสอบ)
+
+ถ้ากรรมการถามว่า *"ทำไมไม่ซื้อ SolarWinds ใช้ หรือโปรเจกต์เราต่างจากระบบ Enterprise ในตลาดยังไง?"*
+
+> **คำตอบ:** 
+> *"SolarWinds เน้นเรื่อง **Full-Stack Monitoring & Observability** สำหรับองค์กรใหญ่ที่มีงบสูงมากครับ แต่จุดอ่อนคือการตั้งค่าอุปกรณ์ (Configuration) ยังคงพึ่งพาสคริปต์แบบเดิมและไม่ยืดหยุ่น 
+> 
+> โปรเจกต์เราจึงเข้ามาตอบโจทย์ **Configuration Lifecycle Management** โดยเฉพาะ โดยนำ **Generative AI + Jinja2 Template** เข้ามาช่วยลดเวลาในการเขียน CLI หลายยี่ห้อ พร้อมมีระบบ **PII Masking & Security Validation** ก่อน Push จริง ซึ่งเป็นฟีเจอร์ที่เบากว่า คุ้มค่ากว่า และตอบโจทย์งาน Operation วันต่อวันของ IT Admin ได้ตรงจุดกว่าครับ"*

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02_feature/Data Information.md",
+                "file": "02_feature/MyNetMate รายการ Features.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Data Information"
+              "title": "MyNetMate รายการ Features"
             }
           },
           {
@@ -27,16 +27,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02_feature/MyNetMate รายการ Features FrontEnd.md",
+                "file": "02_feature/Mockup จากภาพพี่ออม.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "MyNetMate รายการ Features FrontEnd"
+              "title": "Mockup จากภาพพี่ออม"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -198,14 +197,17 @@
       "bases:Create new base": false
     }
   },
-  "active": "fc176a42bf02d4e3",
+  "active": "07bb3ad43d50325d",
   "lastOpenFiles": [
+    "04_project_management/Advisor Teacher/คุยกับอาจารย์ตอน ปี 2 เทอม 2/สรุปสิ่งที่ได้ไปพูดคุยกับอาจารย์ ปี 2 เทอม 2.md",
+    "04_project_management/Advisor Teacher/คำแนะนำของอาจารย์ ณ ครั้งที่ 1 ปี 3 เทอม 1.md",
+    "02_feature/Mockup จากภาพพี่ออม.md",
+    "04_project_management/Advisor Teacher/คำแนะนำของอาจารย์ ณ ครั้งที่ 2 ปี 3 เทอม 1.md",
+    "02_feature/MyNetMate รายการ Features.md",
+    "02_feature/Plugin Driver Architecture.md",
     "02_feature/Data Information.md",
     "02_feature/Device Inventory.md",
     "02_feature/Cutting Your Own Legs.md",
-    "02_feature/MyNetMate รายการ Features FrontEnd.md",
-    "02_feature/Mockup จากภาพพี่ออม.md",
-    "02_feature/Plugin Driver Architecture.md",
     "04_project_management/วิชา CE Project 1 และ 2/06_Grading_and_Policies.md",
     "04_project_management/วิชา CE Project 1 และ 2/02_Course_Overview.md",
     "04_project_management/วิชา CE Project 1 และ 2/03_Process_Flow.md",
@@ -225,8 +227,6 @@
     "04_project_management/Advisor_Meeting_Feature_Strategy_Template.md",
     "04_project_management/จุดตายในการพรีเซ็นตาม silde Present.md",
     "04_project_management/Document Project/CEPP68-33 Proposal.md",
-    "04_project_management/Document Project/ทำไมเราถึงต้องทำโปรเจกต์นี้ เพราะปั.md",
-    "04_project_management/Document Project/MyNetMate_Tool_Weight_Analysis.md",
     "04_project_management/Document Project/word and pdf/CEPP68-33 Proposal.pdf",
     "04_project_management/Document Project/word and pdf/CEPP68-33 Presentation.pdf",
     "Img/Pasted image 20260705121218.png",

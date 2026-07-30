@@ -1,7 +1,7 @@
 # 🤖 MyNetMate — Master AI Agent Context & Navigation Map
 > **Project:** MyNetMate (CEPP Capstone Project CEPP68-33, KMITL)  
 > **Purpose:** Master context guide, file index, and rules of engagement for AI Coding Agents (Antigravity, Cursor, Claude Code, GitHub Copilot).  
-> **Last Updated:** 2026-07-30
+> **Last Updated:** 2026-07-31
 
 ---
 
@@ -103,38 +103,44 @@
 
 ## 🎯 5. Feature Priority Summary (MVP Scope)
 
-### ✅ MUST (ต้องทำให้เสร็จ)
-1. **Authentication** — JWT + RBAC 3 Roles
-2. **Dashboard** — Metrics Cards + Activity Feed
-3. **Device Inventory** — Manual CRUD + ICMP Ping Status + Grouping
-4. **Network Discovery** — Ping Sweep + SNMP + LLDP/CDP + 3-Stage Pipeline
-5. **Network Topology** — Canvas + Auto-layout from Discovery
-6. **Config Generation (Rule-based)** — Form → Jinja2 → CLI Preview (ตาม Mockup 6 Tab)
-7. **Config Generation (AI)** — Chat AI + Natural Language + AI Config Review
-8. **PII Masking** — `yacryptopan` (IP) + Regex (Password) ก่อนส่ง Gemini
-9. **Config Deployment** — Plan→Apply Workflow + SSH Push + Write Memory
-10. **CIS Benchmark** — 5-10 กฎหลัก + Three-Tier Severity (Critical Block/Warning Dismiss/Info)
-11. **Version Control** — Pre/Post Snapshot + Diff View + One-Click Rollback + Audit Trail
-12. **Settings** — API Key Config + Offline Mode + User Management + PII Regex Editor
+อ้างอิงตามการประเมินล่าสุดในไฟล์ `02_feature/MyNetMate Weight Feature List.md` ฟีเจอร์ถูกแบ่งออกเป็น 3 ระยะ:
 
-### ❌ CUT (ตัดออกแล้ว + เหตุผล)
+### 🏆 P1-CORE & P1-INFRA (CE Project 1 - The "Real" MVP)
+1. **Auth & RBAC [Infra]** — Login, JWT, แบ่ง 3 Roles
+2. **Dashboard [Infra]** — Metrics พื้นฐาน, Activity Feed, System API Status
+3. **Device Inventory [Core]** — เพิ่มอุปกรณ์แบบ Manual, Ping Status, Device Grouping
+4. **Config Gen (Template) [Core]** — 6-Tab Form, Jinja2 Render, Debouncing
+5. **PII Masking [Infra]** — ซ่อน IP/Password ด้วย `yacryptopan` และ Regex ก่อนส่งออก API
+6. **Deployment (Plan) [Core]** — UI Flow โชว์การจำลองก่อน Push จริง (ยังไม่ส่ง SSH)
+7. **CIS Benchmark [Core]** — สแกน 8 กฎหลักด้วย Regex
+8. **Audit Trail [Infra]** — เก็บ Log ใครทำอะไร เมื่อไหร่ลง Database
+9. **AI Guardrails [Infra]** — Context Injection ฉีดข้อมูลเข้า Prompt
+10. **Settings [Infra]** — จัดการ User, เปิด/ปิดกฎ CIS, โหมด Offline
+
+### 🚀 P2 (CE Project 2 - Advanced & AI Features)
+1. **Network Discovery** — สแกนหาอุปกรณ์อัตโนมัติ (Ping Sweep, SNMP, LLDP)
+2. **Topology Visualization** — วาดแผนผัง Network อัตโนมัติด้วย React Flow
+3. **AI Config & Review** — แชท AI ช่วยเขียนคำสั่ง และช่วยตรวจ Config (Natural Language)
+4. **SSH Command Push** — สั่ง Deploy ลงอุปกรณ์จริง (Netmiko) + Pre/Post Snapshot
+5. **Version Control** — ระบบกด Rollback กลับไปใช้ Config เดิม
+
+### ✂️ CUT (ตัดออกถาวร)
 | Feature | เหตุผลที่ตัด |
 |---|---|
-| Complex Multi-vendor Policy | AI Hallucination Risk สูง + ต้องการ Abstraction Layer ซับซ้อน |
-| Auto-Rollback on Error | Traditional CLI ไม่รองรับ Atomic Transaction |
-| Real-time Deploy Logs | ต้องการ WebSocket + Async Architecture เพิ่ม |
-| Idempotency Check | ต้องการ Full Config Parser ทุก Command ทุก Vendor |
-| Impact Analysis (Cross-device) | ต้องการ Graph Database + Network Simulation Engine |
-| RAG Vector Database | ใช้ DB Context Injection แทน — เบากว่า ผลลัพธ์ใกล้เคียงกัน |
-| spaCy NLP | ใช้ Regex แทน — แม่นกว่าสำหรับ Network Config Pattern |
-| MOP Generation | Output ไม่ชัดเจน + นอกประเด็น Core Feature |
-| Multi-Device Batch Deploy | Parallel SSH ซับซ้อน เน้น Single-device ก่อน |
+| **Complex Multi-vendor Policy** | AI Hallucination Risk สูง + ต้องการ Abstraction Layer ซับซ้อน |
+| **Auto-Rollback on Error** | Cisco IOS ไม่รองรับ Atomic Transaction เสี่ยงพังกว่าเดิม |
+| **Idempotency Check** | ต้องการ Full Config Parser ทุก Command ทุก Vendor |
+| **Cross-Device Impact Analysis** | ต้องทำ Network Simulator Engine ซึ่งเกินสโคป ป.ตรี |
+| **RAG Vector Database** | ใช้ DB Context Injection แทน — เบากว่าและไม่มี Overhead |
+| **spaCy NLP** | ใช้ Regex ทำ PII Masking แทน — เบาและเร็วกว่ามาก |
+| **MOP Generation** | เพิ่มภาระโดยไม่จำเป็น ไม่ใช่ Core Value ของโปรเจกต์ |
+| **Jinja2 Template Manager UI** | ห้ามทำหน้าแก้โค้ดบนเว็บ ให้ Dev แก้ไฟล์โดยตรง |
 
 ---
 
 ## 🔒 6. Rules for AI Agents Working on This Project
 
-1. **อ่าน `02_feature/MyNetMate รายการ Features.md` ก่อนเสมอ** — คือ Single Source of Truth ของ Feature ทั้งหมด
+1. **อ่าน `02_feature/MyNetMate Weight Feature List.md` ก่อนเสมอ** — นี่คือ Single Source of Truth ฉบับ Final สำหรับ Scope ของ MVP ส่วน `02_feature/MyNetMate รายการ Features.md` เป็นเพียง Raw Data ต้นฉบับ
 2. **อ้างอิง `02_feature/Mockup จากภาพพี่ออม.md`** เมื่อทำงานที่เกี่ยวกับ Frontend UI
 3. **ห้ามแนะนำ LangChain, Presidio, spaCy, Vector DB** — ตัดออกจากโปรเจกต์แล้ว ใช้ของแทนที่ที่บอกไว้ใน Tech Stack
 4. **ห้าม AI Execute Command บนอุปกรณ์จริง** — Generate เท่านั้น Human กด Deploy เอง

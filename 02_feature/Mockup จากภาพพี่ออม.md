@@ -25,13 +25,13 @@ Mockup นี้มี **6 Tab** ซึ่งแต่ละ Tab = **1 Config
 ![[Pasted image 20260722144733.png]]
 ### 🔌 Tab 2 — Interfaces
 
-|Field|ค่าตัวอย่าง|หมายเหตุ|
-|---|---|---|
-|Name|GigabitEthernet0/0|Interface identifier|
-|IP address|192.168.1.1/24|L3 IP (ถ้ามี)|
-|Description|Uplink|Human-readable label|
-|Mode|Access / Trunk / Routed / Loopback|L2 vs L3|
-|Status|Up / Shutdown|Admin state|
+| Field       | ค่าตัวอย่าง                        | หมายเหตุ             |
+| ----------- | ---------------------------------- | -------------------- |
+| Name        | GigabitEthernet0/0                 | Interface identifier |
+| IP address  | 192.168.1.1/24                     | L3 IP (ถ้ามี)        |
+| Description | Uplink                             | Human-readable label |
+| Mode        | Access / Trunk / Routed / Loopback | L2 vs L3             |
+| Status      | Up / Shutdown                      | Admin state          |
 
 ---
 ![[Pasted image 20260722144737.png]]

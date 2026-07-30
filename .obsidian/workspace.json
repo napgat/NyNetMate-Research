@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "04_project_management/Document Project/MyNetMate_Features_and_Tools_Comprehensive.md",
+                "file": "02_feature/MyNetMate รายการ Features.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "MyNetMate_Features_and_Tools_Comprehensive"
+              "title": "MyNetMate รายการ Features"
             }
           },
           {
@@ -27,15 +27,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "03_tech_evaluations/Microsoft Presidio.md",
+                "file": "04_project_management/วิชา CE Project 1 และ 2/Project Orientation 2569.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Microsoft Presidio"
+              "title": "Project Orientation 2569"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -197,8 +198,28 @@
       "bases:Create new base": false
     }
   },
-  "active": "07bb3ad43d50325d",
+  "active": "ab0f9c0d637da389",
   "lastOpenFiles": [
+    "04_project_management/วิชา CE Project 1 และ 2/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.md",
+    "04_project_management/วิชา CE Project 1 และ 2/PDF",
+    "04_project_management/วิชา CE Project 1 และ 2/PDF/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.pdf",
+    "04_project_management/วิชา CE Project 1 และ 2/Project Orientation 2569.md",
+    "02_feature/Data Information.md",
+    "02_feature/Device Inventory.md",
+    "01_architecture_and_specs/Decision AI or NoAI in Project.md",
+    "04_project_management/วิชา CE Project 1 และ 2/06_Grading_and_Policies.md",
+    "04_project_management/วิชา CE Project 1 และ 2/05_Project_Types_and_Requirements.md",
+    "04_project_management/วิชา CE Project 1 และ 2/04_Schedules.md",
+    "04_project_management/วิชา CE Project 1 และ 2/03_Process_Flow.md",
+    "04_project_management/วิชา CE Project 1 และ 2/02_Course_Overview.md",
+    "04_project_management/วิชา CE Project 1 และ 2/01_Roles_and_Responsibilities.md",
+    "02_feature/MyNetMate รายการ Features.md",
+    "02_feature/Plugin Driver Architecture.md",
+    "02_feature/MyNetMate Features.md",
+    "02_feature/Config-man Rulebase.md",
+    "02_feature/Restore Strategy.md",
+    "02_feature/Mockup จากภาพพี่ออม.md",
+    "02_feature/Cutting Your Own Legs.md",
     "03_tech_evaluations/Microsoft Presidio.md",
     "04_project_management/Document Project/MyNetMate_Features_and_Tools_Comprehensive.md",
     "04_project_management/Advisor_Meeting_Feature_Strategy_Template.md",
@@ -206,26 +227,6 @@
     "04_project_management/Document Project/CEPP68-33 Proposal.md",
     "04_project_management/Document Project/ทำไมเราถึงต้องทำโปรเจกต์นี้ เพราะปั.md",
     "04_project_management/Document Project/MyNetMate_Tool_Weight_Analysis.md",
-    "04_project_management/Document Project/MyNetMate_Infographic.md",
-    "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/NPA2e Ch 14 - NAA/Ch.14 — Network Automation Architecture (p.739) - 5 Source of Truth (SoT).md",
-    "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/NPA2e Ch 14 - NAA/Ch.14 — Network Automation Architecture (p.739) - 4 User Interactions.md",
-    "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/NPA2e Ch 14 - NAA/Ch.14 — Network Automation Architecture (p.739) - 3 Overview of the Architecture Components.md",
-    "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/NPA2e Ch 14 - NAA/Ch.14 — Network Automation Architecture (p.739) - 2 Common patterns.md",
-    "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/NPA2e Ch 12 - Automation Tools/📖 Ch12_Part3_Nornir_ฉบับอ่านง่าย.md",
-    "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/NPA2e Ch 12 - Automation Tools/📖 Ch12_Part4_Terraform_ฉบับอ่านง่าย.md",
-    "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/NPA2e Ch 12 - Automation Tools/📖 Ch12_Part2_Ansible_ฉบับอ่านง่าย.md",
-    "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/NPA2e Ch 14 - NAA/📖 Ch14_NAA_ฉบับอ่านง่าย.md",
-    "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/NPA2e Ch 14 - NAA/Ch.14 — Network Automation Architecture (p.739) - 6 Automation Engine.md",
-    "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/NPA2e Ch 14 - NAA/Ch.14 — Network Automation Architecture (p.739) - 7 Telemetry and Observability.md",
-    "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/NPA2e Ch 14 - NAA/Ch.14 — Network Automation Architecture (p.739) - 1 Painpoint.md",
-    "05_knowledge_base/หนังสือ/ข้อมูลจากหนังสือ/หัวข้อที่อ่าน.md",
-    "04_project_management/ความคืบหน้า รายงานส่งอาจารย์ ตอนปี 2 เทอม 2/CEPP-Report.md",
-    "03_tech_evaluations/ค้นคว้าเครื่องมือ Netmik vs NAPALM vs Nornir vs Ansible.md",
-    "03_tech_evaluations/SolarWinds Hybrid Cloud Observability.md",
-    "03_tech_evaluations/Nornir.md",
-    "03_tech_evaluations/Netdisco.md",
-    "03_tech_evaluations/NAPALM.md",
-    "04_project_management/วิชา CE Project 1/คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.pdf",
     "04_project_management/Document Project/word and pdf/CEPP68-33 Proposal.pdf",
     "04_project_management/Document Project/word and pdf/CEPP68-33 Presentation.pdf",
     "Img/Pasted image 20260705121218.png",
@@ -236,7 +237,6 @@
     "Img/Screenshot 2026-07-16 160329.png.tmp",
     "Img/Screenshot 2026-07-16 160057.png.tmp",
     "Img/Screenshot 2026-07-16 153918.png.tmp",
-    "Img/Pasted image 20260722144815.png.tmp",
     "Img/Pasted image 20260710144449.png",
     "Img/Pasted image 20260715225624.png",
     "Img/Pasted image 20260716123724.png",

@@ -9,24 +9,23 @@ Welcome to the **MyNetMate** project repository! This directory contains full ar
 ### 🏛️ [01_architecture_and_specs](./01_architecture_and_specs/) — System Architecture & UI Specs
 - [System Diagram in Proposal.md](./01_architecture_and_specs/System%20Diagram%20in%20Proposal.md) — สถาปัตยกรรมระบบ 8 ส่วนหลัก
 - [netconfig_full_page_specs.html](./01_architecture_and_specs/netconfig_full_page_specs.html) — ข้อกำหนด UI/UX ละเอียด 8 หน้า (P0-P7)
-- [Mockup จากภาพพี่ออม.md](Mockup%20จากภาพพี่ออม.md) — UI Mockup 6 แท็บสำหรับ Config Builder
 - [Decision AI or NoAI in Project.md](./01_architecture_and_specs/Decision%20AI%20or%20NoAI%20in%20Project.md) — กรอบการตัดสินใจ AI 12 ฟังก์ชัน
-- [Software Layer.md](./01_architecture_and_specs/Software%20Layer.md) — Software Layer & Async I/O Design
-- [Subscription Plan.md](./01_architecture_and_specs/Subscription%20Plan.md) — Open Core Business Model (Free vs Pro)
 
-### 🔍 [02_feature/](./02_feature/) — Core Feature Deep Dives
+### 🔍 [02_feature](./02_feature/) — Core Feature Deep Dives
 - [MyNetMate Weight Feature List.md](./02_feature/MyNetMate%20Weight%20Feature%20List.md) — 🔴 **(MUST READ)** The final prioritized MVP scope (P1 vs P2 vs CUT).
 - [MyNetMate รายการ Features.md](./02_feature/MyNetMate%20รายการ%20Features.md) — Original comprehensive list of all requested features.
-- [อ่านเนื้อหาเชิงลึกเพิมเติม AII&CG.md](./02_feature/%E0%B8%AD%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8A%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20AII%26CG.md) — AI Integration & Config Generation
-- [อ่านเนื้อหาเชิงลึกเพิ่มเติม ND.md](./02_feature/%E0%B8%AD%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8A%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B9%88%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20ND.md) — Network Discovery Pipeline
-- [อ่านเนื้อหาเชิงลึกเพิ่มเติม SA & PV.md](./02_feature/%E0%B8%AD%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8A%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B9%88%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20SA%20%26%20PV.md) — Security Automation & CIS Validation
-- [อ่านเนื้อหาเชิงลึกเพิ่มเติม SD& MVA.md](./02_feature/%E0%B8%AD%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%AB%E0%B8%B2%E0%B9%80%E0%B8%8A%E0%B8%B4%E0%B8%87%E0%B8%A5%E0%B8%B6%E0%B8%81%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B9%88%E0%B8%A1%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%20SD%26%20MVA.md) — Multi-Vendor Automation Progression
-- [ค้นคว้า YANG MODEL.md](ค้นคว้า%20YANG%20MODEL.md) — YANG Data Modeling Standard
-- [Cutting Your Own Legs.md](Cutting%20Your%20Own%20Legs.md) — Cutting Your Own Legs Feature Design
+- [Claude MyNetMate Weight Feature List.md](./02_feature/Claude%20MyNetMate%20Weight%20Feature%20List.md) — AI's initial feature weighting analysis.
+- [Mockup จากภาพพี่ออม.md](./02_feature/Mockup%20จากภาพพี่ออม.md) — UI Mockup 6 แท็บสำหรับ Config Builder
+- [Data Information.md](./02_feature/Data%20Information.md) — Schema ข้อมูลที่ต้องเก็บใน Device Inventory (PostgreSQL)
+- [Device Inventory.md](./02_feature/Device%20Inventory.md) — รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory
+- [Plugin Driver Architecture.md](./02_feature/Plugin%20Driver%20Architecture.md) — สถาปัตยกรรม Multi-vendor Driver Pattern
+- [Restore Strategy.md](./02_feature/Restore%20Strategy.md) — กลยุทธ์การ Rollback และ Version Control
+- [Cutting Your Own Legs.md](./02_feature/Cutting%20Your%20Own%20Legs.md) — Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค
+- [MyNetMate (1).drawio.html](./02_feature/MyNetMate%20(1).drawio.html) — Diagram ภาพรวมโปรเจกต์
 
 ### ⚖️ [03_tech_evaluations](./03_tech_evaluations/) — Research & Tool Evaluations
 - [ค้นคว้าเครื่องมือ Netmik vs NAPALM vs Nornir vs Ansible.md](./03_tech_evaluations/%E0%B8%84%E0%B9%89%E0%B8%99%E0%B8%84%E0%B8%A7%E0%B9%89%E0%B8%B2%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%A1%E0%B8%B7%E0%B8%AD%20Netmik%20vs%20NAPALM%20vs%20Nornir%20vs%20Ansible.md) — Tool Abstraction Level Comparison
-- [Microsoft Presidio.md](./03_tech_evaluations/Microsoft%20Presidio.md) — Local PII Masking Guide
+- [Microsoft Presidio.md](./03_tech_evaluations/Microsoft%20Presidio.md) — Local PII Masking Guide (เลิกใช้)
 - [Netmiko.md](./03_tech_evaluations/Netmiko.md) — Netmiko Usage Guide
 - [NAPALM.md](./03_tech_evaluations/NAPALM.md) — NAPALM Framework
 - [Nornir.md](./03_tech_evaluations/Nornir.md) — Nornir Framework
@@ -36,14 +35,12 @@ Welcome to the **MyNetMate** project repository! This directory contains full ar
 
 ### 📋 [04_project_management](./04_project_management/) — Management & Proposals
 - [CEPP68-33 Proposal.md](./04_project_management/Document%20Project/CEPP68-33%20Proposal.md) — Proposal Document
-- [MyNetMate_Features_and_Tools_Comprehensive.md](MyNetMate%20Features.md) — Comprehensive Features & Tools
-- [MyNetMate_Infographic.md](MyNetMate_Infographic.md) — Project Infographic
-- [MyNetMate_Tool_Weight_Analysis.md](MyNetMate_Tool_Weight_Analysis.md) — Tool Weight Matrix
 - [gantt_chart.md](./04_project_management/Document%20Project/gantt_chart.md) — Project Timeline
-- [จุดตายในการพรีเซ็นตาม silde Present.md](จุดตายในการพรีเซ็นตาม%20silde%20Present.md) — Defense & Pitching Notes
-- [คู่มือนักศึกษา รายละเอียดการแปลง Requirement สู่การสร้างระบบที่ย้อนกลับได้.md](คู่มือนักศึกษา%20รายละเอียดการแปลง%20Requirement%20สู่การสร้างระบบที่ย้อนกลับได้.md) — Student Handbook (Requirements ➔ Traceable System)
-- [Advisor_Meeting_Feature_Strategy_Template.md](./04_project_management/Advisor_Meeting_Feature_Strategy_Template.md) — Advisor Meeting Feature Strategy Template
-- [TeacherSay/](./04_project_management/TeacherSay/) — Feedback from Advisor (Ajarn Prinya)
+- [ทำไมเราถึงต้องทำโปรเจกต์นี้ เพราะปั.md](./04_project_management/Document%20Project/ทำไมเราถึงต้องทำโปรเจกต์นี้%20เพราะปั.md) — Business Value & Pain points
+- [Advisor Teacher/](./04_project_management/Advisor%20Teacher/) — Feedback จากอาจารย์ที่ปรึกษา
+- [ความคืบหน้า รายงานส่งอาจารย์ ตอนปี 2 เทอม 2/](./04_project_management/ความคืบหน้า%20รายงานส่งอาจารย์%20ตอนปี%202%20เทอม%202/) — Progress Reports
+- [วิชา CE Project 1 และ 2/](./04_project_management/วิชา%20CE%20Project%201%20และ%202/) — Grading Criteria
+- [แผนการค้นหาข้อมูล Project 1 - Week 1/](./04_project_management/แผนการค้นหาข้อมูล%20Project%201%20-%20Week%201/) — Research Plan
 
 ### 📚 [05_knowledge_base](./05_knowledge_base/) — Knowledge Base & Literature
 - [What is Network Automationa.md](./05_knowledge_base/What%20is%20Network%20Automationa.md) — Network Automation Intro

@@ -68,7 +68,8 @@
 
 | ไฟล์ | เนื้อหา | ความสำคัญ |
 |---|---|---|
-| [MyNetMate รายการ Features.md](02_feature/MyNetMate%20รายการ%20Features.md) | **ไฟล์หลัก** — รายการ Feature ทั้งหมด 11 หมวด + ตาราง Config Switch/Router + ปรัชญาระบบ | 🔴 อ่านก่อนเลย |
+| [MyNetMate Weight Feature List.md](02_feature/MyNetMate%20Weight%20Feature%20List.md) | **ไฟล์หลักล่าสุด** — MVP Scope ฉบับ Final หลังประเมิน (P1 vs P2 vs CUT) | 🔴 อ่านก่อนเลย |
+| [MyNetMate รายการ Features.md](02_feature/MyNetMate%20รายการ%20Features.md) | รายการ Feature ทั้งหมด 11 หมวดฉบับดั้งเดิม + ปรัชญาระบบ | 🟡 อ่านอ้างอิง |
 | [Mockup จากภาพพี่ออม.md](02_feature/Mockup%20จากภาพพี่ออม.md) | UI Mockup 6 Tab สำหรับ Config Builder — Blueprint สำหรับ Frontend | 🔴 อ่านก่อนเลย |
 | [Data Information.md](02_feature/Data%20Information.md) | Schema ข้อมูลที่ต้องเก็บใน Device Inventory (PostgreSQL) | 🟡 อ่านเมื่อทำ DB |
 | [Device Inventory.md](02_feature/Device%20Inventory.md) | รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory | 🟡 อ่านเมื่อทำ Discovery |

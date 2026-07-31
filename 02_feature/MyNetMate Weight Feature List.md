@@ -1,5 +1,5 @@
 # 📊 MyNetMate: สรุปฟีเจอร์และลำดับการพัฒนา 
-อ้างอิงจาก 02_feature/Claude MyNetMate Weight Feature List
+อ้างอิงจาก 02_feature/Claude MyNetMate Weight Feature List, 02_feature/MyNetMate รายการ Features
 
 ## 1. บริบทและข้อจำกัด (ทำไมเราถึงทำทุกอย่างไม่ได้?)
 
@@ -49,7 +49,7 @@
 ## 4. Feature Evaluation & Engineering Justifications
 การประเมินนี้ใช้หลักการ Risk-Reward Ratio และขีดจำกัดทางเทคนิค (API Limits, Hardware Variance, Complexity) เป็นตัวตัดสิน
 
-###  4.1 Configuration Generation (The Core Engine)
+### 4.1 Configuration Generation (อ้างอิงหมวด 5)
 
 หัวใจของโปรเจกต์นี้คือการสร้าง Config ที่นำไปใช้ได้จริง ไม่ใช่แค่แชทบอทตอบคำถาม
 #### **Template-Based (Jinja2) [🏆 P1-CORE]:** 
@@ -155,7 +155,7 @@
 | **Security (Basic)** | Enable secret, Console PW, `service password-encryption` | 🏆 P1 |
 | **Advanced** | OSPF, RIP, ACL, NAT, Port Security | 🚀 P2 |
 
-### 4.2 Configuration Deployment
+### 4.2 Configuration Deployment (อ้างอิงหมวด 7)
 เป็นจุดที่ **"อันตรายและเสี่ยงที่สุด"** ในโปรเจกต์เครือข่ายเลยครับ เพราะถ้าพิมพ์คำสั่งผิดแม้แต่ตัวเดียว (เช่น `switchport trunk allowed vlan 10` ลืมคำว่า `add`) อุปกรณ์อาจจะหลุดจากเน็ตเวิร์ก (Brick) ทันที
 
 ดังนั้น เมื่อผ่านการ Weighting แล้ว หมวดนี้จึงถูก **หั่นครึ่ง (Split) และตัดส่วนที่อันตรายเกินไปทิ้ง** ดังนี้ครับ:
@@ -169,23 +169,23 @@
 *  **SSH Command Push (การส่งคำสั่งจริง):**
     - โค้ดหลังบ้าน (Python + Netmiko) ที่ทำหน้าที่วิ่งเข้าไป Mange อุปกรณ์จริงๆ ถูกยกไป P2 ทั้งหมด
     - **เหตุผล:** การทดสอบโค้ดยิง SSH จำเป็นต้องมี **GNS3 Lab (Network Simulator)** ที่เสถียรเพื่อเอาไว้ทดลองยิงคำสั่งให้มั่นใจก่อน เราไม่สามารถเขียนโค้ดแล้วเอาไปยิงใส่อุปกรณ์จริงที่มหาลัยให้ยืมได้เลย เพราะถ้าอุปกรณ์พัง (ตั้งค่าผิดจนเข้าไม่ได้) เราจะไม่มีอุปกรณ์ใช้สอบครับ ดังนั้นเซฟตัวเองด้วยการทำใน GNS3 เทอมหน้าดีกว่า
-* ***Write Memory (บันทึก Config):**
+* **Write Memory (บันทึก Config):**
     - เลื่อนไปเทอม 2 (มันเป็นเงาตามตัวของข้อ 2 ถ้าเรายังไม่ยิงคำสั่งใน P1 เราก็ยังสั่ง `write mem` หรือ `copy run start` ไม่ได้ครับ)
-* ***Multi-Device Batch Deploy:**
-    - เลื่อนไปเทอม 2 การยิงทีละเครื่องยังเสี่ยง การทำลูป (Loop) หรือ Thread ยิงพร้อมกัน 10 เครื่อง ต้องรอให้ข้อ 2 นิ่งสนิท 100% ก่อนถึงจะเริ่มทำได้ครับ*
-* ***Real-time Deploy Logs:**
+* **Multi-Device Batch Deploy:**
+    - เลื่อนไปเทอม 2 การยิงทีละเครื่องยังเสี่ยง การทำลูป (Loop) หรือ Thread ยิงพร้อมกัน 10 เครื่อง ต้องรอให้ข้อ 2 นิ่งสนิท 100% ก่อนถึงจะเริ่มทำได้ครับ
+* **Real-time Deploy Logs:**
     - เลื่อนไปเทอม 2 เพราะมันคือการ Streaming text กลับมาจาก Netmiko ขณะกำลังส่งคำสั่ง (ใน P1 จะยังไม่มี Log ตัวนี้โชว์ เพราะยังไม่ได้ยิงจริง)
     
 #### ✂️ **3. สิ่งที่โดน CUT ทิ้ง (ห้ามทำเด็ดขาด)**
 
 - ❌ **Auto-Rollback on Error (ระบบดึง Config กลับอัตโนมัติเมื่อพัง):**
     - **ทำไมถึงตัด:** ใน Database ถ้ายิง SQL ผิด เราสามารถสั่ง `Rollback` ได้เพราะมันเป็นระบบ Atomic Transaction **แต่ใน Router/Switch รุ่นเก่าของ Cisco (IOS) มันไม่มีระบบ Rollback อัตโนมัติครับ!**
-    - ถึงแม้ Cisco จะมีคำสั่ง `configure replace` แต่มันก็ไม่เสถียรในอุปกรณ์รุ่นเก่าๆ ถ้าเราฝืนเขียนโค้ด Auto-Rollback มันมีโอกาสสูงมากที่ระบบจะพยายามย้อนกลับแล้วพังหนักกว่าเดิม ดังนั้น **ตัดทิ้ง** ให้เป็นหน้าที่ของคน (Manual Recovery) ปลอดภัยกว่าครับก
-* 6❌**Idempotency Check (เช็คซ้ำก่อนยิง):**
+    - ถึงแม้ Cisco จะมีคำสั่ง `configure replace` แต่มันก็ไม่เสถียรในอุปกรณ์รุ่นเก่าๆ ถ้าเราฝืนเขียนโค้ด Auto-Rollback มันมีโอกาสสูงมากที่ระบบจะพยายามย้อนกลับแล้วพังหนักกว่าเดิม ดังนั้น **ตัดทิ้ง** ให้เป็นหน้าที่ของคน (Manual Recovery) ปลอดภัยกว่าครับ
+* ❌ **Idempotency Check (เช็คซ้ำก่อนยิง):**
     - **ขอแนะนำให้ ตัดทิ้ง (CUT) ถาวรครับ!**
     - **เหตุผลทางวิศวกรรม:** คำว่า Idempotency (รันกี่ครั้งผลก็เหมือนเดิม) เป็นฟีเจอร์ระดับเทพของระบบอย่าง Ansible หรือ Terraform การจะทำแบบนั้นได้ แปลว่าระบบคุณต้อง **"ดึง Running Config ลงมา -> วิเคราะห์ (Parse) ทุกบรรทัด -> เทียบกับคำสั่งใหม่ (Diff) -> ตัดคำสั่งที่ซ้ำออก"**
     - การทำ Text Parsing บน Cisco CLI แบบเป๊ะๆ 100% เป็นเรื่องยากระดับปราบเซียน (แม้แต่บริษัทยักษ์ใหญ่ยังปวดหัว) สำหรับสโคป ป.ตรี การพยายามทำ Idempotency จะสูบเวลาของทีมไปจนหมดครับ ให้ใช้วิธี **"เตือน User ให้เช็คเอง (Human Validation)"** ดีกว่าครับ
-### 4.3 Security Compliance & Validation (The Killer Feature)
+### 4.3 Security Compliance & Validation (อ้างอิงหมวด 8)
 ถือว่าเป็น **"Killer Feature" (จุดขายหลัก)** ที่จะทำให้โปรเจกต์ของคุณโดดเด่นกว่ากลุ่มอื่นเลยครับ แต่เพื่อความสมจริงในการพัฒนา มันถูกจับมา "ปรับจูน" น้ำหนักใหม่ดังนี้ครับ:
 #### 🏆 **8.1 CIS Benchmark Scanning: "รอดเป็น P1-CORE แต่ถูกลดสเกล (Scale Down)"**
 
@@ -219,12 +219,12 @@
 | 8 | Banner MOTD ต้องมี | 🔵 Info | เช็ค `banner motd` |
 **สรุปภาพรวมหมวด 8:** อาจารย์จะได้เห็นแอปของคุณสามารถ **"สแกนหาช่องโหว่ความปลอดภัยพื้นฐานได้ 8 จุดแบบอัตโนมัติ" (P1-CORE)** ซึ่งแค่นี้ก็เพียงพอที่จะดึงคะแนนความว้าวได้แล้ว โดยที่เราไม่ต้องเอาตัวไปเสี่ยงกับการเขียน AI วิเคราะห์ผลกระทบระดับเทพ (Impact Analysis) ที่ไม่มีทางทำเสร็จทันครับ!
 
-###  4.4 AI Architecture & Guardrails
+### 4.4 AI Architecture & Guardrails (อ้างอิงหมวด 10)
 สถาปัตยกรรมการนำ AI มาใช้ ต้องทำด้วยความระมัดระวัง (Safety-first)
 * **Context Injection [🏆 P1-CORE]:** ใช้ฐานข้อมูล (PostgreSQL) เป็นตัวฉีด Context (Device Info, Running Config) เข้าไปใน System Prompt แทนที่จะใช้ RAG
 * **RAG / Vector Database / spaCy NLP [✂️ CUT]:** ตัดทิ้งทั้งหมด RAG ก่อให้เกิด Overhead ในการเตรียมข้อมูลเอกสาร (Data Ingestion) มากเกินไป ในขณะที่ Context Injection ผ่าน DB Query สามารถให้ Runtime Context ที่แม่นยำกว่า และเปลี่ยนจากการใช้ spaCy NLP มาใช้ Regex + `yacryptopan` ในการทำ PII Masking แทน ซึ่งเบาและเร็วกว่ามาก
 * **Human-in-the-Loop [🏆 P1-CORE]:** หลักการสำคัญคือ AI จะเป็นเพียง Co-pilot เท่านั้น ผู้ใช้ (Human) ต้องเป็นคนกด "Confirm Apply" ทุกครั้ง AI ไม่มีสิทธิ์ Execute คำสั่งลง Network โดยตรง
-### 4.5 Authentication & Authorization 
+### 4.5 Authentication & Authorization (อ้างอิงหมวด 1)
 แต่สิ่งที่เปลี่ยนไปคือ **"สถานะและการโฟกัส"** ของหมวดนี้ครับ โดยในไฟล์ Weight List ล่าสุด หมวดนี้ถูกจัดให้อยู่ในกลุ่ม 🏗️ **P1-INFRA (โครงสร้างพื้นฐานหลังบ้าน)** ซึ่งหมายความว่า:
 
 1. **Login Page & Inline Error:** ยังต้องทำเหมือนเดิม เพื่อให้หน้าเว็บสมบูรณ์
@@ -237,7 +237,7 @@
 - **ไปอยู่ P1-INFRA เพราะ:** ฟีเจอร์นี้เป็นสิ่งที่ "ต้องมี" แต่ **"ไม่ได้มีความว้าวทาง Engineering ที่จะเอาไปเป็นจุดขายหลักตอน Demo"** (อาจารย์เห็นหน้า Login ก็เฉยๆ เพราะใครๆ ก็ทำได้) ดังนั้นเราเลยจับมันไปอยู่หลังบ้าน คือบอกอาจารย์ว่า "เราทำนะ ปลอดภัยด้วย" แต่ตอน Demo (P1-CORE) เราจะรีบล็อกอินผ่านๆ ไปให้เร็วที่สุด เพื่อเอาเวลาไปโชว์ความว้าวของ 6-Tab Config Builder และ CIS Security Scan แทนครับ
 
 สรุปคือ **หมวด 1 Auth & RBAC ได้ทำครบทุกฟีเจอร์ย่อยครับ แค่ถูกลดแสงไฟส่องหน้าลง เพื่อไปส่องฟีเจอร์หลักแทน** 
-### 4.6 Dashboard & Monitoring
+### 4.6 Dashboard & Monitoring (อ้างอิงหมวด 2)
 
 ในไฟล์ Weight Feature List หมวดนี้ถูกจัดให้อยู่ในกลุ่ม 🏗️ **P1-INFRA** (ความเสี่ยง 🟢 Low) โดยรายละเอียดฟีเจอร์ย่อยทั้ง 4 ตัวที่ยังคงอยู่ครบ มีดังนี้ครับ:
 
@@ -253,7 +253,7 @@
 
 **สรุปคือ:** Dashboard ไม่โดนตัดทิ้งเลยครับ ทีม Frontend สามารถออกแบบ UI และขึ้นโครง (Mockup) ตามที่วางแผนไว้ในหน้า "Mockup จากภาพพี่ออม" ได้แบบ 100% เต็มเลยครับ!
 
-### 4.7 Manual Device Management
+### 4.7 Manual Device Management (อ้างอิงหมวด 3)
 
 สำหรับหมวด **`3.1 Manual Device Management (Non-AI)`** ถือว่าเป็น **พระเอกคนแรกของ P1-CORE** เลยครับ เพราะถ้าไม่มีหมวดนี้ เราก็จะไม่มีอุปกรณ์ในระบบให้ไปสั่ง Config ต่อได้
 
@@ -279,7 +279,7 @@
 
 **สรุปสั้นๆ:** หมวด 3.1 (Manual) คือ "ทางรอด" ของโปรเจกต์นี้ครับ เพราะเราตัดหมวด 3.2 (Network Discovery แบบสแกนอัตโนมัติ) ไปเป็น P2 หมดแล้ว ถ้า 3.1 ไม่เกิด โปรเจกต์เราจะเดินหน้าต่อไม่ได้เลยครับ!
 
-### 4.8 Network Discovery
+### 4.8 Network Discovery (อ้างอิงหมวด 3)
 
 #### 🚀 **"ถูกยกยอดไปอยู่ P2 (เทอมหน้า) ทั้งหมวดแบบ 100% ครับ!"** 🚀
 
@@ -305,7 +305,7 @@
 ตอบแบบนี้รับรองว่าอาจารย์ประทับใจในความเป็น "วิศวกร" ที่ประเมินความเสี่ยงเป็นแน่นอนครับ!
 
 
-### 4.9 Network Topology Visualization
+### 4.9 Network Topology Visualization (อ้างอิงหมวด 4)
 
 #### 🚀 **"ถูกยกยอดไปทำใน P2 (เทอม 2) ทั้งหมวดแบบ 100% ครับ!"** 🚀
 
@@ -321,7 +321,7 @@
 
 มีหมวดไหนที่อยากเช็คเพิ่มเติมอีกไหมครับ?
 
-### 4.10 PII Sensitive Data Masking
+### 4.10 PII Sensitive Data Masking (อ้างอิงหมวด 6)
 
 #### 🛡️ **"รอดเป็น P1-INFRA แต่โดนหั่นความซับซ้อนทิ้งครับ!"** 🛡️
 
@@ -345,7 +345,7 @@
 เป็นฟีเจอร์ที่ไม่ค่อยมีใครเห็นหน้าตา UI แต่วิศวกร (และอาจารย์) จะประทับใจใน Security Architecture ของคุณแน่นอนครับ!
 
 
-### 4.11 Version Control & Audit Trail 
+### 4.11 Version Control & Audit Trail (อ้างอิงหมวด 9)
 
 สำหรับหมวด **`9. Version Control & Audit Trail (ระบบจัดการเวอร์ชันและประวัติการใช้งาน)`** หมวดนี้ถูก **"จับแยกทางกัน (Split)"** ตามความยากง่ายของระบบครับ ผลลัพธ์หลังจากการประเมิน (Weight) ออกมาเป็นแบบนี้ครับ:
 
@@ -385,7 +385,7 @@
 **สรุปคือ:** เทอม 1 เราจะ **"จด"** ทุกอย่างที่ทุกคนทำ (Audit Trail) แต่ถ้าอยาก **"ย้อนเวลา"** (Version Control) ต้องรอเทอม 2 และเราจะ **ไม่ทำ** ระบบย้อนเวลาอัตโนมัติ (Auto-Rollback) ครับ!
 
 
-### 4.12 AI Architecture
+### 4.12 AI Architecture (อ้างอิงหมวด 10)
 โอ้โห! หมวด 10 นี้นี่คือ "นิยายไซไฟ" ของโปรเจกต์เลยครับ ตอนเขียนร่างแรกคือวาดฝันไว้อลังการมาก (ระดับ Enterprise AI) แต่พอเอาเข้าจริง (มา Weighting) เราต้องเจอโลกแห่งความจริงครับ 😂
 
 นี่คือชะตากรรมของหมวด **10. AI Architecture** หลังผ่านมีดผ่าตัดมาแล้วครับ:
@@ -409,7 +409,7 @@
 
 #### 🚀 **3. ยกยอดไปเทอม 2 (P2): "รอให้แชท AI เกิดก่อน"**
 - **Intent Detection & Task Routing (กระบวนการรับคำสั่ง 4 Steps):** ไปอยู่ P2 100% ครับ
-- **ทำไมถึงไป P2:** เพราะกระบวนการ 4 Steps นี้ (สแกนคำ -> ดึงข้อมูล -> ส่งให้ Gemini -> เอาไปโชว์) มันคือเบื้องหลังการทำงานของหน้าต่าง "แชทบอท" ล้วนๆ เลยครับ ซึ่งเรารู้กันแล้วว่าฟีเจอร์ "สั่งงานด้วยการพิมพ์แชท (Natural Language)" ถูกยกไป P2 ทั้งหมด ดังนั้นหลังบ้านก้อนนี้ก็ต้องตามไป P2 ครับ
+- **ทำไมถึงไป P2:** เพราะกระบวนการ 4 Steps นี้ (สแกนคำ -> ดึงข้อมูล -> ส่งให้ Gemini -> เอาไปโชว์) คือเบื้องหลังการทำงานของหน้าต่าง "แชทบอท" ล้วนๆ ครับ ซึ่งเรารู้กันแล้วว่าฟีเจอร์ "สั่งงานด้วยการพิมพ์แชท (Natural Language)" ถูกยกไป P2 ทั้งหมด ดังนั้นหลังบ้านก้อนนี้ก็ต้องตามไป P2 ครับ
 
 ---
 
@@ -424,7 +424,7 @@
 ตัดตู้หนังสือทิ้ง (RAG) เอาเวลาไปทำท่อส่งคำสั่ง (Prompt Engineering & Guardrails) ให้แข็งแรง เพื่อเตรียมปูทางให้แชทบอท AI เกิดขึ้นได้อย่างปลอดภัยในเทอม 2 ครับ!
 
 
-### 4.13 Settings & Administration
+### 4.13 Settings & Administration (อ้างอิงหมวด 11)
 
 หมวด **`11. Settings & Administration (ตั้งค่าระบบ)`** ถือว่าเป็นหมวดที่โดน "รีดไขมัน (Optimize)" ออกไปเยอะที่สุดหมวดหนึ่งเลยครับ เพื่อให้ทีมไม่ต้องเสียเวลาไปกับการทำหน้าจอตั้งค่าที่แทบไม่ได้ใช้ตอนพรีเซนต์
 
@@ -494,7 +494,7 @@
 | 8       | **CIS Benchmark:** สแกน 8 กฎหลักด้วย Regex                | Core               | 🟡 Medium  |
 | 9       | **Audit Trail:** เก็บ Log ใครทำอะไร เมื่อไหร่             | Infra              | 🟢 Low     |
 | 10      | **AI Guardrails:** Context Injection ฉีดข้อมูลเข้า Prompt | Infra              | 🟢 Low     |
-| 11      | **Settings:** จัดการ API Key, โหมด Offline                | Infra              | 🟢 Low     |
+| 11      | **Settings:** จัดการ User, CIS Toggles, โหมด Offline      | Infra              | 🟢 Low     |
 
 ### 🚀 7.2 P2 (ทำใน CE Project 2)
 *รอให้ P1 เสถียรก่อนถึงจะเริ่มทำกลุ่มนี้*
@@ -515,67 +515,90 @@
 ## รายการ Features หลักและรายละเอียดทั้งหมดของระบบหลัง Weight
 
 ### 1. Authentication & Authorization (Non-AI)
-* **Login Page & Inline Error:** 
-*  **JWT Token (httpOnly)
-*  **RBAC (แบ่ง 3 Roles - Admin, Operator, Viewer):**
-### 2.Dashboard & Monitoring
-* Metrics Cards
-* Recent Activity Feed
-* Quick Action Shortcuts
-* System API Status
+* **Login Page & Inline Error** 🏗️
+* **JWT Token (httpOnly)** 🏗️
+* **RBAC (แบ่ง 3 Roles - Admin, Operator, Viewer)** 🏗️
+
+### 2. Dashboard & Monitoring
+* **Metrics Cards** 🏗️
+* **Recent Activity Feed** 🏗️
+* **Quick Action Shortcuts** 🏗️
+* **System API Status** 🏗️
+
 ### 3. Device Inventory & Discovery Management
 * **Manual Device Management**
-	* **Manual Device Entry 
-	* Device CRUD**
-	* **Device Status Monitoring**
-	* **Device Grouping**
-	* **Running-Config Upload**
-* Network Discovery
-	* **IP Range Ping Sweep**
-	* **SNMP sysDescr Polling**
-	* **LLDP/CDP Neighbor Discovery**
-	* **OS Fingerprinting**
-	* **3-Stage Discovery Pipeline**
-### 4.Network Topology Visualization
-* Interactive Canvas
-* Auto-Layout from Discovery
-* Manual Link Connection
-* Right-Click Context Menu
-* Device Icons
+	* **Manual Device Entry & Device CRUD** 🏆
+	* **Device Status Monitoring** 🏆
+	* **Device Grouping** 🏗️
+	* **Running-Config Upload** 🚀
+* **Network Discovery**
+	* **IP Range Ping Sweep** 🚀
+	* **SNMP sysDescr Polling** 🚀
+	* **LLDP/CDP Neighbor Discovery** 🚀
+	* **OS Fingerprinting** 🚀
+	* **3-Stage Discovery Pipeline** 🚀
+
+### 4. Network Topology Visualization
+* **Interactive Canvas** 🚀
+* **Auto-Layout from Discovery** 🚀
+* **Manual Link Connection** 🚀
+* **Right-Click Context Menu** 🚀
+* **Device Icons** 🚀
+
 ### 5. Configuration Generation
-* Template-Based Configuration
-	* **Form-to-CLI Rendering**
-	* **Jinja2 Template Engine**
-	* **Multi-Vendor (เฉพาะ Basic)**
-* AI-Powered Configuration
-	* **Chat AI / Natural Language Config Gen**
-	* **AI Config Review ("Ask AI to Review")
+* **Template-Based Configuration**
+	* **Form-to-CLI Rendering** 🏆
+	* **Jinja2 Template Engine** 🏆
+	* **Multi-Vendor (เฉพาะ Basic)** 🏆
+* **AI-Powered Configuration**
+	* **Chat AI / Natural Language Config Gen** 🚀
+	* **AI Config Review ("Ask AI to Review")** 🚀
+
 ### 6. PII Sensitive Data Masking
-* **IP Address Anonymization**
-* **Password & Secret Masking**
-### 7.Configuration Deployment
-* **Plan → Apply Workflow**
-* **SSH Command Push**
-* **Write Memory (บันทึก Config)**
-* **Multi-Device Batch Deploy
-* **Real-time Deploy Logs:**
+* **IP Address Anonymization** 🏗️
+* **Password & Secret Masking** 🏗️
+
+### 7. Configuration Deployment
+* **Plan → Apply Workflow** 🏆
+* **SSH Command Push** 🚀
+* **Write Memory (บันทึก Config)** 🚀
+* **Multi-Device Batch Deploy** 🚀
+* **Real-time Deploy Logs** 🚀
+
 ### 8. Security Compliance & Validation
-* CIS Benchmark Scanning (8 Rules)
-### 9.Version Control & Audit Trail
-* **Side-by-Side Diff & Unified Dif**
-* **Audit Trail**
-* **CIS Override Logging**
-* **Pre-Deploy Snapshot**
-* **Post-Deploy Snapshot**
-* **Manual SSH Pull**
-* **One-Click Rollback**
+* **CIS Benchmark Scanning (8 Rules)** 🏆
+
+### 9. Version Control & Audit Trail
+* **Side-by-Side Diff & Unified Diff** 🏆
+* **Audit Trail** 🏗️
+* **CIS Override Logging** 🏆
+* **Pre-Deploy Snapshot** 🚀
+* **Post-Deploy Snapshot** 🚀
+* **Manual SSH Pull** 🚀
+* **One-Click Rollback** 🚀
+
 ### 10. AI Architecture
-* **Dynamic System Prompt Engineering**
-* **Intent Detection & Task Routing**
-*  Safety Guardrails
+* **Dynamic System Prompt Engineering** 🏗️
+* **Intent Detection & Task Routing** 🚀
+* **Safety Guardrails** 🏆
 
 ### 11. Settings & Administration 
-* **Offline Mode**
-* **User Management**
-* **CIS Rule Toggles**
-* **Gemini API Key Config**
+* **Offline Mode** 🏗️
+* **User Management** 🏗️
+* **CIS Rule Toggles** 🏆
+* **Gemini API Key Config** 🚀
+
+
+## 🔴 จุดที่ขาดหายไป (Missing)
+
+### 1. ไม่มี Dependency Diagram ระหว่างฟีเจอร์
+
+เอกสารอธิบายเป็นตัวอักษรว่า "Topology ต้องรอ Discovery" และ "Version Control ต้องรอ SSH Push" แต่ไม่มี **ภาพ Dependency Graph** ที่โชว์ว่า Feature ไหนต้องรออันไหนก่อน ถ้ามีจะช่วยให้เพื่อนร่วมทีมเข้าใจได้เร็วมาก
+
+### 2. ไม่มี Effort Estimate (Man-day) ต่อ Feature
+
+ตาราง 7.1 มี Risk Level (🟢/🟡) แต่ไม่มีการประเมินว่าแต่ละ Feature ใช้เวลากี่ Man-day ทำให้ยังแบ่งงานลงคนไม่ได้
+
+### 3. ไม่มี "Config Template ที่ต้องเขียน" แบบจำแนกเป็นไฟล์
+
+ตาราง Config Items (หัวข้อ 4.1) บอกแค่หมวดกว้างๆ (System/Service, Interface & VLAN, ...) แต่ยังไม่ได้บอกว่าจะแตกเป็นไฟล์ `.j2` กี่ไฟล์ อันไหนบ้าง ตรงนี้ทีม Backend ต้องรู้เพื่อแบ่งงานกัน

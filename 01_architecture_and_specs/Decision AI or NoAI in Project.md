@@ -4,7 +4,7 @@
 > 
 > - ถ้า **ใช่** → ใช้ Rule-based / Template / Algorithm
 > - ถ้า **ไม่ใช่** → พิจารณาใช้ AI
-> 
+
 ## 🔴 ส่วนที่ **ไม่ควรใช้ AI** (ใช้ Rule-based / Template แทน)
 
 ### 1. Config Generation จาก Form (Template-based)

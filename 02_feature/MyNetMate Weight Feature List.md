@@ -589,6 +589,8 @@
 * **Gemini API Key Config** 🚀
 
 
+
+
 ## 🔴 จุดที่ขาดหายไป (Missing)
 
 ### 1. ไม่มี Dependency Diagram ระหว่างฟีเจอร์

@@ -377,17 +377,17 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 ## 🔵 ตารางที่ 1: `users`
 **Feature:** Authentication & Authorization (หมวด 1) 🏗️ P1-INFRA
 
-| Column | Type | Constraint | ตัวอย่าง | หมายเหตุ |
-|---|---|---|---|---|
-| `id` | UUID | PK, NOT NULL | `uuid4()` | Primary Key |
-| `username` | VARCHAR(100) | UNIQUE, NOT NULL | `admin_kmitl` | ใช้ Login |
-| `email` | VARCHAR(255) | UNIQUE, NULLABLE | `admin@kmitl.ac.th` | Optional |
-| `password_hash` | VARCHAR(255) | NOT NULL | `$2b$12$...` | bcrypt hash ห้ามเก็บ plain |
-| `role` | ENUM | NOT NULL | `admin` | `admin` / `operator` / `viewer` |
-| `is_active` | BOOLEAN | NOT NULL, DEFAULT TRUE | `true` | ปิดบัญชีแทนการลบ |
-| `last_login_at` | TIMESTAMP | NULLABLE | `2026-08-06 09:00:00` | ตรวจสอบ Activity |
-| `created_at` | TIMESTAMP | NOT NULL, DEFAULT NOW() | - | Audit |
-| `updated_at` | TIMESTAMP | NOT NULL, DEFAULT NOW() | - | Audit |
+| Column          | Type         | Constraint              | ตัวอย่าง              | หมายเหตุ                        |
+| --------------- | ------------ | ----------------------- | --------------------- | ------------------------------- |
+| `id`            | UUID         | PK, NOT NULL            | `uuid4()`             | Primary Key                     |
+| `username`      | VARCHAR(100) | UNIQUE, NOT NULL        | `admin_kmitl`         | ใช้ Login                       |
+| `email`         | VARCHAR(255) | UNIQUE, NULLABLE        | `admin@kmitl.ac.th`   | Optional                        |
+| `password_hash` | VARCHAR(255) | NOT NULL                | `$2b$12$...`          | bcrypt hash ห้ามเก็บ plain      |
+| `role`          | ENUM         | NOT NULL                | `admin`               | `admin` / `operator` / `viewer` |
+| `is_active`     | BOOLEAN      | NOT NULL, DEFAULT TRUE  | `true`                | ปิดบัญชีแทนการลบ                |
+| `last_login_at` | TIMESTAMP    | NULLABLE                | `2026-08-06 09:00:00` | ตรวจสอบ Activity                |
+| `created_at`    | TIMESTAMP    | NOT NULL, DEFAULT NOW() | -                     | Audit                           |
+| `updated_at`    | TIMESTAMP    | NOT NULL, DEFAULT NOW() | -                     | Audit                           |
 
 **RBAC Permissions:**
 

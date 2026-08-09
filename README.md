@@ -15,12 +15,12 @@ Welcome to the **MyNetMate** project repository! This directory contains full ar
 - [MyNetMate Weight Feature List.md](./02_feature/MyNetMate%20Weight%20Feature%20List.md) — 🔴 **(MUST READ)** The final prioritized MVP scope (P1 vs P2 vs CUT).
 - [MyNetMate รายการ Features.md](./02_feature/MyNetMate%20รายการ%20Features.md) — Original comprehensive list of all requested features.
 - [Claude MyNetMate Weight Feature List.md](./02_feature/Claude%20MyNetMate%20Weight%20Feature%20List.md) — AI's initial feature weighting analysis.
-- [Mockup จากภาพพี่ออม.md](./02_feature/Mockup%20จากภาพพี่ออม.md) — UI Mockup 6 แท็บสำหรับ Config Builder
-- [Data Information.md](./02_feature/Data%20Information.md) — Schema ข้อมูลที่ต้องเก็บใน Device Inventory (PostgreSQL)
-- [Device Inventory.md](./02_feature/Device%20Inventory.md) — รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory
-- [Plugin Driver Architecture.md](./02_feature/Plugin%20Driver%20Architecture.md) — สถาปัตยกรรม Multi-vendor Driver Pattern
-- [Restore Strategy.md](./02_feature/Restore%20Strategy.md) — กลยุทธ์การ Rollback และ Version Control
-- [Cutting Your Own Legs.md](./02_feature/Cutting%20Your%20Own%20Legs.md) — Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค
+- [Mockup จากภาพพี่ออม.md](Mockup%20จากภาพพี่ออม.md) — UI Mockup 6 แท็บสำหรับ Config Builder
+- [Data Information.md](02_feature/Device%20Inventory%20Management/Data%20Information.md) — Schema ข้อมูลที่ต้องเก็บใน Device Inventory (PostgreSQL)
+- [Device Inventory.md](Device%20Inventory.md) — รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory
+- [Plugin Driver Architecture.md](แนวคิด%20Plugin%20Driver%20Architecture.md) — สถาปัตยกรรม Multi-vendor Driver Pattern
+- [Restore Strategy.md](แนวคิด%20Restore%20Strategy.md) — กลยุทธ์การ Rollback และ Version Control
+- [Cutting Your Own Legs.md](Cutting%20Your%20Own%20Legs.md) — Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค
 - [MyNetMate (1).drawio.html](./02_feature/MyNetMate%20(1).drawio.html) — Diagram ภาพรวมโปรเจกต์
 
 ### ⚖️ [03_tech_evaluations](./03_tech_evaluations/) — Research & Tool Evaluations

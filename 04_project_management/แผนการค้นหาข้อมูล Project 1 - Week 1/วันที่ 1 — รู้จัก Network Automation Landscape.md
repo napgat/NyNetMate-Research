@@ -216,7 +216,7 @@ SENSITIVE_FIELDS = [
 |Dynamic Routing รองรับ OSPF/BGP/EIGRP/RIP พร้อมกัน|แต่ละ Protocol Syntax ต่างกันมาก ต้องเขียน Template แยก|
 |"Ask Claude to review" ปุ่มเดียวจบ|จริงๆ ต้องมี Validation layer แยก + PII Masking ก่อนส่งทุกครั้ง|
 ### [[Microsoft Presidio]] คืออะไร
-### [[Restore Strategy]]
+### [[แนวคิด Restore Strategy]]
 
 อาจารย์ถามตรงๆ ว่าจะเลือกแบบไหน:
 

@@ -22,15 +22,15 @@
 
 ## 🛠️ 2. Core Tech Stack
 
-| Layer | Technologies |
-|-------|--------------|
-| **Frontend** | React 18, TypeScript, Tailwind CSS, TanStack Router/Query, Zustand |
-| **Backend** | Python 3.11+, FastAPI (Async), Pydantic v2, SQLAlchemy 2.0, Uvicorn |
-| **Network** | Netmiko (SSH Push), TextFSM / NTC Templates (CLI Parsing), ciscoconfparse (CIS Rules) |
-| **AI** | Google Gemini 1.5 Flash/Pro API, Structured Output (JSON Schema) |
-| **PII Masking** | `yacryptopan` (IP Anonymization, Prefix-preserving) + Regex (Passwords/Keys) |
-| **Database** | PostgreSQL 15+ (Production), SQLite (Dev/Test) |
-| **Infra/Test** | Docker, Docker Compose, GNS3 / Packet Tracer (Network Simulation), Pytest, Jest |
+| Layer           | Technologies                                                                          |
+| --------------- | ------------------------------------------------------------------------------------- |
+| **Frontend**    | React 18, TypeScript, Tailwind CSS, TanStack Router/Query, Zustand                    |
+| **Backend**     | Python 3.11+, FastAPI (Async), Pydantic v2, SQLAlchemy 2.0, Uvicorn                   |
+| **Network**     | Netmiko (SSH Push), TextFSM / NTC Templates (CLI Parsing), ciscoconfparse (CIS Rules) |
+| **AI**          | Google Gemini 1.5 Flash/Pro API, Structured Output (JSON Schema)                      |
+| **PII Masking** | `yacryptopan` (IP Anonymization, Prefix-preserving) + Regex (Passwords/Keys)          |
+| **Database**    | PostgreSQL 15+ (Production), SQLite (Dev/Test)                                        |
+| **Infra/Test**  | Docker, Docker Compose, GNS3 / Packet Tracer (Network Simulation), Pytest, Jest       |
 
 > ⚠️ **เลิกใช้แล้ว:** LangChain, Pinecone/ChromaDB (RAG Vector DB), Microsoft Presidio, spaCy NLP  
 > เหตุผล: ซับซ้อนเกินจำเป็นสำหรับ Use-case ของโปรเจกต์ ใช้ DB Context Injection + Regex แทน
@@ -70,12 +70,12 @@
 |---|---|---|
 | [MyNetMate Weight Feature List.md](02_feature/MyNetMate%20Weight%20Feature%20List.md) | **ไฟล์หลักล่าสุด** — MVP Scope ฉบับ Final หลังประเมิน (P1 vs P2 vs CUT) | 🔴 อ่านก่อนเลย |
 | [MyNetMate รายการ Features.md](02_feature/MyNetMate%20รายการ%20Features.md) | รายการ Feature ทั้งหมด 11 หมวดฉบับดั้งเดิม + ปรัชญาระบบ | 🟡 อ่านอ้างอิง |
-| [Mockup จากภาพพี่ออม.md](02_feature/Mockup%20จากภาพพี่ออม.md) | UI Mockup 6 Tab สำหรับ Config Builder — Blueprint สำหรับ Frontend | 🔴 อ่านก่อนเลย |
-| [Data Information.md](02_feature/Data%20Information.md) | Schema ข้อมูลที่ต้องเก็บใน Device Inventory (PostgreSQL) | 🟡 อ่านเมื่อทำ DB |
-| [Device Inventory.md](02_feature/Device%20Inventory.md) | รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory | 🟡 อ่านเมื่อทำ Discovery |
-| [Plugin Driver Architecture.md](02_feature/Plugin%20Driver%20Architecture.md) | สถาปัตยกรรม Multi-vendor Driver Pattern | 🟡 อ่านเมื่อทำ Multi-vendor |
-| [Cutting Your Own Legs.md](02_feature/Cutting%20Your%20Own%20Legs.md) | Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค | 🟢 อ่านเมื่อต้องการทราบว่าทำไมถึงไม่ทำ |
-| [Restore Strategy.md](02_feature/Restore%20Strategy.md) | กลยุทธ์การ Rollback และ Version Control | 🟢 อ่านเมื่อทำ Version Control |
+| [Mockup จากภาพพี่ออม.md](Mockup%20จากภาพพี่ออม.md) | UI Mockup 6 Tab สำหรับ Config Builder — Blueprint สำหรับ Frontend | 🔴 อ่านก่อนเลย |
+| [Data Information.md](02_feature/Device%20Inventory%20Management/Data%20Information.md) | Schema ข้อมูลที่ต้องเก็บใน Device Inventory (PostgreSQL) | 🟡 อ่านเมื่อทำ DB |
+| [Device Inventory.md](Device%20Inventory.md) | รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory | 🟡 อ่านเมื่อทำ Discovery |
+| [Plugin Driver Architecture.md](แนวคิด%20Plugin%20Driver%20Architecture.md) | สถาปัตยกรรม Multi-vendor Driver Pattern | 🟡 อ่านเมื่อทำ Multi-vendor |
+| [Cutting Your Own Legs.md](Cutting%20Your%20Own%20Legs.md) | Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค | 🟢 อ่านเมื่อต้องการทราบว่าทำไมถึงไม่ทำ |
+| [Restore Strategy.md](แนวคิด%20Restore%20Strategy.md) | กลยุทธ์การ Rollback และ Version Control | 🟢 อ่านเมื่อทำ Version Control |
 | [MyNetMate (1).drawio.html](02_feature/MyNetMate%20(1).drawio.html) | Diagram ภาพรวมโปรเจกต์ (ไฟล์ Draw.io) | 🟢 ดูเพื่อเข้าใจภาพรวม |
 
 ### ⚖️ `03_tech_evaluations/` — Technology Research & Tool Selection

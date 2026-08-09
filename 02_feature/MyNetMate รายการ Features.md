@@ -1,4 +1,3 @@
-
 # 📋 MyNetMate รายการ Features 
 
 > **โปรเจกต์:** MyNetMate — Application for Network Management and Configuration Automation  
@@ -178,10 +177,7 @@
     3. **Enrichment & Storage (เพิ่มคุณค่าและจัดเก็บ):** เอาข้อมูลที่สกัดได้ไปตรวจสอบกับ Database ว่าซ้ำกับที่มีอยู่ไหม? อัปเดตข้อมูลใหม่ให้สมบูรณ์ขึ้น? แล้วบันทึกลง Database ให้เรียบร้อย
 - **ทำไปทำไม:** เพื่อให้อาจารย์เห็นว่า โค้ดหลังบ้านของเราเขียนอย่างมีโครงสร้าง (Modular) แบบโปรแกรมเมอร์มืออาชีพ ไม่ใช่เขียนสะเปะสะปะรวมกันเป็นก้อนเดียวครับ
 ### 3.3 Data Device Information
-* รายละเอียดข้อมูลที่ต้องเก็บ [[Data Information]]
-
-
-
+* รายละเอียดข้อมูลที่ต้องเก็บ [[02_feature/Device Inventory Management/Data Information]]
 ##  4.Network Topology Visualization (Non-AI)
 
 | Feature                        | รายละเอียด                                    |
@@ -282,7 +278,6 @@
 |                           | DNS(Optional)        | ✅      | ✅      |                                                                 |          |
 | *                         | **DHCP Relay**       | ❌      | ✅      |                                                                 |          |
 | Switch                    | **`ip routing`**     | ✅      | ❌      | เปิดให้ L3 Switch ทำ Routing ได้ ถ้าไม่เปิด = Routing ไม่ทำงาน! |          |
-
 
 ### 5.2 AI-Powered Configuration
 ฝั่งนี้เปรียบเสมือนมี **"วิศวกรซีเนียร์"** มานั่งอยู่ข้างๆ คอยช่วยคิด ช่วยพิมพ์ ช่วยตรวจงานให้เราครับ

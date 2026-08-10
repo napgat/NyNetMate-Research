@@ -14,6 +14,7 @@
 | **กฎทอง **          | "มีคำตอบถูกต้องเพียง 1 คำตอบหรือไม่?" → **ใช่** = ใช้ Template/Rule → **ไม่** = ใช้ AI |
 | **อัตราส่วน 80/20** | 80% Template-driven + 20% AI-Powered                                                   |
 ## ขอบเขตของ Vendor 
+
 * CISCO
 * Huawei
 * Microtik
@@ -177,7 +178,7 @@
     3. **Enrichment & Storage (เพิ่มคุณค่าและจัดเก็บ):** เอาข้อมูลที่สกัดได้ไปตรวจสอบกับ Database ว่าซ้ำกับที่มีอยู่ไหม? อัปเดตข้อมูลใหม่ให้สมบูรณ์ขึ้น? แล้วบันทึกลง Database ให้เรียบร้อย
 - **ทำไปทำไม:** เพื่อให้อาจารย์เห็นว่า โค้ดหลังบ้านของเราเขียนอย่างมีโครงสร้าง (Modular) แบบโปรแกรมเมอร์มืออาชีพ ไม่ใช่เขียนสะเปะสะปะรวมกันเป็นก้อนเดียวครับ
 ### 3.3 Data Device Information
-* รายละเอียดข้อมูลที่ต้องเก็บ [[02_feature/Device Inventory Management/Data Information]]
+* รายละเอียดข้อมูลที่ต้องเก็บ [[02_feature/02_Device Inventory Management/Data Information]]
 ##  4.Network Topology Visualization (Non-AI)
 
 | Feature                        | รายละเอียด                                    |

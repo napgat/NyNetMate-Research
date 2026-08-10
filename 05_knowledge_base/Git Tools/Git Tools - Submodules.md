@@ -1,1 +1,2 @@
 แหล่งอ้างอิง : https://git-scm.com/book/en/v2/Git-Tools-Submodules
+https://medium.com/@len.werawad/git-submodules-%E0%B8%84%E0%B8%B7%E0%B8%AD%E0%B8%AD%E0%B8%B0%E0%B9%84%E0%B8%A3%E0%B8%99%E0%B8%B0-cae2a12ed1a5

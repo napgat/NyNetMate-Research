@@ -60,23 +60,20 @@
 ## 🗺️ 4. Project Directory Map & File Index
 
 ### 🏛️ `01_architecture_and_specs/` — System Architecture & UI Specifications
-- [System Diagram in Proposal.md](01_architecture_and_specs/System%20Diagram%20in%20Proposal.md) — สถาปัตยกรรมระบบ 8 ส่วนหลัก
-- [netconfig_full_page_specs.html](01_architecture_and_specs/netconfig_full_page_specs.html) — ข้อกำหนด UI/UX ละเอียดทั้ง 8 หน้า (P0-P7)
-- [Decision AI or NoAI in Project.md](01_architecture_and_specs/Decision%20AI%20or%20NoAI%20in%20Project.md) — กรอบการตัดสินใจ AI 12 ฟังก์ชัน
+- [System Diagram in Proposal.md](System%20Diagram%20in%20Proposal(CEPP).md) — สถาปัตยกรรมระบบ 8 ส่วนหลัก
 
 ### 🔍 `02_feature/` — Feature Documentation (⚠️ โฟลเดอร์ชื่อใหม่ ไม่ใช่ 02_feature_deep_dives แล้ว)
 
-| ไฟล์ | เนื้อหา | ความสำคัญ |
-|---|---|---|
-| [MyNetMate Weight Feature List.md](02_feature/MyNetMate%20Weight%20Feature%20List.md) | **ไฟล์หลักล่าสุด** — MVP Scope ฉบับ Final หลังประเมิน (P1 vs P2 vs CUT) | 🔴 อ่านก่อนเลย |
-| [MyNetMate รายการ Features.md](02_feature/MyNetMate%20รายการ%20Features.md) | รายการ Feature ทั้งหมด 11 หมวดฉบับดั้งเดิม + ปรัชญาระบบ | 🟡 อ่านอ้างอิง |
-| [Mockup จากภาพพี่ออม.md](Mockup%20จากภาพพี่ออม.md) | UI Mockup 6 Tab สำหรับ Config Builder — Blueprint สำหรับ Frontend | 🔴 อ่านก่อนเลย |
-| [Data Information.md](02_feature/Device%20Inventory%20Management/Data%20Information.md) | Schema ข้อมูลที่ต้องเก็บใน Device Inventory (PostgreSQL) | 🟡 อ่านเมื่อทำ DB |
-| [Device Inventory.md](Device%20Inventory.md) | รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory | 🟡 อ่านเมื่อทำ Discovery |
-| [Plugin Driver Architecture.md](แนวคิด%20Plugin%20Driver%20Architecture.md) | สถาปัตยกรรม Multi-vendor Driver Pattern | 🟡 อ่านเมื่อทำ Multi-vendor |
-| [Cutting Your Own Legs.md](Cutting%20Your%20Own%20Legs.md) | Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค | 🟢 อ่านเมื่อต้องการทราบว่าทำไมถึงไม่ทำ |
-| [Restore Strategy.md](แนวคิด%20Restore%20Strategy.md) | กลยุทธ์การ Rollback และ Version Control | 🟢 อ่านเมื่อทำ Version Control |
-| [MyNetMate (1).drawio.html](02_feature/MyNetMate%20(1).drawio.html) | Diagram ภาพรวมโปรเจกต์ (ไฟล์ Draw.io) | 🟢 ดูเพื่อเข้าใจภาพรวม |
+| ไฟล์                                                                                       | เนื้อหา                                                                 | ความสำคัญ                              |
+| ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- | -------------------------------------- |
+| [MyNetMate Weight Feature List.md](02_feature/MyNetMate%20Weight%20Feature%20List.md)      | **ไฟล์หลักล่าสุด** — MVP Scope ฉบับ Final หลังประเมิน (P1 vs P2 vs CUT) | 🔴 อ่านก่อนเลย                         |
+| [MyNetMate รายการ Features.md](02_feature/MyNetMate%20รายการ%20Features.md)                | รายการ Feature ทั้งหมด 11 หมวดฉบับดั้งเดิม + ปรัชญาระบบ                 | 🟡 อ่านอ้างอิง                         |
+| [Data Information.md](02_feature/02_Device%20Inventory%20Management/Data%20Information.md) | Schema ข้อมูลที่ต้องเก็บใน Device Inventory (PostgreSQL)                | 🟡 อ่านเมื่อทำ DB                      |
+| [Device Inventory.md](Device%20Inventory.md)                                               | รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory               | 🟡 อ่านเมื่อทำ Discovery               |
+| [Plugin Driver Architecture.md](แนวคิด%20Plugin%20Driver%20Architecture.md)                | สถาปัตยกรรม Multi-vendor Driver Pattern                                 | 🟡 อ่านเมื่อทำ Multi-vendor            |
+| [Cutting Your Own Legs.md](Cutting%20Your%20Own%20Legs.md)                                 | Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค                               | 🟢 อ่านเมื่อต้องการทราบว่าทำไมถึงไม่ทำ |
+| [Restore Strategy.md](แนวคิด%20Restore%20Strategy.md)                                      | กลยุทธ์การ Rollback และ Version Control                                 | 🟢 อ่านเมื่อทำ Version Control         |
+
 
 ### ⚖️ `03_tech_evaluations/` — Technology Research & Tool Selection
 - [ค้นคว้าเครื่องมือ Netmiko vs NAPALM vs Nornir vs Ansible.md](03_tech_evaluations/) — Tool Comparison Matrix
@@ -89,7 +86,7 @@
 - [SolarWinds Hybrid Cloud Observability.md](03_tech_evaluations/SolarWinds%20Hybrid%20Cloud%20Observability.md) — Commercial NMS Comparison
 
 ### 📋 `04_project_management/` — Proposals, Reports & Feedback
-- [Document Project/](04_project_management/Document%20Project/) — เอกสาร Proposal และ Gantt Chart
+- [Document Project/](04_project_management/Document%20Project/) — เอกสาร Proposal และ Gantt Chart 
 - [Advisor Teacher/](04_project_management/Advisor%20Teacher/) — Feedback จากอาจารย์ที่ปรึกษา (อาจารย์ปริญญา)
 - [วิชา CE Project 1 และ 2/](04_project_management/วิชา%20CE%20Project%201%20และ%202/) — เกณฑ์การให้คะแนนและ Grading Policy
 

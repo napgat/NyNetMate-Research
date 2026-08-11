@@ -9,7 +9,8 @@
 
 ## 1. บทสรุปผู้บริหาร
 
-MyNetMate เป็นเว็บแอปพลิเคชันสำหรับจัดการเครือข่ายและสร้างคอนฟิกูเรชันอัตโนมัติ พัฒนาโดยทีม 4 คนภายในเวลาประมาณหนึ่งภาคการศึกษา ดังนั้น Dashboard ระยะ P1 ต้องมีขนาดเล็ก พัฒนาได้จริง และไม่ขยายตัวเป็นระบบ Network Monitoring เต็มรูปแบบ
+MyNetMate เป็นเว็บแอปพลิเคชันสำหรับจัดการเครือข่ายและสร้างคอนฟิกูเรชันอัตโนมัติ พัฒนาโดยทีม 4 คนภายในเวลาประมาณหนึ่งภาคการศึกษา 
+ดังนั้น Dashboard ระยะ P1 ต้องมีขนาดเล็ก พัฒนาได้จริง และไม่ขยายตัวเป็นระบบ Network Monitoring เต็มรูปแบบ
 
 Dashboard มีหน้าที่ตอบคำถามเชิงปฏิบัติการอย่างรวดเร็วว่า:
 
@@ -25,12 +26,12 @@ Dashboard มีหน้าที่ตอบคำถามเชิงปฏ�
 
 ### ข้อสรุป MVP
 
-| ระดับ | Feature |
-|---|---|
-| **Must** | Device Availability, Critical Validation Failures, Recent Activity Feed, System Health, Data Freshness, Quick Actions |
-| **Should** | Device Status by Site |
-| **Could** | Export Report หากมีเวลาเหลือ |
-| **Won't ใน P1** | Historical Availability Graph, Interface Utilization, Topology Preview, SNMP Monitoring, Alert Pop-up/Email |
+| ระดับ           | Feature                                                                                                               |
+| --------------- | --------------------------------------------------------------------------------------------------------------------- |
+| **Must**        | Device Availability, Critical Validation Failures, Recent Activity Feed, System Health, Data Freshness, Quick Actions |
+| **Should**      | Device Status by Site                                                                                                 |
+| **Could**       | Export Report หากมีเวลาเหลือ                                                                                          |
+| **Won't ใน P1** | Historical Availability Graph, Interface Utilization, Topology Preview, SNMP Monitoring, Alert Pop-up/Email           |
 
 Feature ที่ต้องพึ่ง Network Discovery, Topology, SNMP, LLDP/CDP หรือ Time-series data ให้เลื่อนไป P2 ตาม Scope ปัจจุบัน [1]
 
@@ -46,7 +47,10 @@ Feature ที่ต้องพึ่ง Network Discovery, Topology, SNMP, LLD
 2. **Comprehension:** เข้าใจความหมายและผลกระทบ
 3. **Projection:** คาดการณ์สิ่งที่จะเกิดขึ้น
 
-Dashboard P1 มุ่งสนับสนุนระดับ 1–2 โดยแปลงข้อมูลดิบเป็นสรุปที่ช่วยตัดสินใจ เช่น จำนวนอุปกรณ์ Offline และจำนวน Critical Validation Failures ส่วนการคาดการณ์แนวโน้มจาก Historical Data เป็นงาน P2
+Dashboard P1 มุ่งสนับสนุนระดับ 1–2 โดยแปลงข้อมูลดิบเป็นสรุปที่ช่วยตัดสินใจ เช่น 
+	จำนวนอุปกรณ์ Offline และ
+	จำนวน Critical Validation Failures 
+	ส่วนการคาดการณ์แนวโน้มจาก Historical Data เป็นงาน P2
 
 ### 2.2 การเทียบเคียงระบบอุตสาหกรรม
 
@@ -56,25 +60,25 @@ P1 จึงใช้สถานะล่าสุดจาก Periodic ICMP Ch
 
 ### 2.3 Evidence Matrix
 
-| Evidence ID | แหล่งข้อมูล | ประเภทหลักฐาน | ข้อสรุปสำหรับ MyNetMate P1 |
-|---|---|---|---|
-| **EV-01** | Cisco Catalyst Center — Critical Issues และ Network Health [11][12] | Direct evidence | ระบบระดับองค์กรจัดลำดับปัญหารุนแรงก่อนข้อมูลทั่วไป จึงประยุกต์เป็น Critical Validation Failures |
-| **EV-02** | SolarWinds/ICMP discussion [10] | Inference | ICMP แบบกำหนดรอบเวลาเหมาะเป็นกลไก Availability ขั้นต่ำ โดยไม่ขยายไปสู่ SNMP Monitoring |
-| **EV-03** | Zabbix Dashboard widgets [13][14] | Recommendation | UI ต้องแสดง Data freshness และเวลาตรวจสอบล่าสุด เพื่อป้องกันการตีความ Stale Data ว่าเป็น Real-time |
-| **EV-04** | MyNetMate Problem Definition [4] | Internal project hypothesis | ปัญหาด้านการตรวจสอบย้อนหลังสนับสนุน Recent Activity Feed แต่ยังไม่ใช่หลักฐานสัมภาษณ์ที่ยืนยันแล้ว |
-| **EV-05** | MyNetMate Weight Feature List [1] | Working scope evidence | Discovery, Topology, SNMP และข้อมูลเชิงประวัติอยู่ใน P2 หรืออยู่นอก P1 |
-| **EV-06** | Offline Mode และ System API Status ใน Scope ปัจจุบัน [1] | Internal architecture requirement | สถานะ AI แบบ Offline Mode ต้องแสดงเป็นข้อมูล ไม่ใช่ข้อผิดพลาด |
+| Evidence ID | แหล่งข้อมูล                                                         | ประเภทหลักฐาน                     | ข้อสรุปสำหรับ MyNetMate P1                                                                         |
+| ----------- | ------------------------------------------------------------------- | --------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **EV-01**   | Cisco Catalyst Center — Critical Issues และ Network Health [11][12] | Direct evidence                   | ระบบระดับองค์กรจัดลำดับปัญหารุนแรงก่อนข้อมูลทั่วไป จึงประยุกต์เป็น Critical Validation Failures    |
+| **EV-02**   | SolarWinds/ICMP discussion [10]                                     | Inference                         | ICMP แบบกำหนดรอบเวลาเหมาะเป็นกลไก Availability ขั้นต่ำ โดยไม่ขยายไปสู่ SNMP Monitoring             |
+| **EV-03**   | Zabbix Dashboard widgets [13][14]                                   | Recommendation                    | UI ต้องแสดง Data freshness และเวลาตรวจสอบล่าสุด เพื่อป้องกันการตีความ Stale Data ว่าเป็น Real-time |
+| **EV-04**   | MyNetMate Problem Definition [4]                                    | Internal project hypothesis       | ปัญหาด้านการตรวจสอบย้อนหลังสนับสนุน Recent Activity Feed แต่ยังไม่ใช่หลักฐานสัมภาษณ์ที่ยืนยันแล้ว  |
+| **EV-05**   | MyNetMate Weight Feature List [1]                                   | Working scope evidence            | Discovery, Topology, SNMP และข้อมูลเชิงประวัติอยู่ใน P2 หรืออยู่นอก P1                             |
+| **EV-06**   | Offline Mode และ System API Status ใน Scope ปัจจุบัน [1]            | Internal architecture requirement | สถานะ AI แบบ Offline Mode ต้องแสดงเป็นข้อมูล ไม่ใช่ข้อผิดพลาด                                      |
 
 ---
 
 ## 3. Jobs to Be Done
 
-| Job | Trigger | ข้อมูลที่ต้องรู้ | การตัดสินใจ/การกระทำ | ผลลัพธ์ที่คาดหวัง |
-|---|---|---|---|---|
-| **JTBD-01: ตรวจ Availability** | เปิด Dashboard หรือพบอุปกรณ์ผิดปกติ | จำนวน Online/Offline/Unknown/Maintenance และเวลาตรวจล่าสุด | เปิดรายการอุปกรณ์ที่ถูกกรองเป็น Offline | เข้าสู่การ Troubleshoot ได้โดยไม่ค้นหลายหน้า |
-| **JTBD-02: ตรวจ Security Compliance** | สแกน Config เสร็จหรือมี Config ใหม่ | จำนวน Critical Failures และอุปกรณ์ต้นเหตุ | Remediate หรือดำเนินการ Override ตามสิทธิ์ | เข้าถึงปัญหารุนแรงที่สุดก่อน |
-| **JTBD-03: ตรวจ Activity** | พบความผิดปกติหรือต้อง Audit | ผู้กระทำ การกระทำ เป้าหมาย และเวลา | เปิดรายละเอียดกิจกรรมที่เกี่ยวข้อง | เข้าใจบริบทการเปลี่ยนแปลงล่าสุด |
-| **JTBD-04: ตรวจ System Health** | ก่อนใช้ Workflow สำคัญ | Backend, Database และ AI mode/status | ใช้งานต่อ เปลี่ยน Offline Mode หรือแจ้งผู้ดูแล | ไม่ตีความความไม่พร้อมของระบบผิด |
+| Job                                   | Trigger                             | ข้อมูลที่ต้องรู้                                           | การตัดสินใจ/การกระทำ                           | ผลลัพธ์ที่คาดหวัง                            |
+| ------------------------------------- | ----------------------------------- | ---------------------------------------------------------- | ---------------------------------------------- | -------------------------------------------- |
+| **JTBD-01: ตรวจ Availability**        | เปิด Dashboard หรือพบอุปกรณ์ผิดปกติ | จำนวน Online/Offline/Unknown/Maintenance และเวลาตรวจล่าสุด | เปิดรายการอุปกรณ์ที่ถูกกรองเป็น Offline        | เข้าสู่การ Troubleshoot ได้โดยไม่ค้นหลายหน้า |
+| **JTBD-02: ตรวจ Security Compliance** | สแกน Config เสร็จหรือมี Config ใหม่ | จำนวน Critical Failures และอุปกรณ์ต้นเหตุ                  | Remediate หรือดำเนินการ Override ตามสิทธิ์     | เข้าถึงปัญหารุนแรงที่สุดก่อน                 |
+| **JTBD-03: ตรวจ Activity**            | พบความผิดปกติหรือต้อง Audit         | ผู้กระทำ การกระทำ เป้าหมาย และเวลา                         | เปิดรายละเอียดกิจกรรมที่เกี่ยวข้อง             | เข้าใจบริบทการเปลี่ยนแปลงล่าสุด              |
+| **JTBD-04: ตรวจ System Health**       | ก่อนใช้ Workflow สำคัญ              | Backend, Database และ AI mode/status                       | ใช้งานต่อ เปลี่ยน Offline Mode หรือแจ้งผู้ดูแล | ไม่ตีความความไม่พร้อมของระบบผิด              |
 
 ---
 
@@ -112,13 +116,13 @@ P1 จึงใช้สถานะล่าสุดจาก Periodic ICMP Ch
 
 ### 5.1 Widget Specification
 
-| Widget | จุดประสงค์ | Source of Truth | Refresh | สิทธิ์ | Empty/Error/Stale State |
-|---|---|---|---|---|---|
-| **Device Availability** | แสดงจำนวนอุปกรณ์ตามสถานะ | `devices.status`, `devices.last_seen` | Polling เช่น 60 วินาที หรือ Manual Refresh | Viewer ขึ้นไป | แสดง `--` เมื่อไม่มีข้อมูลที่เชื่อถือได้ และแสดง `last_checked_at` |
-| **Critical Validation Failures** | แสดงผลสแกน Critical ที่ยังไม่ได้รับการยอมรับความเสี่ยง | `scan_results` และ `cis_overrides` | หลัง Scan เสร็จหรือ Refresh Summary | Viewer ดูได้; การ Override ตาม RBAC | หากไม่มี Failure ให้ระบุว่า “ไม่พบ Critical Failure ในผลสแกนล่าสุด” ไม่ใช้คำว่า “ปลอดภัย 100%” |
-| **Recent Activity Feed** | แสดง 10 กิจกรรมล่าสุด | `audit_logs` | Manual หรือ Periodic Refresh | ตามนโยบาย RBAC | แสดง Empty state เมื่อยังไม่มีกิจกรรม |
-| **System Health** | แสดงสถานะ Backend, Database และ AI mode | Health Checker และ `system_settings.offline_mode` | On load และ Periodic Refresh | Viewer ขึ้นไป | Offline Mode แสดงสีเทา/Informational ไม่ใช่ Critical |
-| **Quick Actions** | ลดจำนวนขั้นตอนเข้าสู่ Workflow หลัก | Static route configuration | ไม่ต้อง Refresh | แสดงตาม RBAC | ซ่อนหรือ Disable Action ที่ผู้ใช้ไม่มีสิทธิ์ |
+| Widget                           | จุดประสงค์                                             | Source of Truth                                   | Refresh                                    | สิทธิ์                              | Empty/Error/Stale State                                                                        |
+| -------------------------------- | ------------------------------------------------------ | ------------------------------------------------- | ------------------------------------------ | ----------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **Device Availability**          | แสดงจำนวนอุปกรณ์ตามสถานะ                               | `devices.status`, `devices.last_seen`             | Polling เช่น 60 วินาที หรือ Manual Refresh | Viewer ขึ้นไป                       | แสดง `--` เมื่อไม่มีข้อมูลที่เชื่อถือได้ และแสดง `last_checked_at`                             |
+| **Critical Validation Failures** | แสดงผลสแกน Critical ที่ยังไม่ได้รับการยอมรับความเสี่ยง | `scan_results` และ `cis_overrides`                | หลัง Scan เสร็จหรือ Refresh Summary        | Viewer ดูได้; การ Override ตาม RBAC | หากไม่มี Failure ให้ระบุว่า “ไม่พบ Critical Failure ในผลสแกนล่าสุด” ไม่ใช้คำว่า “ปลอดภัย 100%” |
+| **Recent Activity Feed**         | แสดง 10 กิจกรรมล่าสุด                                  | `audit_logs`                                      | Manual หรือ Periodic Refresh               | ตามนโยบาย RBAC                      | แสดง Empty state เมื่อยังไม่มีกิจกรรม                                                          |
+| **System Health**                | แสดงสถานะ Backend, Database และ AI mode                | Health Checker และ `system_settings.offline_mode` | On load และ Periodic Refresh               | Viewer ขึ้นไป                       | Offline Mode แสดงสีเทา/Informational ไม่ใช่ Critical                                           |
+| **Quick Actions**                | ลดจำนวนขั้นตอนเข้าสู่ Workflow หลัก                    | Static route configuration                        | ไม่ต้อง Refresh                            | แสดงตาม RBAC                        | ซ่อนหรือ Disable Action ที่ผู้ใช้ไม่มีสิทธิ์                                                   |
 
 ### 5.2 นิยามสถานะ
 
@@ -210,11 +214,11 @@ device_status_checks
 
 ## 8. API Contracts
 
-| Endpoint | สิทธิ์ | Input | Output หลัก | Cache/Error behavior |
-|---|---|---|---|---|
-| `GET /api/dashboard/summary` | Viewer/Operator/Admin | `site_id` (optional) | Device counts, Security summary, `last_checked_at`, `is_stale` | อาจ Cache ระยะสั้น เช่น 30 วินาที; หากใช้ค่าค้างต้องส่ง `is_stale: true` |
-| `GET /api/dashboard/recent-activity` | ตาม RBAC policy | `limit` โดยจำกัดค่าสูงสุด | รายการกิจกรรมล่าสุดพร้อม User, Action, Target, Timestamp | ไม่จำเป็นต้อง Cache สำหรับ 10 รายการล่าสุด หาก Index เหมาะสม |
-| `GET /api/system/health` | Viewer/Operator/Admin | ไม่มี | Backend, Database, AI mode/status | Dependency ภายนอกต้องมี Timeout และ Offline Mode ต้องไม่ถูกส่งเป็น Critical error |
+| Endpoint                             | สิทธิ์                | Input                     | Output หลัก                                                    | Cache/Error behavior                                                              |
+| ------------------------------------ | --------------------- | ------------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `GET /api/dashboard/summary`         | Viewer/Operator/Admin | `site_id` (optional)      | Device counts, Security summary, `last_checked_at`, `is_stale` | อาจ Cache ระยะสั้น เช่น 30 วินาที; หากใช้ค่าค้างต้องส่ง `is_stale: true`          |
+| `GET /api/dashboard/recent-activity` | ตาม RBAC policy       | `limit` โดยจำกัดค่าสูงสุด | รายการกิจกรรมล่าสุดพร้อม User, Action, Target, Timestamp       | ไม่จำเป็นต้อง Cache สำหรับ 10 รายการล่าสุด หาก Index เหมาะสม                      |
+| `GET /api/system/health`             | Viewer/Operator/Admin | ไม่มี                     | Backend, Database, AI mode/status                              | Dependency ภายนอกต้องมี Timeout และ Offline Mode ต้องไม่ถูกส่งเป็น Critical error |
 
 ### ตัวอย่าง Response: Dashboard Summary
 
@@ -262,26 +266,26 @@ device_status_checks
 
 ## 10. Traceability Matrix
 
-| Evidence | User Job | Requirement | P1 Feature | Component | Source of Truth | API/Route | Acceptance |
-|---|---|---|---|---|---|---|---|
-| EV-01, EV-02 | ตรวจ Availability | QR-9 | Device Status Widget | Aggregation Service | `devices.status`, `devices.last_seen` | `/api/dashboard/summary` | AT-01, AT-04 |
-| EV-01, EV-05 | ประเมินช่องโหว่รุนแรง | QR-3 | Critical Validation Failures | Validation Repository/Service | `scan_results`, `cis_overrides` | `/api/dashboard/summary` | AT-02 |
-| EV-04, EV-05 | ตรวจประวัติการทำงาน | Audit requirement | Recent Activity Feed | Audit Repository/Service | `audit_logs` | `/api/dashboard/recent-activity` | ตรวจรายการล่าสุดตรงกับ DB |
-| EV-05, EV-06 | ตรวจความพร้อมของระบบ | Architecture constraint | System API Status | Health Checker | Health checks, `system_settings.offline_mode` | `/api/system/health` | AT-03 |
-| EV-04 | เข้าสู่ Workflow เร็วขึ้น | Configuration workflow | Quick Actions | Static Frontend UI | N/A | Frontend routes | ตรวจ Route และ RBAC |
+| Evidence     | User Job                  | Requirement             | P1 Feature                   | Component                     | Source of Truth                               | API/Route                        | Acceptance                |
+| ------------ | ------------------------- | ----------------------- | ---------------------------- | ----------------------------- | --------------------------------------------- | -------------------------------- | ------------------------- |
+| EV-01, EV-02 | ตรวจ Availability         | QR-9                    | Device Status Widget         | Aggregation Service           | `devices.status`, `devices.last_seen`         | `/api/dashboard/summary`         | AT-01, AT-04              |
+| EV-01, EV-05 | ประเมินช่องโหว่รุนแรง     | QR-3                    | Critical Validation Failures | Validation Repository/Service | `scan_results`, `cis_overrides`               | `/api/dashboard/summary`         | AT-02                     |
+| EV-04, EV-05 | ตรวจประวัติการทำงาน       | Audit requirement       | Recent Activity Feed         | Audit Repository/Service      | `audit_logs`                                  | `/api/dashboard/recent-activity` | ตรวจรายการล่าสุดตรงกับ DB |
+| EV-05, EV-06 | ตรวจความพร้อมของระบบ      | Architecture constraint | System API Status            | Health Checker                | Health checks, `system_settings.offline_mode` | `/api/system/health`             | AT-03                     |
+| EV-04        | เข้าสู่ Workflow เร็วขึ้น | Configuration workflow  | Quick Actions                | Static Frontend UI            | N/A                                           | Frontend routes                  | ตรวจ Route และ RBAC       |
 
 ---
 
 ## 11. ข้อขัดแย้งและแนวทางแก้ไข
 
-| ประเด็นขัดแย้ง | ความเสี่ยง | แนวทาง P1 |
-|---|---|---|
-| **Real-time vs Periodic Polling** | ผู้ใช้อาจเชื่อว่าข้อมูลเป็นปัจจุบันทันที | ใช้คำว่า “สถานะล่าสุดที่ตรวจสอบ” และแสดง `last_checked_at`/Stale state |
-| **Current State vs Historical Graph** | การเก็บข้อมูลรายนาทีเพิ่มความซับซ้อนและขนาดฐานข้อมูล | P1 เก็บ Current state; History และ Trend graph ไป P2 |
-| **Dashboard P1 vs Topology/Discovery P2** | Dashboard อาจดึง Dependency ที่ยังไม่มีเข้ามา | ตัด Topology, SNMP, LLDP/CDP และ Interface utilization ออกจาก P1 |
-| **AI Unavailable vs Offline Mode** | Offline Mode อาจถูกตีความเป็นระบบล่ม | แสดง Offline Mode เป็น Informational state |
-| **Commercial Feature vs Capstone Scope** | เกิด Scope creep และ Over-engineering | ใช้ผลิตภัณฑ์อุตสาหกรรมเป็น Evidence/Comparison ไม่ใช่รายการ Feature ที่ต้องลอก |
-| **Proposal VoC vs Desk Research** | อาจอ้างว่ามีความต้องการจากผู้ใช้จริงโดยไม่มีหลักฐาน | ระบุว่าเป็น Internal hypothesis จนกว่าจะมีบันทึกการสัมภาษณ์จริง |
+| ประเด็นขัดแย้ง                            | ความเสี่ยง                                           | แนวทาง P1                                                                      |
+| ----------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **Real-time vs Periodic Polling**         | ผู้ใช้อาจเชื่อว่าข้อมูลเป็นปัจจุบันทันที             | ใช้คำว่า “สถานะล่าสุดที่ตรวจสอบ” และแสดง `last_checked_at`/Stale state         |
+| **Current State vs Historical Graph**     | การเก็บข้อมูลรายนาทีเพิ่มความซับซ้อนและขนาดฐานข้อมูล | P1 เก็บ Current state; History และ Trend graph ไป P2                           |
+| **Dashboard P1 vs Topology/Discovery P2** | Dashboard อาจดึง Dependency ที่ยังไม่มีเข้ามา        | ตัด Topology, SNMP, LLDP/CDP และ Interface utilization ออกจาก P1               |
+| **AI Unavailable vs Offline Mode**        | Offline Mode อาจถูกตีความเป็นระบบล่ม                 | แสดง Offline Mode เป็น Informational state                                     |
+| **Commercial Feature vs Capstone Scope**  | เกิด Scope creep และ Over-engineering                | ใช้ผลิตภัณฑ์อุตสาหกรรมเป็น Evidence/Comparison ไม่ใช่รายการ Feature ที่ต้องลอก |
+| **Proposal VoC vs Desk Research**         | อาจอ้างว่ามีความต้องการจากผู้ใช้จริงโดยไม่มีหลักฐาน  | ระบุว่าเป็น Internal hypothesis จนกว่าจะมีบันทึกการสัมภาษณ์จริง                |
 
 ---
 

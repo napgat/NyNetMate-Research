@@ -5,6 +5,8 @@
 - `04_project_management/Document Project/split/04_problem-definition-and-voc.md`
 - `02_feature/02_Device Inventory Management/Data Information.md`
 
+> **หมายเหตุสถานะ (อัปเดต 2026-08-11):** ข้อความเดิมใน Prompt ที่ระบุว่า “Huawei ไม่อยู่ใน MVP” และ “ห้ามเพิ่ม Huawei เข้า MVP” ถูกแทนที่บางส่วนด้วยหลักฐานอุปกรณ์ล่าสุด อาจารย์มี Huawei Router 1 ตัว, MikroTik Switch 1 ตัว และ Cisco Switch 1 ตัวให้ทดสอบจริงหลังกลางภาค จึงให้ถือ Huawei และ MikroTik เป็น Candidate Test Vendors โดยยังห้ามสรุปว่า Support เต็มรูปแบบก่อนทราบรุ่น ระบบปฏิบัติการ ชุดคำสั่ง และผลทดสอบใน Isolated Lab
+
 #### prompt
 ```
 ทำ Desk Research เชิงวิศวกรรมสำหรับ Feature “Dashboard & Monitoring” ของโครงงาน MyNetMate ซึ่งเป็น Web Application สำหรับ Network Management และ Configuration Automation
@@ -23,13 +25,13 @@ Technology Stack:
     
 - Database: PostgreSQL 15+
     
-- Network: Cisco IOS เป็น Priority 1 และ MikroTik RouterOS เป็น Priority 2
+- Network: Cisco IOS เป็น Baseline หลัก ส่วน MikroTik Switch และ Huawei Router เป็น Candidate ตามอุปกรณ์จริงที่อาจารย์จะให้ทดสอบหลังกลางภาค
     
 - Development/Test: Docker, GNS3 หรือ Isolated Lab
     
 - ห้ามทำ Network Scan บนเครือข่ายมหาวิทยาลัยจริง
     
-- Huawei ไม่อยู่ใน MVP
+- Huawei ไม่ถูกตัดออกถาวร แต่ยังต้องยืนยันรุ่น ระบบปฏิบัติการ ชุดคำสั่ง และระดับการรองรับจากผลทดสอบจริง
     
 - ระบบใช้แนวคิด “ใช้ AI เมื่อต้องการความเข้าใจ แต่ไม่ใช้ AI เมื่อต้องการความถูกต้อง”
     
@@ -476,7 +478,7 @@ Dashboard ใน P1 ไม่ใช่ระบบ Network Monitoring เต็�
 
 - ห้ามเสนอ LangChain, RAG, Vector Database, Presidio หรือ spaCy
     
-- ห้ามเพิ่ม Huawei เข้า MVP
+- ห้ามรับรองว่า Huawei Support เต็มรูปแบบ หรือขยายเป็น Complex Multi-vendor Policy หากยังไม่มีรุ่นอุปกรณ์ ชุดคำสั่ง และหลักฐานผลทดสอบจริง
     
 - ห้ามออกแบบระบบ Scan เครือข่ายมหาวิทยาลัยจริง
     

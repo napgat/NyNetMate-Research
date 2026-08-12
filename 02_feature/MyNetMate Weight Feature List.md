@@ -1,6 +1,8 @@
 # 📊 MyNetMate: สรุปฟีเจอร์และลำดับการพัฒนา 
 อ้างอิงจาก 02_feature/Claude MyNetMate Weight Feature List, 02_feature/MyNetMate รายการ Features
 
+> ⚠️ **Pending Vendor Scope Review (อัปเดต 2026-08-11 — ยังไม่ใช่การเปลี่ยน Priority Matrix ฉบับยืนยัน):** อาจารย์มีอุปกรณ์จริงให้ทดสอบหลังกลางภาค ได้แก่ Huawei Router 1 ตัว, MikroTik Switch 1 ตัว และ Cisco Switch 1 ตัว ดังนั้น Huawei และ MikroTik ต้องถือเป็น **Candidate Test Vendors** ไม่ใช่ Vendor ที่ถูกตัดออก อย่างไรก็ตาม การรองรับต้องจำกัดตามรุ่น ระบบปฏิบัติการ ชุดคำสั่ง และผลทดสอบจริงใน Isolated Lab ส่วน **Complex Multi-vendor Policy ยังคงเป็น CUT** จนกว่าทีมและอาจารย์จะยืนยัน Scope ใหม่
+
 ## 1. บริบทและข้อจำกัด (ทำไมเราถึงทำทุกอย่างไม่ได้?)
 
 ก่อนที่จะจัดลำดับฟีเจอร์ เราต้องยอมรับข้อจำกัดของโปรเจกต์นี้ก่อน:

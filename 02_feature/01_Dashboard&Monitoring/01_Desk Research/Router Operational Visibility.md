@@ -20,6 +20,7 @@ Router Operational Visibility ควรตอบว่า:
 | VLAN mismatch              | Static route ที่ Active         |
 | Layer 2 Link               | Layer 3 Reachability            |
 
+
 ทั้งสองใช้งานตาราง `interfaces` ร่วมกันได้ แต่ Router ต้องมีข้อมูล IP และ Routing เพิ่มเติม
 
 ## ทำไมดูแค่ Router Online ไม่พอ
@@ -95,37 +96,37 @@ Router Overview
 
 #### Interface Summary
 
-|Interface|Role|Admin|Protocol|IP/Prefix|Description|
-|---|---|---|---|---|---|
-|Gi0/0|LAN|Up|Up|192.168.10.1/24|Internal LAN|
-|Gi0/1|WAN|Up|Down|203.0.113.2/30|ISP-1|
-|Lo0|Loopback|Up|Up|10.255.0.1/32|Router ID|
+| Interface | Role     | Admin | Protocol | IP/Prefix       | Description  |
+| --------- | -------- | ----- | -------- | --------------- | ------------ |
+| Gi0/0     | LAN      | Up    | Up       | 192.168.10.1/24 | Internal LAN |
+| Gi0/1     | WAN      | Up    | Down     | 203.0.113.2/30  | ISP-1        |
+| Lo0       | Loopback | Up    | Up       | 10.255.0.1/32   | Router ID    |
 
 Cisco ใช้ `show ip interface brief` เพื่อแสดง IP, Interface status และ Protocol status ซึ่งช่วยแยก Interface ที่ทำงานปกติแบบ `up/up` ออกจาก Interface ที่ถูกปิดหรือมีปัญหา [Cisco Router Interface Status](https://www.cisco.com/c/en/us/td/docs/routers/access/isr4400/software/configuration/xe-17/isr4400-sw-config-xe-17/isr4400swcfg-xe-16-9-book_chapter_011010.html)
 
 #### Routing Summary
 
-|Route|Source|Next Hop|Out Interface|State|
-|---|---|---|---|---|
-|0.0.0.0/0|Static|203.0.113.1|Gi0/1|Inactive|
-|192.168.10.0/24|Connected|—|Gi0/0|Active|
-|10.20.0.0/16|Static|192.168.10.2|Gi0/0|Active|
+| Route           | Source    | Next Hop     | Out Interface | State    |
+| --------------- | --------- | ------------ | ------------- | -------- |
+| 0.0.0.0/0       | Static    | 203.0.113.1  | Gi0/1         | Inactive |
+| 192.168.10.0/24 | Connected | —            | Gi0/0         | Active   |
+| 10.20.0.0/16    | Static    | 192.168.10.2 | Gi0/0         | Active   |
 
 Cisco ระบุว่า `show ip route` ใช้ดู Routing Table รวมถึง Route source, next hop และ Default Route/Gateway of Last Resort [Cisco `show ip route`](https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_pi/command/iri-cr-book/iri-cr-s1.html)
 
 ## ข้อมูลใดมีประโยชน์อย่างไร
 
-|ข้อมูล|ช่วยตอบอะไร|การตัดสินใจ|
-|---|---|---|
-|Admin/Protocol status|Port ถูก Shutdown หรือ Link/Protocol มีปัญหา?|ตรวจ Config หรือสาย/Provider|
-|IP/Prefix|Interface อยู่ Network ถูกต้องหรือไม่?|แก้ IP/Subnet|
-|Interface role|Port เป็น WAN, LAN หรือ Management?|ประเมินความรุนแรงของ Down|
-|Default route|Router มีทางออกไป Network ที่ไม่รู้จักหรือไม่?|แก้ Static/Default route|
-|Next hop|Traffic ถูกส่งไปหา Router ตัวใด?|ตรวจเพื่อนบ้านหรือ ISP|
-|Outgoing interface|Route ออก Port ไหน?|เชื่อม Route กับ Interface failure|
-|Route source|Connected, Static หรือ Dynamic?|ตรวจว่า Route มาจากแหล่งที่คาดไว้หรือไม่|
-|Uptime|Router เพิ่ง Restart หรือไม่?|ตรวจไฟดับ Crash หรือ Config loss|
-|Last collected|ข้อมูลยังน่าเชื่อถือหรือไม่?|Refresh ก่อนตัดสินใจ|
+| ข้อมูล                | ช่วยตอบอะไร                                    | การตัดสินใจ                              |
+| --------------------- | ---------------------------------------------- | ---------------------------------------- |
+| Admin/Protocol status | Port ถูก Shutdown หรือ Link/Protocol มีปัญหา?  | ตรวจ Config หรือสาย/Provider             |
+| IP/Prefix             | Interface อยู่ Network ถูกต้องหรือไม่?         | แก้ IP/Subnet                            |
+| Interface role        | Port เป็น WAN, LAN หรือ Management?            | ประเมินความรุนแรงของ Down                |
+| Default route         | Router มีทางออกไป Network ที่ไม่รู้จักหรือไม่? | แก้ Static/Default route                 |
+| Next hop              | Traffic ถูกส่งไปหา Router ตัวใด?               | ตรวจเพื่อนบ้านหรือ ISP                   |
+| Outgoing interface    | Route ออก Port ไหน?                            | เชื่อม Route กับ Interface failure       |
+| Route source          | Connected, Static หรือ Dynamic?                | ตรวจว่า Route มาจากแหล่งที่คาดไว้หรือไม่ |
+| Uptime                | Router เพิ่ง Restart หรือไม่?                  | ตรวจไฟดับ Crash หรือ Config loss         |
+| Last collected        | ข้อมูลยังน่าเชื่อถือหรือไม่?                   | Refresh ก่อนตัดสินใจ                     |
 
 ## ต้องมี Expected State ด้วย
 
@@ -142,14 +143,14 @@ expected_admin_status
 
 ตัวอย่าง Severity:
 
-|เหตุการณ์|ระดับ|
-|---|---|
-|Port ที่ไม่ได้ใช้งาน Down|Neutral|
-|LAN Interface Down|Warning/Critical ตามบทบาท|
-|WAN Interface Down|Critical|
-|Loopback Down|Critical|
-|ไม่มี Default Route ทั้งที่ Router ต้องออก Internet|Critical|
-|Routing data เก่า|Stale/Unknown|
+| เหตุการณ์                                           | ระดับ                     |
+| --------------------------------------------------- | ------------------------- |
+| Port ที่ไม่ได้ใช้งาน Down                           | Neutral                   |
+| LAN Interface Down                                  | Warning/Critical ตามบทบาท |
+| WAN Interface Down                                  | Critical                  |
+| Loopback Down                                       | Critical                  |
+| ไม่มี Default Route ทั้งที่ Router ต้องออก Internet | Critical                  |
+| Routing data เก่า                                   | Stale/Unknown             |
 
 การระบุ `WAN` หรือ `Critical` ควรให้ผู้ใช้กำหนดใน Inventory/Interface Detail ไม่ควรให้ระบบเดาเองทั้งหมด
 

@@ -123,6 +123,8 @@ Scenario: ระบบของเราอยู่ Management Network
 	- Feature หลัก: Inventory + Config Gen + Version Control
 	- Feature รอง: Security Validation, PII Masking
 	- ตัด: Auto-generate Report, Huawei, Multi-vendor ออกก่อน
+
+> **หมายเหตุอัปเดต 2026-08-11:** ข้อเสนอเดิมที่ให้ “ตัด Huawei ออกก่อน” ถูกแทนที่บางส่วนด้วยข้อมูลอุปกรณ์ล่าสุดจากอาจารย์ หลังกลางภาคทีมจะมี Huawei Router 1 ตัว, MikroTik Switch 1 ตัว และ Cisco Switch 1 ตัวสำหรับทดสอบจริง จึงให้ถือ Huawei และ MikroTik เป็น Candidate Test Vendors ตามรุ่นและชุดคำสั่งที่ทดสอบผ่าน ไม่ใช่การรับรอง Full Multi-vendor Support และไม่เปลี่ยนข้อสรุปที่ให้ตัด Complex Multi-vendor Policy
 3.  **ตอบเรื่อง RAG ให้ลึก:** เตรียมทดลองจริง แล้วมีตัวเลขมาตอบ เช่น "เราทดสอบ Retrieve accuracy กับ Cisco config guide ได้ X%"
     
 4. **มี Test Evidence จริง:** ใช้ ContainerLab จำลอง Cisco router แล้วมี demo ที่ระบบ gen config จริงและ push ได้จริง
@@ -135,6 +137,5 @@ Scenario: ระบบของเราอยู่ Management Network
 **Root cause ของทุกปัญหา:** ทีมเข้าใจ AI Stack ดี แต่ยังขาดความเข้าใจ Network Engineering ระดับ Operation จริงๆ ซึ่งแก้ได้ด้วยการไปศึกษา Ansible/Netmiko และคุยกับ Network Engineer จริงๆ ก่อนพรีเซ็นครั้งหน้า
 
 อยากให้ช่วยเรื่องไหนต่อเป็นพิเศษครับ เช่น วาง Scope ใหม่, เตรียมคำตอบสำหรับคำถามแต่ละข้อ, หรือวางแผน demo? 🙌
-
 
 

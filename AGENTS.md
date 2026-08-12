@@ -1,7 +1,7 @@
 # 🤖 MyNetMate — Master AI Agent Context & Navigation Map
 > **Project:** MyNetMate (CEPP Capstone Project CEPP68-33, KMITL)  
 > **Purpose:** Master context guide, file index, and rules of engagement for AI Coding Agents (Antigravity, Cursor, Claude Code, GitHub Copilot).  
-> **Last Updated:** 2026-07-31
+> **Last Updated:** 2026-08-11
 
 ---
 
@@ -14,7 +14,9 @@
 
 - **Golden Rule:** "มีคำตอบถูกต้องเพียง 1 คำตอบหรือไม่?" → **ใช่** = ใช้ Rule/Jinja2 Template → **ไม่** = ใช้ Gemini AI
 - **80/20 Hybrid Ratio:** 80% Deterministic Jinja2 Templates + 20% AI-Powered Gemini
-- **Vendor Scope (MVP):** Cisco IOS (100% Priority), MikroTik RouterOS รอง
+- **Vendor Scope:** Cisco IOS เป็น Baseline หลัก ส่วน MikroTik Switch และ Huawei Router เป็น Candidate สำหรับการทดสอบกับอุปกรณ์จริงหลังกลางภาค การรับรอง Vendor รองต้องรอทราบรุ่น ระบบปฏิบัติการ และชุดคำสั่งที่ทดสอบผ่านก่อน
+  - **หลักฐานอุปกรณ์ล่าสุด (2026-08-11):** อาจารย์มี Huawei Router 1 ตัว, MikroTik Switch 1 ตัว และ Cisco Switch 1 ตัวให้ทีมใช้ทดสอบจริงหลังกลางภาค
+  - **สถานะ Scope:** ข้อมูลนี้ยกเลิกข้อสรุปเดิมที่ว่า “Huawei ตัดออก” แต่ยังไม่ใช่การรับรอง Full Support หรือ Complex Multi-vendor Policy
 - **Safety First:** AI ห้าม Execute คำสั่งบนอุปกรณ์โดยตรง ต้องผ่าน Human-in-the-Loop เสมอ
 - **Data Privacy:** PII (IPs, Passwords, Keys) ต้อง Mask 100% ด้วย `yacryptopan` (IP) + Regex (Password) ก่อนส่งออกหา Gemini API
 
@@ -144,7 +146,7 @@
 4. **ห้าม AI Execute Command บนอุปกรณ์จริง** — Generate เท่านั้น Human กด Deploy เอง
 5. **PII ต้อง Mask ก่อนส่ง Gemini API ทุกกรณี**
 6. **Config ทุกก้อนต้องผ่าน CIS Rule Check** ก่อน Deploy ไม่ว่าจะมาจาก Template หรือ AI
-7. **เน้น Cisco เป็น Priority 1** — MikroTik รอง — Huawei ตัดออก
+7. **เน้น Cisco เป็น Baseline หลัก** — MikroTik และ Huawei เป็น Candidate ตามอุปกรณ์จริงหลังกลางภาค ห้ามรับรองว่า Support เต็มรูปแบบจนกว่าจะยืนยันรุ่น ระบบปฏิบัติการ ชุดคำสั่ง และผลทดสอบใน Isolated Lab
 8. **Scope ของการทดสอบคือ Isolated Lab Environment เท่านั้น** — ห้าม Scan เครือข่ายมหาลัยจริง
 
 ---

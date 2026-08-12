@@ -1,6 +1,6 @@
 ## Database Design
 
-### 7.1 Minimal P1 Schema
+###  Minimal P1 Schema
 
 Dashboard ไม่เป็นเจ้าของตารางแยก และไม่สร้างตารางชื่อ `dashboard` โดย Aggregate จากตารางต้นทาง
 

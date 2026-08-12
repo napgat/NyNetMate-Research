@@ -99,7 +99,7 @@ Feature List ! มาคิดเรื่อง Device Information กัน
 
 **เหตุผลที่ต้องแยก:**
 - **Credentials:** แยกเพราะหลาย Device อาจใช้ Credential ชุดเดียวกัน + ต้องเข้ารหัสแยก
-- **Interfaces:** แยกเพราะ 1 Device มีหลาย Interface (1-to-many) → **Topology ต้องใช้ตารางนี้**
+- **Interfaces:** แยกเพราะ 1 Device มีหลาย Interface (1-to-many) → Topology ใช้เป็น Link Endpoint แต่ความสัมพันธ์ระหว่าง Port ต้องเก็บใน Entity ของ NTV แยกต่างหาก
 - **Config History:** แยกเพราะเก็บหลายเวอร์ชัน → **Version Control ต้องใช้ตารางนี้**
 - **Scan Results:** แยกเพราะ 1 Device มีหลาย Rule และสแกนได้หลายครั้ง (1-to-many) → **CIS Scan ต้องใช้**
 - **CIS Overrides:** แยกเพราะ 1 ผลสแกนมีได้ไม่เกิน 1 Override (1-to-1) + ต้องเก็บว่าใครอนุมัติ → **Audit Trail ของการ Override**
@@ -149,7 +149,7 @@ Feature List ! มาคิดเรื่อง Device Information กัน
 | **Dashboard**                       | `devices` (status, last_seen, uptime, site, role)                                     |
 | **Device Inventory**                | `devices` (Core Identity ทั้งหมด + Location)                                          |
 | **Network Discovery**               | `devices` (management_ip, mac_address, platform, discovery_method)                    |
-| **Network Topology**                | `devices` (hostname, device_type, role) + `interfaces` (port connections)             |
+| **Network Topology**                | `devices` + `interfaces` เป็น Node/Endpoint และใช้ NTV-owned Entities สำหรับ Observation, Current Link, Override, Review และ Layout |
 | **Config Generate (Rule-Based)**    | `devices` (vendor, platform, model) → เลือก Jinja2 Template                           |
 | **Config Generate (AI)**            | `devices` (vendor, model, role, os_version, site) → inject เป็น Context               |
 | **Config Deployment**               | `devices` (management_ip, platform, credential_id) → Netmiko SSH                      |
@@ -183,15 +183,13 @@ Feature List ! มาคิดเรื่อง Device Information กัน
 
 - **กำหนด Data Type:** `hostname` → `String(255)`, `management_ip` → `String(45)`, `created_at` → `DateTime`
 - **กำหนด Constraint:** `hostname` และ `management_ip` ต้องเป็น **UNIQUE** + **NOT NULL**
-- **กำหนด Nullable:** `mac_address`, `serial_number`, `notes` สามารถเป็น NULL ได้ตอน Manual Entry
+- **กำหนด Nullable:** `mac_address`, `serial_number`, `notes` สามารถเป็น NULL ได้ระหว่าง Enrollment หรือเมื่อ Collection ยังดึงข้อมูล Field นั้นไม่สำเร็จ
 - **สร้าง Enum:** `vendor`, `platform`, `status`, `severity`, `role` ทำเป็น Enum เพื่อป้องกันพิมพ์ผิด
 
 **สรุป:** ไฟล์นี้คือ "คัมภีร์ฐานข้อมูล" ของโปรเจกต์ครับ ทีม Backend เปิดไฟล์นี้วางไว้จอซ้าย เปิด `models.py` ที่จอขวา แล้วเขียน Alembic Migration ได้เลยทันที!
 
 
-เก็บในตาราง **`interfaces`** ครับ ซึ่งตอนนี้มีอยู่ใน Diagram แล้ว แต่ยังไม่ได้เขียน Fields ให้ละเอียด เพราะมันเป็น **P2** ครับ
-
-แต่เพื่อให้รู้ว่าต้องเก็บอะไรบ้าง:
+ข้อมูลประจำ Port เก็บในตาราง **`interfaces`** ส่วนข้อมูลว่า Port ใดเชื่อมกับ Port ใดห้ามเก็บทับลงในแถว Interface เพราะ Link มีหลักฐาน ประวัติ และสถานะของตนเอง
 
 ---
 
@@ -199,37 +197,41 @@ Feature List ! มาคิดเรื่อง Device Information กัน
 
 ความสัมพันธ์: **1 Device มีหลาย Interface** (One-to-Many)
 
-| Field                    | ตัวอย่าง             | ทำไมต้องเก็บ?                                |
-| ------------------------ | -------------------- | -------------------------------------------- |
-| `id`                     | `UUID`               | Primary Key                                  |
-| `device_id`              | FK → devices         | Interface นี้เป็นของ Device ไหน              |
-| `name`                   | `GigabitEthernet0/1` | ชื่อ Port จริงๆ บนอุปกรณ์                    |
-| `ip_address`             | `10.0.0.1`           | IP ที่ตั้งบน Interface นั้น                  |
-| `subnet_mask`            | `255.255.255.0`      | Subnet                                       |
-| `vlan_id`                | `10`                 | VLAN ที่ Interface นั้นสังกัด                |
-| `status`                 | `up` / `down`        | สถานะ Port                                   |
-| `speed`                  | `1Gbps`              | ความเร็ว Port                                |
-| `description`            | `"Uplink to Core"`   | คำอธิบายที่คนตั้งไว้                         |
-| `connected_to_device_id` | FK → devices         | **ต่อไปยัง Device ไหน** (สำหรับวาด Topology) |
-| `connected_to_interface` | `GigabitEthernet0/0` | **ต่อไปยัง Port ไหน** ของ Device ปลายทาง     |
-|                          |                      |                                              |
+| Field | ตัวอย่าง | ทำไมต้องเก็บ? |
+|---|---|---|
+| `id` | `UUID` | Primary Key และใช้เป็น Endpoint Reference ของ NTV |
+| `device_id` | FK → devices | Interface นี้เป็นของ Device ไหน |
+| `name` | `GigabitEthernet0/1` | ชื่อ Port ที่ Collector ดึงจากอุปกรณ์ |
+| `if_index` | `10101` | รหัส Interface จากอุปกรณ์/SNMP เมื่อมี |
+| `mac_address` | `00:11:22:33:44:55` | ช่วยระบุตัว Interface เมื่ออุปกรณ์รายงาน |
+| `ip_address` | `10.0.0.1` | IP บน Interface นั้น |
+| `subnet_mask` | `255.255.255.0` | Subnet |
+| `vlan_id` | `10` | VLAN ที่ Interface สังกัดเมื่อ Collector ดึงได้ |
+| `admin_status` | `up` | สถานะที่ผู้ดูแลกำหนดบนอุปกรณ์ |
+| `oper_status` | `down` | สถานะการทำงานที่อุปกรณ์รายงาน |
+| `speed` | `1Gbps` | ความเร็ว Port |
+| `description` | `"Uplink to Core"` | Description ที่เก็บจากอุปกรณ์ |
+| `last_collected_at` | Timestamp | เวลาที่ข้อมูล Interface ถูกเก็บล่าสุด |
 
 ---
 
-## 💡 Field ที่สำคัญที่สุดสำหรับ Topology คือ 2 อันนี้:
+## 💡 การเชื่อมต่อ Topology ต้องแยกจาก `interfaces`
 
-```
-connected_to_device_id  → บอกว่า Port นี้ต่อไปหา Device ไหน
-connected_to_interface  → บอกว่าต่อเข้า Port อะไรของ Device นั้น
-```
+NTV ใช้ `interfaces.id` ของทั้งสองฝั่งเป็น Endpoint Reference แต่เก็บความสัมพันธ์และหลักฐานไว้ใน Entity แยก เช่น:
 
-เพราะ Topology Diagram ต้องรู้ว่า **"Device A Port X → Device B Port Y"** ถึงจะวาดเส้นเชื่อมได้ถูกครับ
+- Neighbor Observation — ผล LLDP/CDP ในแต่ละ Collection Run แบบรักษาประวัติ
+- Current Topology Link — Link ปัจจุบันที่ผ่าน Reconciliation
+- Manual Override — Link ที่ผู้ใช้บันทึกจากการตรวจสายเมื่อ Protocol ใช้ไม่ได้
+- Exception Review — Report Incorrect และ Conflict Resolution
+- Topology View/Node Position — การจัดวางบน Canvas
+
+แนวทางนี้รองรับ Observation History, One-sided, Corroborated, Conflict, Stale, Parallel Link และ Manual Override โดยไม่เขียนทับข้อมูลประจำ Interface
 
 ---
 
 ## ⚠️ ข้อควรจำ
 
-แม้ข้อมูล Interface จะใช้ใน **P2** แต่ต้องสร้าง **Schema ไว้ตั้งแต่ Sprint 0** ครับ เพราะถ้ามาเพิ่ม Column ทีหลัง Alembic Migration จะซับซ้อนมากและอาจทำ Data เดิมพัง
+ตาราง `interfaces` เป็นข้อมูลร่วมของ Inventory/Discovery/NTV ส่วน Entity ของ Link ให้ออกแบบในเอกสาร NTV Database Schema และเพิ่มผ่าน Alembic Migration ตามลำดับการพัฒนา ไม่ควรเพิ่ม Field ปลายทางของ Link ลงใน `interfaces` เพื่อหลีกเลี่ยง Migration
 
 
 ให้ผมนั่งวิเคราะห์อย่างละเอียดก่อนครับ
@@ -240,7 +242,7 @@ connected_to_interface  → บอกว่าต่อเข้า Port อะ�
 
 ### ✅ สิ่งที่ถูกต้องและครบแน่ๆ
 
-- โครงสร้างหลัก 11 ตารางสอดคล้องกับทุก Feature หมวด ✅
+- โครงสร้างหลัก 11 ตารางรองรับ Feature พื้นฐาน ส่วน NTV ต้องเพิ่ม Observation/Link/Override/Review/Layout Entities ใน `02_Database Schema.md` ✅
 - Security design (Encryption, Soft Delete, UUID PK) ✅
 - PII Masking ไม่มีตาราง — เป็น Middleware Logic ✅
 - Sprint Planning ลำดับถูกต้อง ✅
@@ -249,8 +251,8 @@ connected_to_interface  → บอกว่าต่อเข้า Port อะ�
 
 ### 🔴 สิ่งที่ **ผิด** หรือ **ขาด** จริงๆ
 
-#### 1. `interfaces` ขาด Unique Constraint
-ตาราง `interfaces` ต้องมี **UNIQUE(device_id, name)** เพราะ 1 Device ไม่มีทางมี Port ชื่อเดียวกัน 2 อัน แต่ปัจจุบันไม่ได้ระบุไว้
+#### 1. `interfaces` Unique Constraint — Resolved
+ตาราง `interfaces` กำหนด **UNIQUE(device_id, name)** แล้ว เพราะ Device หนึ่งตัวไม่ควรมี Port ชื่อเดียวกันซ้ำ
 
 #### 2. `cis_rule_settings.vendor` เป็น ENUM ตัวเดียว — ผิดหลักการ
 ตอนนี้แต่ละ Rule ผูกกับ Vendor ได้แค่ 1 ยี่ห้อ แต่ในความเป็นจริง:
@@ -315,16 +317,16 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 
 | หัวข้อ | สถานะ |
 |---|---|
-| ครอบคลุมทุก Feature | ✅ ครบ |
+| ครอบคลุม Feature พื้นฐาน | ✅ ครบ; NTV-owned Entities ออกแบบแยกใน `02_Database Schema.md` |
 | โครงสร้างตารางหลัก | ✅ ถูกต้อง |
-| `interfaces` Unique Constraint | ❌ ขาด |
+| `interfaces` Unique Constraint | ✅ Resolved — `UNIQUE(device_id, name)` |
 | `cis_rule_settings` Multi-vendor | ❌ ผิด Logic |
 | Token Counter (Race Condition) | ❌ เปราะบาง |
 | Batch Deploy Support | ❌ ขาด (P2) |
 | JWT Revoke | 🟡 ต้องเพิ่ม `token_version` |
 | Audit Log Before/After | 🟡 Nice-to-have |
 
-อยากให้ผมแก้ไขจุดที่ผิด (❌) ลงในไฟล์ Schema เลยไหมครับ?****
+จุดที่ยังไม่เกี่ยวกับ NTV โดยตรง เช่น CIS Multi-vendor, Token Counter, Batch Deploy และ JWT Revoke ต้องประเมินในเอกสารของ Feature เจ้าของต่อไป
 
 
 # 🗄️ MyNetMate — Complete Database Schema
@@ -545,22 +547,26 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 ---
 
 ## 🔗 ตารางที่ 9: `interfaces`
-**Feature:** Network Topology (หมวด 4) 🚀 P2 — สร้าง Schema Sprint 0 แต่ยังไม่ใส่ข้อมูล
+**Feature:** Device Inventory, Network Discovery และ Network Topology — เก็บข้อมูลประจำ Interface เท่านั้น ไม่เก็บ Link Destination
 
 | Column | Type | Constraint | ตัวอย่าง | หมายเหตุ |
 |---|---|---|---|---|
 | `id` | UUID | PK, NOT NULL | `uuid4()` | |
 | `device_id` | UUID | FK → devices, NOT NULL | - | Interface เป็นของ Device ไหน |
-| `name` | VARCHAR(100) | NOT NULL | `GigabitEthernet0/1` | ชื่อ Port จริงบนอุปกรณ์ |
+| `name` | VARCHAR(100) | NOT NULL, UNIQUE (`device_id`, `name`) | `GigabitEthernet0/1` | ชื่อ Port จริงบนอุปกรณ์ |
+| `if_index` | INTEGER | NULLABLE | `10101` | Interface Index เมื่ออุปกรณ์รายงาน |
+| `mac_address` | VARCHAR(17) | NULLABLE | `00:11:22:33:44:55` | MAC ของ Interface เมื่อมี |
 | `ip_address` | VARCHAR(45) | NULLABLE | `10.0.0.1` | IP บน Interface |
 | `subnet_mask` | VARCHAR(45) | NULLABLE | `255.255.255.0` | Subnet |
 | `vlan_id` | INTEGER | NULLABLE | `10` | VLAN ที่ Port สังกัด |
-| `status` | ENUM | NULLABLE | `up` | `up` / `down` / `admin_down` |
+| `admin_status` | ENUM | NULLABLE | `up` | สถานะที่กำหนดบนอุปกรณ์ |
+| `oper_status` | ENUM | NULLABLE | `down` | สถานะการทำงานจริงที่อุปกรณ์รายงาน |
 | `speed` | VARCHAR(20) | NULLABLE | `1Gbps` | ความเร็ว Port |
 | `description` | VARCHAR(255) | NULLABLE | `"Uplink to Core"` | คำอธิบาย |
-| `connected_to_device_id` | UUID | FK → devices, NULLABLE | - | ต่อไปยัง Device ไหน (Topology) |
-| `connected_to_interface` | VARCHAR(100) | NULLABLE | `GigabitEthernet0/0` | ต่อเข้า Port อะไรของ Device ปลายทาง |
+| `last_collected_at` | TIMESTAMP | NULLABLE | - | เวลาเก็บข้อมูล Interface ล่าสุด |
 | `created_at` | TIMESTAMP | NOT NULL, DEFAULT NOW() | - | |
+
+> **Topology Rule:** ความสัมพันธ์ Interface-to-Interface ต้องอยู่ใน NTV-owned Entities และอ้าง `interfaces.id` ห้ามเพิ่ม `connected_to_*` กลับเข้าตารางนี้
 
 ---
 
@@ -619,7 +625,7 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 | **1. Auth & RBAC** | `users` |
 | **2. Dashboard** | `devices` (status, last_seen), `audit_logs` (recent activity) |
 | **3. Device Inventory** | `devices`, `credentials`, `interfaces` (P2) |
-| **4. Network Topology** | `devices`, `interfaces` (P2) |
+| **4. Network Topology** | `devices`, `interfaces` + NTV-owned Entities ที่กำหนดใน `02_Database Schema.md` |
 | **5. Config Generation** | `devices` (vendor, platform), `config_history` |
 | **6. PII Masking** | ไม่มีตารางแยก — เป็น Middleware Logic ใน Backend |
 | **7. Config Deployment** | `config_history`, `credentials`, `deploy_logs` (P2) |

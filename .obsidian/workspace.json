@@ -8,51 +8,35 @@
         "type": "tabs",
         "children": [
           {
-            "id": "f522b6f3f2803414",
+            "id": "ab95b596308f8a54",
             "type": "leaf",
-            "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02_feature/03_Network Topology Visualization/01_MVP - MyNetMate NTV.md",
+                "file": "02_feature/01_Dashboard&Monitoring/00_Glossary.md",
                 "mode": "source",
                 "source": false
               },
-              "pinned": true,
               "icon": "lucide-file",
-              "title": "01_MVP - MyNetMate NTV"
+              "title": "00_Glossary"
             }
           },
           {
-            "id": "dd6c69e7936b4098",
+            "id": "459a1a032ec5f4bd",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "05_knowledge_base/UML/Component based Diagram - UML.md",
+                "file": "02_feature/01_Dashboard&Monitoring/Question 1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Component based Diagram - UML"
-            }
-          },
-          {
-            "id": "dd88365767f0639f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "02_feature/09_Security & Validation/Rule/Untitled.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Untitled"
+              "title": "Question 1"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -216,34 +200,35 @@
       "bases:Create new base": false
     }
   },
-  "active": "fc176a42bf02d4e3",
+  "active": "459a1a032ec5f4bd",
   "lastOpenFiles": [
-    "02_feature/09_Security & Validation/Rule",
-    "02_feature/09_Security & Validation/00_Ready.md",
-    "02_feature/09_Security & Validation/Rule/Untitled.md",
-    "02_feature/09_Security & Validation/01_MVP Feature.md",
-    "02_feature/03_Network Topology Visualization/04_NTV - API.md",
-    "02_feature/03_Network Topology Visualization/02_Database Schema.md",
-    "02_feature/03_Network Topology Visualization/03_Component Diagram.md",
-    "02_feature/03_Network Topology Visualization/01_MVP - MyNetMate NTV.md",
     "02_feature/01_Dashboard&Monitoring/02_Database Schema.md",
-    "02_feature/01_Dashboard&Monitoring/04_API Contracts.md",
-    "02_feature/01_Dashboard&Monitoring/05_Acceptance Tests และ Success Metrics.md",
-    "02_feature/02_Device Inventory Management/Device Inventory.md",
-    "02_feature/02_Device Inventory Management/Data Information.md",
-    "02_feature/01_Dashboard&Monitoring/01_Desk Research/Router Operational Visibility.md",
+    "02_feature/01_Dashboard&Monitoring/Question 1.md",
     "02_feature/01_Dashboard&Monitoring/01_Desk Research/MyNetMate Dashboard.md",
-    "02_feature/01_Dashboard&Monitoring/03_Component Diagram.md",
+    "02_feature/03_Network Topology Visualization/02_Database Schema.md",
+    "02_feature/01_Dashboard&Monitoring/00_Glossary.md",
+    "02_feature/01_Dashboard&Monitoring/01_Desk Research/MVP D&M.md",
+    "02_feature/01_Dashboard&Monitoring/01_Desk Research/Display in MVP.md",
     "02_feature/01_Dashboard&Monitoring/01_Desk Research/Switch Opeational Visibility.md",
-    "02_feature/03_Network Topology Visualization/05_Acceptance Tests.md",
-    "05_knowledge_base/UML/Component based Diagram - UML.md",
-    "02_feature/03_Network Topology Visualization/คำอธิบายคำศัพท์ NTV.md",
-    "02_feature/01_Dashboard&Monitoring/MyNetMate Minimal MVP Dashboard & Monitoring Research Plan.md",
-    "02_feature/03_Network Topology Visualization/MVP - Feature_NTV.md",
-    "02_feature/02_Device Inventory Management/Mockup จากภาพพี่ออม.md",
-    "02_feature/10_Configuration Deployment/แนวคิด Restore Strategy.md",
-    "02_feature/10_Configuration Deployment/Cutting Your Own Legs.md",
+    "02_feature/01_Dashboard&Monitoring/01_Desk Research/Router Operational Visibility.md",
+    "02_feature/01_Dashboard&Monitoring/01_Desk Research/Scoep , Evidence and Decsion Audit.md",
+    "02_feature/03_Network Topology Visualization/01_MVP - MyNetMate NTV.md",
+    "02_feature/09_Security & Validation/Rule/Untitled.md",
+    "02_feature/09_Security & Validation/00_Ready.md",
+    "02_feature/Feature Switch & Router/Switch L2.md",
+    "02_feature/Data Schema.md",
     "02_feature/Component Description.md",
+    "02_feature/MyNetMate Weight Feature List.md",
+    "02_feature/MyNetMate รายการ Features.md",
+    "02_feature/03_Network Topology Visualization/03_Component Diagram.md",
+    "02_feature/01_Dashboard&Monitoring/03_Component Diagram.md",
+    "01_architecture_and_specs/System Diagram in Proposal(CEPP).md",
+    "02_feature/01_Dashboard&Monitoring/04_API Contracts.md",
+    "05_knowledge_base/UML/Component based Diagram - UML.md",
+    "02_feature/09_Security & Validation/01_MVP Feature.md",
+    "GitProject/docs/MyNetMate รายการ Features.md",
+    "02_feature/03_Network Topology Visualization/04_NTV - API.md",
+    "02_feature/09_Security & Validation/Rule",
     "02_feature/01_Dashboard&Monitoring/01_Desk Research",
     "02_feature/01_Dashboard&Monitoring/04_API Contracts",
     "02_feature/01_Dashboard&Monitoring/MyNetMate Minimal MVP Dashboard & Monitoring Research Plan.txt",
@@ -254,7 +239,6 @@
     "04_project_management/Document Project/word and pdf/CEPP68-33 Proposal.pdf",
     "04_project_management/Document Project/word and pdf/gantt_chart.pdf",
     "Img/Pasted image 20260809194816.png",
-    "temp_docs/หนังสือ/ข้อมูลจากหนังสือ/Ai_Cookbook LangChain for Networking/Thai_Detailed_Summary",
     "Img/MyNetMate.drawio.png",
     "Img/Pasted image 20260809195120.png",
     "Img/Pasted image 20260809194844.png",

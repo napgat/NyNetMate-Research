@@ -2,6 +2,8 @@
 
 เอกสารนี้อธิบายคำศัพท์เฉพาะที่ใช้ใน [01_MVP - MyNetMate NTV.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization/01_MVP - MyNetMate NTV.md) ด้วยภาษาง่าย ๆ โดยยึดบริบทของ MyNetMate ไม่ได้มุ่งเป็นนิยามสากลที่ครอบคลุมระบบเครือข่ายทุกประเภท
 
+> **Scope ล่าสุด:** NTV MVP แสดง Topology จาก LLDP/CDP Observation เท่านั้น ไม่มี Manual Override, Verify/Reject, Report Incorrect หรือ Resolve Conflict Workflow คำศัพท์เหล่านี้เก็บไว้เพื่ออธิบาย Future Enhancement และไม่ใช่ข้อกำหนด MVP
+
 ## 1. ภาพรวมการทำงานแบบสั้น
 
 MyNetMate มีช่องทางนำอุปกรณ์เข้าสู่ระบบ 2 วิธี:
@@ -99,15 +101,15 @@ Device Credential Profile **ไม่ใช่** Username/Password ที่ใ�
 
 ### RBAC (Role-Based Access Control)
 
-การกำหนดสิทธิ์ตามบทบาท เช่น Admin, Operator และ Viewer เพื่อควบคุมว่าใครดู Topology, สั่ง Re-collect, รายงานข้อมูลผิด, Resolve Conflict หรือสร้าง Manual Override ได้ Link ปกติจาก LLDP/CDP ไม่ต้องใช้สิทธิ์ยืนยันทีละเส้น
+การกำหนดสิทธิ์ตามบทบาท เช่น Admin, Operator และ Viewer เพื่อควบคุมว่าใครดู Topology, เปลี่ยน Shared Layout หรือสั่ง Re-collect ได้ Link จาก LLDP/CDP ไม่ต้องใช้สิทธิ์ยืนยันทีละเส้น
 
 ### Audit Trail / Audit Log
 
-ประวัติว่าใครทำอะไร เมื่อใด และกับข้อมูลใด เช่น Operator คนใดรายงาน Observation ว่าผิด, Resolve Conflict หรือสร้าง Manual Override ใช้สำหรับตรวจสอบย้อนหลัง แต่ต้องไม่บันทึก Secret
+ประวัติว่าใครทำอะไร เมื่อใด และกับข้อมูลใด เช่น ผู้ใช้คนใดสั่ง Re-collect หรือเปลี่ยน Shared Layout ใช้สำหรับตรวจสอบย้อนหลัง แต่ต้องไม่บันทึก Secret
 
 ### Four-eyes Principle
 
-หลักให้คนหนึ่งสร้างรายการและให้อีกคนตรวจยืนยัน เพื่อลดความผิดพลาด ตัวอย่างเช่น Operator A สร้าง Manual Override และ Operator B เป็นผู้ Verify แนวทางนี้เป็นตัวเลือก ยังต้องให้ทีมตัดสินใจว่าจะอยู่ใน MVP หรือไม่
+หลักให้คนหนึ่งสร้างรายการและให้อีกคนตรวจยืนยันเพื่อลดความผิดพลาด แนวคิดนี้อาจใช้กับ Manual Override ในอนาคต แต่ไม่เกี่ยวกับ NTV MVP ปัจจุบัน
 
 ## 4. โปรโตคอลและวิธีเก็บข้อมูล
 
@@ -268,11 +270,11 @@ Zoom คือขยายหรือย่อมุมมอง ส่วน P
 
 ### Raw Observation
 
-Observation ต้นฉบับที่ได้จาก Collector/Parser ควรเก็บแยกจาก Evidence Assessment และ Exception Review เพื่อให้ตรวจสอบย้อนหลังได้
+Observation ต้นฉบับที่ได้จาก Collector/Parser ควรเก็บแยกจาก Evidence Assessment และ Current Link Projection เพื่อให้ตรวจสอบย้อนหลังได้
 
 ### Immutable
 
-แก้ไขทับไม่ได้ หาก Raw Observation ผิด ผู้ใช้ควรใช้ `Report Incorrect` หรือบันทึก Parser Error แต่ไม่เปลี่ยน Endpoint ในหลักฐานเดิม
+แก้ไขทับไม่ได้ หาก Parser พบข้อผิดพลาดให้บันทึก Parse Status/Error และสร้าง Observation รอบใหม่หลังแก้ Parser หรือ Re-collect โดยไม่เปลี่ยน Endpoint ในหลักฐานเดิม
 
 ### Append-only
 
@@ -280,7 +282,7 @@ Observation ต้นฉบับที่ได้จาก Collector/Parser �
 
 ### Provenance / Source
 
-ที่มาของข้อมูล เช่นมาจาก LLDP, CDP หรือ Manual Override ช่วยให้ผู้ใช้ประเมินความน่าเชื่อถือและตรวจย้อนกลับได้
+ที่มาของข้อมูลใน MVP เช่น LLDP หรือ CDP ช่วยให้ผู้ใช้ประเมินความน่าเชื่อถือและตรวจย้อนกลับได้ ส่วน Manual Override เป็นแหล่งข้อมูลที่อาจเพิ่มในอนาคต
 
 ### Freshness / Last Observed At
 
@@ -292,19 +294,19 @@ Observation ต้นฉบับที่ได้จาก Collector/Parser �
 
 - `one_sided` — พบ Link จากอุปกรณ์ฝั่งเดียว แต่จับคู่ Endpoint ได้ จึงแสดงได้ตามปกติพร้อมป้ายบอกระดับหลักฐาน
 - `corroborated` — อุปกรณ์ทั้งสองฝั่งรายงาน Port คู่เดียวกัน ระบบรวมเป็น Link เดียวและถือว่ามีหลักฐานสนับสนุนจากสองฝั่ง
-- `unresolved` — พบข้อมูล Neighbor แต่ยังจับคู่ Remote Device หรือ Interface ไม่ได้ จึงส่งไป Needs Review แทนการสร้าง Node สมมติ
+- `unresolved` — พบข้อมูล Neighbor แต่ยังจับคู่ Remote Device หรือ Interface ไม่ได้ จึงแสดงใน Warning/Pending List แทนการสร้าง Node สมมติ
 
 Evidence Assessment เป็นคนละเรื่องกับ Current Link State เช่น Link อาจเป็น `one_sided` และ `active` พร้อมกัน หรือเป็น `corroborated` แต่ `stale` เมื่อข้อมูลเก่าเกินเกณฑ์
 
-### Report Incorrect
+### Report Incorrect — Future Enhancement
 
 คำสั่งที่ผู้ใช้ใช้รายงานว่า Link หรือ Observation ที่ระบบแสดงอาจไม่ตรงกับสภาพจริง เช่น Parser จับ Remote Port ผิด ผู้ใช้ต้องใส่เหตุผล ระบบเก็บ Raw Observation เดิมไว้และสร้าง Exception Review แยกต่างหาก
 
-### Needs Review
+### Needs Review / Pending Warning
 
-รายการที่ระบบยังสรุปหรือจับคู่ไม่ได้ หรือรายการที่ผู้ใช้รายงานว่าผิด จึงต้องให้ Admin/Operator ตรวจเพิ่มเติม ใช้เฉพาะกรณีผิดปกติ ไม่ใช่สถานะเริ่มต้นของ LLDP/CDP Link ทุกเส้น
+รายการที่ระบบยังสรุปหรือจับคู่ไม่ได้ ใน MVP ใช้เป็น Warning/Pending List สำหรับเปิดรายละเอียดและ Re-collect ไม่มี Human Review Workflow
 
-### Resolve Conflict
+### Resolve Conflict — Future Enhancement
 
 การที่ผู้มีสิทธิ์ตรวจหลักฐานซึ่งขัดกัน แล้วบันทึกผลว่าจะใช้ข้อมูลใด สั่ง Re-collect หรือตรวจสายจริง โดยต้องไม่แก้ Raw Observation ของฝ่ายใดทิ้ง
 
@@ -320,9 +322,9 @@ Evidence Assessment เป็นคนละเรื่องกับ Current 
 
 สถานะที่ระบบหรือผู้ใช้สรุปแล้วว่า Link ไม่ใช่ Link ปัจจุบัน การเปลี่ยนจาก Stale เป็น Removed ต้องมีนโยบายที่ชัดเจน และไม่ควร Hard-delete ประวัติเดิม
 
-### Manual Override
+### Manual Override — Future Enhancement
 
-Link ที่มนุษย์บันทึกเป็นข้อยกเว้นเมื่อ LLDP/CDP ใช้ไม่ได้ โดยต้องเลือก Device และ Interface ที่ระบบเก็บจากอุปกรณ์จริงแล้ว พร้อมเหตุผล หลักฐาน ผู้บันทึก และสถานะการยืนยัน
+แนวคิด Link ที่มนุษย์บันทึกเป็นข้อยกเว้นเมื่อ LLDP/CDP ใช้ไม่ได้ โดยต้องเลือก Device และ Interface ที่ระบบเก็บจากอุปกรณ์จริงแล้ว พร้อมเหตุผล หลักฐาน ผู้บันทึก และสถานะการยืนยัน แต่ยังไม่ทำใน MVP
 
 Manual Override ไม่ใช่การวาดเส้นอย่างอิสระเพื่อให้ Diagram ดูครบ
 
@@ -332,11 +334,11 @@ Manual Override ไม่ใช่การวาดเส้นอย่าง�
 
 ### Reconciliation
 
-กระบวนการเปรียบเทียบ Observation หลายรายการและ Manual Override เพื่อสรุปว่า Link ปัจจุบันควรมีสถานะอะไร โดยไม่ทำลายหลักฐานต้นฉบับ
+กระบวนการเปรียบเทียบ Neighbor Observation หลายรายการเพื่อสรุปว่า Link ปัจจุบันควรมีสถานะอะไร โดยไม่ทำลายหลักฐานต้นฉบับ
 
 ### Conflict
 
-กรณีข้อมูลไม่ตรงกัน เช่น LLDP รอบใหม่บอกว่า Cisco `Gi0/1` ต่อกับ MikroTik แต่ Manual Override เดิมบอกว่าต่อกับ Huawei ระบบต้องแจ้งให้ผู้ใช้ตรวจ ไม่เลือกฝ่ายใดฝ่ายหนึ่งแบบเงียบ ๆ
+กรณีข้อมูลไม่ตรงกัน เช่น Observation รอบก่อนบอกว่า Cisco `Gi0/1` ต่อกับ Huawei แต่รอบใหม่บอกว่าต่อกับ MikroTik ระบบต้องแสดง Warning และไม่เขียนทับหลักฐานเดิมแบบเงียบ ๆ
 
 ### One-sided Observation
 
@@ -383,11 +385,11 @@ Manual Override ไม่ใช่การวาดเส้นอย่าง�
 
 ### `topology_links`
 
-ชื่อตาราง Candidate สำหรับเก็บ Link ปัจจุบันหลังผ่านการ Reconcile แล้ว ต้องอ้างกลับไปยังหลักฐานหรือ Manual Override ได้
+ชื่อตาราง Candidate สำหรับเก็บ Link ปัจจุบันหลังผ่านการ Reconcile แล้ว ต้องอ้างกลับไปยัง Neighbor Observation ได้
 
 ### `topology_link_reviews`
 
-ชื่อตาราง Candidate สำหรับเก็บ Exception Review เช่น Report Incorrect, Resolve Conflict และการตรวจ Manual Override พร้อมผู้ดำเนินการและเวลา ไม่จำเป็นต้องมี Review Record สำหรับ Link ปกติทุกเส้น
+ชื่อตาราง Candidate สำหรับ Future Enhancement ของ Report Incorrect, Resolve Conflict และการตรวจ Manual Override ไม่สร้างตารางนี้ใน MVP
 
 ### `topology_views`
 
@@ -520,21 +522,22 @@ Vendor ที่มีแผนทดลองรองรับ แต่ยั
 | `ip_address` | IP ที่เกี่ยวข้องกับอุปกรณ์หรือ Interface ตาม Schema |
 | `local_interface_id` | Interface ฝั่งที่กำลังรายงาน Neighbor |
 | `remote_interface_id` | Interface ของอุปกรณ์เพื่อนบ้าน ถ้าระบุตัวตนได้ |
-| `source` | แหล่งที่มาของข้อมูล เช่น LLDP/CDP/Manual Override |
+| `source` | แหล่งที่มาของข้อมูล; MVP ใช้ LLDP/CDP ส่วน Manual Override เป็น Future Enhancement |
 | `collection_status` | ผลของการเก็บข้อมูลรอบนั้น |
 | `evidence_assessment` | ระดับหลักฐานที่ระบบประเมิน เช่น One-sided/Corroborated/Unresolved |
-| `current_link_state` | สถานะการแสดงผลปัจจุบัน เช่น Active/Needs Review/Stale/Conflict |
+| `current_link_state` | วงจรชีวิตของ Link เช่น Active/Stale/Archived |
+| `warning_state` | ผลคำเตือนที่ระบบคำนวณ เช่น Normal/Conflict ไม่ใช่ผลการยืนยันของผู้ใช้ |
 | `last_collected_at` | เวลาที่เก็บข้อมูลจากอุปกรณ์ล่าสุด |
 | `last_observed_at` | เวลาที่พบ Link ล่าสุด |
-| `created_by` / `created_at` | ใครสร้างรายการและสร้างเมื่อใด |
-| `verified_by` / `verified_at` | ใครยืนยันรายการและยืนยันเมื่อใด |
-| `reason` | เหตุผลที่ทำรายการ เช่น Report Incorrect, Resolve Conflict หรือ Override |
-| `evidence_note` | บันทึกหลักฐานประกอบการตัดสินใจ |
+| `created_by` / `created_at` | ใครสร้างรายการและสร้างเมื่อใด; ใช้กับ Manual Override ใน Future Enhancement |
+| `verified_by` / `verified_at` | ใครยืนยันรายการและยืนยันเมื่อใด; เป็น Field ของ Future Enhancement |
+| `reason` | เหตุผลของ Report Incorrect, Resolve Conflict หรือ Override ใน Future Enhancement |
+| `evidence_note` | บันทึกหลักฐานของ Manual Override ใน Future Enhancement |
 | `position_x` / `position_y` | ตำแหน่ง Node บน Canvas |
 | `is_pinned` | Node ถูกล็อกตำแหน่งหรือไม่ |
 | `is_hidden` | Node ถูกซ่อนใน View หรือไม่ |
 
-ชื่อ Field เหล่านี้ยังเป็น Candidate จนกว่า [02_Database Schema.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization/02_Database Schema.md) จะได้รับการออกแบบและยืนยัน
+ชื่อ Field สำหรับ MVP ให้ยึด [02_Database Schema.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization/02_Database Schema.md) ส่วน Field ที่ระบุว่า Future Enhancement ยังไม่ต้องสร้างใน Schema ปัจจุบัน
 
 ## 10. รหัสที่ใช้จัดหมวดในเอกสาร
 
@@ -553,7 +556,7 @@ Vendor ที่มีแผนทดลองรองรับ แต่ยั
 
 | คำที่อาจสับสน | ความแตกต่าง |
 |---|---|
-| Manual Input กับ Manual Link | Manual Input คือระบุอุปกรณ์เป้าหมายเพื่อให้ระบบไปเก็บข้อมูล ส่วน Manual Link คือแนวคิดลากเส้นด้วยคน ซึ่งถูกจำกัดใหม่เป็น Manual Override |
+| Manual Input กับ Manual Link | Manual Input คือระบุอุปกรณ์เป้าหมายเพื่อให้ระบบไปเก็บข้อมูล ส่วน Manual Link คือการสร้างเส้นด้วยคน ซึ่งไม่อยู่ใน MVP; Manual Override เป็น Future Enhancement |
 | Device Credential กับ User Login | Device Credential ใช้เข้า Router/Switch ส่วน User Login ใช้เข้าเว็บ MyNetMate |
 | Candidate Device กับ Managed Device | Candidate เพียงถูกค้นพบเบื้องต้น ส่วน Managed Device ผ่านการนำเข้าและมีข้อมูลที่ระบบจัดการได้ |
 | Ping Success กับ Collection Success | Ping ผ่านแปลว่า IP ตอบเบื้องต้น ส่วน Collection Success แปลว่าระบบเข้าไปดึงและ Parse ข้อมูลที่ต้องการได้ |
@@ -561,9 +564,9 @@ Vendor ที่มีแผนทดลองรองรับ แต่ยั
 | Interface กับ Link | Interface คือ Port หนึ่งช่อง ส่วน Link คือความสัมพันธ์ระหว่างสอง Endpoint |
 | Link Endpoint กับ API Endpoint | Link Endpoint คือปลายสาย Device/Interface ส่วน API Endpoint คือเส้นทางเรียก Backend |
 | Layout Change กับ Network Change | Layout Change คือขยับรูปบนจอ ส่วน Network Change คือเปลี่ยนสาย, Port หรือ Configuration จริง |
-| One-sided กับ Needs Review | One-sided คือ Link ปกติที่พบจากฝั่งเดียวและจับคู่ Endpoint ได้ ส่วน Needs Review คือข้อมูลที่จับคู่ไม่ได้ ขัดแย้ง หรือถูกรายงานว่าผิด |
+| One-sided กับ Pending Warning | One-sided คือ Link ปกติที่พบจากฝั่งเดียวและจับคู่ Endpoint ได้ ส่วน Pending Warning คือข้อมูลที่จับคู่ไม่ได้ ขัดแย้ง หรือเก่า |
 | Corroborated กับ Human-confirmed | Corroborated คือระบบพบข้อมูลตรงกันสองฝั่งโดยอัตโนมัติ ไม่ได้หมายถึงมีคนกดยืนยัน |
-| Manual Override กับ Freehand Drawing | Override ต้องอ้าง Device/Interface จริงและมีหลักฐาน ส่วน Freehand Drawing วาดได้โดยไม่ต้องมีหลักฐาน ซึ่งไม่อยู่ใน MVP |
+| Manual Override กับ Freehand Drawing | ทั้งสองอย่างไม่อยู่ใน MVP; หากทำ Override ในอนาคตต้องอ้าง Device/Interface จริงและมีหลักฐาน ส่วน Freehand Drawing ไม่มีหลักฐานและไม่อยู่ใน Scope |
 | Stale กับ Down | Stale แปลว่าข้อมูลเก่าหรือไม่พบในรอบล่าสุด ส่วน Down คือสถานะ Interface/Reachability ที่ระบบตรวจได้ ณ เวลาหนึ่ง |
 | Stale กับ Removed | Stale ยังไม่สรุปว่าหาย ส่วน Removed คือผ่านกฎหรือการตรวจจนสรุปว่าไม่ใช่ Link ปัจจุบัน |
 | Source กับ Source Device | `source` ในบริบทหลักฐานหมายถึงที่มาข้อมูล เช่น LLDP ส่วน Source Device หมายถึงอุปกรณ์ต้นทางของ Link ต้องตั้งชื่อ Field ให้ชัดเพื่อไม่ให้สับสน |
@@ -582,11 +585,11 @@ Vendor ที่มีแผนทดลองรองรับ แต่ยั
 6. Link มี Source เป็น LLDP และแสดง Last Observed At
 7. หากยังเก็บข้อมูลจาก Huawei ไม่ได้ Link จะแสดงเป็น One-sided โดยไม่ต้องรอผู้ใช้ยืนยัน
 8. หากทีมเก็บข้อมูลจาก Huawei แล้ว Huawei รายงานกลับมาสอดคล้องกัน ระบบเปลี่ยน Evidence Assessment เป็น Corroborated อัตโนมัติ
-9. หากผู้ใช้พบว่า Port ที่แสดงผิด จึงใช้ Report Incorrect พร้อมเหตุผล; ระบบไม่แก้ Raw Observation เดิม
+9. หากผู้ใช้พบว่า Port ที่แสดงผิด ให้ตรวจสาย/Parser และกด Re-collect; MVP ไม่มีคำสั่งแก้ Link ด้วยมือ
 10. หากภายหลังย้ายสายไป `Gi0/2` ผู้ดูแลต้องเปลี่ยนสายจริงแล้วกด Re-collect
-11. Observation ใหม่แสดง `Gi0/2` ส่วน Link เดิมอาจเป็น Stale/Needs Review จนกว่าจะผ่าน Reconciliation
+11. Observation ใหม่แสดง `Gi0/2` ส่วน Link เดิมอาจเป็น Stale/Conflict Warning จนกว่าจะผ่าน Reconciliation
 
-ถ้า Huawei ไม่รองรับหรือไม่ได้เปิด LLDP ทีมอาจสร้าง Manual Override ว่า Cisco `Gi0/1` ต่อกับ Huawei `GE0/0/1` ได้ แต่ต้องเลือก Interface ที่เก็บจากอุปกรณ์ทั้งสองจริงและใส่ Evidence Note จากการตรวจสาย
+ถ้า Huawei ไม่รองรับหรือไม่ได้เปิด LLDP/CDP ระบบแสดงว่าไม่มี Neighbor Data หรือยังระบุ Link ไม่ได้ โดยไม่เติม Link ด้วยมือใน MVP ทีมค่อยประเมิน Manual Override หลังทดสอบอุปกรณ์จริง
 
 ## 13. คำแปลที่แนะนำสำหรับเอกสารภาษาไทย
 

@@ -1,26 +1,37 @@
-# Candidate API สำหรับ NTV แบบ Evidence-based
+# Candidate API สำหรับ NTV MVP แบบ Visualization-only
 
-> Link จาก LLDP/CDP แสดงอัตโนมัติโดยไม่ต้องเรียก Confirm API ระบบคำนวณ `one_sided`, `corroborated`, `needs_review`, `conflict` และ `stale` จาก Observation ที่มี
+> Link จาก LLDP/CDP แสดงอัตโนมัติโดยไม่ต้องเรียก Confirm API ระบบคำนวณ `one_sided`, `corroborated`, `unresolved`, `conflict` และ `stale` จาก Observation ที่มี ผู้ใช้ไม่สามารถสร้างหรือแก้ Link ด้วยมือใน MVP
 
-| API                                                                   | หน้าที่                                                                                          |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `GET /topologies/{topology_id}`                                       | โหลด Managed Node, Current Link, Evidence Assessment, Layout และ Freshness                       |
-| `GET /topologies/{topology_id}/issues`                                | โหลดเฉพาะ Needs Review, Conflict และ Observation ที่ถูกรายงานว่าผิด                              |
-| `POST /devices/enroll`                                                | ระบุ Known Device และ Credential Profile เพื่อเริ่ม Read-only Collection; อยู่ในขอบเขต Inventory |
-| `POST /devices/{device_id}/collections`                               | สั่ง Re-collect แบบ Read-only                                                                    |
-| `GET /device-collections/{collection_id}`                             | อ่านสถานะและผลของ Collection Job                                                                 |
-| `PATCH /topologies/{topology_id}/nodes/{device_id}/position`          | แก้เฉพาะตำแหน่ง Node บน View                                                                     |
-| `POST /topology-link-observations/{observation_id}/incorrect-reports` | รายงานว่า Observation ที่แสดงอาจไม่ถูกต้อง พร้อมเหตุผล โดยไม่แก้ Raw Data                        |
-| `POST /topology-link-conflicts/{conflict_id}/resolve`                 | บันทึกผลการตรวจ Conflict พร้อมเหตุผลและผู้ดำเนินการ                                              |
-| `POST /topology-link-overrides`                                       | สร้าง Manual Override จาก Device/Interface ที่เก็บจากอุปกรณ์จริง                                 |
-| `POST /topology-link-overrides/{override_id}/verify`                  | ตรวจ Manual Override ตาม RBAC/Policy เพราะเป็นข้อมูลจากมนุษย์                                    |
-| `POST /topology-link-overrides/{override_id}/archive`                 | เลิกใช้ Override โดยยังเก็บประวัติและ Audit Trail                                                |
+## API ใน MVP
 
-## API ที่ไม่ต้องมี
+| API | หน้าที่ |
+|---|---|
+| `GET /topologies/{topology_id}` | โหลด Managed Node, Current Link, Evidence Assessment, Warning, Layout และ Freshness |
+| `GET /topologies/{topology_id}/warnings` | โหลด Unresolved Neighbor, Conflict และ Stale Link สำหรับแสดง Pending/Warning List |
+| `POST /devices/enroll` | ระบุ Known Device และ Credential Profile เพื่อเริ่ม Read-only Collection; อยู่ในขอบเขต Inventory |
+| `POST /devices/{device_id}/collections` | สั่ง Re-collect แบบ Read-only |
+| `GET /device-collections/{collection_id}` | อ่านสถานะและผลของ Collection Job |
+| `PATCH /topologies/{topology_id}/nodes/{device_id}/position` | แก้เฉพาะตำแหน่ง Node บน Shared View |
 
-- ไม่ต้องมี `confirm` สำหรับ LLDP/CDP Observation ปกติ
-- ไม่ใช้ `reject` เป็นขั้นตอนบังคับของทุก Link
-- ไม่ใช้ `POST/PATCH/DELETE /topologies/{id}/links` เป็น CRUD ทั่วไปสำหรับ Raw Link
-- ไม่อนุญาตให้แก้ Source/Destination Endpoint ของ Raw Observation
+## API ที่ไม่มีใน MVP
 
-คำสั่งจากผู้ใช้มีเฉพาะการรายงานข้อมูลผิด การ Resolve Conflict และการจัดการ Manual Override ส่วน Current Link ปกติสร้างโดย Reconciliation Service จาก Observation อัตโนมัติ
+- ไม่มี `confirm` หรือ `reject` สำหรับ LLDP/CDP Link
+- ไม่มี `POST/PATCH/DELETE /topologies/{id}/links` สำหรับสร้างหรือแก้ Link ด้วยมือ
+- ไม่มี API แก้ Source/Destination Endpoint ของ Raw Observation
+- ไม่มี `Report Incorrect` หรือ `Resolve Conflict` Workflow
+- ไม่มี Create/Verify/Reject/Archive Manual Override
+
+เมื่อข้อมูลไม่ครบหรือขัดกัน MVP จะแสดง Warning และให้ผู้ใช้ตรวจอุปกรณ์/สายจริงหรือสั่ง Re-collect เท่านั้น
+
+## Future Enhancement API
+
+Endpoint ต่อไปนี้เป็นเพียง Candidate หากทีมอนุมัติ Manual Override หลัง MVP:
+
+- `POST /topology-link-overrides`
+- `POST /topology-link-overrides/{override_id}/verify`
+- `POST /topology-link-overrides/{override_id}/reject`
+- `POST /topology-link-overrides/{override_id}/archive`
+- `POST /topology-link-observations/{observation_id}/incorrect-reports`
+- `POST /topology-link-conflicts/{conflict_id}/resolve`
+
+ห้ามนำ Candidate เหล่านี้ไปนับเป็น MVP Acceptance Criteria หรือ Implementation Task จนกว่าจะมีมติเปิด Future Scope

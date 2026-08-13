@@ -1,5 +1,8 @@
 เราจะออกแบบทีละขั้น และจะยังไม่รีบกำหนด Column หรือเขียน SQL จนกว่าภาพรวมและความสัมพันธ์จะนิ่ง
 
+> [!IMPORTANT]
+> **Scope correction — 2026-08-12:** NTV MVP เป็น Visualization-only จาก LLDP/CDP Observation ไม่มี Manual Override, Verify/Reject, Report Incorrect หรือ Human Conflict Resolution Workflow ตารางและความสัมพันธ์ของความสามารถเหล่านั้นที่เคยศึกษาไว้ให้ถือเป็น **Future Extension Design** ไม่ใช่ MVP Logical Schema
+
 ## ลำดับการออกแบบ
 
 1. ภาพรวมและขอบเขตข้อมูล
@@ -28,8 +31,7 @@
 
 - หลักฐานจาก LLDP/CDP
 - Link ปัจจุบันที่ NTV แสดง
-- ข้อมูลผิดปกติและข้อมูลขัดแย้ง
-- Manual Override
+- Warning จากข้อมูล Unresolved, Conflict หรือ Stale
 - ตำแหน่ง Node บนแผนผัง
 - ประวัติการดำเนินงานของผู้ใช้
 
@@ -41,7 +43,7 @@ flowchart LR
     A["Shared Inventory Data<br/>Device และ Interface"]
     B["Collection Evidence<br/>Collection Run และ Neighbor Observation"]
     C["Topology Interpretation<br/>Current Link และ Evidence Assessment"]
-    D["Exception Handling<br/>Incorrect Report, Conflict และ Manual Override"]
+    D["Warning Assessment<br/>Unresolved, Conflict และ Stale"]
     E["Presentation Data<br/>Topology View และ Node Position"]
 
     A --> B
@@ -95,17 +97,16 @@ NTV ต้องไม่เพิ่ม `connected_to_device_id` หรือ `
 
 ส่วนนี้เป็นผลจากการเปรียบเทียบ Observation หลายรายการ ไม่ใช่ Raw Data จากอุปกรณ์โดยตรง
 
-### กลุ่มที่ 4 — ข้อยกเว้นและการตรวจสอบ
+### กลุ่มที่ 4 — Warning สำหรับข้อมูลที่ผิดปกติ
 
-ใช้เฉพาะเมื่อระบบอัตโนมัติไม่เพียงพอ:
+ใช้แสดงผลเมื่อระบบอัตโนมัติให้ข้อสรุปไม่ครบหรือข้อมูลขัดกัน:
 
-- Report Incorrect
-- Conflict Resolution
-- Manual Override
-- Override Verification/Review
-- เหตุผลและหลักฐานจากผู้ใช้
+- Unresolved Neighbor
+- Parser/Collection Warning
+- Conflict ระหว่าง Observation
+- Stale Link
 
-Link ปกติจาก LLDP/CDP ไม่ต้องมี Review Record ทุกเส้น
+MVP คำนวณ Warning เพื่อแสดงผล ไม่มี Human Review Record หรือ Manual Override Table
 
 ### กลุ่มที่ 5 — ข้อมูลการแสดงผล
 
@@ -130,11 +131,11 @@ Link ปกติจาก LLDP/CDP ไม่ต้องมี Review Record �
 |Neighbor Observation|Collection/Discovery|อ่านและนำไป Reconcile|
 |Current Topology Link|NTV|สร้าง/ปรับจากหลักฐาน|
 |Evidence Assessment|NTV/Reconciliation|คำนวณอัตโนมัติ|
-|Manual Override|NTV|สร้างตามสิทธิ์|
-|Exception Review|NTV|จัดการกรณีผิดปกติ|
 |Topology View/Layout|NTV|จัดการได้|
 |User|Auth/RBAC|อ้างผู้ดำเนินการ|
 |Audit Log|Audit Infrastructure|ส่งเหตุการณ์ไปบันทึก|
+
+`Manual Override` และ `Exception Review` เป็น Future Extension และไม่สร้างตารางใน MVP
 
 ## 1.4 สิ่งที่ไม่เก็บใน Schema ของ NTV
 
@@ -203,16 +204,12 @@ NTV เป็น Snapshot-based Topology:
 - ดู Topology
 - จัด Shared Layout
 - สั่ง Re-collect
-- รายงานข้อมูลผิด
-- Resolve Conflict
-- จัดการ Manual Override
 
 ### Operator
 
 - ดูและจัด Topology
 - สั่ง Re-collect
-- ตรวจข้อมูลผิดปกติ
-- สร้าง Manual Override ตาม Policy
+- เปิดรายละเอียด Warning/Unresolved Data
 
 ### Viewer
 
@@ -249,7 +246,7 @@ NTV เป็น Snapshot-based Topology:
 - พบจากฝั่งเดียวหรือทั้งสองฝั่ง
 - Collection Run ที่เกี่ยวข้อง
 - Current State
-- Manual Override หรือ Conflict ที่เกี่ยวข้อง
+- Conflict/Stale Warning ที่เกี่ยวข้อง
 
 คำถาม:
 
@@ -261,7 +258,7 @@ NTV เป็น Snapshot-based Topology:
 
 - แสดง Link อัตโนมัติ
 - ระบุ `one_sided`
-- ไม่สร้าง Exception Review โดยอัตโนมัติ
+- ไม่สร้าง Human Review Record
 - ไม่ต้องให้ผู้ใช้ Confirm
 
 คำถาม:
@@ -283,65 +280,50 @@ NTV เป็น Snapshot-based Topology:
 
 ### UC-NTV-05 — แสดงรายการที่ต้องตรวจสอบ
 
-ผู้ใช้เปิดรายการ Issues แล้วเห็น:
+ผู้ใช้เปิดรายการ Warning/Pending แล้วเห็น:
 
 - Unresolved Neighbor
-- Reported Incorrect
 - Conflict
 - Parser Error
-- Manual Override ที่รอตรวจ
 - Stale Link ตาม Policy
 
 คำถาม:
 
-> มีข้อมูลใดที่ระบบไม่สามารถสรุปเองได้และต้องให้ผู้ใช้ตรวจสอบ?
+> มีข้อมูลใดที่ระบบยัง Resolve ไม่ได้ ขัดกัน หรือเก่าเกิน Policy?
 
-### UC-NTV-06 — รายงานข้อมูลไม่ถูกต้อง
+### UC-NTV-06 — แสดง Warning โดยไม่แก้หลักฐาน
 
-Admin หรือ Operator เห็นว่า Link ไม่ตรงกับสายจริง จึง:
+เมื่อระบบพบ Unresolved, Parser Error, Conflict หรือ Stale:
 
-- เลือก Observation หรือ Current Link
-- ระบุเหตุผล
-- บันทึกผู้รายงานและเวลา
-- ไม่แก้ Raw Observation
+- แสดงชนิด Warning และหลักฐานที่เกี่ยวข้อง
+- ผู้ใช้เปิดรายละเอียดหรือตรวจสายจริงได้
+- ผู้ใช้สั่ง Re-collect ได้ตามสิทธิ์
+- NTV ไม่แก้ Raw Observation และไม่มี Human Resolution Workflow ใน MVP
 
 คำถาม:
 
-> ใครรายงานข้อมูลใดว่าผิด เพราะเหตุใด และดำเนินการแล้วหรือยัง?
+> Warning นี้เกิดจาก Observation/Collection ใด และตรวจพบล่าสุดเมื่อใด?
 
-### UC-NTV-07 — Resolve Conflict
+### UC-NTV-07 — แสดง Conflict
 
 เมื่อหลักฐานขัดกัน ผู้ใช้ต้องดู:
 
 - Observation ใหม่
 - Current Link เดิม
-- Manual Override ที่เกี่ยวข้อง
-- ประวัติการตรวจสอบ
+- Observation ที่เกี่ยวข้อง
+- เวลาของแต่ละหลักฐาน
 
-จากนั้นบันทึกผล เช่น:
-
-- ใช้ Link จาก Observation ใหม่
-- คง Manual Override
-- สั่ง Re-collect ก่อนตัดสิน
-- Archive Link เดิม
+ผู้ใช้สามารถตรวจสายหรือสั่ง Re-collect แต่ไม่เลือกหรือ Override ข้อสรุปภายใน MVP
 
 คำถาม:
 
-> Conflict นี้เกิดจากหลักฐานใด และผู้ใช้สรุปผลอย่างไร?
+> Conflict นี้เกิดจากหลักฐานใด และ Collection ใหม่ทำให้ข้อขัดแย้งหายหรือไม่?
 
-### UC-NTV-08 — สร้าง Manual Override
+### UC-NTV-08 — Manual Override (Future Extension)
 
-เมื่อ LLDP/CDP ใช้ไม่ได้:
+Use Case นี้ไม่อยู่ใน MVP หากเปิด Future Scope จึงค่อยรองรับการเลือก Interface จริง เหตุผล Evidence Note ผู้สร้าง และ Lifecycle
 
-- เลือก Device และ Interface ฝั่งที่หนึ่ง
-- เลือก Device และ Interfaceฝั่งที่สอง
-- ใส่เหตุผลและ Evidence Note
-- บันทึกผู้สร้างและเวลา
-- ผ่าน Override Lifecycle ตาม Policy
-
-คำถาม:
-
-> Manual Override นี้อ้าง Interface จริงใด ใครสร้าง และมีหลักฐานอะไร?
+ห้ามนำ Use Case นี้ไปสร้าง Table, API หรือ Acceptance Criteria ของ MVP
 
 ### UC-NTV-09 — สั่ง Re-collect
 
@@ -379,7 +361,7 @@ NTV ไม่เป็นเจ้าของ Collection Table แต่ต้�
 - Link ที่พบซ้ำ
 - Link ที่ไม่พบรอบล่าสุด
 - Link ที่ Endpoint เปลี่ยน
-- Link ที่ขัดกับ Manual Override
+- Link ที่ขัดกับ Observation เดิม
 
 คำถาม:
 
@@ -409,11 +391,9 @@ NTV ไม่เป็นเจ้าของ Collection Table แต่ต้�
 | `QRY-NTV-02` | โหลดรายละเอียดและหลักฐานของ Link                 | ทุก Role       |
 | `QRY-NTV-03` | หา One-sided Observation                         | Reconciliation |
 | `QRY-NTV-04` | จับ Observation สองฝั่งเป็น Corroborated Link    | Reconciliation |
-| `QRY-NTV-05` | โหลด Needs Review และ Conflict                   | Admin/Operator |
+| `QRY-NTV-05` | โหลด Unresolved, Conflict และ Stale Warning       | ทุก Role       |
 | `QRY-NTV-06` | โหลด Collection ล่าสุดของ Device                 | ทุก Role       |
 | `QRY-NTV-07` | หา Link ที่ไม่พบใน Collection ล่าสุด             | Reconciliation |
-| `QRY-NTV-08` | โหลด Manual Override และ Lifecycle               | Admin/Operator |
-| `QRY-NTV-09` | โหลดประวัติ Report Incorrect/Conflict Resolution | Admin/Operator |
 | `QRY-NTV-10` | โหลด Node/Link ตาม Filter                        | ทุก Role       |
 | `QRY-NTV-11` | ตรวจ Parallel Links ระหว่าง Device คู่เดียวกัน   | Reconciliation |
 | `QRY-NTV-12` | โหลดประวัติการเปลี่ยน Link                       | Admin/Operator |
@@ -583,7 +563,7 @@ Entity เหล่านี้ NTV ใช้งาน แต่ไม่คว�
 |**Interface**|Device Inventory|Port จริงที่เก็บมาจากอุปกรณ์|ใช้เป็นจุดปลายของ Link|
 |**Collection Run**|Discovery/Collection|การเก็บข้อมูลจากอุปกรณ์หนึ่งรอบ|บอกว่าหลักฐานมาจากการเก็บข้อมูลรอบใด|
 |**Neighbor Observation**|Discovery/Collection|ผล LLDP/CDP ที่พบในเวลาหนึ่ง|เป็นหลักฐานสำหรับสร้าง Link|
-|**User**|Auth/RBAC|ผู้ใช้ที่ดำเนินการในระบบ|ระบุผู้รายงาน ผู้แก้ Conflict หรือผู้สร้าง Override|
+|**User**|Auth/RBAC|ผู้ใช้ที่ดำเนินการในระบบ|ระบุผู้สั่ง Re-collect หรือผู้แก้ Shared Layout|
 |**Audit Event**|Audit Infrastructure|ประวัติการกระทำสำคัญ|ตรวจสอบย้อนหลังว่าใครทำอะไรและเมื่อใด|
 
 ความแตกต่างสำคัญคือ:
@@ -639,8 +619,6 @@ Entity นี้เก็บความหมายของ “มุมมอ
 หมายถึงการประมวลผลหนึ่งรอบของ NTV ซึ่งนำข้อมูลจาก:
 
 - Neighbor Observation
-- Manual Override
-- ผลการ Resolve ข้อมูลผิดปกติ
 
 มาจับคู่และสร้างสถานะของแผนผังปัจจุบัน
 
@@ -667,9 +645,8 @@ Link ต้องอ้างถึง Interface จริงที่เก็�
 
 - Link ที่พบจากฝั่งเดียว
 - Link ที่พบตรงกันทั้งสองฝั่ง
-- Link จาก Manual Override
 - Parallel Links หรือหลายสายระหว่าง Device คู่เดียวกัน
-- สถานะ Conflict, Stale และ Needs Review
+- สถานะ Conflict และ Stale
 
 ดังนั้นห้ามระบุเอกลักษณ์ของ Link ด้วยคู่ Device เพียงอย่างเดียว ต้องพิจารณาคู่ Interface ด้วยใน Step 4–6
 
@@ -683,19 +660,14 @@ Link ต้องอ้างถึง Interface จริงที่เก็�
 
 - Current Link A อ้าง Neighbor Observation จาก Cisco หนึ่งรายการ → One-sided
 - Current Link B อ้าง Observation จาก Cisco และ Huawei ที่ตรงกัน → Corroborated
-- Current Link C อ้าง Manual Override → Human-observed
 
 Entity นี้จำเป็นเพราะ Link หนึ่งเส้นสามารถมีหลักฐานมากกว่าหนึ่งรายการได้ และ Observation หนึ่งรายการไม่ควรถูกคัดลอกหรือแก้ทับลงใน Current Link
 
-ใน Step 6 เราค่อยตัดสินใจว่าจะทำเป็น:
-
-- ตารางเชื่อม Current Link กับ Neighbor Observation
-- ตารางเชื่อม Current Link กับ Manual Override
-- หรือโครงสร้างกลางสำหรับหลักฐานหลายประเภท
+ใน MVP ใช้ตารางเชื่อม Current Link Evaluation กับ Neighbor Observation เท่านั้น
 
 ---
 
-### 6. Manual Override
+### 6. Manual Override — Future Concept
 
 หมายถึงหลักฐานจากมนุษย์เมื่อ LLDP/CDP ใช้ไม่ได้หรือ Parser ยังไม่รองรับอุปกรณ์
 
@@ -703,7 +675,7 @@ Entity นี้จำเป็นเพราะ Link หนึ่งเส้�
 
 > ตรวจสายจริงใน Lab แล้วพบว่า Huawei `GE0/0/1` ต่อกับ Cisco `Gi0/1`
 
-Manual Override ต้อง:
+Concept นี้ไม่อยู่ใน MVP หากเปิด Future Scope จึงค่อยออกแบบให้:
 
 - เลือก Device และ Interface ที่ระบบเก็บจากอุปกรณ์จริงแล้ว
 - ระบุเหตุผล
@@ -715,9 +687,9 @@ Manual Override ไม่ใช่การวาด Link อย่างอิ�
 
 ---
 
-### 7. Exception Review
+### 7. Exception Review — Future Concept
 
-หมายถึงข้อมูลสำหรับจัดการกรณีผิดปกติ เช่น:
+Concept นี้ไม่อยู่ใน MVP หมายถึงข้อมูลสำหรับจัดการกรณีผิดปกติในอนาคต เช่น:
 
 - ผู้ใช้กด Report Incorrect
 - ระบบพบ Conflict
@@ -735,9 +707,7 @@ Entity นี้ต้องรักษา:
 - ผลการตัดสินใจ
 - สถานะว่าจัดการแล้วหรือยัง
 
-ใน Step 6 จะพิจารณาอีกครั้งว่า `Exception Review` ตารางเดียวเพียงพอหรือควรแยกเป็น `Topology Issue` และ `Review Action`
-
-สำหรับ MVP สามารถเริ่มจาก Concept เดียวก่อน เพื่อลดความซับซ้อน
+ยังไม่สร้าง `Exception Review`, `Topology Issue` หรือ `Review Action` Table ใน MVP
 
 ---
 
@@ -763,12 +733,11 @@ Entity นี้ต้องรักษา:
 
 - `One-sided`
 - `Corroborated`
-- `Manual Override`
 
 ### สภาพปัจจุบันของข้อมูล
 
 - `Active`
-- `Needs Review`
+- `Unresolved` (ใช้กับ Observation/Warning ไม่ใช่ Verified Current Link)
 - `Conflict`
 - `Stale`
 - `Archived`
@@ -793,40 +762,28 @@ flowchart LR
     Collection["Collection Run<br/>Discovery"] --> Observation["Neighbor Observation<br/>Discovery"]
 
     Observation --> Reconcile["Reconciliation Run<br/>NTV"]
-    Override["Manual Override<br/>NTV"] --> Reconcile
     Reconcile --> Link["Current Topology Link<br/>NTV"]
 
     Observation --> Evidence["Topology Link Evidence<br/>NTV"]
-    Override --> Evidence
     Link --> Evidence
     Link --> Interface
 
     View["Topology View<br/>NTV"] --> Placement["Node Placement<br/>NTV"]
     Device --> Placement
 
-    Review["Exception Review<br/>NTV"] --> Observation
-    Review --> Link
-    Review --> Override
-
-    User["User<br/>Auth/RBAC"] --> Override
-    User --> Review
-    Override --> Audit["Audit Event<br/>Shared"]
-    Review --> Audit
 ```
 
 เส้นในภาพนี้แสดงเพียงว่า Entity เกี่ยวข้องกันอย่างไร ส่วนจำนวนความสัมพันธ์ เช่น One-to-Many หรือ Many-to-Many จะกำหนดใน **Step 4 — Relationships and Cardinality**
 
 ## ผลลัพธ์ของ Step 3
 
-NTV มี Entity ที่เป็นเจ้าของเบื้องต้น 7 รายการ:
+NTV MVP มี Entity ที่เป็นเจ้าของ 5 รายการ:
 
 1. Topology View
 2. Node Placement
 3. Reconciliation Run
 4. Current Topology Link
 5. Topology Link Evidence
-6. Manual Override
-7. Exception Review
 
 และขอใช้ Entity จากฟีเจอร์อื่น 6 รายการ:
 
@@ -837,7 +794,7 @@ NTV มี Entity ที่เป็นเจ้าของเบื้อง�
 5. User
 6. Audit Event
 
-โมเดลนี้ยังคงหลักสำคัญว่า **Raw Observation ไม่ถูกแก้ทับ, ไม่มี Node/Link สมมติ และ NTV ไม่จัดเก็บข้อมูลซ้ำจากฟีเจอร์เพื่อน**
+Manual Override และ Exception Review เก็บเป็น Future Concepts นอก MVP โมเดลปัจจุบันยังคงหลักสำคัญว่า **Raw Observation ไม่ถูกแก้ทับ, ไม่มี Node/Link สมมติ และ NTV ไม่จัดเก็บข้อมูลซ้ำจากฟีเจอร์เพื่อน**
 
 
 # Step 4 — Relationships and Cardinality
@@ -959,7 +916,7 @@ Remote Interface      = ไม่ทราบ
 
 - รักษา Raw Identity ไว้
 - ไม่สร้าง Device หรือ Interface สมมติ
-- สร้าง `Topology Issue` เพื่อรอตรวจสอบ
+- แสดงรายการ `unresolved` ใน Warning/Pending Query โดยไม่สร้าง Human Review Record
 
 ---
 
@@ -1050,15 +1007,7 @@ Current Topology Link 1 ─── 1..* Topology Link Evidence
 - Current Link หนึ่งเส้นต้องมีหลักฐานอย่างน้อยหนึ่งรายการ
 - `Topology Link Evidence` หนึ่งรายการต้องเป็นของ Current Link หนึ่งเส้น
 
-หลักฐานหนึ่งรายการต้องอ้างถึงอย่างใดอย่างหนึ่งเท่านั้น:
-
-```
-Neighbor Observation XOR Manual Override
-```
-
-คำว่า `XOR` หมายถึงเลือกได้เพียงประเภทเดียว ไม่ใช่สองอย่างพร้อมกันใน Evidence รายการเดียว
-
-แต่ Current Link หนึ่งเส้นสามารถมี Evidence หลายรายการจากต่างแหล่งได้
+หลักฐานหนึ่งรายการใน MVP ต้องอ้างถึง Neighbor Observation หนึ่งรายการ และ Current Link หนึ่งเส้นสามารถมี Evidence หลายรายการได้
 
 #### One-sided
 
@@ -1075,43 +1024,24 @@ Current Link
 └── Observation จาก Huawei
 ```
 
-#### Manual Override
-
-```
-Current Link
-└── Verified Manual Override 1 รายการ
-```
-
-#### หลักฐานผสม
-
-```
-Current Link
-├── Observation จาก Cisco
-└── Manual Override จากการตรวจสาย
-```
-
-ทำได้ แต่ระบบต้องแสดงที่มาให้ชัด และถ้าหลักฐานขัดกันต้องสร้าง Conflict
-
----
-
 ### Cardinality ของแหล่งหลักฐาน
 
 ```
 Neighbor Observation 1 ─── 0..* Topology Link Evidence
-Manual Override 1 ─── 0..* Topology Link Evidence
 ```
 
 เหตุผลที่ใช้ `0..*`:
 
 - Observation ที่ยัง Resolve ไม่ได้อาจยังไม่สนับสนุน Link ใด
-- Pending Override อาจยังไม่ถูกใช้สร้าง Link
 - หลักฐานเดิมอาจเคยใช้กับ Link ที่ภายหลังถูกแก้ข้อสรุปหรือ Archived
 
 สำหรับแผนผังปัจจุบัน Observation หนึ่งรายการไม่ควรสนับสนุน Active Link ที่ขัดกันหลายเส้นพร้อมกัน
 
 ---
 
-## 4.7 Manual Override
+## 4.7 Manual Override — Future Relationship Design
+
+> ส่วนนี้เก็บไว้สำหรับ Future Extension เท่านั้น ไม่สร้างความสัมพันธ์หรือตารางใน MVP
 
 ### R-NTV-08 — Manual Override มีสอง Endpoint
 
@@ -1151,7 +1081,6 @@ Collection Run 0..* ─── 0..* Reconciliation Run
 
 - Reconciliation หนึ่งรอบอาจใช้ข้อมูลล่าสุดจาก Collection หลายรอบและหลายอุปกรณ์
 - Collection Run เดิมอาจถูกนำมาประมวลผลใหม่ เมื่อแก้กฎจับคู่หรือ Parser
-- Reconciliation ที่เกิดจากการเปลี่ยน Manual Override อาจไม่ได้มี Collection Run ใหม่
 
 ใน Step 6 ความสัมพันธ์นี้อาจต้องมีตารางเชื่อม เช่นแนวคิด `Reconciliation Input`
 
@@ -1183,7 +1112,9 @@ Reconciliation Run 0..* ─── 0..* Current Topology Link
 
 ---
 
-## 4.9 Topology Issue และ Subject
+## 4.9 Topology Issue และ Subject — Future Relationship Design
+
+> ส่วนนี้ไม่อยู่ใน MVP ซึ่งใช้ Warning ที่คำนวณจาก Observation/Reconciliation โดยไม่สร้าง Human Review Workflow
 
 ## R-NTV-10 — Issue ต้องมีสิ่งที่กำลังถูกรายงาน
 
@@ -1217,7 +1148,7 @@ Subject 1 ─── 0..* Topology Issue
 
 ---
 
-## 4.10 Issue และ Review/Resolution Action
+## 4.10 Issue และ Review/Resolution Action — Future Relationship Design
 
 ## R-NTV-11 — Issue มีการดำเนินการได้หลายครั้ง
 
@@ -1268,9 +1199,6 @@ NTV Action สำคัญ 1 ครั้ง
 
 - เปลี่ยน Shared Layout
 - สั่ง Re-collect
-- Report Incorrect
-- Resolve Conflict
-- สร้าง/ตรวจ/Archive Manual Override
 
 Audit Event ควรอ้างชนิดและรหัสของ Entity ที่เกี่ยวข้อง แต่ NTV Entity ไม่จำเป็นต้องเก็บ `audit_event_id` กลับมาในทุกแถว
 
@@ -1294,25 +1222,10 @@ erDiagram
 
     CURRENT_TOPOLOGY_LINK ||--|{ TOPOLOGY_LINK_EVIDENCE : supported_by
     NEIGHBOR_OBSERVATION o|--o{ TOPOLOGY_LINK_EVIDENCE : observation_source
-    MANUAL_OVERRIDE o|--o{ TOPOLOGY_LINK_EVIDENCE : manual_source
-
-    INTERFACE ||--o{ MANUAL_OVERRIDE : endpoint_a
-    INTERFACE ||--o{ MANUAL_OVERRIDE : endpoint_b
-    USER ||--o{ MANUAL_OVERRIDE : creates
-
     COLLECTION_RUN }o--o{ RECONCILIATION_RUN : consumed_by
     RECONCILIATION_RUN }o--o{ CURRENT_TOPOLOGY_LINK : evaluates
-
-    CURRENT_TOPOLOGY_LINK o|--o{ TOPOLOGY_ISSUE : primary_subject
-    NEIGHBOR_OBSERVATION o|--o{ TOPOLOGY_ISSUE : primary_subject
-    MANUAL_OVERRIDE o|--o{ TOPOLOGY_ISSUE : primary_subject
-
-    TOPOLOGY_ISSUE ||--o{ REVIEW_ACTION : has
-    USER ||--o{ REVIEW_ACTION : performs
 ```
 ````
-
-ข้อควรระวัง: เส้น Primary Subject สามเส้นในภาพเป็นความสัมพันธ์แบบ **เลือกหนึ่งประเภทเท่านั้น** ไม่ได้หมายความว่า Issue หนึ่งรายการต้องอ้างทั้งสาม Entity
 
 ## ผลลัพธ์ของ Step 4
 
@@ -1323,15 +1236,12 @@ Relationship สำคัญที่ต้องนำไป Step 6 ได้�
 3. View–Device เป็นความสัมพันธ์ผ่าน Node Placement
 4. Current Link มี Interface Endpoint สองฝั่ง
 5. Current Link–Evidence เป็น One-to-Many
-6. Evidence อ้าง Observation หรือ Override อย่างใดอย่างหนึ่ง
+6. Evidence อ้าง Neighbor Observation
 7. Collection Run–Reconciliation Run เป็น Many-to-Many
 8. Reconciliation Run–Current Link เป็น Many-to-Many ตามประวัติการประเมิน
-9. Issue มี Primary Subject หนึ่งประเภท
-10. Issue–Review Action เป็น One-to-Many
-11. User สร้าง Override และดำเนิน Review Action ได้หลายรายการ
-12. Parallel Link รองรับด้วยคู่ Interface ไม่ใช่เพียงคู่ Device
+9. Parallel Link รองรับด้วยคู่ Interface ไม่ใช่เพียงคู่ Device
 
-จุดต่อไปใน **Step 5 — Lifecycle and State Model** คือกำหนดว่า `Current Link`, `Manual Override`, `Topology Issue` และ `Reconciliation Run` เปลี่ยนสถานะอย่างไร โดยไม่ผสมสถานะจากคนละมิติเข้าด้วยกันครับ
+จุดต่อไปใน **Step 5 — Lifecycle and State Model** คือกำหนดว่า `Current Link` และ `Reconciliation Run` เปลี่ยนสถานะอย่างไร โดยไม่ผสมสถานะจากคนละมิติเข้าด้วยกัน
 
 
 
@@ -1341,25 +1251,25 @@ Relationship สำคัญที่ต้องนำไป Step 6 ได้�
 
 > Entity แต่ละชนิดเริ่มต้นอย่างไร เปลี่ยนสถานะเมื่อเกิดเหตุการณ์อะไร และสิ้นสุดอย่างไร
 
-หลักสำคัญคือ **ห้ามสร้าง Status ช่องเดียวแล้วนำทุกความหมายมารวมกัน** เช่น `one_sided`, `conflict`, `stale`, `manual_override` เพราะเป็นคนละมิติ
+หลักสำคัญคือ **ห้ามสร้าง Status ช่องเดียวแล้วนำทุกความหมายมารวมกัน** เช่น `one_sided`, `conflict` และ `stale` เพราะเป็นคนละมิติ
 
 ---
 
 ## 5.1 หลักการร่วม
 
 1. Raw Neighbor Observation เป็นหลักฐานแบบ Append-only ห้ามแก้ทับ
-2. การเปลี่ยนข้อสรุปต้องสร้างผล Reconciliation หรือ Review Action ใหม่
+2. การเปลี่ยนข้อสรุปต้องสร้างผล Reconciliation ใหม่
 3. Collection ล้มเหลวไม่ควรทำให้ Link กลายเป็น Stale
 4. Link จะ Stale ได้เมื่อ Collection ที่เกี่ยวข้องสำเร็จ แต่ไม่พบ Link ซ้ำตามเกณฑ์
 5. Conflict ไม่ได้แปลว่า Link หายไป แปลว่าหลักฐานกำลังขัดกัน
 6. ข้อมูล Archived ไม่ถูก Hard-delete
-7. ทุกการกระทำของผู้ใช้ต้องบันทึก Audit Event
+7. การ Re-collect และเปลี่ยน Shared Layout ต้องบันทึก Audit Event ตามนโยบายส่วนกลาง
 
 ---
 
 ## 5.2 Reconciliation Run Lifecycle
 
-`Reconciliation Run` คือรอบที่ NTV นำ Observation และ Manual Override มาวิเคราะห์
+`Reconciliation Run` คือรอบที่ NTV นำ Neighbor Observation มาวิเคราะห์
 
 ````
 ```mermaid
@@ -1401,9 +1311,8 @@ Current Link ต้องแยกอย่างน้อย 3 มิติ
 |---|---|
 |`one_sided`|พบ Observation จากอุปกรณ์เพียงฝั่งเดียว แต่ Resolve Endpoint ได้ครบ|
 |`corroborated`|พบ Observation จากทั้งสองฝั่งและข้อมูลตรงกัน|
-|`not_applicable`|Link มาจาก Manual Override จึงไม่ประเมิน One-sided/Corroborated|
 
-`Unresolved` ไม่ควรเป็นสถานะของ Current Link เพราะถ้าระบุ Endpoint ไม่ได้ ระบบยังไม่ควรสร้าง Current Link แต่ควรสร้าง `Topology Issue` ที่อ้างถึง Observation แทน
+`Unresolved` ไม่ควรเป็นสถานะของ Current Link เพราะถ้าระบุ Endpoint ไม่ได้ ระบบยังไม่ควรสร้าง Current Link แต่แสดง Neighbor Observation นั้นใน Warning/Pending List
 
 #### การเปลี่ยนระดับหลักฐาน
 
@@ -1422,28 +1331,23 @@ stateDiagram-v2
 
 ---
 
-### มิติที่ 2: สถานะการตรวจสอบ
+### มิติที่ 2: สถานะคำเตือนจากระบบ
 
 |ค่า|ความหมาย|
 |---|---|
-|`normal`|ไม่มีปัญหาที่เปิดอยู่|
-|`needs_review`|มีข้อมูลที่ผู้ใช้หรือระบบต้องตรวจสอบ|
+|`normal`|ไม่พบความผิดปกติจากกฎ Reconciliation|
 |`conflict`|มีหลักฐานที่ให้ข้อสรุปขัดกัน|
 
 ````
 ```mermaid
 stateDiagram-v2
     [*] --> Normal
-    Normal --> NeedsReview: ผู้ใช้ Report Incorrect หรือ Endpoint มีความผิดปกติ
     Normal --> Conflict: พบหลักฐานขัดกัน
-    NeedsReview --> Conflict: ตรวจเพิ่มแล้วพบหลักฐานขัดกัน
-    NeedsReview --> Normal: ตรวจสอบหรือ Re-collect แล้วปัญหาหาย
-    Conflict --> Normal: ผู้ใช้ Resolve หรือหลักฐานใหม่สอดคล้องกัน
-    Conflict --> NeedsReview: ยังสรุปไม่ได้และต้องตรวจเพิ่มเติม
+    Conflict --> Normal: Re-collect แล้วหลักฐานใหม่สอดคล้องกัน
 ```
 ````
 
-การ Resolve ไม่แก้ Raw Observation แต่สร้าง Review Action และให้ Reconciliation คำนวณข้อสรุปใหม่
+MVP ไม่มี Human Resolution Action การเปลี่ยนจาก Conflict กลับเป็น Normal เกิดจาก Reconciliation เมื่อข้อมูลรอบใหม่สอดคล้องกัน
 
 ---
 
@@ -1461,8 +1365,8 @@ stateDiagram-v2
     [*] --> Active: พบหลักฐานที่ Resolve ได้
     Active --> Stale: ไม่พบครบ N รอบที่ Collection สำเร็จ
     Stale --> Active: พบ Link อีกครั้ง
-    Active --> Archived: ตรวจสอบแล้วว่า Link ไม่ถูกต้องหรือไม่ใช้งานแล้ว
-    Stale --> Archived: ผ่านเกณฑ์และผู้ใช้ตรวจสอบแล้ว
+    Active --> Archived: ผ่าน Archive Policy
+    Stale --> Archived: ผ่าน Archive Policy
     Archived --> [*]
 ```
 ````
@@ -1484,19 +1388,21 @@ stateDiagram-v2
 ```
 source               = protocol_observation
 protocol_assessment  = one_sided
-review_state         = conflict
+warning_state        = conflict
 lifecycle_state      = active
 ```
 
 หมายความว่า:
 
-> Link ยังถูกแสดงอยู่ พบหลักฐานจากฝั่งเดียว แต่มีหลักฐานบางอย่างขัดกันและต้องตรวจสอบ
+> Link ยังถูกแสดงอยู่ พบหลักฐานจากฝั่งเดียว และระบบแสดงคำเตือนว่ามีหลักฐานบางอย่างขัดกัน ผู้ใช้สามารถตรวจอุปกรณ์หรือสายจริงแล้วสั่ง Re-collect
 
 ดังนั้น `Conflict` ไม่ควรบังคับให้ Link กลายเป็น `Stale`
 
 ---
 
-## 5.4 Manual Override State Model
+## 5.4 Manual Override State Model — Future Extension
+
+> State Model ตั้งแต่หัวข้อนี้ถึง Review/Resolution Action เก็บไว้เพื่อศึกษาในอนาคต ไม่ใช่ State หรือ Table ของ MVP
 
 Manual Override ต้องแยก “ผลการตรวจรับ” ออกจาก “ความเป็นปัจจุบัน”
 
@@ -1569,7 +1475,7 @@ validity_state     = stale
 
 ---
 
-## 5.5 Topology Issue Lifecycle
+## 5.5 Topology Issue Lifecycle — Future Extension
 
 `Topology Issue` คือกรณีผิดปกติ ไม่ใช่ตัวหลักฐาน
 
@@ -1598,7 +1504,7 @@ stateDiagram-v2
 
 ---
 
-## 5.6 Review/Resolution Action
+## 5.6 Review/Resolution Action — Future Extension
 
 Review Action เป็น Event แบบ Append-only จึงไม่จำเป็นต้องมี Lifecycle ของตัวเอง
 
@@ -1667,7 +1573,7 @@ Cisco รายงานว่า `Gi0/1` ต่อกับ Huawei `GE0/0/1`
 
 ```
 protocol_assessment = one_sided
-review_state        = normal
+warning_state       = normal
 lifecycle_state     = active
 ```
 
@@ -1677,7 +1583,7 @@ lifecycle_state     = active
 
 ```
 protocol_assessment = corroborated
-review_state        = normal
+warning_state       = normal
 lifecycle_state     = active
 ```
 
@@ -1685,16 +1591,16 @@ lifecycle_state     = active
 
 ```
 protocol_assessment = one_sided หรือ corroborated ตามหลักฐานที่ยังใช้ได้
-review_state        = conflict
+warning_state       = conflict
 lifecycle_state     = active
 ```
 
-พร้อมสร้าง `Topology Issue`
+พร้อมแสดง Conflict Warning จาก Query/Reconciliation Result โดยไม่สร้าง `Topology Issue` ใน MVP
 
 ## เหตุการณ์ที่ 4 — ผู้ใช้สั่ง Re-collect และข้อมูลกลับมาตรงกัน
 
 ```
-review_state = normal
+warning_state = normal
 ```
 
 Issue เปลี่ยนเป็น `resolved`
@@ -1711,7 +1617,7 @@ lifecycle_state = stale
 lifecycle_state = archived
 ```
 
-Raw Observations, Issue และ Review Actions เดิมยังคงอยู่ทั้งหมด
+Raw Neighbor Observations เดิมยังคงอยู่ทั้งหมด
 
 ---
 
@@ -1722,22 +1628,16 @@ Raw Observations, Issue และ Review Actions เดิมยังคงอ�
 |Entity|State ที่ต้องรองรับ|
 |---|---|
 |Reconciliation Run|queued, running, succeeded, failed, cancelled|
-|Current Link – Protocol Assessment|one-sided, corroborated, not-applicable|
-|Current Link – Review State|normal, needs-review, conflict|
+|Current Link – Protocol Assessment|one-sided, corroborated|
+|Current Link – Warning State|normal, conflict|
 |Current Link – Lifecycle|active, stale, archived|
-|Manual Override – Verification|pending-review, verified, rejected|
-|Manual Override – Validity|current, stale, archived|
-|Topology Issue|open, in-review, resolved, dismissed|
-|Review Action|Append-only ไม่มี Lifecycle|
 |Topology View|active, archived|
 |Node Placement|ไม่มี Lifecycle|
 
-จุดที่ยังไม่ต้องตัดสินใจทันทีมีสองเรื่อง:
+จุดที่ยังไม่ต้องตัดสินใจทันทีมีเรื่องเดียว:
 
 - ไม่พบกี่ Collection Run จึงเปลี่ยนเป็น Stale
-- ผู้สร้าง Manual Override สามารถตรวจรับรายการของตัวเองได้หรือไม่
-
-ทั้งสองเรื่องบันทึกเป็น Open Question แล้วออกแบบ Schema ให้ปรับ Policy ภายหลังได้ โดยไม่ต้องเปลี่ยนโครงสร้างหลักครับ
+เรื่องนี้บันทึกเป็น Open Question แล้วออกแบบ Schema ให้ปรับ Policy ภายหลังได้ โดยไม่ต้องเปลี่ยนโครงสร้างหลัก
 
 
 # Step 6 — Logical Schema: Tables, Fields, PK และ FK
@@ -1770,7 +1670,7 @@ NTV ไม่สร้างตารางเหล่านี้ซ้ำ
 
 ## 6.2 ตารางของ NTV
 
-Logical Schema ที่แนะนำมี 10 ตาราง
+Logical Schema ของ NTV MVP แนะนำ 7 ตาราง
 
 | ตาราง                            | หน้าที่                                    |
 | -------------------------------- | ------------------------------------------ |
@@ -1781,11 +1681,7 @@ Logical Schema ที่แนะนำมี 10 ตาราง
 | `topology_links`                 | Current Link Projection                    |
 | `topology_link_evaluations`      | ผลประเมิน Link ในแต่ละ Reconciliation Run  |
 | `topology_link_evidence`         | หลักฐานที่ใช้ในการประเมิน Link             |
-| `topology_manual_overrides`      | Link ที่ผู้ใช้บันทึกจากการตรวจสาย          |
-| `topology_issues`                | กรณีผิดปกติหรือข้อมูลที่ต้องตรวจสอบ        |
-| `topology_issue_actions`         | ประวัติการดำเนินการกับ Issue               |
-
-การมี 10 ตารางไม่ได้หมายถึง 10 Feature เพราะบางตารางเป็น Junction/History ที่เกิดจากความสัมพันธ์ Many-to-Many ใน Step 4
+`topology_manual_overrides`, `topology_issues` และ `topology_issue_actions` ถูกย้ายออกจาก MVP และเก็บเป็น Candidate Schema สำหรับ Future Extension เท่านั้น
 
 ---
 
@@ -1857,8 +1753,6 @@ Device หนึ่งเครื่องจึงมีตำแหน่ง�
 
 - `collection_completed`
 - `manual_rebuild`
-- `override_changed`
-- `issue_resolved`
 - `scheduled`
 
 ห้ามเก็บ Credential, Raw Password หรือ CLI Secret ใน Error Message
@@ -1896,9 +1790,8 @@ PRIMARY KEY(reconciliation_run_id, collection_run_id)
 |`id`|PK, NOT NULL|รหัส Link|
 |`endpoint_a_interface_id`|FK → `interfaces.id`, NOT NULL|Interface ฝั่ง A|
 |`endpoint_b_interface_id`|FK → `interfaces.id`, NOT NULL|Interface ฝั่ง B|
-|`source_basis`|NOT NULL|`protocol`, `manual`, `mixed`|
-|`protocol_assessment`|NOT NULL|`one_sided`, `corroborated`, `not_applicable`|
-|`review_state`|NOT NULL|`normal`, `needs_review`, `conflict`|
+|`protocol_assessment`|NOT NULL|`one_sided`, `corroborated`|
+|`warning_state`|NOT NULL|`normal`, `conflict`|
 |`lifecycle_state`|NOT NULL|`active`, `stale`, `archived`|
 |`first_seen_at`|NOT NULL|พบ Link ครั้งแรก|
 |`last_seen_at`|NOT NULL|พบหลักฐานสนับสนุนล่าสุด|
@@ -1936,9 +1829,8 @@ Active Link คู่เดียวกันต้องไม่ซ้ำ แ�
 |`reconciliation_run_id`|FK → `topology_reconciliation_runs.id`, NOT NULL|Run ที่ประเมิน|
 |`topology_link_id`|FK → `topology_links.id`, NOT NULL|Link ที่ถูกประเมิน|
 |`presence_result`|NOT NULL|`observed`, `not_observed`, `not_evaluable`|
-|`source_basis_result`|NOT NULL|`protocol`, `manual`, `mixed`|
-|`protocol_assessment_result`|NOT NULL|`one_sided`, `corroborated`, `not_applicable`|
-|`review_state_result`|NOT NULL|ผล Review State หลังประเมิน|
+|`protocol_assessment_result`|NOT NULL|`one_sided`, `corroborated`|
+|`warning_state_result`|NOT NULL|ผล Warning State หลังประเมิน|
 |`lifecycle_state_result`|NOT NULL|ผล Lifecycle หลังประเมิน|
 |`missed_runs_after`|NOT NULL|จำนวนรอบที่ไม่พบหลังประเมิน|
 |`evaluated_at`|NOT NULL|เวลาประเมิน|
@@ -1965,20 +1857,12 @@ UNIQUE(reconciliation_run_id, topology_link_id)
 |---|---|---|
 |`id`|PK, NOT NULL|รหัส Evidence Association|
 |`link_evaluation_id`|FK → `topology_link_evaluations.id`, NOT NULL|Evaluation ที่ใช้หลักฐาน|
-|`evidence_type`|NOT NULL|`neighbor_observation`, `manual_override`|
-|`neighbor_observation_id`|FK → `neighbor_observations.id`, NULLABLE|หลักฐานจาก LLDP/CDP|
-|`manual_override_id`|FK → `topology_manual_overrides.id`, NULLABLE|หลักฐานจากการตรวจสาย|
+|`neighbor_observation_id`|FK → `neighbor_observations.id`, NOT NULL|หลักฐานจาก LLDP/CDP|
 |`evidence_relation`|NOT NULL|`supports`, `contradicts`|
 |`local_endpoint_role`|NULLABLE|Observation นี้รายงานจากฝั่ง `A` หรือ `B`|
 |`created_at`|NOT NULL|เวลาสร้าง Association|
 
-ต้องมีหลักฐานเพียงประเภทเดียว:
-
-```
-neighbor_observation_id มีค่า
-XOR
-manual_override_id มีค่า
-```
+Evidence ทุกแถวใน MVP ต้องอ้าง Neighbor Observation หนึ่งรายการ
 
 ตัวอย่าง Corroborated:
 
@@ -2000,7 +1884,9 @@ Raw Observation ยังคงอยู่ใน Discovery/Collection และ
 
 ---
 
-## 6.10 `topology_manual_overrides`
+## 6.10 `topology_manual_overrides` — Future Extension Schema
+
+> ไม่สร้าง Migration, Model, Repository หรือ API สำหรับตารางนี้ใน MVP
 
 เก็บหลักฐานการตรวจสายจริงจากผู้ใช้
 
@@ -2030,7 +1916,9 @@ Raw Observation ยังคงอยู่ใน Discovery/Collection และ
 
 ---
 
-## 6.11 `topology_issues`
+## 6.11 `topology_issues` — Future Extension Schema
+
+> ไม่สร้างตารางนี้ใน MVP; Unresolved/Conflict/Stale แสดงจาก Query/Reconciliation Result
 
 เก็บปัญหาที่ระบบตรวจพบหรือผู้ใช้รายงาน
 
@@ -2075,7 +1963,9 @@ XOR manual_override_id
 
 ---
 
-## 6.12 `topology_issue_actions`
+## 6.12 `topology_issue_actions` — Future Extension Schema
+
+> ไม่สร้างตารางนี้ใน MVP เพราะยังไม่มี Human Review/Resolution Workflow
 
 เก็บประวัติการตรวจสอบและการตัดสินใจแบบ Append-only
 
@@ -2143,22 +2033,8 @@ erDiagram
 
     TOPOLOGY_LINK_EVALUATIONS ||--o{ TOPOLOGY_LINK_EVIDENCE : uses
     NEIGHBOR_OBSERVATIONS o|--o{ TOPOLOGY_LINK_EVIDENCE : observation
-    TOPOLOGY_MANUAL_OVERRIDES o|--o{ TOPOLOGY_LINK_EVIDENCE : override
-
-    INTERFACES ||--o{ TOPOLOGY_MANUAL_OVERRIDES : endpoint_a
-    INTERFACES ||--o{ TOPOLOGY_MANUAL_OVERRIDES : endpoint_b
-    USERS ||--o{ TOPOLOGY_MANUAL_OVERRIDES : creates
-
-    TOPOLOGY_LINKS o|--o{ TOPOLOGY_ISSUES : link_subject
-    NEIGHBOR_OBSERVATIONS o|--o{ TOPOLOGY_ISSUES : observation_subject
-    TOPOLOGY_MANUAL_OVERRIDES o|--o{ TOPOLOGY_ISSUES : override_subject
-
-    TOPOLOGY_ISSUES ||--o{ TOPOLOGY_ISSUE_ACTIONS : has
-    USERS ||--o{ TOPOLOGY_ISSUE_ACTIONS : performs
 ```
 ````
-
-ความสัมพันธ์ Subject และ Evidence ที่เป็นเส้น Optional หลายเส้นต้องบังคับด้วย XOR Constraint ใน Step 7
 
 ---
 
@@ -2195,12 +2071,10 @@ users
 
 1. วิธีทำ Canonical Endpoint Pair เพื่อกัน Link A–B ซ้ำกับ B–A
 2. Partial Unique Constraint สำหรับ Active Link
-3. XOR Constraint ของ Evidence และ Issue Subject
-4. จำนวน Successful Collection Runs ก่อนเป็น Stale
-5. กฎว่าผู้สร้าง Override ตรวจรายการตัวเองได้หรือไม่
-6. Delete/Archive Policy ของ FK ภายนอก
-7. Index สำหรับโหลด Topology, Pending Issues และ Evidence History
-8. วิธีป้องกัน Reconciliation สอง Run แก้ Current Projection พร้อมกัน
+3. จำนวน Successful Collection Runs ก่อนเป็น Stale
+4. Delete/Archive Policy ของ FK ภายนอก
+5. Index สำหรับโหลด Topology, Warning/Pending List และ Evidence History
+6. วิธีป้องกัน Reconciliation สอง Run แก้ Current Projection พร้อมกัน
 
 หลัง Step 6 นี้ ข้อมูลเพียงพอสำหรับเริ่ม **Component Diagram** แล้ว เพราะเรารู้ว่า:
 
@@ -2208,9 +2082,6 @@ users
 - Component ใดเขียนตาราง NTV
 - Reconciliation Service ต้องใช้ Repository ใด
 - Query Service ต้องรวมตารางใด
-- Issue/Override Service ต้องบันทึกข้อมูลและ Audit อย่างไร
+- Warning/Pending List ควรได้ข้อมูลจาก Query/Reconciliation อย่างไร
 
 ส่วน Step 7–10 สามารถกลับมาทำหลังร่าง Component Diagram รอบแรกได้ครับ
-
-
-

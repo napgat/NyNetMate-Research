@@ -319,7 +319,7 @@
 
 อธิบายทางวิศวกรรมคือ:
 1. **มันคือผลพลอยได้จาก Discovery:** ฟีเจอร์ที่ว้าวที่สุดของ Topology คือ `Auto-Layout from Discovery` (ให้ระบบลากเส้นโยงให้อัตโนมัติ) แต่เนื่องจากตัว Network Discovery (หมวด 3.2) มันถูกเลื่อนไป P2 แล้ว (เพราะเรื่องติด Block มหาลัย) ทำให้หมวด Topology ขาดข้อมูลตั้งต้น (LLDP/CDP) ที่จะเอามาวาดเส้นครับ
-2. **ถ้าไม่มี Observation จะเหลือเพียง Canvas ว่าง:** การให้ผู้ใช้สร้าง Device/Port หรือวาด Link อย่างอิสระจะทำให้ NTV กลายเป็นโปรแกรมวาด Diagram และข้อมูลอาจไม่ตรงกับเครือข่ายจริง จึงไม่ทำ Freehand Link ใน MVP ส่วนกรณี LLDP/CDP ใช้ไม่ได้ให้ใช้ `Manual Override` โดยเลือกเฉพาะ Device/Interface ที่เก็บจากอุปกรณ์จริง พร้อมเหตุผลและหลักฐาน
+2. **ถ้าไม่มี Observation จะเหลือเพียง Canvas ว่าง:** การให้ผู้ใช้สร้าง Device/Port หรือวาด Link อย่างอิสระจะทำให้ NTV กลายเป็นโปรแกรมวาด Diagram และข้อมูลอาจไม่ตรงกับเครือข่ายจริง จึงไม่ทำ Freehand Link หรือ Manual Override ใน NTV MVP หาก LLDP/CDP ใช้ไม่ได้ ระบบแสดง Collection/Parser Status หรือ Unresolved/Empty State และให้ผู้ใช้ Re-collect ส่วน Evidence-based Manual Override เก็บเป็น Future Enhancement หลังประเมินผลทดสอบอุปกรณ์จริง
 3. **โฟกัสผิดจุด:** หัวใจของ P1 คือ **"การสร้าง Config"** ครับ การเอาเวลา 2-3 สัปดาห์ไปนั่งเขียนโค้ด React วาดรูป อาจจะทำให้เวลาทำระบบ Config Builder (หน้าฟอร์ม 6-Tab) ไม่พอครับ
 
 **สรุปคือ:** 
@@ -547,7 +547,7 @@
 ### 4. Network Topology Visualization
 * **Interactive Canvas** 🚀
 * **Auto-Layout from Discovery** 🚀
-* **Evidence-based Manual Override** 🚀
+* **Evidence-based Manual Override** — Future Enhancement (ไม่ใช่ NTV MVP)
 * **Right-Click Context Menu** 🚀
 * **Device Icons** 🚀
 

@@ -154,3 +154,159 @@
 7. จึงเริ่ม Step 1 เขียน Overview, Scope และ Non-goals
 
 จบเฉพาะ Step 0 ตามที่ขอ และหยุดรอคำสั่งต่อไปครับ
+
+
+
+# 1. กำหนด Target Platform และคำเรียกผลลัพธ์ให้ไม่กล่าวอ้างเกินจริง
+ควรกำหนด 2 เรื่องแยกกันครับ:
+
+2. ระบบ “ตั้งใจรองรับอะไร”
+3. ผลตรวจ “พิสูจน์ได้แค่ไหน”
+
+หากไม่แยกสองเรื่องนี้ เราอาจเผลอเขียนว่า “รองรับ Cisco” หรือ “ผ่าน CIS” ทั้งที่ทดสอบเพียงบางรุ่นและบางกฎ
+
+## 1. กำหนด Target Platform เป็นหลายระดับ
+
+คำว่า Target Platform ไม่ควรมีเพียง `Cisco` แต่ควรระบุอย่างน้อย:
+
+| มิติ              | ต้องระบุ                                     |
+| ----------------- | -------------------------------------------- |
+| Vendor            | Cisco                                        |
+| Network OS        | IOS, IOS XE หรือระบบอื่น                     |
+| Version           | เช่น IOS XE 17.x                             |
+| Device role       | Router, Layer-2 Switch หรือ Layer-3 Switch   |
+| Config source     | Candidate Config, Running Config หรือทั้งสอง |
+| Assessment source | Config text หรือ Operational command         |
+| Test environment  | GNS3/Emulator หรืออุปกรณ์จริงใน Isolated Lab |
+| Support status    | Candidate, Designed, Tested หรือ Verified    |
+
+### ความหมายของ Support Status
+
+- **Candidate** — มีแผนจะศึกษา แต่ยังไม่ได้ทดสอบ
+- **Designed** — ออกแบบตามเอกสารทางการแล้ว แต่ยังไม่ผ่าน Lab
+- **Tested** — ทดลองกับรุ่นและ OS ที่ระบุแล้ว
+- **Verified** — ผ่าน Acceptance Tests ที่กำหนดครบ
+- **Unsupported** — ไม่สามารถประเมินได้อย่างน่าเชื่อถือ
+
+อย่าใช้คำว่า “Supported” โดยไม่มีรุ่น OS และหลักฐานทดสอบกำกับ
+
+## 2. Target Platform ที่แนะนำสำหรับตอนนี้
+
+ผมแนะนำให้กำหนดชั่วคราวดังนี้:
+
+|Platform|สถานะ|
+|---|---|
+|Cisco IOS XE 17.x|Primary research target — ใช้ CIS v2.2.1|
+|Cisco IOS XE 16.x|Conditional target — ใช้ CIS v2.2.0 เมื่ออุปกรณ์เป็น 16.x|
+|Cisco IOS รุ่นอื่น|Candidate — ยังห้ามอ้างว่าใช้ CIS IOS XE ได้ตรงรุ่น|
+|MikroTik RouterOS|Candidate test vendor|
+|Huawei VRP|Candidate test vendor|
+
+สาเหตุที่ต้องแยก IOS กับ IOS XE คือ CIS ที่มีใน Workspace เป็น Benchmark สำหรับ IOS XE 16.x และ 17.x โดยเฉพาะ และ CIS เตือนว่าการใช้ Benchmark ผิดรุ่นอาจทำให้ผล Pass/Fail ผิดได้
+
+อ้างอิง CIS IOS XE 16.x CIS_Cisco_IOS_XE_16.x_Benchmark_v2.2.0.pdf และ IOS XE 17.x CIS_Cisco_IOS_XE_17.x_Benchmark_v2.2.1.pdf
+
+หาก Cisco Switch ที่อาจารย์ให้ยืมไม่ใช่ IOS XE 16.x/17.x เราต้องเปลี่ยน Benchmark หรือเรียกกฎเหล่านั้นว่า MyNetMate rules แทน ไม่ควรนำผลจาก IOS XE ไปกล่าวอ้างกับ IOS อื่นตรง ๆ
+
+## 3. ข้อความ Scope ที่แนะนำ
+
+> MyNetMate Security & Validation รุ่น MVP ออกแบบโดยใช้ Cisco IOS XE เป็น Target Platform หลัก โดยเลือกตรวจเฉพาะกฎความปลอดภัยที่ระบบนำไปพัฒนาและทดสอบได้จริง กฎแต่ละข้อจะระบุ CIS Benchmark และ Version ที่ใช้อ้างอิงอย่างชัดเจน การรองรับอุปกรณ์จริงจะจำกัดเฉพาะรุ่น ระบบปฏิบัติการ และชุดคำสั่งที่ผ่านการทดสอบใน Isolated Lab เท่านั้น ส่วน Huawei VRP และ MikroTik RouterOS อยู่ในสถานะ Candidate Test Vendors และยังไม่ถือเป็น Full Support
+
+แต่ก่อนยืนยันข้อความนี้ ต้องทราบ Cisco รุ่นจริงว่าใช้ IOS หรือ IOS XE รุ่นใด
+
+## 4. ตั้งชื่อ Rule Pack ของเราเอง
+
+ไม่ควรเรียกชุดกฎว่า:
+
+- `CIS Compliance Engine`
+- `CIS 14-Rule Benchmark`
+- `Full CIS Scan`
+
+ชื่อที่แนะนำ:
+
+> **MyNetMate Cisco IOS XE Basic Security Baseline v1**
+
+และกำกับว่า:
+
+> Selected configuration checks mapped to CIS Cisco IOS XE 17.x Benchmark v2.2.1
+
+ภาษาไทย:
+
+> ชุดตรวจสอบความปลอดภัยพื้นฐานของ MyNetMate สำหรับ Cisco IOS XE โดยเลือกบางข้อและทำ Mapping กับ CIS Cisco IOS XE 17.x Benchmark v2.2.1
+
+ประโยคนี้บอกตรงไปตรงมาว่าเราใช้เพียงบาง Recommendation ไม่ใช่ CIS Benchmark ทั้งฉบับ
+
+## 5. แยกผลออกเป็น 3 ชั้น
+
+### ชั้นที่ 1: ผลต่อ Rule
+
+ใช้สถานะ:
+
+|สถานะ|ความหมาย|
+|---|---|
+|`Pass`|หลักฐานที่ตรวจได้ตรงตามเงื่อนไขของ Rule นี้|
+|`Fail`|มีหลักฐานชัดเจนว่าขัดกับ Rule นี้|
+|`Not Applicable`|Rule นี้ไม่ใช้กับ Device หรือ Config ก้อนนี้|
+|`Unable to Evaluate`|Input, Version หรือหลักฐานไม่พอที่จะตัดสิน|
+|`Disabled by Policy`|Rule ถูกปิดตามนโยบาย จึงไม่ได้ประเมิน|
+
+`Parse Error` ควรเป็น Error ของกระบวนการ ไม่ใช่ Security Failure
+
+### ชั้นที่ 2: สรุป Validation Run
+
+ไม่ควรใช้:
+
+- `CIS Compliant`
+- `Passed CIS Benchmark`
+- `Secure`
+- `100% Safe`
+
+ควรแสดงเป็นข้อมูล เช่น:
+
+> ตรวจประเมินสำเร็จ 12 จาก 14 กฎ: Pass 9, Fail 2, Not Applicable 1, Unable to Evaluate 2
+
+หรือ:
+
+> Validation completed with 2 failed rules and 2 unevaluated rules.
+
+คำว่า `Pass` หมายถึงผ่านเฉพาะ Rule ที่ระบบ Implement และประเมินได้ ไม่ได้แปลว่าผ่าน CIS ทั้ง Benchmark
+
+### ชั้นที่ 3: ผลของ Deployment Gate
+
+แยกจากผล Rule:
+
+|Gate Result|ความหมาย|
+|---|---|
+|`Allowed`|ไม่มี Failure ที่มีผลบล็อก|
+|`Blocked`|มี Failure ที่นโยบายกำหนดให้บล็อก|
+|`Exception Required`|ต้องได้รับการยอมรับความเสี่ยงจากผู้มีสิทธิ์|
+|`Evaluation Incomplete`|มี Parse Error หรือ Unable to Evaluate ที่นโยบายไม่อนุญาตให้ Deploy|
+
+การ Override ต้องไม่เปลี่ยน `Fail` เป็น `Pass` ตัวอย่าง:
+
+> Rule result: Fail  
+> Risk acceptance: Approved  
+> Deployment gate: Allowed by authorized exception
+
+แบบนี้ Audit ย้อนหลังจะยังเห็นว่ากฎไม่ผ่านจริง
+
+## 6. คำที่ควรใช้และควรหลีกเลี่ยง
+
+|หลีกเลี่ยง|ใช้แทน|
+|---|---|
+|ผ่าน CIS Benchmark|ผ่านกฎที่ระบบประเมินได้ 12 จาก 14 ข้อ|
+|CIS Compliant|No blocking failure detected in the selected rule set|
+|CIS Certified|Mapped to selected CIS recommendations|
+|รองรับ Cisco|ทดสอบกับ Cisco รุ่น X, IOS XE รุ่น Y|
+|รองรับ Multi-vendor|Huawei และ MikroTik อยู่ระหว่าง Candidate Lab Testing|
+|Config ปลอดภัย|ไม่พบ Failure จากกฎที่เปิดใช้งานและประเมินได้|
+|Rule ถูกปิดจึงผ่าน|Rule ไม่ได้ถูกประเมินเนื่องจากถูกปิดโดย Policy|
+|Override แล้วผ่าน|Failure ได้รับ Authorized Risk Acceptance|
+
+## 7. Decision ที่ควรยืนยันใน Step นี้
+
+ข้อเสนอของผมคือ:
+
+> กำหนด Research Baseline เป็น Cisco IOS XE 17.x และ CIS v2.2.1 ก่อน แต่ยังให้สถานะ `Designed/Unverified` จนกว่าจะทราบรุ่น Cisco จริง จากนั้นเลือกมากกว่า 10 กฎโดยไม่กำหนดเลขตายตัวล่วงหน้า และเรียกผลว่า “MyNetMate Basic Security Validation Results” ไม่ใช้คำว่า “CIS compliant”
+
+ส่วน IOS XE 16.x จะใช้ Rule Mapping แยกต่างหากหากอุปกรณ์จริงเป็น 16.x และ Cisco IOS รุ่นอื่นจะยังอยู่ในสถานะ Candidate จนกว่าจะมี Benchmark และผลทดสอบตรงรุ่นครับ

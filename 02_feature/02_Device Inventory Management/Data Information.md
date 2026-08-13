@@ -149,7 +149,7 @@ Feature List ! มาคิดเรื่อง Device Information กัน
 | **Dashboard**                       | `devices` (status, last_seen, uptime, site, role)                                     |
 | **Device Inventory**                | `devices` (Core Identity ทั้งหมด + Location)                                          |
 | **Network Discovery**               | `devices` (management_ip, mac_address, platform, discovery_method)                    |
-| **Network Topology**                | `devices` + `interfaces` เป็น Node/Endpoint และใช้ NTV-owned Entities สำหรับ Observation, Current Link, Override, Review และ Layout |
+| **Network Topology**                | `devices` + `interfaces` เป็น Node/Endpoint และใช้ Neighbor Observation, Current Link Projection และ Layout; Manual Override/Review เป็น Future Extension |
 | **Config Generate (Rule-Based)**    | `devices` (vendor, platform, model) → เลือก Jinja2 Template                           |
 | **Config Generate (AI)**            | `devices` (vendor, model, role, os_version, site) → inject เป็น Context               |
 | **Config Deployment**               | `devices` (management_ip, platform, credential_id) → Netmiko SSH                      |
@@ -221,11 +221,9 @@ NTV ใช้ `interfaces.id` ของทั้งสองฝั่งเป�
 
 - Neighbor Observation — ผล LLDP/CDP ในแต่ละ Collection Run แบบรักษาประวัติ
 - Current Topology Link — Link ปัจจุบันที่ผ่าน Reconciliation
-- Manual Override — Link ที่ผู้ใช้บันทึกจากการตรวจสายเมื่อ Protocol ใช้ไม่ได้
-- Exception Review — Report Incorrect และ Conflict Resolution
 - Topology View/Node Position — การจัดวางบน Canvas
 
-แนวทางนี้รองรับ Observation History, One-sided, Corroborated, Conflict, Stale, Parallel Link และ Manual Override โดยไม่เขียนทับข้อมูลประจำ Interface
+แนวทาง MVP นี้รองรับ Observation History, One-sided, Corroborated, Conflict Warning, Stale และ Parallel Link โดยไม่เขียนทับข้อมูลประจำ Interface ส่วน Manual Override/Exception Review ยังไม่สร้างใน MVP
 
 ---
 
@@ -242,7 +240,7 @@ NTV ใช้ `interfaces.id` ของทั้งสองฝั่งเป�
 
 ### ✅ สิ่งที่ถูกต้องและครบแน่ๆ
 
-- โครงสร้างหลัก 11 ตารางรองรับ Feature พื้นฐาน ส่วน NTV ต้องเพิ่ม Observation/Link/Override/Review/Layout Entities ใน `02_Database Schema.md` ✅
+- โครงสร้างหลัก 11 ตารางรองรับ Feature พื้นฐาน ส่วน NTV MVP ต้องเพิ่ม Observation Reference/Current Link/Layout Entities ใน `02_Database Schema.md`; Override/Review เป็น Future Extension ✅
 - Security design (Encryption, Soft Delete, UUID PK) ✅
 - PII Masking ไม่มีตาราง — เป็น Middleware Logic ✅
 - Sprint Planning ลำดับถูกต้อง ✅

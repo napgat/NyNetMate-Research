@@ -71,13 +71,13 @@ Mockup ปัจจุบันมี Input สำหรับ Enable password, 
 
 เหตุผลคือแต่ละกฎต้องการ Input ต่างกัน:
 
-|Input|ตัวอย่างกฎ|
-|---|---|
-|Candidate/Effective Config|`enable secret`, `username secret`, VTY, SNMP, Banner|
-|`show running-config all`|Console timeout เพราะค่า Default อาจไม่แสดงใน `show run` ปกติ|
-|Operational command|SSH version, timeout และ retry ตาม Audit Procedure ของ CIS|
-|Device context|Vendor, OS version, Device role|
-|Organizational policy|ACL ที่อนุญาต, Syslog server, NTP server|
+| Input                      | ตัวอย่างกฎ                                                    |
+| -------------------------- | ------------------------------------------------------------- |
+| Candidate/Effective Config | `enable secret`, `username secret`, VTY, SNMP, Banner         |
+| `show running-config all`  | Console timeout เพราะค่า Default อาจไม่แสดงใน `show run` ปกติ |
+| Operational command        | SSH version, timeout และ retry ตาม Audit Procedure ของ CIS    |
+| Device context             | Vendor, OS version, Device role                               |
+| Organizational policy      | ACL ที่อนุญาต, Syslog server, NTP server                      |
 
 ตัวอย่างสำคัญ: หาก `ip ssh authentication-retries` ใช้ค่า Default 3 ระบบอาจไม่แสดงบรรทัดนี้ใน Running Config ถ้าใช้ Regex แล้วไม่พบและตัดสิน Fail ทันที จะกลายเป็น False Positive
 

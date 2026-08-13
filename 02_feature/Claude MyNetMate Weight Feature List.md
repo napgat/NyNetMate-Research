@@ -107,7 +107,7 @@
 | ---------------------------------- | --------- | -------- | ------------------------------------------------------------------------------------- |
 | Interactive Canvas (Drag-and-Drop) | 🟡 Medium | 🚀 P2    | ต้องใช้ `React Flow` / `Cytoscape.js` — Learning Curve สำหรับคนที่ไม่เคยใช้           |
 | Device Icons (Router/Switch/AP)    | 🟢 Low    | 🚀 P2    | เตรียม SVG Icons ชุด Cisco Style ล่วงหน้า                                             |
-| Manual Link Connection             | 🟡 Medium | 🚀 P2    | React Flow รองรับ Edge Drawing ได้ แต่ต้อง Config                                     |
+| Manual Link Connection             | 🟡 Medium | Future Enhancement | แนวคิดเดิม ไม่อยู่ใน NTV MVP; MVP แสดง Link จาก LLDP/CDP Observation เท่านั้น |
 | Right-Click Context Menu           | 🟢 Low    | 🚀 P2    | React Flow + ContextMenu Library ทำได้ง่าย                                            |
 | Auto-Layout from Discovery         | 🟡 Medium | 🚀 P2    | ใช้ `Dagre` Layout Engine ที่ Build-in อยู่ใน React Flow — ไม่ต้องเขียน Algorithm เอง |
 | PNG Export                         | ✂️ CUT    | ✂️ CUT   | ตัดออกแล้วตามที่ระบุใน Feature List                                                   |
@@ -365,7 +365,7 @@ CAUTION
 | High     | AI Config Review + Risk Assessment      | PII Masking Ready        |
 | High     | Chat AI (Side Panel)                    | Prompt Foundation Ready  |
 | Medium   | Network Discovery Pipeline              | GNS3 SNMP/CDP Lab        |
-| Medium   | Network Topology Viewer (React Flow)    | Discovery or Manual Data |
+| Medium   | Network Topology Viewer (React Flow)    | Discovery/LLDP-CDP Observation; Manual Link เป็น Future Enhancement |
 | Medium   | Auto-Layout (Dagre)                     | Topology Viewer Ready    |
 | Medium   | MikroTik Templates (Basic)              | Cisco Templates Done     |
 | Medium   | Compliance Dashboard (Charts)           | CIS Scan Data Available  |

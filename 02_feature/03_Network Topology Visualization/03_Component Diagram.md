@@ -24,7 +24,7 @@ Component Diagram ต้องตอบว่า:
 - ใครสร้าง Observation
 - ใครคำนวณ One-sided และ Corroborated
 - ใครสร้าง Current Link
-- ใครจัดการ Manual Override และ Conflict
+- ใครคำนวณและแสดง Unresolved/Conflict/Stale Warning
 - ใครเก็บ Layout
 - Re-collect เริ่มจาก Component ใด
 - Audit และ RBAC ถูกเรียกตรงไหน
@@ -64,7 +64,7 @@ Component Diagram อาจทำให้เราพบว่า Table บา�
 - ER Diagram ระดับ Logical
 - Cardinality เช่น 1:N และ M:N
 - PK และ FK
-- State Model ของ Observation, Current Link และ Override
+- State Model ของ Observation, Reconciliation และ Current Link
 - Data Ownership Matrix
 - External Data Contract
 - Assumption/Open Question ที่ยังไม่ปิด
@@ -105,7 +105,6 @@ Component ในเอกสารนี้หมายถึง **โมดู�
 - NTV API Controller
 - Topology Query Service
 - Topology Reconciliation Service
-- Issue & Override Service
 - Layout Service
 - NTV Repository
 
@@ -130,7 +129,6 @@ flowchart LR
         API["«component»<br/>NTV API Controller"]
         QUERY["«component»<br/>Topology Query Service"]
         RECON["«component»<br/>Topology Reconciliation Service"]
-        CASE["«component»<br/>Issue & Override Service"]
         LAYOUT["«component»<br/>Layout Service"]
         REPO["«component»<br/>NTV Repository"]
     end
@@ -149,7 +147,6 @@ flowchart LR
 
     API -->|"Authorization Interface"| AUTH
     API -->|"Topology Query Interface"| QUERY
-    API -->|"Issue & Override Interface"| CASE
     API -->|"Layout Interface"| LAYOUT
     API -->|"Collection Control Interface"| COLLECT
 
@@ -158,13 +155,10 @@ flowchart LR
     QUERY -->|"NTV Read Repository"| REPO
 
     COLLECT -.->|"Collection Completed Event"| RECON
-    CASE -->|"Reconciliation Request"| RECON
     RECON -->|"Inventory Read Interface"| INV
     RECON -->|"Observation Read Interface"| COLLECT
     RECON -->|"NTV Write Repository"| REPO
 
-    CASE -->|"NTV Write Repository"| REPO
-    CASE -->|"Audit Event Interface"| AUDIT
     LAYOUT -->|"NTV Write Repository"| REPO
     LAYOUT -->|"Audit Event Interface"| AUDIT
     API -->|"Re-collect Audit Event"| AUDIT
@@ -182,15 +176,14 @@ flowchart LR
 
 | Component                           | หน้าที่หลัก                                                                                            | ไม่รับผิดชอบ                                                     |
 | ----------------------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
-| **NTV Web UI**                      | แสดง Canvas, Node, Link, Filter, Detail, Issue และ Override Form                                       | ไม่ติดต่ออุปกรณ์หรือ Database โดยตรง และไม่คำนวณข้อสรุป Link     |
+| **NTV Web UI**                      | แสดง Canvas, Node, Link, Filter, Detail, Warning/Pending List และ Collection Status                    | ไม่ติดต่ออุปกรณ์หรือ Database โดยตรง และไม่คำนวณข้อสรุป Link     |
 | **NTV API Controller**              | รับ REST Request, ตรวจรูปแบบข้อมูล, เรียก Authorization และส่งงานให้ Application Service               | ไม่เขียน Vendor Command, ไม่ Parse LLDP/CDP และไม่แก้ตารางโดยตรง |
-| **Topology Query Service**          | รวม Device, Interface, Current Link, Evidence, Issue, Layout และ Freshness เป็น View Model             | ไม่เริ่ม Collection และไม่เปลี่ยนข้อสรุป Link                    |
+| **Topology Query Service**          | รวม Device, Interface, Current Link, Evidence Assessment, Warning, Layout และ Freshness เป็น View Model | ไม่เริ่ม Collection และไม่เปลี่ยนข้อสรุป Link                    |
 | **Topology Reconciliation Service** | จับคู่ Endpoint, ประเมิน One-sided/Corroborated, ตรวจ Conflict/Stale และอัปเดต Current Link Projection | ไม่แก้ Raw Neighbor Observation และไม่ติดต่ออุปกรณ์โดยตรง        |
-| **Issue & Override Service**        | Report Incorrect, Resolve Conflict และจัดการวงจร Manual Override                                       | ไม่สร้าง Freehand Link และไม่เขียนทับ Observation                |
 | **Layout Service**                  | บันทึก Shared View, ตำแหน่ง, Pin และ Hide                                                              | ไม่แก้ Device, Interface หรือ Topology Link                      |
 | **NTV Repository**                  | ให้ Interface สำหรับอ่าน/เขียนตาราง `topology_*`                                                       | ไม่มีกฎธุรกิจและไม่อ่าน Credential Secret                        |
 | **Device Inventory**                | ให้ข้อมูล Managed Device และ Interface ที่เก็บจากอุปกรณ์จริง                                           | ไม่สรุป Topology Link                                            |
-| **Discovery & Collection**          | ทำ Read-only Collection, Parse และเก็บ Collection Run/Neighbor Observation                             | ไม่ยืนยัน Current Link และไม่แก้ Manual Override                 |
+| **Discovery & Collection**          | ทำ Read-only Collection, Parse และเก็บ Collection Run/Neighbor Observation                             | ไม่ยืนยันหรือแก้ Current Link                                    |
 | **Authentication & RBAC**           | ยืนยันตัวตนและตรวจ Permission                                                                          | ไม่เก็บกฎธุรกิจ NTV                                              |
 | **Audit Trail**                     | บันทึกกิจกรรมสำคัญจาก NTV                                                                              | ไม่ใช้เป็นฐานสำหรับ Reconciliation                               |
 
@@ -198,25 +191,23 @@ flowchart LR
 
 | Interface ID                                | Provided by                     | Required by                                   | Contract ระดับสูง                                                   |
 | ------------------------------------------- | ------------------------------- | --------------------------------------------- | ------------------------------------------------------------------- |
-| `I-NTV-01` NTV REST API                     | NTV API Controller              | NTV Web UI                                    | โหลด Topology, Save Layout, Re-collect, Issue และ Override Commands |
-| `I-NTV-02` Topology Query Interface         | Topology Query Service          | NTV API Controller                            | คืน Node, Link, Evidence Assessment, Issue, Layout และ Freshness    |
-| `I-NTV-03` Reconciliation Interface         | Topology Reconciliation Service | Collection Event, Issue & Override Service    | ประมวลผลหลักฐานและสร้าง Current Link Projection                     |
-| `I-NTV-04` Issue & Override Interface       | Issue & Override Service        | NTV API Controller                            | Report Incorrect, Resolve Conflict, Create/Verify/Archive Override  |
+| `I-NTV-01` NTV REST API                     | NTV API Controller              | NTV Web UI                                    | โหลด Topology/Warning, Save Layout และ Re-collect                    |
+| `I-NTV-02` Topology Query Interface         | Topology Query Service          | NTV API Controller                            | คืน Node, Link, Evidence Assessment, Warning, Layout และ Freshness  |
+| `I-NTV-03` Reconciliation Interface         | Topology Reconciliation Service | Collection Completed Event                    | ประมวลผล Observation และสร้าง Current Link Projection               |
 | `I-NTV-05` Layout Interface                 | Layout Service                  | NTV API Controller                            | อ่านและบันทึก View/Node Placement                                   |
-| `I-NTV-06` NTV Repository Interface         | NTV Repository                  | Query, Reconciliation, Issue/Override, Layout | อ่าน/เขียนข้อมูล `topology_*` ตามขอบเขตของแต่ละ Service             |
+| `I-NTV-06` NTV Repository Interface         | NTV Repository                  | Query, Reconciliation, Layout                 | อ่าน/เขียนข้อมูล `topology_*` ตามขอบเขตของแต่ละ Service             |
 | `I-EXT-INV-01` Inventory Read Interface     | Device Inventory                | Query, Reconciliation                         | Managed Device และ Interface แบบ Read-only                          |
 | `I-EXT-COL-01` Collection Control Interface | Discovery & Collection          | NTV API Controller                            | เริ่ม Re-collect และคืน Job ID                                      |
 | `I-EXT-COL-02` Observation Interface/Event  | Discovery & Collection          | Query, Reconciliation                         | Collection Status, Collection Run และ Neighbor Observation          |
 | `I-EXT-AUTH-01` Authorization Interface     | Authentication & RBAC           | NTV API Controller                            | ตรวจ User, Role และ Permission                                      |
-| `I-EXT-AUD-01` Audit Event Interface        | Audit Trail                     | API, Issue/Override, Layout                   | บันทึกผู้ใช้ การกระทำ Target เวลา และผลลัพธ์                        |
+| `I-EXT-AUD-01` Audit Event Interface        | Audit Trail                     | API, Layout                                   | บันทึกผู้ใช้ การกระทำ Target เวลา และผลลัพธ์                        |
 
 ## 6. Data Ownership ตาม Component
 
 | Component | อ่าน | เขียน |
 |---|---|---|
 | Topology Query Service | ข้อมูลผ่าน Inventory/Collection Interface และ NTV Repository | ไม่มี |
-| Topology Reconciliation Service | Observation, Interface, Override, Issue Action และ Reconciliation State | `topology_reconciliation_*`, `topology_links`, `topology_link_evaluations`, `topology_link_evidence` |
-| Issue & Override Service | Link, Observation, User Permission | `topology_manual_overrides`, `topology_issues`, `topology_issue_actions` |
+| Topology Reconciliation Service | Observation, Interface และ Reconciliation State | `topology_reconciliation_*`, `topology_links`, `topology_link_evaluations`, `topology_link_evidence` |
 | Layout Service | Device Reference และ View | `topology_views`, `topology_node_placements` |
 | Discovery & Collection | Device Target และ Credential Reference ตามสิทธิ์ | `collection_runs`, `neighbor_observations` |
 | Device Inventory | ผล Collection ของตัวตนอุปกรณ์และ Interface | `devices`, `interfaces` |
@@ -230,12 +221,12 @@ flowchart LR
 2. เฉพาะ Discovery & Collection เท่านั้นที่เชื่อมต่อ Router/Switch และต้องเป็น Read-only ภายใน Isolated Lab Allowlist
 3. Topology Reconciliation Service อ่าน Observation แต่ห้ามแก้หรือลบ Raw Observation
 4. Current Link สร้างและเปลี่ยนโดย Reconciliation Service ไม่ใช่ API Controller หรือผู้ใช้โดยตรง
-5. Issue & Override Service บันทึกการตัดสินใจ แล้วร้องขอ Reconciliation แทนการแก้ Current Link เอง
-6. Layout Service เปลี่ยนเฉพาะ View/Placement และต้องไม่กระทบข้อมูลเครือข่าย
-7. Query Service ต้องใช้ Current Projection ล่าสุดได้ แม้ Collection Service ไม่พร้อมชั่วคราว พร้อมแสดง Freshness
-8. Component ภายใน NTV ใช้ NTV Repository แทนการเข้าถึง PostgreSQL โดยตรง
-9. Cross-feature Data ใช้ Interface/Data Contract ของเจ้าของข้อมูล ไม่สร้าง Device, Interface, User หรือ Observation ซ้ำใน NTV
-10. AI ไม่อยู่ในเส้นทางของ NTV Reconciliation และไม่มีสิทธิ์สร้าง Resolve หรือเปลี่ยน Link
+5. Layout Service เปลี่ยนเฉพาะ View/Placement และต้องไม่กระทบข้อมูลเครือข่าย
+6. Query Service ต้องใช้ Current Projection ล่าสุดได้ แม้ Collection Service ไม่พร้อมชั่วคราว พร้อมแสดง Freshness
+7. Component ภายใน NTV ใช้ NTV Repository แทนการเข้าถึง PostgreSQL โดยตรง
+8. Cross-feature Data ใช้ Interface/Data Contract ของเจ้าของข้อมูล ไม่สร้าง Device, Interface, User หรือ Observation ซ้ำใน NTV
+9. AI ไม่อยู่ในเส้นทางของ NTV Reconciliation และไม่มีสิทธิ์สร้างหรือเปลี่ยน Link
+10. Manual Override และ Human Review Service ไม่อยู่ใน Component Diagram ของ MVP; เพิ่มภายหลังได้หากอนุมัติ Future Scope
 
 ## 8. ตรวจสอบกับ Flow สำคัญของ MVP
 
@@ -244,8 +235,7 @@ flowchart LR
 | Load Topology | UI → API → Query → Inventory/Collection/NTV Repository | ได้ Node, Current Link, Evidence, Layout และ Freshness |
 | Re-collect | UI → API → Collection → Background Job → Collection Completed Event → Reconciliation | UI ไม่รอ SSH/SNMP ใน HTTP Request เดียว |
 | Reconcile Link | Collection Event → Reconciliation → Inventory/Observation Interface → NTV Repository | สร้าง One-sided/Corroborated และตรวจ Conflict/Stale |
-| Report/Resolve | UI → API → Issue & Override Service → NTV Repository/Audit → Reconciliation | รักษา Raw Evidence และอัปเดต Projection ผ่าน Reconciliation |
-| Manual Override | UI → API → Issue & Override Service → Audit → Reconciliation | ใช้ได้เฉพาะ Interface จริงและผ่าน Lifecycle ที่กำหนด |
+| Show Warning | UI → API → Query → Collection/NTV Repository | แสดง Unresolved, Conflict หรือ Stale โดยไม่ให้ผู้ใช้แก้ Link ด้วยมือ |
 | Save Node Position | UI → API → Layout Service → NTV Repository/Audit | เปลี่ยนเฉพาะ Shared Layout |
 
 ## 9. ขอบเขตของ Diagram นี้
@@ -262,6 +252,6 @@ Diagram นี้ตั้งใจแสดง **Software Architecture View** �
 
 ## 10. ข้อสรุปการออกแบบ
 
-NTV ใช้โครงสร้างแบบ **Modular Monolith** ภายใน MyNetMate โดยแยกความรับผิดชอบเชิงตรรกะออกเป็น Query, Reconciliation, Issue/Override, Layout และ Repository ขณะที่ Device Inventory, Discovery/Collection, Authentication และ Audit เป็น Component ภายนอกที่ติดต่อผ่าน Interface ชัดเจน
+NTV ใช้โครงสร้างแบบ **Modular Monolith** ภายใน MyNetMate โดยแยกความรับผิดชอบเชิงตรรกะออกเป็น Query, Reconciliation, Layout และ Repository ขณะที่ Device Inventory, Discovery/Collection, Authentication และ Audit เป็น Component ภายนอกที่ติดต่อผ่าน Interface ชัดเจน
 
 จุดควบคุมสำคัญที่สุดคือ **มีเพียง Discovery & Collection ที่ติดต่ออุปกรณ์จริง และมีเพียง Topology Reconciliation Service ที่เปลี่ยน Current Link Projection** ทำให้ UI, ผู้ใช้ และ AI ไม่สามารถแก้ข้อสรุปของแผนผังหรืออุปกรณ์จริงโดยตรง

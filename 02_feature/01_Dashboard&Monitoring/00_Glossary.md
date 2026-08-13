@@ -10,14 +10,14 @@
 
 ## 1. คำย่อและชื่อ Feature
 
-| คำศัพท์ | คำแปล/คำเรียกภาษาไทย | ความหมายที่ใช้ใน MyNetMate |
-|---|---|---|
-| **D&M** | Dashboard & Monitoring | Feature สำหรับแสดงภาพรวมและสถานะการทำงานล่าสุดของ Network โดยผู้ใช้เป็นผู้สั่งเก็บข้อมูล |
-| **Dashboard** | หน้าสรุป | หน้ารวมข้อมูลสำคัญเพื่อให้ผู้ใช้รู้ว่าควรเริ่มตรวจที่ใด ไม่ใช่หน้ารวมรายละเอียดทุก Port หรือทุก Route |
-| **Monitoring** | การติดตามสถานะ | ใน D&M MVP หมายถึงการดู Current Operational Snapshot ไม่ได้หมายถึง Continuous Monitoring หรือ Real-time Monitoring |
-| **MVP** | ผลิตภัณฑ์ขั้นต่ำที่ใช้งานได้ | ขอบเขต Feature ขั้นต่ำที่ต้องทำงานร่วมกันและแสดงคุณค่าหลักของ D&M ได้จริง |
-| **NTV** | Network Topology Visualization | Feature แสดงอุปกรณ์และความเชื่อมโยงบนแผนผัง เป็นเจ้าของข้อมูล Topology Link และ Layout ไม่ใช่เจ้าของ Operational Snapshot |
-| **CIS** | Center for Internet Security | แหล่งแนวทางความปลอดภัยที่ MyNetMate นำมาปรับเป็นกฎตรวจ Configuration ตาม Scope ของโครงการ |
+| คำศัพท์        | คำแปล/คำเรียกภาษาไทย           | ความหมายที่ใช้ใน MyNetMate                                                                                                |
+| -------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| **D&M**        | Dashboard & Monitoring         | Feature สำหรับแสดงภาพรวมและสถานะการทำงานล่าสุดของ Network โดยผู้ใช้เป็นผู้สั่งเก็บข้อมูล                                  |
+| **Dashboard**  | หน้าสรุป                       | หน้ารวมข้อมูลสำคัญเพื่อให้ผู้ใช้รู้ว่าควรเริ่มตรวจที่ใด ไม่ใช่หน้ารวมรายละเอียดทุก Port หรือทุก Route                     |
+| **Monitoring** | การติดตามสถานะ                 | ใน D&M MVP หมายถึงการดู Current Operational Snapshot ไม่ได้หมายถึง Continuous Monitoring หรือ Real-time Monitoring        |
+| **MVP**        | ผลิตภัณฑ์ขั้นต่ำที่ใช้งานได้   | ขอบเขต Feature ขั้นต่ำที่ต้องทำงานร่วมกันและแสดงคุณค่าหลักของ D&M ได้จริง                                                 |
+| **NTV**        | Network Topology Visualization | Feature แสดงอุปกรณ์และความเชื่อมโยงบนแผนผัง เป็นเจ้าของข้อมูล Topology Link และ Layout ไม่ใช่เจ้าของ Operational Snapshot |
+| **CIS**        | Center for Internet Security   | แหล่งแนวทางความปลอดภัยที่ MyNetMate นำมาปรับเป็นกฎตรวจ Configuration ตาม Scope ของโครงการ                                 |
 
 ## 2. ขอบเขตของ Dashboard & Monitoring
 
@@ -113,14 +113,14 @@ Unknown ≠ Failed
 
 ## 5. เวลาและข้อมูลล่าสุด
 
-| คำศัพท์ | ความหมายที่ใช้ใน MyNetMate |
-|---|---|
-| **Latest Collection Attempt** | ความพยายาม Collection ครั้งล่าสุด อาจสำเร็จหรือล้มเหลว |
-| **Last Successful Collection** | Collection ครั้งล่าสุดที่อ่านและ Parse ข้อมูลสำคัญสำเร็จ |
-| **`last_collected_at`** | เวลาอ้างอิงของข้อมูล Operational ที่เก็บสำเร็จ ไม่ควรเปลี่ยนเป็นเวลาของรอบที่ล้มเหลว |
-| **Freshness Threshold** | ระยะเวลาสูงสุดที่ยอมให้ Snapshot ถูกถือว่ายัง Fresh |
-| **Last Known State** | Successful Snapshot ล่าสุดที่ยังแสดงเพื่ออ้างอิงเมื่อรอบใหม่ล้มเหลว ต้องติดป้ายว่าเป็นข้อมูลเดิมและแสดง Freshness |
-| **Latest Attempt Error** | ข้อมูลสรุปความล้มเหลวของ Collection Attempt ล่าสุด ไม่ใช่ Operational State ของอุปกรณ์ |
+| คำศัพท์                        | ความหมายที่ใช้ใน MyNetMate                                                                                        |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| **Latest Collection Attempt**  | ความพยายาม Collection ครั้งล่าสุด อาจสำเร็จหรือล้มเหลว                                                            |
+| **Last Successful Collection** | Collection ครั้งล่าสุดที่อ่านและ Parse ข้อมูลสำคัญสำเร็จ                                                          |
+| **`last_collected_at`**        | เวลาอ้างอิงของข้อมูล Operational ที่เก็บสำเร็จ ไม่ควรเปลี่ยนเป็นเวลาของรอบที่ล้มเหลว                              |
+| **Freshness Threshold**        | ระยะเวลาสูงสุดที่ยอมให้ Snapshot ถูกถือว่ายัง Fresh                                                               |
+| **Last Known State**           | Successful Snapshot ล่าสุดที่ยังแสดงเพื่ออ้างอิงเมื่อรอบใหม่ล้มเหลว ต้องติดป้ายว่าเป็นข้อมูลเดิมและแสดง Freshness |
+| **Latest Attempt Error**       | ข้อมูลสรุปความล้มเหลวของ Collection Attempt ล่าสุด ไม่ใช่ Operational State ของอุปกรณ์                            |
 
 ## 6. Actual State, Expected State และ Assessment
 
@@ -146,14 +146,14 @@ Unknown ≠ Failed
 
 ## 7. ความสำคัญและการจัดลำดับปัญหา
 
-| คำศัพท์ | ความหมายที่ใช้ใน MyNetMate |
-|---|---|
-| **Severity** | ระดับความสำคัญของ Finding เช่น Critical, Warning หรือ Informational ตามกฎที่กำหนด |
-| **Critical** | ปัญหาที่ควรได้รับการตรวจเป็นลำดับต้นตาม Expected State และ Critical Flag ไม่ได้แปลว่าระบบรู้ Root Cause แล้ว |
-| **Warning** | สภาพที่ควรตรวจ แต่ยังไม่ยืนยันผลกระทบรุนแรง |
-| **Informational** | ข้อมูลประกอบที่ไม่ควรถูกแสดงเป็นความผิดปกติรุนแรง |
-| **Critical Flag (`is_critical`)** | ค่าที่ผู้ใช้กำหนดว่า Interface หรือ Resource นั้นมีความสำคัญต่อบริการ |
-| **Operational Problem Summary** | สรุปจำนวนและประเภทปัญหาสำคัญจากกฎ เช่น Critical Uplink Down, Err-disabled, Critical WAN Down, Missing Expected Default Route และ Stale Data |
+| คำศัพท์                           | ความหมายที่ใช้ใน MyNetMate                                                                                                                  |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Severity**                      | ระดับความสำคัญของ Finding เช่น Critical, Warning หรือ Informational ตามกฎที่กำหนด                                                           |
+| **Critical**                      | ปัญหาที่ควรได้รับการตรวจเป็นลำดับต้นตาม Expected State และ Critical Flag ไม่ได้แปลว่าระบบรู้ Root Cause แล้ว                                |
+| **Warning**                       | สภาพที่ควรตรวจ แต่ยังไม่ยืนยันผลกระทบรุนแรง                                                                                                 |
+| **Informational**                 | ข้อมูลประกอบที่ไม่ควรถูกแสดงเป็นความผิดปกติรุนแรง                                                                                           |
+| **Critical Flag (`is_critical`)** | ค่าที่ผู้ใช้กำหนดว่า Interface หรือ Resource นั้นมีความสำคัญต่อบริการ                                                                       |
+| **Operational Problem Summary**   | สรุปจำนวนและประเภทปัญหาสำคัญจากกฎ เช่น Critical Uplink Down, Err-disabled, Critical WAN Down, Missing Expected Default Route และ Stale Data |
 
 ## 8. คำศัพท์สำหรับ Switch Operational Visibility
 

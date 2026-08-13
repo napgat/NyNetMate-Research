@@ -545,21 +545,21 @@ Offline Mode เป็นสถานะที่ผู้ดูแลตั้�
 
 Dashboard ที่มีประโยชน์ต่อวิศวกรไม่ควรบอกเพียงว่า “มีอุปกรณ์ Online กี่ตัว” แต่ควรช่วยจำกัดพื้นที่ของปัญหา:
 
-| คำถามของวิศวกร                               | ข้อมูลขั้นต่ำที่ใช้ตอบ                            |
-| -------------------------------------------- | ------------------------------------------------- |
-| อุปกรณ์เข้าถึงได้หรือไม่?                    | Reachability และเวลาตรวจล่าสุด                    |
-| เก็บข้อมูลจากอุปกรณ์สำเร็จหรือไม่?           | Collection Status และ Error Summary               |
-| ปัญหาอยู่ที่ Switch Uplink หรือ Access Port? | Interface Role, Admin/Oper Status และ Description |
-| Port อยู่ VLAN ใด?                           | Mode, Access VLAN, Native/Allowed VLAN            |
-| Router ยังมีทางออกหรือไม่?                   | WAN Status และ Active Default Route               |
-| ข้อมูลยังเชื่อถือได้หรือไม่?                 | Last Collected และ Stale State                    |
-| ก่อนเกิดเหตุมีการดำเนินการอะไร?              | Recent Activity และ Audit Trail                   |
-| อุปกรณ์ Ping ได้แต่ระบบอ่านข้อมูลไม่ได้หรือไม่? | Reachability แยกจาก Collection Status             |
-| ยังไม่มีข้อมูลหรือเก็บข้อมูลล้มเหลว?          | Unknown/Never Collected แยกจาก Collection Failed  |
-| Port ใดถูกอุปกรณ์ปิดเพราะความผิดปกติ?        | Err-disabled และ Interface Detail                 |
-| การไม่มี Default Route เป็นความผิดปกติจริงหรือไม่? | Edge Router Expectation และ Expected State    |
-| Network ทำงานแต่ยังมีความเสี่ยง Security หรือไม่? | Security Summary แยกจาก Operational Problems  |
-| MyNetMate ส่วนใดพร้อมใช้งาน?                  | System Health และ Offline Mode Status             |
+| คำถามของวิศวกร                                     | ข้อมูลขั้นต่ำที่ใช้ตอบ                            |
+| -------------------------------------------------- | ------------------------------------------------- |
+| อุปกรณ์เข้าถึงได้หรือไม่?                          | Reachability และเวลาตรวจล่าสุด                    |
+| เก็บข้อมูลจากอุปกรณ์สำเร็จหรือไม่?                 | Collection Status และ Error Summary               |
+| ปัญหาอยู่ที่ Switch Uplink หรือ Access Port?       | Interface Role, Admin/Oper Status และ Description |
+| Port อยู่ VLAN ใด?                                 | Mode, Access VLAN, Native/Allowed VLAN            |
+| Router ยังมีทางออกหรือไม่?                         | WAN Status และ Active Default Route               |
+| ข้อมูลยังเชื่อถือได้หรือไม่?                       | Last Collected และ Stale State                    |
+| ก่อนเกิดเหตุมีการดำเนินการอะไร?                    | Recent Activity และ Audit Trail                   |
+| อุปกรณ์ Ping ได้แต่ระบบอ่านข้อมูลไม่ได้หรือไม่?    | Reachability แยกจาก Collection Status             |
+| ยังไม่มีข้อมูลหรือเก็บข้อมูลล้มเหลว?               | Unknown/Never Collected แยกจาก Collection Failed  |
+| Port ใดถูกอุปกรณ์ปิดเพราะความผิดปกติ?              | Err-disabled และ Interface Detail                 |
+| การไม่มี Default Route เป็นความผิดปกติจริงหรือไม่? | Edge Router Expectation และ Expected State        |
+| Network ทำงานแต่ยังมีความเสี่ยง Security หรือไม่?  | Security Summary แยกจาก Operational Problems      |
+| MyNetMate ส่วนใดพร้อมใช้งาน?                       | System Health และ Offline Mode Status             |
 
 หลักสำคัญคือ Dashboard ทำหน้าที่ **ชี้ตำแหน่งและหลักฐานเบื้องต้น** ไม่ได้ฟันธง Root Cause และไม่ได้แก้ Configuration ให้อัตโนมัติ
 

@@ -11,14 +11,12 @@
             "id": "bb7b1c48f5bb8210",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "02_feature/03_Network Topology Visualization/02_Database Schema.md",
-                "mode": "source",
-                "source": false
+                "file": "Pasted image 20260813210524.png"
               },
-              "icon": "lucide-file",
-              "title": "02_Database Schema"
+              "icon": "lucide-image",
+              "title": "Pasted image 20260813210524"
             }
           }
         ]
@@ -187,8 +185,9 @@
   },
   "active": "bb7b1c48f5bb8210",
   "lastOpenFiles": [
-    "Untitled.md",
+    "README.md",
     "02_feature/03_Network Topology Visualization/02_Database Schema.md",
+    "Untitled.md",
     "02_feature/03_Network Topology Visualization/Lib ที่เพื่อนแนะนำ/isoflow.md",
     "02_feature/04_Network Discrovery/กระดาษทด.md",
     "02_feature/01_Dashboard&Monitoring/01_Desk Research/MVP D&M.md",
@@ -231,7 +230,6 @@
     "02_feature/01_Dashboard&Monitoring/ทำให้ Metric เชื่อถือได้ ตีความได้ และลงมือแก้ไขต่อได้.md",
     "02_feature/แนวทางการหา Feature.md",
     "02_feature/MyNetMate รายการ Features.md",
-    "02_feature/01_Dashboard&Monitoring/02_Database Schema.md",
-    "02_feature/01_Dashboard&Monitoring/Question 1.md"
+    "02_feature/01_Dashboard&Monitoring/02_Database Schema.md"
   ]
 }

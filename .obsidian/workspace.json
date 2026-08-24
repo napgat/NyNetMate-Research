@@ -4,19 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "2909b5b2c79c360e",
+        "id": "1e2d9459d1be6a9b",
         "type": "tabs",
         "children": [
           {
-            "id": "bb7b1c48f5bb8210",
+            "id": "cbef95dea5559842",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "Pasted image 20260813210524.png"
+                "file": "02_feature/00_Authentication(Naphat)/03_Component Diagram.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "Pasted image 20260813210524"
+              "icon": "lucide-file",
+              "title": "03_Component Diagram"
             }
           }
         ]
@@ -78,7 +80,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 288.5
+    "width": 397.5
   },
   "right": {
     "id": "2024716cf3b09ec9",
@@ -183,53 +185,53 @@
       "bases:Create new base": false
     }
   },
-  "active": "bb7b1c48f5bb8210",
+  "active": "cbef95dea5559842",
   "lastOpenFiles": [
-    "README.md",
-    "02_feature/03_Network Topology Visualization/02_Database Schema.md",
-    "Untitled.md",
-    "02_feature/03_Network Topology Visualization/Lib ที่เพื่อนแนะนำ/isoflow.md",
-    "02_feature/04_Network Discrovery/กระดาษทด.md",
-    "02_feature/01_Dashboard&Monitoring/01_Desk Research/MVP D&M.md",
-    "02_feature/01_Dashboard&Monitoring/01_Desk Research/MyNetMate Dashboard.md",
-    "02_feature/01_Dashboard&Monitoring/01_Desk Research/Display in MVP.md",
-    "02_feature/02_Device Inventory Management/Data Information.md",
-    "02_feature/02_Device Inventory Management/Mockup จากภาพพี่ออม.md",
+    "02_feature/00_Authentication(Naphat)/02_Database Schema.md",
+    "02_feature/00_Authentication(Naphat)/01_MVP - Authentication & RBAC.md",
+    "02_feature/00_Authentication(Naphat)/คำถาม.md",
+    "02_feature/00_Authentication(Naphat)/05_Acceptance Tests.md",
+    "02_feature/00_Authentication(Naphat)/04_API Contracts.md",
+    "02_feature/00_Authentication(Naphat)/00_Glossary.md",
+    "02_feature/00_Authentication(Naphat)/03_Component Diagram.md",
+    "02_feature/00_Authentication(Naphat)/GPT-MVP.md",
+    "02_feature/00_Authentication(Naphat)/Grossary.md",
+    "04_project_management/Advisor Teacher/คำแนะนำของอาจารย์ ณ ครั้งที่ 5 ปี 3 เทอม 1.md",
+    "04_project_management/Advisor Teacher/คำแนะนำของอาจารย์ ณ ครั้งที่ 4 ปี 3 เทอม 1.md",
+    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/images/image2.png",
+    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/images/image1.png",
+    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/รายงานความคืบหน้า Project 1 ครั้งที่ 1_เฉพาะข้อมูลฉัน.md",
     "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/(2)/รายงานความคืบหน้า Project 1 ครั้งที่ 1_ข้อมูลเพื่อนรวม (2).md",
     "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/(1)/(1).md",
     "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/(1)/รายงานความคืบหน้า Project 1 ครั้งที่ 1_ข้อมูลเพื่อนรวม (1).md",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/(2)",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/(1)",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/รายงานความคืบหน้า Project 1 ครั้งที่ 1_เฉพาะข้อมูลฉัน.md",
-    "04_project_management/Advisor Teacher/คำแนะนำของอาจารย์ ณ ครั้งที่ 5 ปี 3 เทอม 1.md",
-    "04_project_management/Advisor Teacher/คำแนะนำของอาจารย์ ณ ครั้งที่ 4 ปี 3 เทอม 1.md",
-    "04_project_management/ความคืบหน้า รายงานส่งอาจารย์ ตอนปี 2 เทอม 2/CEPP-Report ไม่ได้ใช้แล้ว.md",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/~$ยงานความคืบหน้า Project 1 ครั้งที่ 1_รวมข้อมูลทีม.docx",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/รายงานความคืบหน้า Project 1 ครั้งที่ 1_รวมข้อมูลทีม.docx",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/รายงานความคืบหน้า Project 1 ครั้งที่ 1_รวมข้อมูลทีม_draft.docx",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/_build_progress_report.py",
-    "02_feature/03_Network Topology Visualization/Lib ที่เพื่อนแนะนำ",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/รายงานความคืบหน้า Project 1 ครั้งที่ 1_เฉพาะข้อมูลฉัน.md",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1 ที่ต้องทำส่ง.txt",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1.txt",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/images/image8.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/images/image7.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/images/image6.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/images/image5.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/images/image4.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/images/image3.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/images/image2.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/images/image1.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/Project1.html",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/รายงานความคืบหน้า Project 1 ครั้งที่ 1_เฉพาะข้อมูลฉัน.md",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/images/image8.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/images/image7.png",
-    "02_feature/03_Network Topology Visualization/01_MVP - MyNetMate NTV.md",
-    "02_feature/03_Network Topology Visualization/คำอธิบายคำศัพท์ NTV.md",
-    "02_feature/03_Network Topology Visualization/03_Component Diagram.md",
-    "02_feature/01_Dashboard&Monitoring/ทำให้ Metric เชื่อถือได้ ตีความได้ และลงมือแก้ไขต่อได้.md",
+    "02_feature/02_Device Inventory Management/Device Inventory.md",
+    "02_feature/02_Device Inventory Management/Mockup จากภาพพี่ออม.md",
+    "02_feature/02_Device Inventory Management/Data Information.md",
+    "02_feature/Step.md",
     "02_feature/แนวทางการหา Feature.md",
-    "02_feature/MyNetMate รายการ Features.md",
-    "02_feature/01_Dashboard&Monitoring/02_Database Schema.md"
+    "AGENTS.md",
+    "mynetmate/network-discovery/tests/unit/topology_test.rs",
+    "mynetmate/network-discovery/tests/unit/mod.rs",
+    "mynetmate/network-discovery/tests/unit/default_route_test.rs",
+    "mynetmate/network-discovery/tests/unit_tests.rs",
+    "mynetmate/network-discovery/tests/unit",
+    "mynetmate/network-discovery/tests",
+    "mynetmate/network-discovery/src/models/route.rs",
+    "mynetmate/network-discovery/src/discovery/topology.rs",
+    "mynetmate/network-discovery/src/discovery/scanner.rs",
+    "02_feature/04_Network Discrovery/เอกสารสิ่งที่เพื่อนทำไปแล้ว.md",
+    "mynetmate/website/vite.config.ts",
+    "mynetmate/website/src/assets/vite.svg",
+    "mynetmate/website/src/assets/react.svg",
+    "mynetmate/website/src/assets/hero.png",
+    "mynetmate/website/public/icons.svg",
+    "mynetmate/website/public/favicon.svg",
+    "mynetmate/website/README.md",
+    "mynetmate/network-discovery/README.md",
+    "mynetmate/docs/หนังสือ/ข้อมูลจากหนังสือ/Ai_Cookbook LangChain for Networking/Thai_Detailed_Summary/📖 Ch5_Part6_Recipe_5.5_เนื้อหาเต็ม.md",
+    "mynetmate/docs/หนังสือ/ข้อมูลจากหนังสือ/Ai_Cookbook LangChain for Networking/Thai_Detailed_Summary/📖 Ch5_Part5_Recipe_5.4_เนื้อหาเต็ม.md",
+    "Pasted image 20260813210524.png",
+    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/images/image8.png",
+    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/ครั้งที่ 1/เอกสารรายงานความคืบหน้า Project 1 รวมกับเพื่อน/images/image7.png"
   ]
 }

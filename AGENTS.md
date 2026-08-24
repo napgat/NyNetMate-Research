@@ -61,6 +61,15 @@
 
 ## 🗺️ 4. Project Directory Map & File Index
 
+### 🏢 `mynetmate/` — Central Team Repository (Codebase & Frontend)
+นี่คือ Repository กลางของทีมที่เก็บ Source Code และเว็บไซต์จริง:
+- `mynetmate/backend/` — ฝั่ง Backend (FastAPI)
+- `mynetmate/website/` — ฝั่งเว็บไซต์/Frontend (React)
+- `mynetmate/docs/` — เอกสารที่อยู่ใน Repo ทีม
+- `mynetmate/network-discovery/` — ส่วน Network Discovery (งานเพื่อน — **Read-only** ห้าม AI แก้ไข ดูรายละเอียดในกฎข้อ 9)
+
+> **หมายเหตุ:** โฟลเดอร์ `01_architecture_and_specs` ถึง `05_knowledge_base` ด้านล่างนี้คือพื้นที่เก็บเอกสารวางแผนและความรู้หลักของ Project
+
 ### 🏛️ `01_architecture_and_specs/` — System Architecture & UI Specifications
 - [System Diagram in Proposal.md](System%20Diagram%20in%20Proposal(CEPP).md) — สถาปัตยกรรมระบบ 8 ส่วนหลัก
 
@@ -71,11 +80,10 @@
 | [MyNetMate Weight Feature List.md](02_feature/MyNetMate%20Weight%20Feature%20List.md)      | **ไฟล์หลักล่าสุด** — MVP Scope ฉบับ Final หลังประเมิน (P1 vs P2 vs CUT) | 🔴 อ่านก่อนเลย                         |
 | [MyNetMate รายการ Features.md](02_feature/MyNetMate%20รายการ%20Features.md)                | รายการ Feature ทั้งหมด 11 หมวดฉบับดั้งเดิม + ปรัชญาระบบ                 | 🟡 อ่านอ้างอิง                         |
 | [Data Information.md](02_feature/02_Device%20Inventory%20Management/Data%20Information.md) | Schema ข้อมูลที่ต้องเก็บใน Device Inventory (PostgreSQL)                | 🟡 อ่านเมื่อทำ DB                      |
-| [Device Inventory.md](Device%20Inventory.md)                                               | รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory               | 🟡 อ่านเมื่อทำ Discovery               |
-| [Plugin Driver Architecture.md](แนวคิด%20Plugin%20Driver%20Architecture.md)                | สถาปัตยกรรม Multi-vendor Driver Pattern                                 | 🟡 อ่านเมื่อทำ Multi-vendor            |
-| [Cutting Your Own Legs.md](Cutting%20Your%20Own%20Legs.md)                                 | Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค                               | 🟢 อ่านเมื่อต้องการทราบว่าทำไมถึงไม่ทำ |
-| [Restore Strategy.md](แนวคิด%20Restore%20Strategy.md)                                      | กลยุทธ์การ Rollback และ Version Control                                 | 🟢 อ่านเมื่อทำ Version Control         |
-
+| [Device Inventory.md](02_feature/02_Device%20Inventory%20Management/Device%20Inventory.md) | รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory               | 🟡 อ่านเมื่อทำ Discovery               |
+| [Plugin Driver Architecture.md](02_feature/05_Configuration%20Management/แนวคิด%20Plugin%20Driver%20Architecture.md) | สถาปัตยกรรม Multi-vendor Driver Pattern                                 | 🟡 อ่านเมื่อทำ Multi-vendor            |
+| [Cutting Your Own Legs.md](02_feature/10_Configuration%20Deployment/Cutting%20Your%20Own%20Legs.md)                  | Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค                               | 🟢 อ่านเมื่อต้องการทราบว่าทำไมถึงไม่ทำ |
+| [Restore Strategy.md](02_feature/10_Configuration%20Deployment/แนวคิด%20Restore%20Strategy.md)                       | กลยุทธ์การ Rollback และ Version Control                                 | 🟢 อ่านเมื่อทำ Version Control         |
 
 ### ⚖️ `03_tech_evaluations/` — Technology Research & Tool Selection
 - [ค้นคว้าเครื่องมือ Netmiko vs NAPALM vs Nornir vs Ansible.md](03_tech_evaluations/) — Tool Comparison Matrix
@@ -148,6 +156,7 @@
 6. **Config ทุกก้อนต้องผ่าน CIS Rule Check** ก่อน Deploy ไม่ว่าจะมาจาก Template หรือ AI
 7. **เน้น Cisco เป็น Baseline หลัก** — MikroTik และ Huawei เป็น Candidate ตามอุปกรณ์จริงหลังกลางภาค ห้ามรับรองว่า Support เต็มรูปแบบจนกว่าจะยืนยันรุ่น ระบบปฏิบัติการ ชุดคำสั่ง และผลทดสอบใน Isolated Lab
 8. **Scope ของการทดสอบคือ Isolated Lab Environment เท่านั้น** — ห้าม Scan เครือข่ายมหาลัยจริง
+9. **โฟลเดอร์งานของเพื่อน (ห้ามแก้ไข):** `mynetmate/network-discovery/` เป็นส่วน Network Discovery ของ Repository ทีมที่เพื่อนรับผิดชอบ ห้าม AI แก้ไข สร้าง ลบ ย้าย เปลี่ยนชื่อ หรือรันคำสั่งที่ทำให้ไฟล์ในโฟลเดอร์นี้เปลี่ยนแปลง รวมถึงห้าม commit, push หรือเปิด Pull Request โดยเด็ดขาด อนุญาตให้อ่าน/ตรวจสอบเพื่ออธิบายความคืบหน้าได้เท่านั้น เว้นแต่ผู้ใช้สั่งให้แก้ไขเป็นลายลักษณ์อักษรอย่างชัดเจนในคำขอนั้น
 
 ---
 

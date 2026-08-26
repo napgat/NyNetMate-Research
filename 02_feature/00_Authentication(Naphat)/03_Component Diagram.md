@@ -1,51 +1,105 @@
-# Component & Flow - Authentication
+# Component & Flow Diagram - Authentication
 
-เอกสารนี้อธิบายถึงขั้นตอนการทำงาน (User Flows) สิทธิการเป็นเจ้าของข้อมูล (Data Ownership) และข้อตกลงการเชื่อมต่อกับฟีเจอร์อื่น (Dependency Contract)
+## 1. Login Flow
 
-## 1. User Flows (กระบวนการทำงาน)
+```mermaid
+sequenceDiagram
+    participant C as Client (Browser)
+    participant A as Auth API
+    participant DB as Database
+    participant L as Audit Log
 
-1. **Login สำเร็จ (Login Succeeded)**
-   - ผู้ใช้ส่ง `username` (หรือ `email`) และ `password`
-   - ระบบตรวจสอบ Hash (ด้วย Argon2id), `is_active=true` และ Rate Limit
-   - สร้าง Session ลงใน `auth_sessions` และสร้าง JWT Cookie (`HttpOnly`)
-   - บันทึก Audit Log `auth.login_succeeded`
-   - คืนค่า Profile / Permissions เบื้องต้นให้ UI
-2. **Login ล้มเหลว (Login Failed)**
-   - Credential ไม่ถูกต้อง, `is_active=false`, หรือโดน Rate Limit
-   - ระบบตอบกลับข้อความทั่วไป (Generic Message) ว่า "Username/Email หรือรหัสผ่านไม่ถูกต้อง"
-   - บันทึก Audit Log `auth.login_failed` (ไม่เก็บรหัสผ่านหรือ Token ที่ใช้พยายามเข้าสู่ระบบลง Log)
-3. **เรียก API ที่ไม่มีสิทธิ์ (Permission Denied)**
-   - Middleware ตรวจสอบ Session ก่อน (Token ยังไม่หมดอายุ)
-   - Permission Guard ตรวจสอบว่า Role ปัจจุบันมีสิทธิ์เรียก Endpoint นี้หรือไม่
-   - หากไม่มีสิทธิ์ จะตอบกลับด้วย HTTP Status `403 Forbidden`
-   - บันทึก Audit Log `auth.permission_denied`
-   - UI (Frontend) จะทำการซ่อนหรือ Disable ปุ่มล่วงหน้าเป็นเพียงแค่ UX
-4. **Token หมดอายุ หรือ Session ถูก Revoke (Unauthorized)**
-   - Middleware ตรวจสอบ Session แล้วพบว่าถูกตั้งค่า `is_revoked=true` หรือเลยเวลา `expires_at`
-   - ระบบตอบกลับด้วย HTTP Status `401 Unauthorized` (พร้อม Error Code `AUTH_SESSION_EXPIRED`)
-   - ล้างค่า Cookie ฝั่งเบราว์เซอร์
-   - Redirect ผู้ใช้กลับไปหน้า Login พร้อมข้อความ "Session หมดอายุ กรุณาเข้าสู่ระบบใหม่"
-5. **การจัดการผู้ใช้โดย Admin (User Management)**
-   - Admin สร้าง User พร้อมระบุรหัสผ่านชั่วคราว (Temporary Password) และ Role
-   - (แนะนำ) ให้ผู้ใช้ใหม่ต้องเปลี่ยนรหัสผ่านเมื่อ Login ครั้งแรก
-   - Admin สามารถระงับบัญชี (`is_active=false`) หรือเปลี่ยน Role ได้
-   - **กฎเกณฑ์:** Admin ไม่สามารถ Deactivate ตัวเอง หรือทำให้ระบบไม่มี Admin ที่ Active เหลืออยู่เลย
+    C->>A: POST /api/auth/login (Identifier, Password)
+    A->>A: Normalize (toLowerCase) Identifier
+    A->>DB: Query User by Username or Email
+    
+    alt User Not Found OR is_active=false
+        A->>L: record_auth_event('user.login_failed', 'auth', null, null)
+        A-->>C: 401 AUTH_INVALID_CREDENTIALS
+    else User Found
+        A->>A: Verify Password (Argon2id)
+        alt Password Incorrect
+            A->>L: record_auth_event('user.login_failed', 'user', user_id, null)
+            A-->>C: 401 AUTH_INVALID_CREDENTIALS
+        else Password Correct
+            A->>DB: Insert into auth_sessions
+            A->>L: record_auth_event('user.login_success', 'auth', null, user_id)
+            A-->>C: 200 OK + Set-Cookie (JWT)
+        end
+    end
+```
 
-## 2. Data Ownership และ Dependency Contract
+## 2. Self-Change Password Flow
+เมื่อผู้ใช้ต้องการเปลี่ยนรหัสผ่านของตนเอง
 
-| ระบบ / ฟีเจอร์ที่เป็นเจ้าของ (Owner) | ข้อมูลที่เป็นเจ้าของ | Contract ที่ส่งออกให้ฟีเจอร์อื่นเรียกใช้ |
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant A as Auth API
+    participant DB as Database
+    participant L as Audit Log
+
+    C->>A: POST /api/auth/change-password (current_password, new_password)
+    A->>DB: Verify current_password
+    alt Valid
+        A->>DB: Update password_hash (Argon2id)
+        A->>DB: UPDATE auth_sessions SET is_revoked = true WHERE user_id = {id}
+        A->>L: record_auth_event('user.password_changed', 'user', user_id, user_id)
+        A-->>C: 204 No Content (Clear Cookie / Force Re-login)
+    else Invalid
+        A-->>C: 400 AUTH_CURRENT_PASSWORD_INVALID
+    end
+```
+
+## 3. Audit Trail Contract (Reconciled DTO)
+ส่วน Authentication จะสร้างข้อมูลส่งให้ระบบ Audit ผ่าน Auth-only wrapper function `record_auth_event()`:
+
+### 3.1 Caller Function Signature (Auth Layer)
+Caller (เช่น Login Flow) จะเรียกใช้ด้วย 4 Arguments พื้นฐาน:
+```
+record_auth_event(
+    action:         str,        -- Canonical Action Name (ดูตาราง 3.2)
+    resource_type:  str,        -- เช่น 'auth', 'user'
+    resource_id:    UUID|null,  -- ID ของเป้าหมาย (nullable)
+    actor_id:       UUID|null   -- ID ของผู้กระทำที่ยืนยันตัวตนแล้ว (nullable)
+)
+```
+
+**กฎเรื่อง `actor_id`:** ต้องเป็น ID ของผู้ใช้ที่ **ยืนยันตัวตนสำเร็จแล้ว** เท่านั้น
+- Login สำเร็จ → `actor_id = user_id` ของผู้ Login
+- Login ล้มเหลว (password ผิด) → `actor_id = null` (ยังไม่รู้ว่าใครคือผู้กระทำจริง) แต่ใช้ `resource_type='user'` + `resource_id=target_user_id` เพื่อชี้ไปที่บัญชีเป้าหมาย
+- Login ล้มเหลว (ไม่พบบัญชี) → `actor_id = null`, `resource_id = null`
+- Admin ระงับบัญชี → `actor_id = admin_id`, `resource_id = target_user_id`
+
+### 3.2 Canonical Mapping & DTO Translation
+
+ฟังก์ชัน `record_auth_event()` ทำหน้าที่เป็น Registry Map มันจะดึงค่า `result`, `safe_error_category` และ `created_at` (now()) อัตโนมัติจากตารางด้านล่าง หากมีการส่ง Action ที่ไม่อยู่ในตารางนี้เข้ามา ฟังก์ชันต้อง **Reject (โยน Exception) ทันที** (ช่วยป้องกันการส่ง Action ของระบบอื่นเช่น `device` ผิดเข้ามา)
+
+| Action | `resource_type` | `result` | `safe_error_category` |
+| :--- | :--- | :--- | :--- |
+| `user.login_success` | `auth` | `success` | `null` |
+| `user.login_failed` | `user` / `auth` | `failure` | `'authentication_error'` |
+| `user.logout` | `auth` | `success` | `null` |
+| `user.password_changed` | `user` | `success` | `null` |
+| `user.created` | `user` | `success` | `null` |
+| `user.updated` | `user` | `success` | `null` |
+| `user.deactivated` | `user` | `success` | `null` |
+| `auth.permission_denied`| `auth` | `failure` | `'authorization_error'` |
+
+*(หมายเหตุสำหรับ D&M: ค่า Enum ของ `safe_error_category` สำหรับฝั่ง Auth ที่อนุญาตให้มีคือ `authentication_error`, `authorization_error`, `invalid_request`, `server_error`, หรือ `null` เท่านั้น ห้ามใช้รูปแบบอื่น)*
+
+### 3.3 Data Storage & Consumer API Mapping
+
+เพื่อยุติปัญหาการใช้ชื่อ Field ไม่ตรงกันระหว่าง Database, Auth API และ D&M Contract ระบบกำหนดกฎการ Mapping ดังนี้:
+
+| Auth Function Caller | Central DB Storage (`audit_logs`) | Consumer API DTO (ส่งให้ D&M และ Frontend) |
 | :--- | :--- | :--- |
-| **Auth & RBAC** | `users`, `auth_sessions`, นโยบายสิทธิ์ (Permission Policy) | `Principal {user_id, role, is_active}`, ฟังก์ชัน `require_permission()` |
-| **Audit Trail** | `audit_logs` | ฟังก์ชันบันทึกเหตุการณ์ `record_event(actor, action, target, outcome, metadata)` |
-| **Device Inventory** | `devices`, `credentials`, `interfaces` | ข้อมูลอุปกรณ์/Interface แบบ Read-only สำหรับ Dashboard / NTV |
-| **Dashboard** | View Model / Aggregation | อ่านจำนวนอุปกรณ์, สถานะ, Audit แบบ Read-only ผ่าน Service |
-| **NTV (P2)** | Topology View, ตำแหน่งอุปกรณ์ (Placement), Link | เรียก Auth เพื่อตรวจสอบสิทธิ์การเข้าถึง และส่ง Event เข้า Audit |
-| **CIS Validation** | Scan Result, Override Domain | รับ Principal จาก Auth (อนุญาต Override เฉพาะ Admin) |
-| **Config Generation** | Request, Config Preview, Plan | รับ Principal จาก Auth เพื่อบันทึกผู้สร้าง และ Audit Action |
+| `actor_id` | `user_id` | `actor_user_id` |
+| (computed now) | `created_at` | `occurred_at` |
+| (mapped) | `result` | `result` |
+| (mapped) | `safe_error_category` | `safe_error_category` |
 
-## 3. กฎเกณฑ์ที่ทุกฟีเจอร์ต้องปฏิบัติตามร่วมกับระบบ Auth
-1. **Source of Truth for Identity:** ทุกฟีเจอร์ต้องรับ `user_id` และข้อมูลผู้ใช้ปัจจุบันจาก **Auth Context (Server-side)** เท่านั้น ห้ามรับรหัสผู้ใช้ที่แฝงมาใน Request Body
-2. **Centralized Auditing:** ทุกฟีเจอร์ต้องส่งบันทึกเหตุการณ์ผ่าน Service กลางของ **Audit Trail** ห้ามเขียนตาราง `audit_logs` ด้วยตัวเองอย่างกระจัดกระจาย
-3. **No PII/Secrets in Audit:** ข้อมูล Metadata ที่บันทึกลง Audit ต้องเป็นแบบ Allowlist ห้ามมี รหัสผ่าน, SSH Key, SNMP Community, JWT, Cookie, หรือ Credential อื่นๆ
-4. **Role Enforcement:** ฟีเจอร์อื่นไม่ต้องสนใจวิธีการทำงานของ Auth (เช่น การเข้ารหัส ถอดรหัส) สิ่งที่ต้องการรับรู้คือ `role` หรือ `permission` เพื่อนำไปบังคับใช้สิทธิ์ของตนเองต่อไป (เช่น CIS Validation ตัดสินด้วย Role Admin)
-5. **No DB Duplication:** NTV หรือ Dashboard อ่าน `user_id`, `role`, และ `is_active` จากระบบ Auth แต่ห้ามสร้างคอลัมน์เก็บ username หรือรหัสผ่านซ้ำ
+> [!NOTE]
+> **สถานะสัญญา (Approved & Reconciled):**
+> 1. **D&M Contract (DM-DEP-AUD-01):** ฝั่ง Auth จะนำข้อมูลจาก Database Storage แปลงเป็นชื่อ `actor_user_id` และ `occurred_at` ในชั้น API Response เพื่อให้ตรงกับ D&M DTO Requirement ทุกประการ
+> 2. **Central Schema:** ตาราง `audit_logs` กลางได้รับการอัปเดตเพื่อเพิ่มคอลัมน์ `result` และ `safe_error_category` เรียบร้อยแล้ว รองรับการจัดเก็บค่าที่ `record_auth_event()` คำนวณไว้ได้อย่างสมบูรณ์

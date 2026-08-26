@@ -141,11 +141,11 @@ Feature List ! มาคิดเรื่อง Device Information กัน
 
 ---
 
-## 🎯 สรุป: Field ไหนใช้กับ Feature ไหน (อัปเดตครบ 8 ตาราง)
+## 🎯 สรุป: Field ไหนใช้กับ Feature ไหน (อัปเดตครบ 12 ตาราง)
 
 | Feature                             | ตาราง / Fields ที่ต้องพึ่งพา                                                          |
 | ----------------------------------- | ------------------------------------------------------------------------------------- |
-| **Authentication**                  | `users` (username, password_hash, role)                                               |
+| **Authentication**                  | `users` (username, password_hash, role), `auth_sessions` (session state)                |
 | **Dashboard**                       | `devices` (status, last_seen, uptime, site, role)                                     |
 | **Device Inventory**                | `devices` (Core Identity ทั้งหมด + Location)                                          |
 | **Network Discovery**               | `devices` (management_ip, mac_address, platform, discovery_method)                    |
@@ -157,23 +157,6 @@ Feature List ! มาคิดเรื่อง Device Information กัน
 | **CIS Override Logging**            | `cis_overrides` (reason, overridden_by) + `scan_results` (scan_result_id)             |
 | **Version Control (Diff/Rollback)** | `config_history` (config_text, snapshot_type, timestamp)                              |
 | **Audit Trail**                     | `audit_logs` (action, target, user_id, created_at)                                    |
-
----
-
-## 📋 สรุปตารางทั้งหมด 8 ตาราง
-
-| # | ตาราง | ใช้กับ Feature | Priority |
-|---|---|---|---|
-| 1 | `devices` | ทุก Feature (ศูนย์กลาง) | 🏆 P1-CORE |
-| 2 | `credentials` | Config Deployment, SSH | 🏆 P1-CORE |
-| 3 | `users` | Authentication, RBAC, Audit | 🏗️ P1-INFRA |
-| 4 | `config_history` | Version Control, Snapshot | 🏆 P1-CORE |
-| 5 | `scan_results` | CIS Benchmark Scanning | 🏆 P1-CORE |
-| 6 | `cis_overrides` | CIS Override Logging | 🏆 P1-CORE |
-| 7 | `audit_logs` | Audit Trail ทุก Action | 🏗️ P1-INFRA |
-| 8 | `interfaces` | Network Topology (P2) | 🚀 P2 |
-
-> **หมายเหตุ:** ตาราง `interfaces` ควรสร้าง Schema ไว้ตั้งแต่ Sprint 0 แม้จะยังไม่ใส่ข้อมูลใน P1 เพื่อป้องกัน Migration ที่ซับซ้อนใน P2
 
 ---
 
@@ -240,7 +223,7 @@ NTV ใช้ `interfaces.id` ของทั้งสองฝั่งเป�
 
 ### ✅ สิ่งที่ถูกต้องและครบแน่ๆ
 
-- โครงสร้างหลัก 11 ตารางรองรับ Feature พื้นฐาน ส่วน NTV MVP ต้องเพิ่ม Observation Reference/Current Link/Layout Entities ใน `02_Database Schema.md`; Override/Review เป็น Future Extension ✅
+- โครงสร้างหลัก 12 ตารางรองรับ Feature พื้นฐาน ส่วน NTV MVP ต้องเพิ่ม Observation Reference/Current Link/Layout Entities ใน `02_Database Schema.md`; Override/Review เป็น Future Extension ✅
 - Security design (Encryption, Soft Delete, UUID PK) ✅
 - PII Masking ไม่มีตาราง — เป็น Middleware Logic ✅
 - Sprint Planning ลำดับถูกต้อง ✅
@@ -292,14 +275,7 @@ before_value: JSON  →  {"hostname": "OLD-SW1"}
 after_value:  JSON  →  {"hostname": "NEW-SW1"}
 ```
 
-#### 6. ไม่มีระบบ JWT Revoke (Logout จริงๆ)
-ตอนนี้ถ้า User กด Logout JWT ยังใช้ได้อยู่จนหมดอายุ 8 ชั่วโมง เพราะไม่มีที่เก็บ Blacklist
 
-**วิธีที่ถูก (เลือก 1 อย่าง):**
-- เพิ่ม `token_version: INTEGER` ใน `users` — เมื่อ Logout ให้ increment ทีนี้ Token เก่าจะ Invalid ทันที (วิธีนี้เหมาะกับโปรเจกต์นี้ที่สุด ไม่ต้องมีตารางใหม่)
-- หรือใช้ Redis เก็บ Blacklist (ซับซ้อนกว่า)
-
----
 
 ### 🟡 สิ่งที่ **ต้องพิจารณา** เพิ่ม
 
@@ -321,7 +297,7 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 | `cis_rule_settings` Multi-vendor | ❌ ผิด Logic |
 | Token Counter (Race Condition) | ❌ เปราะบาง |
 | Batch Deploy Support | ❌ ขาด (P2) |
-| JWT Revoke | 🟡 ต้องเพิ่ม `token_version` |
+| JWT Revoke | ✅ Resolved — ใช้ตาราง `auth_sessions` |
 | Audit Log Before/After | 🟡 Nice-to-have |
 
 จุดที่ยังไม่เกี่ยวกับ NTV โดยตรง เช่น CIS Multi-vendor, Token Counter, Batch Deploy และ JWT Revoke ต้องประเมินในเอกสารของ Feature เจ้าของต่อไป
@@ -329,7 +305,7 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 
 # 🗄️ MyNetMate — Complete Database Schema
 > อ้างอิงจาก: `MyNetMate Weight Feature List.md` และ `MyNetMate รายการ Features.md`  
-> **11 ตาราง** ครอบคลุมทุก Feature ใน 11 หมวด
+> **12 ตาราง** ครอบคลุมทุก Feature ใน 11 หมวด
 
 ---
 
@@ -356,11 +332,12 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 
 ---
 
-## 📋 สรุปตาราง 11 ตาราง
+## 📋 สรุปตาราง 12 ตาราง
 
 | # | ตาราง | Feature ที่ใช้ | Priority | Sprint |
 |---|---|---|---|---|
 | 1 | `users` | Auth, RBAC, Audit | 🏗️ P1-INFRA | Sprint 0 |
+| 1.1 | `auth_sessions` | Authentication, JWT | 🏗️ P1-INFRA | Sprint 0 |
 | 2 | `devices` | Device Inventory, ทุก Feature | 🏆 P1-CORE | Sprint 0 |
 | 3 | `credentials` | SSH Deploy, Netmiko | 🏆 P1-CORE | Sprint 0 |
 | 4 | `config_history` | Config Gen, Version Control, Snapshot | 🏆 P1-CORE | Sprint 1 |
@@ -380,22 +357,36 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 | Column          | Type         | Constraint              | ตัวอย่าง              | หมายเหตุ                        |
 | --------------- | ------------ | ----------------------- | --------------------- | ------------------------------- |
 | `id`            | UUID         | PK, NOT NULL            | `uuid4()`             | Primary Key                     |
-| `username`      | VARCHAR(100) | UNIQUE, NOT NULL        | `admin_kmitl`         | ใช้ Login                       |
-| `email`         | VARCHAR(255) | UNIQUE, NULLABLE        | `admin@kmitl.ac.th`   | Optional                        |
-| `password_hash` | VARCHAR(255) | NOT NULL                | `$2b$12$...`          | bcrypt hash ห้ามเก็บ plain      |
-| `role`          | ENUM         | NOT NULL                | `admin`               | `admin` / `operator` / `viewer` |
+| `username`      | VARCHAR(100) | UNIQUE, NOT NULL, CHECK (username = lower(username)), CHECK (username ~ '^[a-z0-9._-]{3,100}$') | `admin_kmitl`         | ใช้ Login, ห้ามมี @               |
+| `email`         | VARCHAR(255) | UNIQUE, NULLABLE, CHECK (email = lower(email)) | `admin@kmitl.ac.th`   | Optional                        |
+| `password_hash` | VARCHAR(255) | NOT NULL                | `$argon2id$v=...`     | เข้ารหัสด้วย Argon2id เสมอ      |
+| `role`          | VARCHAR(50)  | NOT NULL, CHECK (role IN ('admin', 'operator', 'viewer')) | `admin`               | `admin` / `operator` / `viewer` |
 | `is_active`     | BOOLEAN      | NOT NULL, DEFAULT TRUE  | `true`                | ปิดบัญชีแทนการลบ                |
-| `last_login_at` | TIMESTAMP    | NULLABLE                | `2026-08-06 09:00:00` | ตรวจสอบ Activity                |
-| `created_at`    | TIMESTAMP    | NOT NULL, DEFAULT NOW() | -                     | Audit                           |
-| `updated_at`    | TIMESTAMP    | NOT NULL, DEFAULT NOW() | -                     | Audit                           |
+| `created_at`    | TIMESTAMP WITH TIME ZONE | NOT NULL, DEFAULT NOW() | -                     | Audit                           |
+| `updated_at`    | TIMESTAMP WITH TIME ZONE | NOT NULL, DEFAULT NOW() | -                     | Audit                           |
 
 **RBAC Permissions:**
 
 | Role | สิทธิ์ |
 |---|---|
-| `admin` | Full access — จัดการ User, Settings, Deploy, Override CIS |
-| `operator` | สร้าง Config, Deploy, สแกน CIS ได้ — Override CIS ไม่ได้ |
+| `admin` | Full access — จัดการ User, Settings, สร้าง Deployment Plan (P1), Override CIS |
+| `operator` | สร้าง Config, สร้าง Deployment Plan (P1), สแกน CIS ได้ — Override CIS ไม่ได้ |
 | `viewer` | ดูอย่างเดียว — ห้าม Create/Edit/Deploy |
+
+---
+
+## 🟣 ตารางที่ 1.1: `auth_sessions`
+**Feature:** Authentication (Session Revocation) 🏗️ P1-INFRA
+
+| Column | Type | Constraint | ตัวอย่าง | หมายเหตุ |
+|---|---|---|---|---|
+| `id` | UUID | PK, NOT NULL | `uuid4()` | อ้างอิงใน JWT `jti` |
+| `user_id` | UUID | FK → users (ON DELETE CASCADE), NOT NULL | - | เจ้าของ Session |
+| `is_revoked` | BOOLEAN | NOT NULL, DEFAULT FALSE | `false` | True = บังคับเตะออก |
+| `expires_at` | TIMESTAMP WITH TIME ZONE | NOT NULL | - | วันหมดอายุของ Token |
+| `created_at` | TIMESTAMP WITH TIME ZONE | NOT NULL, DEFAULT NOW() | - | แทน last_login_at |
+| `ip_address` | VARCHAR(45) | NULLABLE | `10.0.0.5` | |
+| `user_agent` | TEXT | NULLABLE | `"Mozilla/5.0..."` | |
 
 ---
 
@@ -515,15 +506,17 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 | Column | Type | Constraint | ตัวอย่าง | หมายเหตุ |
 |---|---|---|---|---|
 | `id` | UUID | PK, NOT NULL | `uuid4()` | |
-| `user_id` | UUID | FK → users, NULLABLE | - | NULL ถ้าเป็น System Action |
+| `user_id` | UUID | FK → users, NULLABLE | - | NULL ถ้าเป็น System Action หรือ Anonymous failed login |
 | `action` | VARCHAR(100) | NOT NULL | `device.create` | รูปแบบ `resource.action` |
-| `resource_type` | VARCHAR(50) | NOT NULL | `device` | `device` / `config` / `scan` / `user` / `settings` |
+| `resource_type` | VARCHAR(50) | NOT NULL | `device` | `device` / `config` / `scan` / `user` / `settings` / `auth` |
 | `resource_id` | UUID | NULLABLE | - | ID ของ Record ที่ถูกกระทำ |
+| `result` | VARCHAR(20) | NOT NULL, CHECK (result IN ('success', 'failure')) | `success` | สถานะของเหตุการณ์ |
+| `safe_error_category` | VARCHAR(100) | NULLABLE | `authentication_error` | หมวดหมู่ Error ที่ปลอดภัย |
 | `description` | TEXT | NULLABLE | `"Added device BKK-SW1"` | รายละเอียดเพิ่มเติม |
 | `ip_address` | VARCHAR(45) | NULLABLE | `10.0.0.5` | IP ของ Client |
-| `created_at` | TIMESTAMP | NOT NULL, DEFAULT NOW() | - | |
+| `created_at` | TIMESTAMP WITH TIME ZONE | NOT NULL, DEFAULT NOW() | - | |
 
-**ตัวอย่าง action values:** `device.create`, `device.update`, `device.delete`, `config.generate`, `config.deploy`, `scan.run`, `scan.override`, `user.login`, `user.logout`, `settings.update`
+**ตัวอย่าง action values:** `device.create`, `device.update`, `device.delete`, `config.generate`, `config.deploy`, `scan.run`, `scan.override`, `user.login_success`, `user.login_failed`, `user.logout`, `settings.update`
 
 ---
 
@@ -620,7 +613,7 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 
 | Feature (หมวด) | ตารางที่ใช้ |
 |---|---|
-| **1. Auth & RBAC** | `users` |
+| **1. Auth & RBAC** | `users`, `auth_sessions` |
 | **2. Dashboard** | `devices` (status, last_seen), `audit_logs` (recent activity) |
 | **3. Device Inventory** | `devices`, `credentials`, `interfaces` (P2) |
 | **4. Network Topology** | `devices`, `interfaces` + NTV-owned Entities ที่กำหนดใน `02_Database Schema.md` |
@@ -639,6 +632,7 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 ```
 Sprint 0 — Foundation (ก่อนเขียน Feature ใดๆ):
   ✅ users              ← Login ต้องใช้ก่อน
+  ✅ auth_sessions      ← จัดการ Session
   ✅ devices            ← ทุก Feature ผูกอยู่กับนี้
   ✅ credentials        ← ใส่ตั้งแต่ต้นก่อน Device ใช้
   ✅ audit_logs         ← Log ทุก Action ตั้งแต่วันแรก

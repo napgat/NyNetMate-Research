@@ -47,8 +47,6 @@
 อย่าค้นว่า “Dashboard ควรมีอะไรบ้าง” อย่างเดียว แต่ให้ค้นจากงานที่ต้องทำ เช่น:
 
 - Authentication: ใครบ้างควรดู แก้ไข Deploy หรือ Override Security?
-- 
-
 - Topology: ต้องเก็บข้อมูลใดจึงจะระบุ Device–Port–Neighbor ได้?
 - Security: ต้องตรวจ Config อะไรก่อน Deploy และต้องเก็บหลักฐานอะไร?
 

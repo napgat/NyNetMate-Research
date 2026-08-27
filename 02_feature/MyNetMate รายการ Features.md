@@ -852,4 +852,4 @@
 | ** Gemini API Quota**                  | ถ้าใช้ Free Tier มี Rate Limit (จำกัดจำนวน Request ต่อนาที) ตอน Demo อาจเจอ Error ถ้ากด Test บ่อยเกินไป                                                                           |
 | ** ความพร้อมของอาจารย์ที่ปรึกษา**      | การนัด Feedback แต่ละรอบอาจใช้เวลาหลายวัน ทำให้ตัดสินใจบางอย่างล่าช้า                                                                                                             |
 
-[[Claude MyNetMate Weight Feature List]]
+[[02_feature/Archive/Claude MyNetMate Weight Feature List]]

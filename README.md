@@ -20,19 +20,19 @@ Welcome to the **MyNetMate** project repository! This directory contains full ar
 - [netconfig_full_page_specs.html](./01_architecture_and_specs/netconfig_full_page_specs.html) — ข้อกำหนด UI/UX ละเอียด 8 หน้า (P0-P7)
 
 ### 🔍 [02_feature](./02_feature/) — Core Feature Deep Dives
-- [MyNetMate Weight Feature List.md](./02_feature/MyNetMate%20Weight%20Feature%20List.md) — 🔴 **(MUST READ)** The final prioritized MVP scope (P1 vs P2 vs CUT).
+- [MyNetMate Weight Feature List.md](02_feature/MyNetMate%20Weight%20Feature%20List%20(AI%20คิด).md) — 🔴 **(MUST READ)** The final prioritized MVP scope (P1 vs P2 vs CUT).
 - [MyNetMate รายการ Features.md](./02_feature/MyNetMate%20รายการ%20Features.md) — Original comprehensive list of all requested features.
-- [Claude MyNetMate Weight Feature List.md](./02_feature/Claude%20MyNetMate%20Weight%20Feature%20List.md) — AI's initial feature weighting analysis.
+- [Claude MyNetMate Weight Feature List.md](02_feature/Archive/Claude%20MyNetMate%20Weight%20Feature%20List.md) — AI's initial feature weighting analysis.
 - [00_Authentication(Naphat)](./02_feature/00_Authentication(Naphat)/) — เอกสารฟีเจอร์ Authentication
 - [01_Dashboard&Monitoring(Naphat)](./02_feature/01_Dashboard&Monitoring(Naphat)/) — เอกสารฟีเจอร์ Dashboard
 - [03_Network Topology Visualization(Naphat)](./02_feature/03_Network%20Topology%20Visualization(Naphat)/) — เอกสารฟีเจอร์ Network Topology
-- [Mockup จากภาพพี่ออม.md](Mockup%20จากภาพพี่ออม.md) — UI Mockup 6 แท็บสำหรับ Config Builder
+- [Mockup จากภาพพี่ออม.md](02_feature/02_Device%20Inventory%20Management(Tee)/Mockup%20จากภาพพี่ออม.md) — UI Mockup 6 แท็บสำหรับ Config Builder
 - [Data Information.md](02_feature/02_Device%20Inventory%20Management(Tee)/Data%20Information.md) — Schema ข้อมูลที่ต้องเก็บใน Device Inventory (PostgreSQL)
-- [Device Inventory.md](Device%20Inventory.md) — รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory
-- [Plugin Driver Architecture.md](แนวคิด%20Plugin%20Driver%20Architecture.md) — สถาปัตยกรรม Multi-vendor Driver Pattern
-- [Decision AI or NoAI in Project.md](Decision%20AI%20or%20NoAI%20in%20Project.md) — กรอบการตัดสินใจ AI 12 ฟังก์ชัน
-- [Restore Strategy.md](แนวคิด%20Restore%20Strategy.md) — กลยุทธ์การ Rollback และ Version Control
-- [Cutting Your Own Legs.md](Cutting%20Your%20Own%20Legs.md) — Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค
+- [Device Inventory.md](02_feature/02_Device%20Inventory%20Management(Tee)/Device%20Inventory.md) — รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory
+- [Plugin Driver Architecture.md](02_feature/05_Configuration%20Management(Aom)/แนวคิด%20Plugin%20Driver%20Architecture.md) — สถาปัตยกรรม Multi-vendor Driver Pattern
+- [Decision AI or NoAI in Project.md](02_feature/05_Configuration%20Management(Aom)/Decision%20AI%20or%20NoAI%20in%20Project.md) — กรอบการตัดสินใจ AI 12 ฟังก์ชัน
+- [Restore Strategy.md](02_feature/10_Configuration%20Deployment(Aom)/แนวคิด%20Restore%20Strategy.md) — กลยุทธ์การ Rollback และ Version Control
+- [Cutting Your Own Legs.md](02_feature/10_Configuration%20Deployment(Aom)/Cutting%20Your%20Own%20Legs.md) — Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค
 - [MyNetMate (1).drawio.html](./02_feature/MyNetMate%20(1).drawio.html) — Diagram ภาพรวมโปรเจกต์
 
 ### ⚖️ [03_tech_evaluations](./03_tech_evaluations/) — Research & Tool Evaluations

@@ -1,5 +1,8 @@
 # สิ่งที่ต้องเสร็จก่อนเริ่ม Component Diagram
 
+> [!NOTE]
+> เอกสารนี้เป็น Component Design สำหรับ Candidate NTV MVP ซึ่งยังมีสถานะ **Undecided** สำหรับการพัฒนา Full-stack ในเทอมนี้ และใช้ SNMP/LLDP Contract จาก Network Discovery/Collection โดย NTV ไม่เป็นเจ้าของ Logic การเชื่อมต่ออุปกรณ์
+
 | Step                              | ต้องทำก่อนหรือไม่   | เหตุผล                                                       |
 | --------------------------------- | ------------------- | ------------------------------------------------------------ |
 | 1. Overview และขอบเขตข้อมูล       | ต้อง                | ต้องรู้ว่า NTV รับผิดชอบอะไร                                 |
@@ -177,7 +180,7 @@ flowchart LR
 | Component                           | หน้าที่หลัก                                                                                            | ไม่รับผิดชอบ                                                     |
 | ----------------------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
 | **NTV Web UI**                      | แสดง Canvas, Node, Link, Filter, Detail, Warning/Pending List และ Collection Status                    | ไม่ติดต่ออุปกรณ์หรือ Database โดยตรง และไม่คำนวณข้อสรุป Link     |
-| **NTV API Controller**              | รับ REST Request, ตรวจรูปแบบข้อมูล, เรียก Authorization และส่งงานให้ Application Service               | ไม่เขียน Vendor Command, ไม่ Parse LLDP/CDP และไม่แก้ตารางโดยตรง |
+| **NTV API Controller**              | รับ REST Request, ตรวจรูปแบบข้อมูล, เรียก Authorization และส่งงานให้ Application Service               | ไม่เขียน Vendor Command, ไม่ Parse LLDP และไม่แก้ตารางโดยตรง |
 | **Topology Query Service**          | รวม Device, Interface, Current Link, Evidence Assessment, Warning, Layout และ Freshness เป็น View Model | ไม่เริ่ม Collection และไม่เปลี่ยนข้อสรุป Link                    |
 | **Topology Reconciliation Service** | จับคู่ Endpoint, ประเมิน One-sided/Corroborated, ตรวจ Conflict/Stale และอัปเดต Current Link Projection | ไม่แก้ Raw Neighbor Observation และไม่ติดต่ออุปกรณ์โดยตรง        |
 | **Layout Service**                  | บันทึก Shared View, ตำแหน่ง, Pin และ Hide                                                              | ไม่แก้ Device, Interface หรือ Topology Link                      |

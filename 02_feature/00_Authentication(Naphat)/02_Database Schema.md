@@ -1,5 +1,5 @@
-> [!NOTE]
-> **APPROVED SCHEMA:** โครงสร้างฐานข้อมูลในหน้านี้ (ใช้ `Argon2id` และเพิ่ม `auth_sessions`) ได้รับการอนุมัติและอัปเดตลงใน Central Schema (`Data Information.md`) เป็นส่วนหนึ่งของระบบ 12 ตารางเรียบร้อยแล้ว
+> [!IMPORTANT]
+> **APPROVED & RECONCILED SCHEMA (อัปเดต 2026-08-27):** Authentication และ Central Schema (`Data Information.md`) ใช้ Database-backed Opaque Server-side Session ตรงกันแล้ว โดย `auth_sessions` ต้องมี `session_token_hash` และห้ามใช้ Internal UUID เป็น Cookie Token
 
 # Authentication Database Schema
 
@@ -36,20 +36,35 @@ CREATE TABLE users (
 - `must_change_password` ถูก **ตัดออก** ในระยะ P1 เนื่องจากไม่มีฟีเจอร์ Admin Reset Password
 
 ## 2. Table: `auth_sessions` (Table ที่ 12 ของระบบ)
-ตารางนี้จำเป็นสำหรับ P1 เพื่อรองรับการเตะผู้ใช้ออก (Revoke) และบังคับใช้การเปลี่ยนสิทธิ์ทันที (Immediate Role Effect)
+ตารางนี้เป็น Source of Truth ของ Server-side Session ใน P1 รองรับการตรวจ Session, Logout, Expiry, Revoke และการบังคับใช้การเปลี่ยนสิทธิ์ทันที
 
 ```sql
 CREATE TABLE auth_sessions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    session_token_hash CHAR(64) UNIQUE NOT NULL,
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
     is_revoked BOOLEAN NOT NULL DEFAULT FALSE,
     ip_address VARCHAR(45),
-    user_agent TEXT
+    user_agent TEXT,
+    CHECK (expires_at > created_at)
 );
 
 -- Index สำหรับ Performance ในการค้นหา Session
 CREATE INDEX idx_auth_sessions_user_id ON auth_sessions(user_id);
 CREATE INDEX idx_auth_sessions_expires_at ON auth_sessions(expires_at);
+CREATE INDEX idx_auth_sessions_active_user
+    ON auth_sessions(user_id, expires_at)
+    WHERE is_revoked = FALSE;
 ```
+
+**Session Token Storage Rules:**
+
+- `id` เป็น Internal UUID สำหรับ Foreign Key/Audit เท่านั้น **ห้ามนำไปใส่ Cookie หรือใช้เป็น Bearer Secret**
+- หลัง Login ให้ Backend สร้าง Opaque Token ด้วย CSPRNG ขนาด 32 bytes (256 bits) แล้ว Encode แบบ URL-safe
+- Cookie เก็บ Token ดิบเพียงที่ Browser ส่วน Database เก็บเฉพาะ `SHA-256(token)` แบบ Lowercase Hex จำนวน 64 ตัวอักษรใน `session_token_hash`
+- ห้ามบันทึก Token ดิบ, Cookie Header หรือ Token Hash ลง Application Log/Audit Log และห้ามส่ง Token ใน Response JSON
+- `expires_at` ใน Database เป็นแหล่งตัดสินวันหมดอายุหลัก แม้ Browser ยังส่ง Cookie เก่ามา Backend ต้องตอบ `401 AUTH_SESSION_INVALID`
+- `ip_address` และ `user_agent` ใช้เพื่อ Audit/ตรวจความผิดปกติเท่านั้น ห้ามใช้ผูก Session แบบตายตัว เพราะค่าอาจเปลี่ยนจาก DHCP, Proxy หรือ Browser Update
+- Job Cleanup สามารถลบ Session ที่หมดอายุหรือถูก Revoke แล้วตาม Retention Policy ได้ แต่การตรวจสิทธิ์ห้ามพึ่งพาว่า Cleanup รันสำเร็จ

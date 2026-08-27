@@ -1,6 +1,9 @@
 # Candidate API สำหรับ NTV MVP แบบ Visualization-only
 
-> Link จาก LLDP/CDP แสดงอัตโนมัติโดยไม่ต้องเรียก Confirm API ระบบคำนวณ `one_sided`, `corroborated`, `unresolved`, `conflict` และ `stale` จาก Observation ที่มี ผู้ใช้ไม่สามารถสร้างหรือแก้ Link ด้วยมือใน MVP
+> [!WARNING]
+> Endpoint ในไฟล์นี้ยังเป็น **Candidate Contract** ไม่ใช่ Final API และไม่ใช่คำยืนยันว่า NTV จะถูกพัฒนาในเทอมนี้ Endpoint Enrollment และ Collection เป็นของ Feature เจ้าของข้อมูลเดิม ส่วน NTV เป็นผู้เรียกใช้ตาม Contract เท่านั้น
+
+> Link จาก LLDP แสดงอัตโนมัติโดยไม่ต้องเรียก Confirm API ระบบคำนวณ `one_sided`, `corroborated`, `unresolved`, `conflict` และ `stale` จาก Observation ที่มี ผู้ใช้ไม่สามารถสร้างหรือแก้ Link ด้วยมือใน MVP
 
 ## API ใน MVP
 
@@ -15,7 +18,7 @@
 
 ## API ที่ไม่มีใน MVP
 
-- ไม่มี `confirm` หรือ `reject` สำหรับ LLDP/CDP Link
+- ไม่มี `confirm` หรือ `reject` สำหรับ LLDP Link
 - ไม่มี `POST/PATCH/DELETE /topologies/{id}/links` สำหรับสร้างหรือแก้ Link ด้วยมือ
 - ไม่มี API แก้ Source/Destination Endpoint ของ Raw Observation
 - ไม่มี `Report Incorrect` หรือ `Resolve Conflict` Workflow

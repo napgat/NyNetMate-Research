@@ -1,12 +1,18 @@
 
 # Summary NTV MVP
+
+> [!WARNING]
+> **Delivery status:** NTV แบบ Full-stack ในเทอมนี้ยังมีสถานะ **Undecided — ยังไม่ยืนยัน** เอกสารนี้เป็น Design Baseline ของ MVP ไม่ใช่คำยืนยันการส่งมอบหรือแผน Implementation ของเทอมนี้
+>
+> **Protocol baseline:** Network Discovery/Collection ใช้ SNMP และ NTV ใช้ LLDP Neighbor Observation สำหรับสร้าง Physical/L2 Link โดย CDP ไม่อยู่ในขอบเขตปัจจุบัน
+
 ## แนวคิดหลักของ NTV
 
 NTV คือ:
 
 > “แผนที่เครือข่ายที่ระบบสร้างจากข้อมูลที่อ่านจาก Router และ Switch จริง พร้อมบอกว่าอุปกรณ์ต่อกันผ่าน Port ใด ข้อมูลมาจากไหน และตรวจล่าสุดเมื่อใด”
 
-มันไม่ใช่โปรแกรมวาด Network Diagram แบบ Visio เพราะ Link ใน MVP ต้องมาจาก LLDP/CDP Observation ที่ระบบเก็บจากอุปกรณ์จริง ไม่ให้ผู้ใช้วาด Link หรือสร้าง Manual Override ใน MVP
+มันไม่ใช่โปรแกรมวาด Network Diagram แบบ Visio เพราะ Link ใน MVP ต้องมาจาก LLDP Observation ที่ระบบเก็บจากอุปกรณ์จริง ไม่ให้ผู้ใช้วาด Link หรือสร้าง Manual Override ใน MVP
 ## ปัญหาที่ NTV ต้องแก้
 ปัจจุบันผู้ดูแลเครือข่ายอาจต้อง:
 
@@ -22,9 +28,9 @@ NTV จึงรวบรวมข้อมูลเหล่านี้ให�
 | Feature                             | ทำอะไรแบบง่าย ๆ                                                 | ทำไมต้องมี                                                                     |
 | ----------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | 1. แสดงอุปกรณ์จาก Device Inventory  | นำ Router และ Switch ที่ระบบเก็บข้อมูลสำเร็จแล้วมาแสดงเป็น Node | เพื่อให้แผนผังมีเฉพาะอุปกรณ์ที่ระบบรู้จักจริง ไม่สร้างอุปกรณ์สมมติ             |
-| 2. สร้างเส้นเชื่อมอัตโนมัติ         | ใช้ข้อมูล LLDP/CDP ที่อ่านจากอุปกรณ์มาวาด Link                  | ลดการวาดแผนผังและกรอกข้อมูลด้วยมนุษย์                                          |
+| 2. สร้างเส้นเชื่อมอัตโนมัติ         | ใช้ข้อมูล LLDP ที่อ่านจากอุปกรณ์มาวาด Link                  | ลดการวาดแผนผังและกรอกข้อมูลด้วยมนุษย์                                          |
 | 3. แสดง Port ทั้งสองฝั่ง            | บอกว่า Link เชื่อมจาก Interface ใดไป Interface ใด               | ผู้ใช้สามารถไปตรวจสายหรือ Configuration ได้ถูก Port                            |
-| 4. แสดงที่มาและเวลาของข้อมูล        | บอกว่า Link มาจาก LLDP หรือ CDP และพบล่าสุดเมื่อใด              | ป้องกันผู้ใช้เชื่อข้อมูลเก่าหรือข้อมูลที่ไม่มีหลักฐาน                          |
+| 4. แสดงที่มาและเวลาของข้อมูล        | บอกว่า Link มาจาก LLDP และพบล่าสุดเมื่อใด              | ป้องกันผู้ใช้เชื่อข้อมูลเก่าหรือข้อมูลที่ไม่มีหลักฐาน                          |
 | 5. แสดงสถานะอุปกรณ์และคุณภาพข้อมูล  | แสดงว่าอุปกรณ์ติดต่อได้หรือไม่ เก็บข้อมูลสำเร็จหรือข้อมูลเก่า   | ช่วยให้รู้ว่าควรตรวจสอบอุปกรณ์หรือ Link ใดก่อน                                 |
 | 6. จัดตำแหน่งแผนผัง                 | ลาก Node, Zoom และเลื่อนแผนผังได้                               | ทำให้แผนผังอ่านง่าย โดยไม่เปลี่ยนเครือข่ายจริง                                 |
 | 7. สั่งเก็บข้อมูลใหม่               | ผู้ใช้กด Re-collect เพื่อให้ระบบอ่านข้อมูลจากอุปกรณ์อีกครั้ง    | ใช้ตรวจว่าเครือข่ายเปลี่ยนไปจากข้อมูลเดิมหรือไม่                               |
@@ -64,10 +70,10 @@ MVP ยังไม่ต้องมี:
 1. นำ Huawei Router, Cisco Switch และ MikroTik Switch เข้าสู่ระบบ
 2. ระบบเชื่อมต่อและเก็บข้อมูลของแต่ละอุปกรณ์
 3. NTV แสดงอุปกรณ์ทั้งสามตัว
-4. ระบบวาด Link จาก LLDP/CDP พร้อมชื่อ Port
+4. ระบบวาด Link จาก LLDP พร้อมชื่อ Port
 5. ผู้ใช้ดูที่มาและเวลาตรวจล่าสุด
 6. ระบบแสดง Link ปกติอัตโนมัติและระบุว่าเป็น One-sided หรือ Corroborated
-7. หากอุปกรณ์หนึ่งไม่รายงาน LLDP/CDP ระบบแสดงว่าไม่มีข้อมูลหรือยังระบุปลายทางไม่ได้ โดยไม่สร้าง Link สมมติ
+7. หากอุปกรณ์หนึ่งไม่รายงาน LLDP ระบบแสดงว่าไม่มีข้อมูลหรือยังระบุปลายทางไม่ได้ โดยไม่สร้าง Link สมมติ
 8. ทดลองย้ายสายจริงแล้วกด Re-collect
 9. ระบบแสดง Link ใหม่และทำเครื่องหมาย Link เดิมว่า Stale/Conflict ตามข้อมูลที่ตรวจพบ
 ## ประโยคสั้น
@@ -79,21 +85,22 @@ MVP ยังไม่ต้องมี:
 **ข้อกำหนดด้านสิทธิ์และการตรวจสอบย้อนหลัง:** NTV ใช้ระบบ RBAC และ Audit Trail ส่วนกลางของ MyNetMate เพื่อควบคุมการ Re-collect และการแก้ Shared Layout โดยไม่พัฒนาระบบสิทธิ์แยกเฉพาะสำหรับ NTV
 # 01 — MVP: MyNetMate Network Topology Visualization
 
-> **สถานะ:** Design Baseline สำหรับออกแบบ Database Schema และ Component Diagram
+> **สถานะเอกสาร:** Design Baseline สำหรับออกแบบ Database Schema และ Component Diagram
+> **สถานะการส่งมอบ:** Undecided — ยังไม่ยืนยันการพัฒนา NTV แบบ Full-stack ในเทอมนี้
 >
 > **ยืนยันมติหลัก:** 2026-08-11  
 > **ปรับ Scope ล่าสุด:** 2026-08-12 — Manual Override และ Workflow การตรวจรับย้ายออกจาก MVP
 
 เอกสารที่เกี่ยวข้อง:
 
-- [คำอธิบายคำศัพท์ NTV.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization/คำอธิบายคำศัพท์ NTV.md) — คำอธิบายศัพท์ด้วยภาษาไทย
-- [02_Database Schema.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization/02_Database Schema.md) — เอกสารถัดไปสำหรับออกแบบข้อมูล
-- [03_Component Diagram.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization/03_Component Diagram.md) — เอกสารถัดไปสำหรับแบ่งส่วนประกอบระบบ
-- [04_NTV - API.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization/04_NTV - API.md) — Candidate API
-- [05_Acceptance Tests.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization/05_Acceptance Tests.md) — เกณฑ์ทดสอบปัจจุบัน
+- [คำอธิบายคำศัพท์ NTV.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization(Naphat)/คำอธิบายคำศัพท์ NTV.md) — คำอธิบายศัพท์ด้วยภาษาไทย
+- [02_Database Schema.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization(Naphat)/02_Database Schema.md) — เอกสารถัดไปสำหรับออกแบบข้อมูล
+- [03_Component Diagram.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization(Naphat)/03_Component Diagram.md) — เอกสารถัดไปสำหรับแบ่งส่วนประกอบระบบ
+- [04_NTV - API.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization(Naphat)/04_NTV - API.md) — Candidate API
+- [05_Acceptance Tests.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization(Naphat)/05_Acceptance Tests.md) — เกณฑ์ทดสอบปัจจุบัน
 
 > [!IMPORTANT]
-> เอกสารฉบับนี้เก็บเฉพาะมติล่าสุด: NTV MVP เป็น **Visualization-only, Observation-first Topology** ข้อมูล Device, Interface และ Link ต้องสืบกลับไปยังการเก็บข้อมูลจากอุปกรณ์เป้าหมายใน Isolated Lab ได้ ไม่ใช้แนวทาง `Manual-first`, ไม่ใช่ Freehand Network Diagram และไม่มี Manual Override/Verification Workflow ใน MVP โดย LLDP/CDP Link แสดงอัตโนมัติตามระดับหลักฐาน ไม่ต้องให้ผู้ใช้ Confirm/Reject ทุกเส้น
+> เอกสารฉบับนี้เก็บเฉพาะมติล่าสุด: NTV MVP เป็น **Visualization-only, Observation-first Topology** ข้อมูล Device, Interface และ Link ต้องสืบกลับไปยังการเก็บข้อมูลจากอุปกรณ์เป้าหมายใน Isolated Lab ได้ ไม่ใช้แนวทาง `Manual-first`, ไม่ใช่ Freehand Network Diagram และไม่มี Manual Override/Verification Workflow ใน MVP โดย LLDP Link แสดงอัตโนมัติตามระดับหลักฐาน ไม่ต้องให้ผู้ใช้ Confirm/Reject ทุกเส้น
 
 ## 1. มติหลักและคำจำกัดความ
 
@@ -105,7 +112,7 @@ Manual Input ใน Device Inventory **ไม่ได้หมายถึง�
 2. ผู้ใช้เลือก `Device Credential Profile` ที่ได้รับอนุญาตสำหรับอุปกรณ์นั้น
 3. ระบบตรวจสอบการเข้าถึงและ Authentication
 4. ระบบเชื่อมต่ออุปกรณ์แบบ Read-only โดยใช้ SSH เป็นวิธีหลักใน MVP และอาจใช้ SNMP ตามความสามารถของอุปกรณ์
-5. ระบบดึงและ Parse ข้อมูลจริง เช่น Hostname, Vendor, Model, OS Version, Interface และ LLDP/CDP Neighbor
+5. ระบบดึงและ Parse ข้อมูลจริง เช่น Hostname, Vendor, Model, OS Version, Interface และ LLDP Neighbor
 6. ระบบบันทึก Device, Interface และ Neighbor Observation ลงฐานข้อมูลพร้อมเวลาและผลการเก็บข้อมูล
 
 `Device Credential Profile` หมายถึงข้อมูลรับรองสำหรับเข้าอุปกรณ์เครือข่ายที่ผู้ใช้มีสิทธิ์ใช้งาน **ไม่ใช่รหัสผ่านของบัญชีผู้ใช้ Web Application** และระบบต้องไม่ส่งข้อมูลรับรองนี้ไปยัง Frontend, Audit Log หรือ Gemini API
@@ -128,12 +135,12 @@ Network Discovery หมายถึงระบบค้นหา Candidate Dev
 | ----------- | --------------------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | `D-NTV-01`  | **User-confirmed**          | Manual Input คือการระบุ IP/อุปกรณ์และ Credential แล้วให้ระบบเชื่อมต่อเพื่อดึงข้อมูลจากอุปกรณ์เป้าหมาย | ไม่สร้าง Device Record หรือ Node สมมติด้วยมือ                                          |
 | `D-NTV-02`  | **User-confirmed**          | ทั้ง Manual Enrollment และ Discovery ต้องเชื่อมต่อและเก็บข้อมูลจากอุปกรณ์เป้าหมายก่อนนำไปใช้          | Ping-only Candidate ยังไม่ใช่ Verified Topology Node                                   |
-| `D-NTV-03`  | **Derived design decision** | NTV เป็น Observation-first Topology ไม่ใช่ Freehand Network Diagram                                   | Link หลักมาจาก LLDP/CDP Observation และต้องรักษาหลักฐานเดิม                            |
+| `D-NTV-03`  | **Derived design decision** | NTV เป็น Observation-first Topology ไม่ใช่ Freehand Network Diagram                                   | Link หลักมาจาก LLDP Observation และต้องรักษาหลักฐานเดิม                            |
 | `D-NTV-04`  | **Derived safety decision** | การแก้ข้อมูลใน NTV ไม่สามารถเปลี่ยนสายหรือ Port ของเครือข่ายจริงได้                                   | แยก Layout, Topology Data และการเปลี่ยนแปลงทางกายภาพออกจากกัน                          |
 | `D-NTV-05`  | **Project constraint**      | ทดสอบ Collection/Discovery เฉพาะ Isolated Lab และ Allowlist                                           | NTV ต้องไม่เปิดทางให้เริ่ม Scan เครือข่ายมหาวิทยาลัย                                   |
 | `D-NTV-06`  | **Project constraint**      | Cisco IOS เป็น Baseline; Huawei Router และ MikroTik Switch เป็น Candidate ตามรุ่น/OS และผลทดสอบจริง   | Data Contract ต้องไม่ผูกกับ Cisco แต่ห้ามกล่าวอ้าง Full Multi-vendor Support ก่อนทดสอบ |
 | `D-NTV-07`  | **Project safety rule**     | AI ไม่มีสิทธิ์สร้างหรือแก้ Link, สั่ง Collection หรือส่งคำสั่งไปยังอุปกรณ์โดยตรง                       | NTV ใช้ข้อมูล Deterministic จาก Collector/Reconciliation และ Action ต่ออุปกรณ์ผ่าน RBAC |
-| `D-NTV-08`  | **User-confirmed correction** | Link ที่ได้จาก LLDP/CDP ไม่ต้องรอผู้ใช้ Confirm/Reject ทุกเส้น | ระบบแสดง Link อัตโนมัติตามระดับหลักฐาน และแสดงคำเตือนสำหรับ Unresolved/Conflict/Stale |
+| `D-NTV-08`  | **User-confirmed correction** | Link ที่ได้จาก LLDP ไม่ต้องรอผู้ใช้ Confirm/Reject ทุกเส้น | ระบบแสดง Link อัตโนมัติตามระดับหลักฐาน และแสดงคำเตือนสำหรับ Unresolved/Conflict/Stale |
 | `D-NTV-09`  | **User-confirmed scope correction** | NTV MVP มีหน้าที่แสดง Topology จากข้อมูลอัตโนมัติ; Manual Override และการ Verify/Reject ไม่ใช่ MVP | ย้าย Manual Override และ Workflow จัดการข้อยกเว้นเป็น Should Have/Future Enhancement; MVP ไม่สร้าง Link ด้วยมือ |
 ### ความหมายของแต่ละคอลัมน์
 
@@ -180,13 +187,13 @@ Ping บอกเพียงว่า IP ตอบสนอง ไม่สา�
 
 #### D-NTV-03 — แผนผังสร้างจากข้อมูลที่ตรวจพบ
 
-NTV ต้องเริ่มจากข้อมูลที่ระบบอ่านจากอุปกรณ์ เช่น LLDP/CDP Neighbor ไม่ใช่ให้ผู้ใช้ลากเส้นตามความเข้าใจของตนเอง
+NTV ต้องเริ่มจากข้อมูลที่ระบบอ่านจากอุปกรณ์ เช่น LLDP Neighbor ไม่ใช่ให้ผู้ใช้ลากเส้นตามความเข้าใจของตนเอง
 
 ตัวอย่าง:
 
 > Cisco Switch รายงานว่า `Gi0/1` พบ Huawei Router ที่ `GE0/0/1`
 
-ระบบจึงนำข้อมูลนี้ไปแสดงเป็น Link พร้อมระบุว่าแหล่งข้อมูลคือ LLDP หรือ CDP
+ระบบจึงนำข้อมูลนี้ไปแสดงเป็น Link พร้อมระบุว่าแหล่งข้อมูลคือ LLDP
 
 Raw Observation ต้องไม่ถูกแก้ทับ ใน MVP หากข้อมูลไม่ครบหรือดูขัดแย้ง ระบบจะแสดงสถานะเตือนและให้ผู้ใช้สั่ง `Re-collect` หลังตรวจสอบอุปกรณ์หรือสายจริง โดยยังไม่มีคำสั่ง `Report Incorrect` และไม่มี Manual Override ส่วน Link ปกติไม่ต้องรอคนยืนยันก่อนแสดงผล
 
@@ -196,7 +203,7 @@ Raw Observation ต้องไม่ถูกแก้ทับ ใน MVP ห�
 
 - ลากตำแหน่ง Node
 - Zoom หรือ Pan
-- เปิดดูรายละเอียด Link และหลักฐาน LLDP/CDP
+- เปิดดูรายละเอียด Link และหลักฐาน LLDP
 - สั่ง Re-collect เมื่อพบข้อมูล `unresolved`, `conflict` หรือ `stale`
 
 การแก้ Shared Layout เปลี่ยนเฉพาะตำแหน่งที่แสดงบนหน้าจอ ไม่สามารถเปลี่ยน Link สาย หรือ Port บนอุปกรณ์จริงได้ และ MVP ไม่มีคำสั่งแก้ Link โดยตรง
@@ -259,7 +266,7 @@ Gemini หรือ AI อาจช่วยอธิบายข้อมูล
 | Evidence ID | หลักฐาน                                                                                                | แหล่งข้อมูล                                                                                                                                                         | ผลที่นำมาใช้                                                               |
 | ----------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | `E-NTV-01`  | ผู้ใช้ยืนยันความหมาย Manual Input และเงื่อนไขว่าทั้ง Manual/Discovery ต้องเก็บข้อมูลจากอุปกรณ์เป้าหมาย | User Decision วันที่ 2026-08-11                                                                                                                                     | เป็นฐานของ `D-NTV-01` และ `D-NTV-02`                                       |
-| `E-NTV-02`  | Topology ถูกจัดไว้ P2 เพราะพึ่งข้อมูล LLDP/CDP จาก Discovery                                           | [MyNetMate Weight Feature List.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/MyNetMate Weight Feature List.md)                                    | NTV ต้องรับข้อมูลจาก Collection/Discovery ไม่เป็น Canvas เปล่า             |
+| `E-NTV-02`  | Topology ถูกจัดไว้ P2 เพราะพึ่งข้อมูล LLDP จาก Discovery                                           | [MyNetMate Weight Feature List.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/MyNetMate Weight Feature List.md)                                    | NTV ต้องรับข้อมูลจาก Collection/Discovery ไม่เป็น Canvas เปล่า             |
 | `E-NTV-03`  | อาจารย์ต้องการ Interactive Topology, Drag & Drop และระบุ Port Connection                               | [คำแนะนำของอาจารย์ครั้งที่ 2](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/04_project_management/Advisor Teacher/คำแนะนำของอาจารย์ ณ ครั้งที่ 2 ปี 3 เทอม 1.md) | MVP รองรับ Layout Editing และแสดง Port Connection จาก Observation; Manual Connection รอ Future Scope |
 | `E-NTV-04`  | มี Huawei Router, MikroTik Switch และ Cisco Switch สำหรับทดสอบจริงหลังกลางภาค                          | [AGENTS.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/AGENTS.md)                                                                                             | ออกแบบข้อมูลแบบ Vendor-neutral แต่รอรุ่น/OS ก่อนรับรอง Vendor รอง          |
 | `E-NTV-05`  | ห้าม Scan เครือข่ายมหาวิทยาลัยและต้องใช้ Isolated Lab                                                  | [AGENTS.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/AGENTS.md)                                                                                             | บังคับ Allowlist, RBAC และ Audit ใน Collection/Discovery                   |
@@ -268,7 +275,7 @@ Gemini หรือ AI อาจช่วยอธิบายข้อมูล
 
 ## 3. User Decisions ที่ NTV ต้องช่วยตอบ
 
-User Decisions คือสิ่งที่ Admin หรือ Operator ตัดสินใจหลังอ่านข้อมูลบนหน้า NTV เช่น จะเปิดรายละเอียด ตรวจสายจริง หรือสั่ง Re-collect หรือไม่ โดย MVP แสดง Link และคำเตือนจาก LLDP/CDP อัตโนมัติ แต่ไม่มี Workflow ให้ผู้ใช้ Confirm, Override หรือแก้ข้อสรุปของ Link ภายในระบบ
+User Decisions คือสิ่งที่ Admin หรือ Operator ตัดสินใจหลังอ่านข้อมูลบนหน้า NTV เช่น จะเปิดรายละเอียด ตรวจสายจริง หรือสั่ง Re-collect หรือไม่ โดย MVP แสดง Link และคำเตือนจาก LLDP อัตโนมัติ แต่ไม่มี Workflow ให้ผู้ใช้ Confirm, Override หรือแก้ข้อสรุปของ Link ภายในระบบ
 
 | User Decision ID | คำถามที่ผู้ใช้ต้องตอบ                                   | ข้อมูลที่ NTV ต้องแสดง                                                       | การกระทำถัดไป                                |
 | ---------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------- |
@@ -277,7 +284,7 @@ User Decisions คือสิ่งที่ Admin หรือ Operator ตั
 | `UD-NTV-03`      | ข้อมูลนี้มีหลักฐานระดับใด                               | Source, Collection Run, Last Observed และ One-sided/Corroborated | ใช้งานข้อมูลต่อ หรือ Re-collect หากต้องการหลักฐานเพิ่ม |
 | `UD-NTV-04`      | อุปกรณ์หรือ Link ใดควรตรวจสอบก่อน                       | Reachability, Collection Health, Stale และ Conflict Indicator                | Re-collect หรือเปิดรายละเอียดข้อผิดพลาด      |
 | `UD-NTV-05`      | สภาพการเชื่อมต่อเปลี่ยนจากข้อมูลเดิมหรือไม่             | Observation ล่าสุดเทียบกับ Link ปัจจุบันและประวัติก่อนหน้า                   | ตรวจสายจริงและ Re-collect                     |
-| `UD-NTV-06`      | เมื่อ LLDP/CDP ใช้ไม่ได้ควรทำอย่างไร                    | Collection/Parser Status และ Unresolved/Pending Message                        | ตรวจการตั้งค่า/สายจริง; MVP ไม่เติม Link ด้วยมือ |
+| `UD-NTV-06`      | เมื่อ LLDP ใช้ไม่ได้ควรทำอย่างไร                    | Collection/Parser Status และ Unresolved/Pending Message                        | ตรวจการตั้งค่า/สายจริง; MVP ไม่เติม Link ด้วยมือ |
 | `UD-NTV-07`      | ข้อมูลที่เห็นเป็นสภาพเครือข่ายหรือเป็นเพียงการจัดหน้าจอ | สัญลักษณ์แยก Link Data ออกจาก Layout/View State                              | ขยับ Node โดยไม่เข้าใจผิดว่าเปลี่ยนเครือข่าย |
 ### คำอธิบาย
 
@@ -314,7 +321,7 @@ NTV จึงต้องแสดง:
 #### UD-NTV-03 — ข้อมูล Link เชื่อถือได้หรือไม่
 ผู้ใช้ต้องตัดสินใจว่าข้อมูลที่เห็นมีหลักฐานเพียงพอหรือไม่
 NTV จึงต้องแสดง:
-- ข้อมูลมาจาก LLDP หรือ CDP
+- ข้อมูลมาจาก LLDP
 - ตรวจพบล่าสุดเมื่อใด
 - พบจากอุปกรณ์ฝั่งเดียวหรือทั้งสองฝั่ง
 - พบจากฝั่งเดียว (`Observed`) หรือพบตรงกันสองฝั่ง (`Corroborated`)
@@ -338,7 +345,7 @@ NTV ควรแสดงสัญลักษณ์ของ:
 - รอบล่าสุด Cisco `Gi0/1` รายงานว่าเชื่อมกับ MikroTik
 ระบบต้องแสดง Conflict และประวัติเดิม เพื่อให้ผู้ใช้ไปตรวจสายจริงและ Re-collect ไม่ควรเขียนทับ Link เดิมทันที
 
-#### UD-NTV-06 — เมื่อ LLDP/CDP ใช้ไม่ได้ควรทำอย่างไร
+#### UD-NTV-06 — เมื่อ LLDP ใช้ไม่ได้ควรทำอย่างไร
 หากอุปกรณ์ไม่รายงานข้อมูลเพื่อนบ้าน MVP ต้องแสดง Collection/Parser Status และข้อความว่าไม่มีข้อมูลหรือยังระบุปลายทางไม่ได้ ผู้ใช้สามารถตรวจการตั้งค่า Protocol, ตรวจสายจริง และสั่ง Re-collect แต่ยังไม่สามารถบันทึก Link ด้วยมือใน NTV
 
 Manual Override เป็น **Should Have/Future Enhancement** หากทีมพบภายหลังว่าอุปกรณ์จริงไม่สามารถให้ Neighbor Data ที่เพียงพอ
@@ -382,7 +389,7 @@ Viewer จึงยังแก้ไม่ได้ใน MVP เพื่อ�
 สั่งให้ระบบเชื่อมต่ออุปกรณ์อีกครั้งแบบอ่านอย่างเดียว เพื่อเก็บข้อมูลล่าสุด เช่น:
 - Hostname และรุ่นอุปกรณ์
 - Interface Status
-- LLDP/CDP Neighbor
+- LLDP Neighbor
 - Collection Health
 แม้เป็น Read-only แต่ยังเป็นการติดต่ออุปกรณ์จริง ใช้ Credential และสร้างภาระให้อุปกรณ์ จึงไม่อนุญาตให้ Viewer สั่งได้
 ##### Warning และ Unresolved Data
@@ -458,7 +465,7 @@ flowchart LR
 
 ## 5. NTV สามารถแก้ไข Link ได้หรือไม่
 
-**คำตอบสั้น:** ใน MVP ผู้ใช้แก้ Link ไม่ได้ Link จาก LLDP/CDP แสดงอัตโนมัติ ผู้ใช้แก้ได้เฉพาะ Layout และสั่ง Re-collect เพื่อให้ระบบอ่านข้อมูลใหม่
+**คำตอบสั้น:** ใน MVP ผู้ใช้แก้ Link ไม่ได้ Link จาก LLDP แสดงอัตโนมัติ ผู้ใช้แก้ได้เฉพาะ Layout และสั่ง Re-collect เพื่อให้ระบบอ่านข้อมูลใหม่
 
 | สิ่งที่ผู้ใช้ทำ                                                   | อนุญาตหรือไม่               | ความหมายและวิธีทำ                                                                                                  |
 | ----------------------------------------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------ |
@@ -466,22 +473,22 @@ flowchart LR
 | Zoom, Pan, Pin, Hide, Filter                                      | อนุญาต                      | เปลี่ยนเฉพาะการแสดงผลของผู้ใช้/View                                                                                |
 | ใช้ Link ที่ระบบพบตามปกติ                                         | อัตโนมัติ                   | ระบบแสดง One-sided Observation หรือ Corroborated Link โดยไม่รอผู้ใช้ยืนยัน                                         |
 | รายงานหรือ Resolve Link ภายในระบบ                                 | ยังไม่อยู่ใน MVP            | MVP แสดง Warning/Conflict และให้ผู้ใช้ตรวจสายหรือ Re-collect                                                       |
-| เปลี่ยน Source/Destination Interface ของ Raw LLDP/CDP Observation | ไม่อนุญาต                   | Raw Observation เป็นหลักฐานจากอุปกรณ์และต้องเป็น Immutable                                                         |
+| เปลี่ยน Source/Destination Interface ของ Raw LLDP Observation | ไม่อนุญาต                   | Raw Observation เป็นหลักฐานจากอุปกรณ์และต้องเป็น Immutable                                                         |
 | ลากเส้นใหม่อย่างอิสระระหว่าง Node                                 | ไม่อนุญาต                   | จะทำให้ผู้ใช้เข้าใจว่าเป็นการเชื่อมต่อจริงโดยไม่มีหลักฐาน                                                          |
-| บันทึก Link ที่ตรวจสายจริงแล้วแต่ LLDP/CDP ใช้ไม่ได้              | ยังไม่อยู่ใน MVP            | Manual Override เป็น Should Have/Future Enhancement                                                                        |
+| บันทึก Link ที่ตรวจสายจริงแล้วแต่ LLDP ใช้ไม่ได้              | ยังไม่อยู่ใน MVP            | Manual Override เป็น Should Have/Future Enhancement                                                                        |
 | เปลี่ยนการเชื่อมต่อจริง                                           | ทำใน NTV ไม่ได้             | ผู้ดูแลต้องต่อสาย/เปลี่ยน Port ที่อุปกรณ์จริง แล้วสั่ง Re-collect เพื่อให้ NTV สะท้อนสภาพใหม่                      |
 
 ดังนั้น MVP ไม่มีคำสั่ง `Edit Link`, `Confirm`, `Reject`, `Report Incorrect`, `Resolve Conflict` หรือ `Create Manual Override` มีเพียงการเปิดรายละเอียดและ `Re-collect`
 
 ### 5.1 Manual Override — Future Extension
 
-Manual Override ไม่อยู่ใน MVP หากนำกลับมาทำในอนาคตจะใช้เมื่อ LLDP/CDP ถูกปิด อุปกรณ์ไม่รองรับ หรือ Parser ยังไม่รองรับรุ่นนั้น และต้องไม่เป็นช่องทางสร้างผังตามสมมติฐาน โดยมีเงื่อนไขขั้นต่ำดังนี้:
+Manual Override ไม่อยู่ใน MVP หากนำกลับมาทำในอนาคตจะใช้เมื่อ LLDP ถูกปิด อุปกรณ์ไม่รองรับ หรือ Parser ยังไม่รองรับรุ่นนั้น และต้องไม่เป็นช่องทางสร้างผังตามสมมติฐาน โดยมีเงื่อนไขขั้นต่ำดังนี้:
 
 1. เลือกได้เฉพาะ Device ที่ Collection สำเร็จและ Interface ที่มีอยู่ใน Inventory
 2. ต้องระบุ `reason` และ `evidence_note` เช่น ตรวจสายจริงที่ Rack/Lab
 3. เก็บ `source=manual_override`, `created_by`, `created_at` และ Override Lifecycle แยกจาก Exception Review
 4. ถ้าเป็น Verified ต้องมี `verified_by` และ `verified_at`; ผู้สร้างไม่ควรยืนยันรายการของตนเองหากทีมต้องการหลัก Four-eyes
-5. ห้ามแก้หรือลบ Raw LLDP/CDP Observation เพื่อให้ตรงกับ Override
+5. ห้ามแก้หรือลบ Raw LLDP Observation เพื่อให้ตรงกับ Override
 6. หาก Collection รอบใหม่ขัดกับ Override ให้แสดง Conflict เพื่อให้ผู้ใช้ Reconcile ไม่เขียนทับอัตโนมัติ
 
 ## 6. แบบจำลองสถานะ Link
@@ -490,7 +497,7 @@ Manual Override ไม่อยู่ใน MVP หากนำกลับม�
 
 | ชั้นข้อมูล         | ตอบคำถาม                                      | ตัวอย่างสถานะ/ค่า                                     | กฎสำคัญ                                  |
 | ------------------ | --------------------------------------------- | ----------------------------------------------------- | ---------------------------------------- |
-| Raw Observation    | อุปกรณ์รายงานอะไรใน Collection Run นั้น       | LLDP, CDP, Local Port, Remote Identity, Observed Time | Append-only และแก้ทับไม่ได้              |
+| Raw Observation    | อุปกรณ์รายงานอะไรใน Collection Run นั้น       | LLDP, Local Port, Remote Identity, Observed Time | Append-only และแก้ทับไม่ได้              |
 | Evidence Assessment | ระบบมีหลักฐานระดับใด                          | One-sided, Corroborated, Unresolved                    | ระบบคำนวณจาก Observation โดยไม่ต้องให้คน Confirm |
 | Warning Assessment | ระบบพบข้อมูลที่ควรเตือนหรือไม่                | Unresolved, Conflict, Stale                              | ระบบคำนวณเพื่อแสดงผล ไม่มี Human Review Workflow ใน MVP |
 | Current Link State | ตอนนี้ NTV ควรแสดง Link อย่างไร               | Active, Stale, Conflict, Archived                        | คำนวณหรือ Reconcile จาก Observation |
@@ -534,9 +541,9 @@ Diagram นี้เป็น **Logical State Model** สำหรับออ�
 
 1. `devices` — ตัวตนอุปกรณ์ที่เก็บข้อมูลจากอุปกรณ์เป้าหมายสำเร็จ
 2. `interfaces` — Interface ที่ Collector ดึงและ Parse จากอุปกรณ์
-3. `neighbor_observations` — Raw LLDP/CDP Result แบบ Append-only พร้อม Source, Collection Run และเวลา
+3. `neighbor_observations` — Raw LLDP Result แบบ Append-only พร้อม Source, Collection Run และเวลา
 4. `topology_links` — Link ปัจจุบันที่ผ่าน Reconciliation โดยอ้างกลับไปยัง Neighbor Observation
-5. `topology_views` และ `topology_node_positions` — Layout/Filter/ตำแหน่งการแสดงผล ซึ่งไม่ใช่หลักฐานสภาพเครือข่าย
+5. `topology_views` และ `topology_node_placements` — Layout/Filter/ตำแหน่งการแสดงผล ซึ่งไม่ใช่หลักฐานสภาพเครือข่าย
 
 ห้ามเก็บเฉพาะ `connected_to_*` แล้วเขียนทับค่าเดิมใน `interfaces` เพราะจะสูญเสียที่มา ประวัติ ความขัดแย้ง และกรณีที่ Link หายชั่วคราว
 
@@ -551,7 +558,7 @@ Diagram นี้เป็น **Logical State Model** สำหรับออ�
 
 ### 7.2 กรณี Remote Neighbor ยังไม่อยู่ใน Inventory
 
-LLDP/CDP อาจรายงานเพื่อนบ้านจริง แต่ระบบยังเชื่อมต่อเพื่อนบ้านนั้นไม่สำเร็จ ใน MVP ให้เก็บเป็น **Unresolved Neighbor Observation** และแสดงในรายการรอตรวจสอบก่อน ไม่แสดงเป็น Verified Device Node
+LLDP อาจรายงานเพื่อนบ้านจริง แต่ระบบยังเชื่อมต่อเพื่อนบ้านนั้นไม่สำเร็จ ใน MVP ให้เก็บเป็น **Unresolved Neighbor Observation** และแสดงในรายการรอตรวจสอบก่อน ไม่แสดงเป็น Verified Device Node
 
 หากภายหลัง Enrollment/Collection สำเร็จ ระบบจึงจับคู่ Raw Neighbor Identity กับ `device_id`/`interface_id` โดยต้องเก็บค่าดิบเดิมไว้ตรวจย้อนหลัง
 
@@ -582,7 +589,7 @@ LLDP/CDP อาจรายงานเพื่อนบ้านจริง �
 
 1. รับเฉพาะ Managed Device จาก Inventory ที่มี Collection สำเร็จเป็น Topology Node
 2. แสดง Hostname, Vendor, Device Type, Reachability และ `last_collected_at` บน Node หรือ Detail Panel
-3. แสดง Physical/L2 Link จาก LLDP/CDP Neighbor Observation พร้อม Port ทั้งสองฝั่งเมื่อทราบ
+3. แสดง Physical/L2 Link จาก LLDP Neighbor Observation พร้อม Port ทั้งสองฝั่งเมื่อทราบ
 4. แสดง Provenance/Source, `last_observed_at`, Evidence Assessment, Current Link State และ Collection Health โดยไม่รวมความหมายทั้งหมดไว้ใน Status เดียว
 5. รองรับ Drag & Drop, Zoom, Pan และบันทึกตำแหน่ง Node โดยระบุชัดว่าเป็นการแก้ Layout เท่านั้น
 6. แสดง One-sided และ Corroborated Link อัตโนมัติ พร้อม Unresolved/Conflict/Stale Warning โดยไม่มีขั้นตอน Confirm/Reject
@@ -650,11 +657,11 @@ Performance Target เช่นจำนวน Node/Link สูงสุดแ�
 | `UD-NTV-06` | แสดงกรณีไม่มี Neighbor Data โดยไม่สร้าง Link สมมติ | `BR-NTV-04`, `BR-NTV-12` | `AT-NTV-R11` |
 | `UD-NTV-07` | Layout แยกจาก Network Data | `BR-NTV-07` | `AT-NTV-R05` |
 
-รายละเอียด Test อยู่ใน [05_Acceptance Tests.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization/05_Acceptance Tests.md)
+รายละเอียด Test อยู่ใน [05_Acceptance Tests.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization(Naphat)/05_Acceptance Tests.md)
 
 ## 12. ข้อมูลนำเข้าสำหรับออกแบบ Database Schema
 
-หัวข้อนี้ระบุ **Conceptual Data Requirements** เท่านั้น รายละเอียด Table/Field/Index/Constraint ให้ตัดสินใน [02_Database Schema.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization/02_Database Schema.md)
+หัวข้อนี้ระบุ **Conceptual Data Requirements** เท่านั้น รายละเอียด Table/Field/Index/Constraint ให้ตัดสินใน [02_Database Schema.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization(Naphat)/02_Database Schema.md)
 
 ### 12.1 Entity ที่ต้องพิจารณา
 
@@ -663,7 +670,7 @@ Performance Target เช่นจำนวน Node/Link สูงสุดแ�
 | Device | Inventory | ตัวตนของ Node |
 | Interface | Inventory | Endpoint ของ Link |
 | Collection Run | Collection/Discovery | ระบุว่าหลักฐานมาจากการเก็บข้อมูลรอบใด |
-| Neighbor Observation | Collection/Discovery | หลักฐาน LLDP/CDP แบบรักษาประวัติ |
+| Neighbor Observation | Collection/Discovery | หลักฐาน LLDP แบบรักษาประวัติ |
 | Topology View | NTV | ขอบเขตและชื่อมุมมองแผนผัง |
 | Node Placement | NTV | ตำแหน่ง/Pin/Hide ของ Device ในแต่ละ View |
 | Current Topology Link | NTV/Reconciliation | Projection ที่เหมาะสำหรับแสดงผลปัจจุบัน |
@@ -725,7 +732,7 @@ Performance Target เช่นจำนวน Node/Link สูงสุดแ�
 4. แสดง Unresolved/Conflict/Stale Warning และ Re-collect
 5. Save Node Position โดยไม่แก้ Network Data
 
-Candidate Endpoint ปัจจุบันอยู่ใน [04_NTV - API.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization/04_NTV - API.md)
+Candidate Endpoint ปัจจุบันอยู่ใน [04_NTV - API.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization(Naphat)/04_NTV - API.md)
 
 ## 14. Open Questions ที่ยังต้องยืนยัน
 
@@ -735,7 +742,7 @@ Candidate Endpoint ปัจจุบันอยู่ใน [04_NTV - API.md](
 | `Q-NTV-02`  | ระบบเก็บ Device Credential แบบใดและใครสร้าง Profile ได้                               | Security/Component      | Admin จัดการ Encrypted Credential Reference; NTV ไม่อ่าน Secret                          |
 | `Q-NTV-05`  | ไม่พบ Link กี่ Collection Run จึงเปลี่ยนจาก Stale เป็น Archived                       | Schema/Reconciliation   | ไม่ Hard-delete; ให้ผู้ใช้ตรวจจนได้ผลทดสอบจริงสำหรับกำหนด Threshold                      |
 | `Q-NTV-06`  | GNS3/Packet Tracer มีสถานะหลักฐานอย่างไร                                              | Schema/Test             | แยก `emulated` และ `physical`; Vendor Acceptance ใช้ Physical Lab                        |
-| `Q-NTV-07`  | อุปกรณ์ Huawei/MikroTik/Cisco รุ่นจริงรองรับ LLDP/CDP/SNMP/SSH และคำสั่งใด            | Collector/Parser        | รอ Device Test Sheet และ Raw Output หลังกลางภาค                                          |
+| `Q-NTV-07`  | อุปกรณ์ Huawei/MikroTik/Cisco รุ่นจริงรองรับ SNMP/LLDP/SSH และคำสั่งใด            | Collector/Parser        | รอ Device Test Sheet และ Raw Output หลังกลางภาค                                          |
 | `Q-NTV-08`  | ใช้ Shared Layout เดียวหรือ Layout แยกผู้ใช้                                          | Schema/UX               | MVP ใช้ Shared View; Admin/Operator แก้, Viewer อ่านอย่างเดียว                           |
 | `Q-NTV-09`  | จะแสดง Unresolved Neighbor บน Canvas หรือเฉพาะรายการรอตรวจ                            | Schema/UX               | MVP แสดงใน Pending List ไม่สร้าง Verified Node สมมติ                                     |
 | `Q-NTV-10`  | Current Link จะเก็บเป็น Materialized Projection หรือคำนวณทุกครั้ง                     | Schema/Component        | แนะนำ Materialized Projection เพื่อ Query ง่าย โดยต้องอ้าง Evidence ได้                  |

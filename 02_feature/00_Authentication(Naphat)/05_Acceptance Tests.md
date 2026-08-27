@@ -5,23 +5,30 @@
 ## Test Cases
 
 1. **Successful Login & Session Creation:**
-   - การ Login ที่ถูกต้อง จะต้องคืนค่า JWT ใน Cookie ที่เป็น `HttpOnly`
+   - การ Login ที่ถูกต้องต้องสร้าง Opaque Session Token ใหม่จาก CSPRNG ขนาด 32 bytes (256 bits)
+   - Response ต้องคืน Session Token ผ่าน Cookie ที่เป็น `HttpOnly`, `SameSite=Strict`, Path `/`, ไม่กำหนด Domain และเป็น `Secure` ใน Production
+   - Database ต้องมีเฉพาะ `SHA-256(token)` ใน `auth_sessions.session_token_hash` โดย Token ดิบต้องไม่ตรงกับค่าที่เก็บใน Database
    - สามารถใช้ Cookie นั้นเรียก API `/api/auth/me` และได้ข้อมูลตนเองกลับมา
    - **Case Normalization:** ระบบต้องทำ Case Normalization สำหรับ Username/Email (บังคับให้ระบบแปลงตัวอักษรเป็นพิมพ์เล็ก `lowercase` เสมอ) และอนุญาตให้ Username มีเฉพาะตัวอักษร ตัวเลข `._-` เท่านั้น (ห้ามมี `@`)
-2. **Password Security & JWT Handling:**
+2. **Password & Session Token Security:**
    - รหัสผ่านที่เก็บใน Database ต้องไม่ใช่ Plaintext และใช้ `Argon2id`
-   - **ห้าม** มี JWT Token หรือ Cookie ปรากฏใน Response JSON Body หรือใน Server Logs
-3. **JWT Validation:**
-   - หากส่ง JWT ที่ลายเซ็น (Signature) ผิด, `iss` ผิด, `aud` ผิด หรือไม่มี Cookie แนบมา ต้องตอบ `401` เสมอ (ดู Error Matrix ใน API Contract)
+   - **ห้าม** มี Session Token, Cookie Header หรือ `session_token_hash` ปรากฏใน Response JSON, Application Log หรือ Audit Log
+   - Frontend ต้องไม่เก็บ Authentication Credential ใน `localStorage` หรือ `sessionStorage`
+3. **Session Validation:**
+   - หากไม่มี Cookie ต้องตอบ `401 AUTH_SESSION_MISSING`
+   - หาก Token รูปแบบผิด, Token สุ่มที่ไม่อยู่ในระบบ, Session หมดอายุ หรือ Session ถูก Revoke ต้องตอบ `401 AUTH_SESSION_INVALID`
+   - Backend ต้องรับ Session Token จาก Cookie เท่านั้น และปฏิเสธ Token ที่ส่งผ่าน URL, Request Body หรือ `Authorization: Bearer`
 4. **Failed Login Handling:**
    - หาก Login ผิด ระบบต้อง **ไม่ระบุ** ว่า Username/Email หรือรหัสผ่านกันแน่ที่มีปัญหา (ตอบ `401 AUTH_INVALID_CREDENTIALS` เหมือนกันหมด)
    - บันทึก Audit Log `user.login_failed` (ต้องไม่เก็บ Username/Email ดิบที่กรอกผิดลงไป เพราะเป็น PII)
 5. **Inactive Account & Immediate Role Effect:**
    - ผู้ใช้ที่มีสถานะ `is_active=false` จะ Login ไม่ได้
-   - **Immediate Effect:** ในทุกการเรียก API ตรวจสอบสิทธิ์ ระบบต้องอ่านค่า `is_active` และ Role จาก Database เสมอ (ห้ามดูแค่ใน JWT) หากถูกเปลี่ยน Role หรือ Deactivate ขณะที่ยังมี Session เดิมอยู่ ต้องบังคับใช้สิทธิ์ใหม่ หรือตัด Session ทันที (`401 AUTH_SESSION_INVALID`)
+   - **Immediate Effect:** ในทุกการเรียก API ตรวจสอบสิทธิ์ ระบบต้องอ่านค่า `is_active` และ Role จาก Database เสมอ
+   - เมื่อ Admin เปลี่ยน Role หรือ Deactivate ผู้ใช้อื่น Backend ต้อง Revoke Session ทั้งหมดของผู้ใช้เป้าหมายแบบ Atomic และ Session เดิมต้องถูกปฏิเสธด้วย `401 AUTH_SESSION_INVALID`
 6. **Session Expiry & Revocation:**
-   - Token ที่หมดอายุแล้ว หรือ Session ถูกตั้ง `is_revoked=true` ต้องตอบ `401 AUTH_SESSION_INVALID`
+   - Session ที่ `expires_at <= now()` หรือถูกตั้ง `is_revoked=true` ต้องตอบ `401 AUTH_SESSION_INVALID` แม้ Browser ยังส่ง Cookie เดิม
    - เมื่อผู้ใช้ทำการ Logout สำเร็จ (`POST /api/auth/logout`) ต้องบันทึก Audit Log action: `user.logout` เสมอ
+   - Logout ต้อง Revoke เฉพาะ Session ปัจจุบันและลบ Cookie โดยใช้ Name/Path/Secure/SameSite ตรงกับตอนสร้าง
 7. **Change Password Lifecycle (Self-change):**
    - การเรียกเปลี่ยนรหัสผ่านด้วยตนเอง ต้องส่ง `current_password` มาด้วยเสมอ
    - หาก `current_password` ผิด ต้องตอบ `400 AUTH_CURRENT_PASSWORD_INVALID`
@@ -42,11 +49,15 @@
     - ระบบจะนับ Identifier (Username/Email) ควบคู่ด้วยโดยแปลงเป็น HMAC ก่อนเก็บลง Cache เพื่อใช้ทำ Alert หรือจำกัด Threshold ที่สูงกว่า
     - ระบบจะปลดล็อกอัตโนมัติเมื่อครบ 15 นาที
 11. **CORS / Origin Protection:**
-    - ระบบปฏิเสธคำขอประเภท State-changing (`POST`, `PUT`, `PATCH`, `DELETE`) ที่มาจาก `Origin` ที่ไม่อยู่ใน Allowlist (ตอบ `403 AUTH_ORIGIN_REJECTED`)
-12. **Audit Log Data Integrity:**
+    - CORS ต้องใช้ Exact Origin Allowlist และ `Access-Control-Allow-Credentials: true`; ห้ามใช้ `*`
+    - State-changing Request (`POST`, `PUT`, `PATCH`, `DELETE`) ต้องมี Exact `Origin`; หากไม่มีให้ตรวจ Exact `Referer`; หากไม่ตรงหรือไม่มีทั้งคู่ให้ตอบ `403 AUTH_ORIGIN_REJECTED`
+    - State-changing Request ต้องมี `X-CSRF-Protection: 1`; หากไม่มีหรือค่าผิดให้ตอบ `403 AUTH_CSRF_REJECTED`
+    - Auth API ที่มี Body ต้องปฏิเสธ Content Type ที่ไม่ใช่ `application/json` และต้องไม่มี State-changing `GET`
+12. **Audit Log Data Integrity & Privacy Policy:**
     - เหตุการณ์ต้องระบุ `action` (ใช้ Canonical Action Names: `user.login_success`, `user.login_failed`, `user.logout`, `user.password_changed`, `user.created`, `user.updated`, `user.deactivated`, `auth.permission_denied`) และ `resource_type`
     - ระบบเก็บข้อมูลลงตารางกลางด้วยคอลัมน์ `user_id`, `created_at` แต่ตอนตอบกลับ API `/api/audit-logs` จะต้อง Map ชื่อเป็น `actor_user_id` และ `occurred_at` เสมอ
     - กรณีที่เข้าถึงโดยไม่ทราบตัวตน (เช่น Login ผิดพลาดของ Hacker) ค่า `actor_user_id` และ `resource_id` จะต้องยอมรับค่า **NULL** ได้
+    - **Strict Privacy Rule:** ห้ามฝั่ง Auth ส่งข้อมูล Password (Plaintext/Hash), Session Token, Cookie Header, Session Token Hash, Credential Secret หรือ Raw Failed-login Identifier (เช่น string username ที่พิมพ์ผิด) แทรกลงมาในฟิลด์ `description` ก่อนเรียกเขียน Log เด็ดขาด ข้อมูลต้องถูก Redact ตั้งแต่ต้นทาง
 13. **Environment Policy (Test Users):**
     - ข้อมูลผู้ใช้ทดสอบ (Seed Test Users) ทั้ง 3 Roles จะถูกสร้างตามไฟล์ `07_Test Users and Environment Policy.md`
     - ถ้ารันคำสั่ง Seed บน `APP_ENV=production` หรือ `APP_ENV` ว่าง/ไม่มีค่า โปรแกรม Seed ต้อง `exit non-zero` ทันที
@@ -67,3 +78,11 @@
     - *หมายเหตุ: นำไปทดสอบในระยะ P2 เท่านั้น ไม่บังคับสำหรับการส่งมอบ P1*
     - `Viewer` สามารถดู Topology (NTV) ได้
     - `Viewer` พยายามเรียก `POST collection` หรือ `PATCH position` ของ NTV จะต้องได้สถานะ `403 Forbidden`
+20. **Session Fixation Prevention:**
+    - Backend ต้องสร้าง Session Token ใหม่หลัง Login สำเร็จทุกครั้ง และต้องไม่ยอมรับค่าที่ Client กำหนดล่วงหน้า
+    - การ Login สองครั้งต้องได้ Token คนละค่า และ Session แต่ละรายการต้อง Revoke แยกกันได้
+21. **Environment-specific Cookie Safety:**
+    - Production ต้องใช้ Cookie ชื่อ `__Host-mynetmate_session` พร้อม `Secure=true`, `Path=/`, ไม่มี `Domain` และต้อง Fail Closed หาก Config ไม่ครบ
+    - ชื่อ `mynetmate_session` และ `Secure=false` ใช้ได้เฉพาะ `APP_ENV=development` หรือ `test`
+22. **Session Store Failure:**
+    - หาก Database/Session Store ใช้งานไม่ได้ Protected API ต้อง Fail Closed และห้ามอนุญาต Request จากข้อมูล Cookie เพียงอย่างเดียว

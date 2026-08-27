@@ -1,8 +1,11 @@
 # คำอธิบายคำศัพท์ Network Topology Visualization (NTV)
 
-เอกสารนี้อธิบายคำศัพท์เฉพาะที่ใช้ใน [01_MVP - MyNetMate NTV.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization/01_MVP - MyNetMate NTV.md) ด้วยภาษาง่าย ๆ โดยยึดบริบทของ MyNetMate ไม่ได้มุ่งเป็นนิยามสากลที่ครอบคลุมระบบเครือข่ายทุกประเภท
+เอกสารนี้อธิบายคำศัพท์เฉพาะที่ใช้ใน [01_MVP - MyNetMate NTV.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization(Naphat)/01_MVP - MyNetMate NTV.md) ด้วยภาษาง่าย ๆ โดยยึดบริบทของ MyNetMate ไม่ได้มุ่งเป็นนิยามสากลที่ครอบคลุมระบบเครือข่ายทุกประเภท
 
-> **Scope ล่าสุด:** NTV MVP แสดง Topology จาก LLDP/CDP Observation เท่านั้น ไม่มี Manual Override, Verify/Reject, Report Incorrect หรือ Resolve Conflict Workflow คำศัพท์เหล่านี้เก็บไว้เพื่ออธิบาย Future Enhancement และไม่ใช่ข้อกำหนด MVP
+> [!NOTE]
+> ไฟล์นี้เป็นเอกสารช่วยอ่าน ไม่ใช่ Source of Truth สำหรับชื่อตารางหรือขอบเขตการส่งมอบ หากคำศัพท์หรือชื่อตารางขัดกับ `01_MVP - MyNetMate NTV.md` หรือ `02_Database Schema.md` ให้ยึดสองไฟล์นั้นตามลำดับ
+
+> **Scope ล่าสุด:** NTV MVP แสดง Topology จาก LLDP Observation เท่านั้น ไม่มี Manual Override, Verify/Reject, Report Incorrect หรือ Resolve Conflict Workflow คำศัพท์เหล่านี้เก็บไว้เพื่ออธิบาย Future Enhancement และไม่ใช่ข้อกำหนด MVP
 
 ## 1. ภาพรวมการทำงานแบบสั้น
 
@@ -101,7 +104,7 @@ Device Credential Profile **ไม่ใช่** Username/Password ที่ใ�
 
 ### RBAC (Role-Based Access Control)
 
-การกำหนดสิทธิ์ตามบทบาท เช่น Admin, Operator และ Viewer เพื่อควบคุมว่าใครดู Topology, เปลี่ยน Shared Layout หรือสั่ง Re-collect ได้ Link จาก LLDP/CDP ไม่ต้องใช้สิทธิ์ยืนยันทีละเส้น
+การกำหนดสิทธิ์ตามบทบาท เช่น Admin, Operator และ Viewer เพื่อควบคุมว่าใครดู Topology, เปลี่ยน Shared Layout หรือสั่ง Re-collect ได้ Link จาก LLDP ไม่ต้องใช้สิทธิ์ยืนยันทีละเส้น
 
 ### Audit Trail / Audit Log
 
@@ -133,7 +136,7 @@ Ping บอกได้เพียง Reachability เบื้องต้น 
 
 ### CDP (Cisco Discovery Protocol)
 
-โปรโตคอลค้นหาเพื่อนบ้านของ Cisco มีเป้าหมายใกล้เคียง LLDP แต่เน้นระบบนิเวศ Cisco อุปกรณ์ต่างผู้ผลิตอาจไม่รองรับ CDP
+โปรโตคอลค้นหาเพื่อนบ้านเฉพาะระบบนิเวศ Cisco มีเป้าหมายใกล้เคียง LLDP แต่ **ไม่อยู่ในขอบเขตการพัฒนาปัจจุบันของ MyNetMate** ทีมเลือกใช้ LLDP ซึ่งเป็นมาตรฐานกลางสำหรับ Neighbor Observation หลาย Vendor คำนี้เก็บไว้เพื่อช่วยอ่านเอกสารหรือผลจากอุปกรณ์ Cisco เท่านั้น
 
 ### LLCP
 
@@ -198,7 +201,7 @@ Ping บอกได้เพียง Reachability เบื้องต้น 
 
 ### Physical/L2 Topology
 
-แผนผังเน้นการต่ออุปกรณ์ระดับกายภาพและ Data Link Layer เช่น Switch A Port 1 ต่อกับ Switch B Port 2 เหมาะกับข้อมูล LLDP/CDP
+แผนผังเน้นการต่ออุปกรณ์ระดับกายภาพและ Data Link Layer เช่น Switch A Port 1 ต่อกับ Switch B Port 2 เหมาะกับข้อมูล LLDP
 
 ### Logical/L3 Topology
 
@@ -262,7 +265,7 @@ Zoom คือขยายหรือย่อมุมมอง ส่วน P
 
 ### Neighbor
 
-อุปกรณ์เพื่อนบ้านที่ต่อโดยตรงและอุปกรณ์เป้าหมายรายงานผ่าน LLDP/CDP
+อุปกรณ์เพื่อนบ้านที่ต่อโดยตรงและอุปกรณ์เป้าหมายรายงานผ่าน LLDP
 
 ### Neighbor Observation
 
@@ -282,7 +285,7 @@ Observation ต้นฉบับที่ได้จาก Collector/Parser �
 
 ### Provenance / Source
 
-ที่มาของข้อมูลใน MVP เช่น LLDP หรือ CDP ช่วยให้ผู้ใช้ประเมินความน่าเชื่อถือและตรวจย้อนกลับได้ ส่วน Manual Override เป็นแหล่งข้อมูลที่อาจเพิ่มในอนาคต
+ที่มาของข้อมูลใน MVP เช่น LLDP ช่วยให้ผู้ใช้ประเมินความน่าเชื่อถือและตรวจย้อนกลับได้ ส่วน Manual Override เป็นแหล่งข้อมูลที่อาจเพิ่มในอนาคต
 
 ### Freshness / Last Observed At
 
@@ -324,7 +327,7 @@ Evidence Assessment เป็นคนละเรื่องกับ Current 
 
 ### Manual Override — Future Enhancement
 
-แนวคิด Link ที่มนุษย์บันทึกเป็นข้อยกเว้นเมื่อ LLDP/CDP ใช้ไม่ได้ โดยต้องเลือก Device และ Interface ที่ระบบเก็บจากอุปกรณ์จริงแล้ว พร้อมเหตุผล หลักฐาน ผู้บันทึก และสถานะการยืนยัน แต่ยังไม่ทำใน MVP
+แนวคิด Link ที่มนุษย์บันทึกเป็นข้อยกเว้นเมื่อ LLDP ใช้ไม่ได้ โดยต้องเลือก Device และ Interface ที่ระบบเก็บจากอุปกรณ์จริงแล้ว พร้อมเหตุผล หลักฐาน ผู้บันทึก และสถานะการยืนยัน แต่ยังไม่ทำใน MVP
 
 Manual Override ไม่ใช่การวาดเส้นอย่างอิสระเพื่อให้ Diagram ดูครบ
 
@@ -381,23 +384,29 @@ Manual Override ไม่ใช่การวาดเส้นอย่าง�
 
 ### `neighbor_observations`
 
-ชื่อตาราง Candidate สำหรับเก็บผลที่ LLDP/CDP สังเกตพบในแต่ละ Collection Run แบบรักษาประวัติ
+ชื่อตาราง Candidate สำหรับเก็บผลที่ LLDP สังเกตพบในแต่ละ Collection Run แบบรักษาประวัติ
 
 ### `topology_links`
 
 ชื่อตาราง Candidate สำหรับเก็บ Link ปัจจุบันหลังผ่านการ Reconcile แล้ว ต้องอ้างกลับไปยัง Neighbor Observation ได้
 
-### `topology_link_reviews`
+### `topology_link_evaluations`
 
-ชื่อตาราง Candidate สำหรับ Future Enhancement ของ Report Incorrect, Resolve Conflict และการตรวจ Manual Override ไม่สร้างตารางนี้ใน MVP
+ตารางของ NTV สำหรับเก็บผลประเมิน Link ในแต่ละ Reconciliation Run เช่นระดับหลักฐานและ Warning State โดยชื่อและ Field ให้ยึด `02_Database Schema.md`
+
+### `topology_link_evidence`
+
+ตารางเชื่อมผลประเมิน Link กับ `neighbor_observations` ที่ใช้เป็นหลักฐาน ทำให้ผลสรุปแต่ละรอบตรวจย้อนกลับไปยังข้อมูล LLDP ต้นทางได้
+
+> Human Review, Report Incorrect และ Resolve Conflict เป็น Future Extension ที่ยังไม่มี Logical Table ใน MVP
 
 ### `topology_views`
 
 ชื่อตาราง Candidate สำหรับเก็บ View เช่นชื่อ View, Site หรือ Device Group ไม่ควรเก็บข้อมูลตัวตนอุปกรณ์ซ้ำจาก `devices`
 
-### `topology_node_positions`
+### `topology_node_placements`
 
-ชื่อตาราง Candidate สำหรับเก็บตำแหน่ง `x/y` ของ Node ในแต่ละ View การแก้ตารางนี้เปลี่ยน Layout เท่านั้น
+ตารางของ NTV สำหรับเก็บตำแหน่ง `x/y` ของ Device Node ในแต่ละ View การแก้ตารางนี้เปลี่ยน Layout เท่านั้นและไม่เปลี่ยนข้อมูล Device, Interface หรือ Link
 
 ### Admin Status / Oper Status
 
@@ -522,7 +531,7 @@ Vendor ที่มีแผนทดลองรองรับ แต่ยั
 | `ip_address` | IP ที่เกี่ยวข้องกับอุปกรณ์หรือ Interface ตาม Schema |
 | `local_interface_id` | Interface ฝั่งที่กำลังรายงาน Neighbor |
 | `remote_interface_id` | Interface ของอุปกรณ์เพื่อนบ้าน ถ้าระบุตัวตนได้ |
-| `source` | แหล่งที่มาของข้อมูล; MVP ใช้ LLDP/CDP ส่วน Manual Override เป็น Future Enhancement |
+| `source` | แหล่งที่มาของข้อมูล; MVP ใช้ LLDP ส่วน Manual Override เป็น Future Enhancement |
 | `collection_status` | ผลของการเก็บข้อมูลรอบนั้น |
 | `evidence_assessment` | ระดับหลักฐานที่ระบบประเมิน เช่น One-sided/Corroborated/Unresolved |
 | `current_link_state` | วงจรชีวิตของ Link เช่น Active/Stale/Archived |
@@ -537,7 +546,7 @@ Vendor ที่มีแผนทดลองรองรับ แต่ยั
 | `is_pinned` | Node ถูกล็อกตำแหน่งหรือไม่ |
 | `is_hidden` | Node ถูกซ่อนใน View หรือไม่ |
 
-ชื่อ Field สำหรับ MVP ให้ยึด [02_Database Schema.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization/02_Database Schema.md) ส่วน Field ที่ระบุว่า Future Enhancement ยังไม่ต้องสร้างใน Schema ปัจจุบัน
+ชื่อ Field สำหรับ MVP ให้ยึด [02_Database Schema.md](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/02_feature/03_Network Topology Visualization(Naphat)/02_Database Schema.md) ส่วน Field ที่ระบุว่า Future Enhancement ยังไม่ต้องสร้างใน Schema ปัจจุบัน
 
 ## 10. รหัสที่ใช้จัดหมวดในเอกสาร
 
@@ -589,7 +598,7 @@ Vendor ที่มีแผนทดลองรองรับ แต่ยั
 10. หากภายหลังย้ายสายไป `Gi0/2` ผู้ดูแลต้องเปลี่ยนสายจริงแล้วกด Re-collect
 11. Observation ใหม่แสดง `Gi0/2` ส่วน Link เดิมอาจเป็น Stale/Conflict Warning จนกว่าจะผ่าน Reconciliation
 
-ถ้า Huawei ไม่รองรับหรือไม่ได้เปิด LLDP/CDP ระบบแสดงว่าไม่มี Neighbor Data หรือยังระบุ Link ไม่ได้ โดยไม่เติม Link ด้วยมือใน MVP ทีมค่อยประเมิน Manual Override หลังทดสอบอุปกรณ์จริง
+ถ้า Huawei ไม่รองรับหรือไม่ได้เปิด LLDP ระบบแสดงว่าไม่มี Neighbor Data หรือยังระบุ Link ไม่ได้ โดยไม่เติม Link ด้วยมือใน MVP ทีมค่อยประเมิน Manual Override หลังทดสอบอุปกรณ์จริง
 
 ## 13. คำแปลที่แนะนำสำหรับเอกสารภาษาไทย
 

@@ -2,23 +2,32 @@
 
 เอกสารนี้ระบุสเปคของ API เพื่อให้ทีม Frontend และ Backend สามารถทำงานร่วมกันได้ทันที
 
-## 1. Cookie & JWT Specification
-- **JWT Algorithm:** `HS256` (Secret key ดึงจาก Environment Variable ความยาวขั้นต่ำ 32 bytes)
-- **JWT Claims:**
-  - `iss`: `"mynetmate_api"` (คงที่)
-  - `aud`: `"mynetmate_client"` (คงที่)
-  - `sub`: `user_id` (UUID)
-  - `jti`: `session_id` (UUID) สำหรับเช็คสถานะการ Revoke
-  - `iat`: Timestamp ที่ออก Token
-  - `exp`: Timestamp ที่หมดอายุ (30 นาที)
-  - `role`: Role ปัจจุบัน (`admin`, `operator`, `viewer`)
-- **Cookie Setup:**
-  - `Name`: `mynetmate_token`
-  - `Path`: `/api` (สำคัญ: เพื่อให้ Cookie ถูกส่งไปทุกๆ Endpoint ภายใต้ /api)
-  - `HttpOnly`: `true`
-  - `Secure`: `true` (ใน Production)
-  - `SameSite`: `Lax`
-  - `Max-Age`: `1800` (30 นาที)
+## 1. Server-side Session & Cookie Specification
+
+### 1.1 Opaque Session Token
+
+- หลังตรวจ Password สำเร็จ Backend ต้องสร้าง Token ใหม่ด้วย CSPRNG ขนาด 32 bytes (256 bits) และ Encode แบบ URL-safe
+- Token ต้องเป็น Opaque Value ที่ไม่มี `user_id`, Role, Email หรือข้อมูลธุรกิจอยู่ภายใน
+- `auth_sessions.id` เป็น Internal UUID เท่านั้น ห้ามใช้เป็น Cookie Value
+- Database เก็บเฉพาะ `SHA-256(token)` ใน `auth_sessions.session_token_hash` และค้นหาด้วยคอลัมน์นี้
+- Token ดิบห้ามปรากฏใน Response JSON, URL, Application/Audit Log, `localStorage` หรือ `sessionStorage`
+- Session มี Absolute Lifetime 30 นาทีแบบ Non-sliding สำหรับ P1 ไม่มี Refresh Token และ Request ปกติห้ามต่ออายุ `expires_at`
+
+### 1.2 Session Cookie
+
+- **Production Name:** `__Host-mynetmate_session`
+- **Development/Test Name:** `mynetmate_session` อนุญาตเฉพาะเมื่อ `APP_ENV` เป็น `development` หรือ `test`
+- **Path:** `/`
+- **Domain:** ไม่กำหนด
+- **HttpOnly:** `true`
+- **Secure:** `true` ใน Production; Production ต้อง Fail Closed หาก Config เป็น `false`
+- **SameSite:** `Strict`
+- **Max-Age / Expires:** ไม่กำหนด เพื่อให้เป็น Browser-session Cookie; `auth_sessions.expires_at` เป็น Source of Truth สำหรับอายุ 30 นาที
+
+ทุก Auth Response ต้องส่ง `Cache-Control: no-store` และ Frontend ต้องเรียก API ด้วย `credentials: "include"` ห้ามให้ JavaScript อ่านหรือจัดการ Session Token โดยตรง
+
+> [!IMPORTANT]
+> ห้ามใช้ Starlette/FastAPI `SessionMiddleware` เป็นตัวแทนของสัญญานี้ เพราะ Middleware ดังกล่าวเก็บ Session State ใน Signed Cookie ฝั่ง Client ขณะที่ MyNetMate กำหนดให้ State อยู่ใน Database และ Cookie มีเพียง Opaque Token
 
 ## 2. API Endpoints
 
@@ -39,7 +48,7 @@
     "message": "Login successful"
   }
   ```
-  *(Header จะแนบ `Set-Cookie` มาด้วย)*
+  *(Header จะแนบ `Set-Cookie` ตามข้อ 1.2 โดยไม่มี Token ใน JSON Body และต้องสร้าง Token ใหม่ทุกครั้งหลัง Login สำเร็จเพื่อป้องกัน Session Fixation)*
 - **Response Error:**
   - `401 AUTH_INVALID_CREDENTIALS` — Username/Email หรือ Password ผิด (ไม่ระบุว่าอันไหน)
   - `429 AUTH_LOGIN_RATE_LIMITED` — เกิน Rate Limit
@@ -62,7 +71,7 @@
 ### 2.3 Logout
 - **URL:** `POST /api/auth/logout`
 - **Response Success (204 No Content):** (ไม่มี Body)
-  *(Backend จะอัปเดต DB `is_revoked=true` และตั้งค่า Header ลบ Cookie: `Set-Cookie: mynetmate_token=; Max-Age=0; Path=/api; HttpOnly; SameSite=Lax; Secure`)*
+  *(Backend จะอัปเดต Session ปัจจุบันเป็น `is_revoked=true` และตั้งค่า Header ลบ Cookie ด้วย `Max-Age=0` โดยใช้ Name, Path, Domain, Secure และ SameSite ให้ตรงกับตอนสร้าง)*
   *(หมายเหตุ: การสั่งลบ Cookie ของ Browser จำเป็นต้องระบุแอตทริบิวต์ Name, Path, Domain, Secure, SameSite ให้ตรงกับตอนที่สร้างทุกประการ ไม่เช่นนั้น Browser จะไม่ยอมลบ)*
 
 ### 2.4 Self-Change Password
@@ -80,8 +89,14 @@
 - **Response Error:**
   - `400 AUTH_CURRENT_PASSWORD_INVALID` — รหัสผ่านปัจจุบันไม่ถูกต้อง
 
-### 2.5 Authorization Guard (Backend)
-- **สำคัญ:** ในทุกๆ Protected Request Backend จะต้อง Query ตาราง `auth_sessions` และ `users` เพื่อตรวจสอบสิทธิ์ โดยใช้เงื่อนไข (Predicates) ให้ครบถ้วน: `JWT.jti = session_id`, `JWT.sub = user_id`, `is_revoked = false`, และ `expires_at > now()` จากนั้นให้อ่าน `is_active` และ `role` ปัจจุบันจาก DB มาบังคับใช้ **ห้าม** เชื่อถือและ Authorize สิทธิ์จากค่า `role` ใน JWT Payload เพียงอย่างเดียว มิเช่นนั้นการเปลี่ยน Role/Deactivate จะไม่มีผลจนกว่า Token จะหมดอายุ
+### 2.5 Authentication & Authorization Guard (Backend)
+- อ่าน Session Token จาก Cookie ที่กำหนดไว้เท่านั้น ห้ามรับจาก URL, Request Body หรือ `Authorization: Bearer`
+- ตรวจรูปแบบและความยาว Token ก่อน Hash เพื่อป้องกัน Input ที่ผิดปกติ
+- คำนวณ `SHA-256(token)` แล้ว Query `auth_sessions JOIN users` ด้วย `session_token_hash`
+- Session ต้องตรงครบทุก Predicate: พบแถว, `is_revoked=false`, `expires_at > now()` และ `users.is_active=true`
+- อ่าน Role ปัจจุบันจาก `users` แล้วเรียก `require_permission()` ด้วย Permission Catalog แบบ Default Deny ห้ามเก็บหรือเชื่อ Role จาก Cookie
+- หาก Database หรือ Session Store ใช้งานไม่ได้ ต้อง Fail Closed และไม่อนุญาต Protected Request
+- Frontend Route Guard และการซ่อนปุ่มเป็นเพียง UX; Backend Guard เป็น Security Boundary จริง
 
 ### 2.6 Admin User Management
 - **Authorization:** ต้องมี Permission `user.manage` (เฉพาะ Admin)
@@ -120,43 +135,25 @@
   - **Side Effects (ต้องทำแบบ Atomic ภายใน Transaction เดียวกัน):**
     - หากตั้ง `is_active` เป็น `false` → Backend ต้อง **Revoke ทุก Session ของผู้ใช้เป้าหมาย** ทันที เพื่อไม่ให้มี Session ค้าง
     - หาก Reactivate (`is_active` เปลี่ยนจาก `false` เป็น `true`) → **ห้ามคืน Session เก่า** ผู้ใช้ต้องล็อกอินใหม่เท่านั้น
+    - หากเปลี่ยน Role → Backend ต้อง **Revoke ทุก Session ของผู้ใช้เป้าหมาย** เพื่อบังคับให้ยืนยันตัวตนใหม่ก่อนรับสิทธิ์ชุดใหม่
     - ระบบจะต้องบันทึก Audit Log `user.deactivated` หรือ `user.updated` เสมอ
-    - หากเปลี่ยน Role → ระบบจะ Enforce Role ใหม่ผ่าน Authorization Guard ใน Request ถัดไป
   - **Response (200 OK):** คืนค่า User Object ที่อัปเดตแล้ว
 
 ### 2.7 Audit Logs API
 - **Authorization:** ต้องมี Permission `audit.read` (เฉพาะ Admin เท่านั้น Operator/Viewer ต้องไปใช้ API หมวด Dashboard แยกต่างหากเพื่อดูสรุป Activity)
 - **GET `/api/audit-logs`:**
-  - **Query Params:** `?page=1&limit=50&action=user.login_failed` (Optional)
-  - **Response (200 OK):**
-    ```json
-    {
-      "data": [
-        {
-          "id": "uuid",
-          "action": "user.login_failed",
-          "resource_type": "auth",
-          "resource_id": null,
-          "actor_user_id": null,
-          "result": "failure",
-          "safe_error_category": "authentication_error",
-          "occurred_at": "2026-08-26T12:00:00Z"
-        }
-      ],
-      "meta": { "total": 150, "page": 1, "limit": 50 }
-    }
-    ```
+  - *หมายเหตุ: API เส้นนี้มี Feature Audit Trail เป็นเจ้าของ (Source of Truth) กรุณาอ้างอิง Request/Response DTO และระบบ Cursor Pagination แบบเต็มจากเอกสาร `02_feature/11_Audit Trail(Naphat)/04_API Contracts.md` เพื่อป้องกันความขัดแย้งของเอกสาร*
 
 ## 3. Error Response Matrix
 
 | สถานการณ์ | HTTP Status | Error Code |
 | :--- | :--- | :--- |
 | Login ผิด (ไม่ระบุว่าอันไหน) | `401` | `AUTH_INVALID_CREDENTIALS` |
-| Session หมดอายุหรือถูก Revoke | `401` | `AUTH_SESSION_INVALID` |
-| JWT Signature / iss / aud ผิด | `401` | `AUTH_TOKEN_INVALID` |
-| ไม่มี Cookie แนบมา | `401` | `AUTH_TOKEN_MISSING` |
+| Session Token ไม่รู้จัก, รูปแบบผิด, หมดอายุ หรือถูก Revoke | `401` | `AUTH_SESSION_INVALID` |
+| ไม่มี Session Cookie แนบมา | `401` | `AUTH_SESSION_MISSING` |
 | ไม่มีสิทธิ์ (Role ไม่พอ) | `403` | `AUTH_FORBIDDEN` |
 | Origin ไม่อยู่ใน Allowlist | `403` | `AUTH_ORIGIN_REJECTED` |
+| ขาดหรือส่ง CSRF Protection Header ผิด | `403` | `AUTH_CSRF_REJECTED` |
 | Current password ผิด (เปลี่ยนรหัส) | `400` | `AUTH_CURRENT_PASSWORD_INVALID` |
 | Rate Limit (Login ครั้งที่ 6+) | `429` | `AUTH_LOGIN_RATE_LIMITED` |
 | สร้างบัญชีแต่ Username/Email ซ้ำ | `409` | `AUTH_USER_ALREADY_EXISTS` |
@@ -166,4 +163,10 @@
 ## 4. CORS & CSRF
 - **CORS Allowed Origins:** ระบุ Exact URL (เช่น `https://mynetmate.app`) ห้ามใช้ `*`
 - **CORS Credentials:** `Access-Control-Allow-Credentials: true`
-- **CSRF Check:** คำขอประเภท State-changing (`POST`, `PUT`, `PATCH`, `DELETE`) Backend ต้องตรวจสอบว่า `Origin` ตรงกับที่อนุญาตเท่านั้น
+- **Frontend Credential Mode:** React ต้องใช้ `credentials: "include"` กับทุก Request ที่ต้องใช้ Session
+- **CSRF Check:** คำขอประเภท State-changing (`POST`, `PUT`, `PATCH`, `DELETE`) ต้องผ่านทุกเงื่อนไขต่อไปนี้:
+  1. `Origin` ต้องตรงกับ Exact Allowlist; หากไม่มี `Origin` ให้ตรวจ Exact Origin จาก `Referer`; หากไม่มีทั้งคู่ให้ Reject
+  2. ต้องมี Custom Header `X-CSRF-Protection: 1` เพื่อบังคับให้ Cross-origin JavaScript ผ่าน CORS Preflight
+  3. Auth API ที่มี Request Body ต้องรับเฉพาะ `Content-Type: application/json` และห้ามมี State-changing `GET`
+- **SameSite:** `SameSite=Strict` เป็น Defense in Depth เท่านั้น ไม่ใช้แทน Origin/Referer และ Custom-header Check
+- **Production Topology:** แนะนำให้ Reverse Proxy React และ FastAPI อยู่ภายใต้ Site เดียวกัน แล้วใช้ `/api` เป็น Backend Path; Dev Origin ต้องระบุแบบ Exact รวม Scheme, Host และ Port

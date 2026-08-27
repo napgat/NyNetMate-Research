@@ -297,10 +297,10 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 | `cis_rule_settings` Multi-vendor | ❌ ผิด Logic |
 | Token Counter (Race Condition) | ❌ เปราะบาง |
 | Batch Deploy Support | ❌ ขาด (P2) |
-| JWT Revoke | ✅ Resolved — ใช้ตาราง `auth_sessions` |
+| Server-side Session Revoke | ✅ Resolved — ใช้ตาราง `auth_sessions` และค้นหาด้วย `session_token_hash` |
 | Audit Log Before/After | 🟡 Nice-to-have |
 
-จุดที่ยังไม่เกี่ยวกับ NTV โดยตรง เช่น CIS Multi-vendor, Token Counter, Batch Deploy และ JWT Revoke ต้องประเมินในเอกสารของ Feature เจ้าของต่อไป
+จุดที่ยังไม่เกี่ยวกับ NTV โดยตรง เช่น CIS Multi-vendor, Token Counter, Batch Deploy และ Server-side Session ต้องประเมินในเอกสารของ Feature เจ้าของต่อไป
 
 
 # 🗄️ MyNetMate — Complete Database Schema
@@ -337,7 +337,7 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 | # | ตาราง | Feature ที่ใช้ | Priority | Sprint |
 |---|---|---|---|---|
 | 1 | `users` | Auth, RBAC, Audit | 🏗️ P1-INFRA | Sprint 0 |
-| 1.1 | `auth_sessions` | Authentication, JWT | 🏗️ P1-INFRA | Sprint 0 |
+| 1.1 | `auth_sessions` | Authentication, Server-side Session | 🏗️ P1-INFRA | Sprint 0 |
 | 2 | `devices` | Device Inventory, ทุก Feature | 🏆 P1-CORE | Sprint 0 |
 | 3 | `credentials` | SSH Deploy, Netmiko | 🏆 P1-CORE | Sprint 0 |
 | 4 | `config_history` | Config Gen, Version Control, Snapshot | 🏆 P1-CORE | Sprint 1 |
@@ -376,14 +376,17 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 ---
 
 ## 🟣 ตารางที่ 1.1: `auth_sessions`
-**Feature:** Authentication (Session Revocation) 🏗️ P1-INFRA
+**Feature:** Authentication (Database-backed Opaque Server-side Session) 🏗️ P1-INFRA
+
+> **Architecture Update (2026-08-27):** เปลี่ยนจาก Stateful JWT เพราะเดิมต้อง Query ตารางนี้ทุก Request อยู่แล้ว จึงเก็บ Opaque Session Token แบบ Hash เพื่อลดความซับซ้อนและยัง Revoke ได้ทันที
 
 | Column | Type | Constraint | ตัวอย่าง | หมายเหตุ |
 |---|---|---|---|---|
-| `id` | UUID | PK, NOT NULL | `uuid4()` | อ้างอิงใน JWT `jti` |
+| `id` | UUID | PK, NOT NULL | `uuid4()` | Internal Session ID เท่านั้น ห้ามใช้เป็น Cookie Token |
+| `session_token_hash` | CHAR(64) | UNIQUE, NOT NULL | SHA-256 lowercase hex | เก็บเฉพาะ Hash ของ Opaque Token สุ่ม 256-bit ห้ามเก็บ Token ดิบ |
 | `user_id` | UUID | FK → users (ON DELETE CASCADE), NOT NULL | - | เจ้าของ Session |
 | `is_revoked` | BOOLEAN | NOT NULL, DEFAULT FALSE | `false` | True = บังคับเตะออก |
-| `expires_at` | TIMESTAMP WITH TIME ZONE | NOT NULL | - | วันหมดอายุของ Token |
+| `expires_at` | TIMESTAMP WITH TIME ZONE | NOT NULL | - | วันหมดอายุของ Session ฝั่ง Server |
 | `created_at` | TIMESTAMP WITH TIME ZONE | NOT NULL, DEFAULT NOW() | - | แทน last_login_at |
 | `ip_address` | VARCHAR(45) | NULLABLE | `10.0.0.5` | |
 | `user_agent` | TEXT | NULLABLE | `"Mozilla/5.0..."` | |
@@ -507,7 +510,7 @@ after_value:  JSON  →  {"hostname": "NEW-SW1"}
 |---|---|---|---|---|
 | `id` | UUID | PK, NOT NULL | `uuid4()` | |
 | `user_id` | UUID | FK → users, NULLABLE | - | NULL ถ้าเป็น System Action หรือ Anonymous failed login |
-| `action` | VARCHAR(100) | NOT NULL | `device.create` | รูปแบบ `resource.action` |
+| `action` | VARCHAR(100) | NOT NULL | `device.create` | Canonical Dotted Event Format (อ้างอิง 02_Data Ownership and Event Catalog.md) |
 | `resource_type` | VARCHAR(50) | NOT NULL | `device` | `device` / `config` / `scan` / `user` / `settings` / `auth` |
 | `resource_id` | UUID | NULLABLE | - | ID ของ Record ที่ถูกกระทำ |
 | `result` | VARCHAR(20) | NOT NULL, CHECK (result IN ('success', 'failure')) | `success` | สถานะของเหตุการณ์ |

@@ -43,7 +43,7 @@
    - ฟังก์ชันที่ใช้ซ่อนข้อมูล (เช่น `yacryptopan` สำหรับ IP และ Regex สำหรับ Password) ต้องถูกเขียนเป็น Middleware หรือ Pipeline ไว้ก่อน เพื่อเตรียมพร้อมรองรับ AI ใน P2
 3. **CORS Middleware & Environment (Secrets):**
    - React (Port 3000) และ FastAPI (Port 8000) จะติดปัญหา Cross-Origin ทันที ต้อง Config CORS ให้ถูกตั้งแต่ต้น (ระวังเรื่อง `allow_credentials=True`)
-   - ควบคุม Secrets (JWT Key, DB URL) ผ่าน `.env` และ Pydantic Settings
+   - ควบคุม Secrets (`CRYPTOPAN_KEY`, DB URL และค่าลับอื่น) ผ่าน `.env` และ Pydantic Settings; Session Token สร้างแบบสุ่มต่อการ Login จึงไม่มี JWT Signing Key
 4. **Testing Strategy (Pytest / Jest):**
    - การเขียน Template จำนวนมาก (Jinja2) มีความเสี่ยงเรื่อง **Command Order** (ลำดับคำสั่ง เช่น ต้องสร้าง VLAN ก่อนค่อย Assign Interface) 
    - ต้องทำ Template Integration Test เพื่อเช็คว่า CLI Output ออกมาเรียงลำดับคำสั่งถูกต้องตามหลักของ Cisco IOS หรือไม่
@@ -229,13 +229,15 @@
 ### 4.5 Authentication & Authorization (อ้างอิงหมวด 1)
 แต่สิ่งที่เปลี่ยนไปคือ **"สถานะและการโฟกัส"** ของหมวดนี้ครับ โดยในไฟล์ Weight List ล่าสุด หมวดนี้ถูกจัดให้อยู่ในกลุ่ม 🏗️ **P1-INFRA (โครงสร้างพื้นฐานหลังบ้าน)** ซึ่งหมายความว่า:
 
+> **Architecture Update (2026-08-27):** เปลี่ยนจาก Stateful JWT เป็น Database-backed Opaque Server-side Session เพราะแบบเดิมต้อง Query `auth_sessions` ทุก Request อยู่แล้ว จึงไม่ได้ประโยชน์ Stateless และ Session แบบ Opaque ลดความซับซ้อนพร้อม Revoke ได้ทันที
+
 1. **Login Page & Inline Error:** ยังต้องทำเหมือนเดิม เพื่อให้หน้าเว็บสมบูรณ์
-2. **JWT Token (httpOnly):** ยังต้องทำตั้งแต่วันแรก (Sprint 0) เพราะเป็นหัวใจของ Security ในฝั่ง Backend (FastAPI)
+2. **Opaque Server-side Session (HttpOnly Cookie):** ต้องทำตั้งแต่วันแรก (Sprint 0) โดย Browser ถือ Token สุ่ม ส่วน Backend เก็บเฉพาะ Token Hash ใน `auth_sessions`
 3. **RBAC (แบ่ง 3 Roles - Admin, Operator, Viewer):** ยังต้องทำ เพื่อป้องกันคนแก้ Config มั่ว
 
 **ทำไมถึงไม่โดนตัด และทำไมถึงอยู่แค่ P1-INFRA?**
 
-- **ไม่โดนตัดเพราะ:** มันคือมาตรฐานบังคับ (Baseline) ของ Web Application ระดับโปรเจกต์ ป.ตรี ปี 4 ถ้าไม่มีระบบ Login กับ JWT อาจารย์ปัดตกแน่นอนครับ เพราะมันคือช่องโหว่ร้ายแรง
+- **ไม่โดนตัดเพราะ:** ระบบต้องมี Login, Server-side Session และ RBAC ที่บังคับใช้ฝั่ง Backend มิฉะนั้น Protected API จะไม่มีขอบเขตความปลอดภัย
 - **ไปอยู่ P1-INFRA เพราะ:** ฟีเจอร์นี้เป็นสิ่งที่ "ต้องมี" แต่ **"ไม่ได้มีความว้าวทาง Engineering ที่จะเอาไปเป็นจุดขายหลักตอน Demo"** (อาจารย์เห็นหน้า Login ก็เฉยๆ เพราะใครๆ ก็ทำได้) ดังนั้นเราเลยจับมันไปอยู่หลังบ้าน คือบอกอาจารย์ว่า "เราทำนะ ปลอดภัยด้วย" แต่ตอน Demo (P1-CORE) เราจะรีบล็อกอินผ่านๆ ไปให้เร็วที่สุด เพื่อเอาเวลาไปโชว์ความว้าวของ 6-Tab Config Builder และ CIS Security Scan แทนครับ
 
 สรุปคือ **หมวด 1 Auth & RBAC ได้ทำครบทุกฟีเจอร์ย่อยครับ แค่ถูกลดแสงไฟส่องหน้าลง เพื่อไปส่องฟีเจอร์หลักแทน** 
@@ -481,7 +483,7 @@
 2. **Environment:** ทุกคนในทีมต้องรัน `docker compose up` แล้วขึ้นระบบ (FastAPI + PostgreSQL + React) ได้ภายใน 5 นาที
 3. **Database Migration:** รัน `alembic init` และตั้งค่า Initial Schema
 4. **State Management Design:** ร่าง TypeScript Interface ของ Zustand Store (สำหรับ Config Builder) ให้จบก่อนเริ่มเขียน Frontend
-5. **Security Secrets:** กำหนด `.env.example` ให้ทีม (จัดการ `CRYPTOPAN_KEY`, `JWT_SECRET_KEY`) ห้าม Hardcode ลงใน Source Code
+5. **Security Secrets:** กำหนด `.env.example` ให้ทีม (จัดการ `CRYPTOPAN_KEY`, `DB_URL` และค่าลับอื่น) ห้าม Hardcode ลงใน Source Code
 6. **Testing Framework Setup:** ติดตั้ง `pytest` (Backend) และ `jest` (Frontend) ให้รันผ่านตั้งแต่วันแรก เพื่อใช้ทดสอบ Template Integration
 
 ## 7. Executive Summary: Feature Priority Matrix
@@ -491,7 +493,7 @@
 
 | หมวดที่ | ฟีเจอร์หลัก                                               | บทบาท (Core/Infra) | ความเสี่ยง |
 | ------- | --------------------------------------------------------- | ------------------ | ---------- |
-| 1       | **Auth & RBAC:** Login, JWT, แบ่ง 3 Roles                 | Infra              | 🟢 Low     |
+| 1       | **Auth & RBAC:** Login, Server-side Session, แบ่ง 3 Roles | Infra              | 🟢 Low     |
 | 2       | **Dashboard:** Metrics พื้นฐาน, Activity Feed             | Infra              | 🟢 Low     |
 | 3       | **Device Inventory:** Manual Enrollment, Reachability และ Collection Status | Core               | 🟢 Low     |
 | 5       | **Config Gen (Template):** 6-Tab Form, Jinja2 Render      | Core               | 🟡 Medium  |
@@ -522,7 +524,7 @@
 
 ### 1. Authentication & Authorization (Non-AI)
 * **Login Page & Inline Error** 🏗️
-* **JWT Token (httpOnly)** 🏗️
+* **Opaque Server-side Session (httpOnly Cookie)** 🏗️
 * **RBAC (แบ่ง 3 Roles - Admin, Operator, Viewer)** 🏗️
 
 ### 2. Dashboard & Monitoring

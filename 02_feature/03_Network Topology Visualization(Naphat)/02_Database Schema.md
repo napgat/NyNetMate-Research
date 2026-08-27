@@ -1,7 +1,12 @@
 เราจะออกแบบทีละขั้น และจะยังไม่รีบกำหนด Column หรือเขียน SQL จนกว่าภาพรวมและความสัมพันธ์จะนิ่ง
 
+> [!WARNING]
+> **สถานะเอกสาร:** Draft Design สำหรับ NTV ซึ่งยังไม่ได้รับการยืนยันว่าจะพัฒนาแบบ Full-stack ในเทอมนี้ ชื่อตารางและ Constraint ต้องผ่าน Step 7 ก่อนนำไปเขียน Migration จริง
+>
+> **ขอบเขตการอ่านสำหรับ MVP:** ให้ใช้ Logical Schema เฉพาะหัวข้อ 6.1–6.9 หัวข้อ 3.6–3.7, 4.7, 4.9–4.10, 5.4–5.6 และ 6.10–6.12 เป็น Future Extension Design เท่านั้น AI ต้องไม่เสนอสร้างตารางหรือ Workflow จากหัวข้อเหล่านี้ใน MVP
+
 > [!IMPORTANT]
-> **Scope correction — 2026-08-12:** NTV MVP เป็น Visualization-only จาก LLDP/CDP Observation ไม่มี Manual Override, Verify/Reject, Report Incorrect หรือ Human Conflict Resolution Workflow ตารางและความสัมพันธ์ของความสามารถเหล่านั้นที่เคยศึกษาไว้ให้ถือเป็น **Future Extension Design** ไม่ใช่ MVP Logical Schema
+> **Scope correction — 2026-08-12:** NTV MVP เป็น Visualization-only จาก LLDP Observation ไม่มี Manual Override, Verify/Reject, Report Incorrect หรือ Human Conflict Resolution Workflow ตารางและความสัมพันธ์ของความสามารถเหล่านั้นที่เคยศึกษาไว้ให้ถือเป็น **Future Extension Design** ไม่ใช่ MVP Logical Schema
 
 ## ลำดับการออกแบบ
 
@@ -29,7 +34,7 @@
 
 ฐานข้อมูลนี้ไม่ใช่ฐานข้อมูลสำหรับวาดเส้นอย่างเดียว แต่ต้องเก็บทั้ง:
 
-- หลักฐานจาก LLDP/CDP
+- หลักฐานจาก LLDP
 - Link ปัจจุบันที่ NTV แสดง
 - Warning จากข้อมูล Unresolved, Conflict หรือ Stale
 - ตำแหน่ง Node บนแผนผัง
@@ -75,7 +80,7 @@ NTV ต้องไม่เพิ่ม `connected_to_device_id` หรือ `
 
 - Collection Run
 - Neighbor Observation
-- LLDP/CDP Source
+- LLDP Source
 - Local Interface
 - Remote Identity/Interface
 - เวลาที่ตรวจพบ
@@ -241,7 +246,7 @@ NTV เป็น Snapshot-based Topology:
 เมื่อผู้ใช้กด Link ต้องเห็น:
 
 - Device และ Interface ทั้งสองฝั่ง
-- LLDP หรือ CDP
+- LLDP
 - ตรวจพบครั้งแรกและล่าสุดเมื่อใด
 - พบจากฝั่งเดียวหรือทั้งสองฝั่ง
 - Collection Run ที่เกี่ยวข้อง
@@ -426,7 +431,7 @@ NTV ไม่เป็นเจ้าของ Collection Table แต่ต้�
 | `NTV-DEP-DIS-01` | Collection Run ID, Device ID และ Status | ผูก Observation กับรอบเก็บข้อมูล |
 | `NTV-DEP-DIS-02` | Started/Finished Time และ Error         | แสดง Collection Health           |
 | `NTV-DEP-DIS-03` | Local Device/Interface                  | ระบุฝั่งที่รายงาน Neighbor       |
-| `NTV-DEP-DIS-04` | Protocol — LLDP/CDP                     | ระบุ Source                      |
+| `NTV-DEP-DIS-04` | Protocol — LLDP                     | ระบุ Source                      |
 | `NTV-DEP-DIS-05` | Remote Chassis/System/Port Identity     | จับคู่ Remote Endpoint           |
 | `NTV-DEP-DIS-06` | Observed Time และ Parse Status          | Freshness และ Needs Review       |
 | `NTV-DEP-DIS-07` | Test Environment                        | แยก Emulated กับ Physical Lab    |
@@ -562,7 +567,7 @@ Entity เหล่านี้ NTV ใช้งาน แต่ไม่คว�
 |**Device**|Device Inventory|อุปกรณ์จริงที่ระบบเชื่อมต่อและเก็บข้อมูลสำเร็จแล้ว|ใช้เป็น Node บนแผนผัง|
 |**Interface**|Device Inventory|Port จริงที่เก็บมาจากอุปกรณ์|ใช้เป็นจุดปลายของ Link|
 |**Collection Run**|Discovery/Collection|การเก็บข้อมูลจากอุปกรณ์หนึ่งรอบ|บอกว่าหลักฐานมาจากการเก็บข้อมูลรอบใด|
-|**Neighbor Observation**|Discovery/Collection|ผล LLDP/CDP ที่พบในเวลาหนึ่ง|เป็นหลักฐานสำหรับสร้าง Link|
+|**Neighbor Observation**|Discovery/Collection|ผล LLDP ที่พบในเวลาหนึ่ง|เป็นหลักฐานสำหรับสร้าง Link|
 |**User**|Auth/RBAC|ผู้ใช้ที่ดำเนินการในระบบ|ระบุผู้สั่ง Re-collect หรือผู้แก้ Shared Layout|
 |**Audit Event**|Audit Infrastructure|ประวัติการกระทำสำคัญ|ตรวจสอบย้อนหลังว่าใครทำอะไรและเมื่อใด|
 
@@ -669,7 +674,7 @@ Entity นี้จำเป็นเพราะ Link หนึ่งเส้�
 
 ### 6. Manual Override — Future Concept
 
-หมายถึงหลักฐานจากมนุษย์เมื่อ LLDP/CDP ใช้ไม่ได้หรือ Parser ยังไม่รองรับอุปกรณ์
+หมายถึงหลักฐานจากมนุษย์เมื่อ LLDP ใช้ไม่ได้หรือ Parser ยังไม่รองรับอุปกรณ์
 
 ตัวอย่าง:
 
@@ -855,7 +860,7 @@ Collection Run 1 ─── 0..* Neighbor Observation
 
 การไม่พบ Observation ไม่ได้แปลว่าไม่มีสายเสมอไป เพราะอาจเกิดจาก:
 
-- LLDP/CDP ถูกปิด
+- LLDP ถูกปิด
 - อุปกรณ์ไม่รองรับ
 - Parser ทำงานไม่สำเร็จ
 - Collection ล้มเหลว
@@ -892,7 +897,7 @@ Neighbor Observation ─── 0..1 Remote Device
 Neighbor Observation ─── 0..1 Remote Interface
 ```
 
-ปลายทางเป็น Optional เพราะข้อมูล LLDP/CDP อาจยังจับคู่กับ Inventory ไม่ได้
+ปลายทางเป็น Optional เพราะข้อมูล LLDP อาจยังจับคู่กับ Inventory ไม่ได้
 
 ### กรณี Resolve ได้
 
@@ -1857,7 +1862,7 @@ UNIQUE(reconciliation_run_id, topology_link_id)
 |---|---|---|
 |`id`|PK, NOT NULL|รหัส Evidence Association|
 |`link_evaluation_id`|FK → `topology_link_evaluations.id`, NOT NULL|Evaluation ที่ใช้หลักฐาน|
-|`neighbor_observation_id`|FK → `neighbor_observations.id`, NOT NULL|หลักฐานจาก LLDP/CDP|
+|`neighbor_observation_id`|FK → `neighbor_observations.id`, NOT NULL|หลักฐานจาก LLDP|
 |`evidence_relation`|NOT NULL|`supports`, `contradicts`|
 |`local_endpoint_role`|NULLABLE|Observation นี้รายงานจากฝั่ง `A` หรือ `B`|
 |`created_at`|NOT NULL|เวลาสร้าง Association|
@@ -2065,7 +2070,7 @@ users
 
 ---
 
-## 6.15 จุดที่ต้องยืนยันใน Step 7
+## 6.15 จุดที่ต้องยืนยันใน Step 7 ก่อนเขียน Migration
 
 ก่อนเขียน SQL จริงยังต้องปิดรายละเอียดเหล่านี้:
 

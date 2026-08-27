@@ -34,7 +34,7 @@ p.note { font-size: 12px; color: var(--color-text-secondary); margin: 0.4rem 0 0
   <div class="comp-grid">
     <div class="comp-card"><p class="label"><i class="ti ti-lock" aria-hidden="true"></i> Username / Password</p><p class="desc">Input 2 ช่อง + ปุ่ม Sign in, auto-focus username</p></div>
     <div class="comp-card"><p class="label"><i class="ti ti-alert-circle" aria-hidden="true"></i> Error state</p><p class="desc">แสดง inline เมื่อ credentials ผิด ไม่ redirect</p></div>
-    <div class="comp-card"><p class="label"><i class="ti ti-shield" aria-hidden="true"></i> Session token</p><p class="desc">เก็บ JWT ใน httpOnly cookie, expires 8h</p></div>
+    <div class="comp-card"><p class="label"><i class="ti ti-shield" aria-hidden="true"></i> Server-side session</p><p class="desc">Opaque token ใน HttpOnly cookie; server expiry 30 นาที — เปลี่ยนจาก Stateful JWT เพื่อลดความซับซ้อนและ Revoke ได้ทันที</p></div>
   </div>
   <div class="section-title">Flow หลัง login</div>
   <div class="flow-row">

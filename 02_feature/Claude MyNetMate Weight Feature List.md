@@ -1,5 +1,8 @@
 # 📊 MyNetMate Feature Evaluation & Weighting Report
 
+> [!WARNING]
+> **LEGACY AUTH DESIGN:** ตัวอย่าง JWT/8h/`JWT_SECRET_KEY` ในเอกสารประเมินฉบับนี้ถูกแทนที่เมื่อ 2026-08-27 ด้วย Database-backed Opaque Server-side Session เพราะ Stateful JWT เดิมต้อง Query Database ทุก Request อยู่แล้ว จึงลดความซับซ้อนและยัง Revoke ได้ทันที โปรดใช้ `MyNetMate Weight Feature List.md` และ `00_Authentication(Naphat)/` เป็นข้อกำหนดปัจจุบัน
+
 > **Project:** CEPP68-33 — MyNetMate | **Evaluator Role:** Senior Network & Software Engineering Project Evaluator  
 > **Evaluated by:** Antigravity AI | **Date:** 2026-07-30  
 > **Scope:** All 11 Feature Modules — Risk, Feasibility, Priority, Mitigation

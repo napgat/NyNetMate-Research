@@ -3,9 +3,23 @@
 เอกสารนี้กำหนดขอบเขต (Scope) การทำงานขั้นต่ำ (MVP) ของฟีเจอร์ Authentication และการควบคุมสิทธิ์ (RBAC) สำหรับ MyNetMate (Phase 1)
 
 ## 1. Core Architecture
-- **Authentication:** อาศัย JSON Web Token (JWT) ส่งผ่าน `HttpOnly` Cookie
+- **Authentication:** ใช้ **Database-backed Opaque Server-side Session** โดยส่ง Session Token แบบสุ่มผ่าน `HttpOnly` Cookie
+- **Session Token:** สร้างด้วย CSPRNG ขนาด 32 bytes (256 bits) ทุกครั้งที่ Login สำเร็จ และเก็บเฉพาะ SHA-256 Hash ใน Database ห้ามเก็บหรือ Log Token ดิบ
 - **Password Hashing:** บังคับใช้อัลกอริทึม `Argon2id` เพื่อความปลอดภัยสูงสุดสำหรับระบบใหม่
-- **Session Management:** มีตาราง `auth_sessions` เพื่อรองรับการยกเลิกสิทธิ์ (Revoke/Deactivate) แบบมีผลทันที
+- **Session Management:** ตาราง `auth_sessions` เป็น Source of Truth สำหรับ Session รองรับ Expiry, Logout, Revoke, Deactivate, Password Change และ Role Change แบบมีผลทันที
+- **Authorization:** ทุก Protected Request ต้องอ่าน `is_active` และ Role ปัจจุบันจากตาราง `users` แล้วบังคับ Permission ที่ Backend แบบ Default Deny; การซ่อนปุ่มใน Frontendเป็นเพียง UX
+- **Cookie & Browser Security:** ใช้ `HttpOnly`, `Secure` ใน Production, `SameSite=Strict`, ไม่กำหนด `Domain`, ไม่เก็บ Credential ใน `localStorage`/`sessionStorage` และป้องกัน CSRF สำหรับทุก State-changing Request
+
+> [!IMPORTANT]
+> สถาปัตยกรรมนี้ไม่ใช่ Starlette/FastAPI `SessionMiddleware` ซึ่งเก็บ Session State ไว้ใน Signed Cookie ฝั่ง Client แต่เป็น Custom Auth Guard ที่ Hash Cookie Token แล้ว Query `auth_sessions` และ `users` จาก Database
+
+### 1.1 Architecture Decision
+
+MyNetMate เลือก Server-side Session แทน JWT สำหรับ P1 เพราะระบบเป็น Web Application แบบ React + FastAPI ที่มีผู้ใช้น้อย, Backend และ Database เป็นศูนย์กลางเดียว และต้องบังคับ Logout/Deactivate/Role Change ให้มีผลทันที เดิม Stateful JWT ก็ต้อง Query `auth_sessions` และ `users` ทุก Protected Request อยู่แล้ว จึงไม่ได้ประโยชน์ด้าน Stateless Scalability แต่ยังเพิ่มภาระด้าน Signature, Claims, Signing Key และ `jti`
+
+การตัดสินใจนี้ไม่ได้หมายความว่า Session ปลอดภัยกว่า JWT โดยอัตโนมัติ แต่เป็นการเลือกกลไกที่เรียบง่ายกว่าและตรงกับ Threat Model ของ MyNetMate โดยยังคงบังคับใช้ Cookie Security, CSRF Protection, HTTPS, Session Expiry และ Backend RBAC อย่างครบถ้วน
+
+**Security References:** [OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html) และ [OWASP CSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
 
 ## 2. Role-Based Access Control (RBAC)
 ระบบกำหนดสิทธิ์ผู้ใช้งานเป็น 3 ระดับ (Roles) เพื่อรักษาสมดุลระหว่าง Operation และ Security Compliance:

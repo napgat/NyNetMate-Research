@@ -35,7 +35,7 @@ Step นี้ **ยังไม่ตัดสินชื่อตาราง
 2. [`../MyNetMate Weight Feature List.md`](../MyNetMate%20Weight%20Feature%20List.md) — Single Source of Truth ของขอบเขตโครงการโดยรวม
 3. [`01_Desk Research/Switch Opeational Visibility.md`](Switch%20Opeational%20Visibility.md) และ [`01_Desk Research/Router Operational Visibility.md`](Router%20Operational%20Visibility.md) — เหตุผลและหลักฐานเชิง Network Operations
 4. [`MyNetMate Minimal MVP Dashboard & Monitoring Research Plan.md`](MyNetMate%20Minimal%20MVP%20Dashboard%20%26%20Monitoring%20Research%20Plan.md), Schema, Component Diagram และ API Contracts เดิม — Historical Design ที่ยังใช้เป็นหลักฐานได้ แต่ต้องปรับตามมติล่าสุด
-5. [`../02_Device Inventory Management/Data Information.md`](../02_Device%20Inventory%20Management/Data%20Information.md) — แนวคิดข้อมูลร่วมจาก Device Inventory ซึ่งยังต้องยืนยัน Ownership ใหม่
+5. [`../02_Device Inventory Management/Data Information.md`](02_feature/02_Device%20Inventory%20Management(Tee)/Data%20Information.md) — แนวคิดข้อมูลร่วมจาก Device Inventory ซึ่งยังต้องยืนยัน Ownership ใหม่
 
 ## 4. Evidence Audit
 

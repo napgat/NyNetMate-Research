@@ -28,7 +28,7 @@
 | Feature                       | รายละเอียด                                                 |
 | ----------------------------- | ---------------------------------------------------------- |
 | **Login Page**                | Username/Password Authentication                           |
-| **JWT Token**                 | httpOnly Cookie, 8h Expiration                             |
+| **Server-side Session**       | Opaque Token ใน httpOnly Cookie, อายุฝั่ง Server 30 นาที   |
 | **Role-Based Access Control** | Admin (Full), Operator (Deploy/Config), Viewer (Read-only) |
 | **Inline Error Handling**     | แสดง Error Message ที่ Login Page                          |
 ### 1️⃣ Login Page (หน้าต่างล็อกอินเข้าสู่ระบบ)
@@ -36,14 +36,13 @@
 - **ทำอะไร:** เป็นหน้าเว็บแรกสุดที่ผู้ใช้จะเจอเมื่อเปิด MyNetMate ขึ้นมา จะมีช่องให้กรอก `Username` และ `Password`
 - **ทำไปทำไม:** เพื่อตรวจสอบว่าคนๆ นี้มีตัวตนอยู่ในระบบของเราหรือไม่ (Authentication)
 - **จุดที่น่ากังวล:** ไม่มีอะไรน่ากังวลครับ เป็นมาตรฐานที่ทุกเว็บต้องมี
-### 2️⃣ JWT Token (ระบบตั๋วผ่านทางชั่วคราว)
+### 2️⃣ Server-side Session (ระบบตั๋วผ่านทางชั่วคราว)
 
-- _(ในรายละเอียดเขียนไว้ว่า: httpOnly Cookie, 8h Expiration)_
-- **ทำอะไร:** อธิบายง่ายๆ ว่า หลังจากที่คุณกรอก Username/Password ถูกต้องแล้ว ระบบจะไม่บังคับให้คุณกรอกรหัสใหม่ทุกครั้งที่กดเปลี่ยนหน้าเว็บ แต่ระบบจะแอบออก **"ตั๋วผ่านทาง (JWT Token)"** ให้เบราว์เซอร์ของคุณถือไว้
-- **ทำไปทำไม:**
-    - `8h Expiration` (หมดอายุใน 8 ชม.): ตั๋วใบนี้มีอายุ 8 ชั่วโมง (สมมติว่าคือเวลาทำงาน 1 กะ) ถ้าลืมล็อกเอาต์ ทิ้งเครื่องไว้ พอหมดเวลาตั๋วจะใช้ไม่ได้ ต้องล็อกอินใหม่ (เพิ่มความปลอดภัย)
-    - `httpOnly Cookie`: เป็นวิธีเก็บตั๋วในเบราว์เซอร์ที่ปลอดภัยมาก ป้องกันไม่ให้แฮกเกอร์ใช้สคริปต์ (XSS) มาขโมยตั๋วใบนี้ไปได้
-- **จุดที่น่ากังวล:** เป็นเรื่องเทคนิคหลังบ้านที่คนทำ Backend (FastAPI) ต้องเขียนโค้ดให้ถูกวิธี ถือเป็นมาตรฐานความปลอดภัยระดับพื้นฐาน ทำได้ไม่ยากครับ
+> **เปลี่ยนจาก Stateful JWT (2026-08-27):** แบบเดิมต้อง Query `auth_sessions` ทุก Request อยู่แล้ว จึงใช้ Opaque Session เพื่อลดความซับซ้อนและ Revoke ได้ทันที
+
+- **ทำอะไร:** หลัง Login สำเร็จ Backend สร้างตั๋วสุ่ม 256-bit ให้ Browser ถือใน `httpOnly Cookie` โดย Database เก็บเฉพาะ SHA-256 Hash และข้อมูลผู้ใช้/Role อยู่ฝั่ง Server
+- **ทำไปทำไม:** Session มีอายุฝั่ง Server 30 นาที Logout, เปลี่ยนรหัสผ่าน, Deactivate หรือเปลี่ยน Role แล้วตัด Session เดิมได้ทันที
+- **จุดที่น่ากังวล:** ต้องใช้ HTTPS, `Secure`, `SameSite=Strict`, Exact CORS/Origin และ CSRF Protection; `HttpOnly` ป้องกัน JavaScript อ่าน Token โดยตรงแต่ไม่ได้ป้องกัน XSS ทั้งหมด
 ### 3️⃣ Role-Based Access Control หรือ RBAC (ระบบแบ่งสิทธิ์ผู้ใช้งาน)
 
 - **ทำอะไร:** การกำหนดว่าใคร "ทำอะไรได้บ้าง" ในระบบ (Authorization) โดยแบ่งเป็น 3 ระดับ:
@@ -178,7 +177,7 @@
     3. **Enrichment & Storage (เพิ่มคุณค่าและจัดเก็บ):** เอาข้อมูลที่สกัดได้ไปตรวจสอบกับ Database ว่าซ้ำกับที่มีอยู่ไหม? อัปเดตข้อมูลใหม่ให้สมบูรณ์ขึ้น? แล้วบันทึกลง Database ให้เรียบร้อย
 - **ทำไปทำไม:** เพื่อให้อาจารย์เห็นว่า โค้ดหลังบ้านของเราเขียนอย่างมีโครงสร้าง (Modular) แบบโปรแกรมเมอร์มืออาชีพ ไม่ใช่เขียนสะเปะสะปะรวมกันเป็นก้อนเดียวครับ
 ### 3.3 Data Device Information
-* รายละเอียดข้อมูลที่ต้องเก็บ [[02_feature/02_Device Inventory Management/Data Information]]
+* รายละเอียดข้อมูลที่ต้องเก็บ [[02_feature/02_Device Inventory Management(Tee)/Data Information]]
 ##  4.Network Topology Visualization (Non-AI)
 
 | Feature                        | รายละเอียด                                    |

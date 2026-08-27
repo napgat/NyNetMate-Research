@@ -8,7 +8,7 @@
 
 ## Test Case 2: Append-Only Policy
 - **สถานการณ์:** มีผู้ไม่หวังดีหรือมีโค้ดบั๊กพยายามยิงคำสั่ง `UPDATE audit_logs SET...` หรือเรียกใช้ `session.delete(audit_log_entry)`
-- **สิ่งที่คาดหวัง:** 
+- **สิ่งที่คาดหวัง:**
   - ระบบ Backend ไม่ส่งออก API สำหรับการแก้ไข (PATCH/PUT) หรือลบ (DELETE) `audit-logs`
   - การใช้งานในระดับ Application Layer ไม่มีฟังก์ชันลบหรือแก้
 
@@ -24,8 +24,10 @@
 - **สิ่งที่คาดหวัง:** ได้รับ HTTP 403 Forbidden 
 
 ## Test Case 5: Secret and PII Redaction
-- **สถานการณ์:** Admin เปลี่ยนรหัสผ่านของ User หรือสร้าง Profile Credential ใหม่
-- **สิ่งที่คาดหวัง:** ใน `description` ของ Audit Log จะต้องไม่มีค่า Password (ไม่ว่าจะเป็น Plaintext หรือ Hash) หรือ Credential Secret ปรากฏอยู่ หากพยายามตรวจหาด้วย Regex หรือ String matching ต้องไม่พบ
+- **สถานการณ์:** Admin เรียกใช้ `GET /api/audit-logs` เพื่อดูประวัติการเข้าสู่ระบบที่ล้มเหลว หรือประวัติการแก้ไขข้อมูลสำคัญ
+- **สิ่งที่คาดหวัง:**
+  1. หลัง Auth เปลี่ยนเป็น Opaque Session ฟิลด์ `description` ของ API Response ต้องไม่มี Password (Plaintext/Hash), Session Token, Cookie Header, Session Token Hash, Credential Secret หรือ Raw Failed-login Identifier (เช่น string username ที่พิมพ์ผิด) หลุดรอดมาแสดงผล
+  2. เมื่อใช้ Database Client Query ตรวจสอบ row ในตาราง `audit_logs` โดยตรง ฟิลด์ `description` จะต้องถูก Redact ข้อมูลสำคัญเหล่านี้ออกไปแล้วก่อนทำการ Write (เพื่อพิสูจน์ว่า Redact ที่ Server-side ก่อนลง DB จริงๆ) หากพยายามตรวจหาด้วย Regex หรือ String matching ต้องไม่พบ
 
 ## Test Case 6: Null Actor on Anonymous Action
 - **สถานการณ์:** มีการพยายามล็อกอินด้วย Username ที่ไม่เคยมีในระบบ
@@ -36,5 +38,16 @@
   - ฟิลด์ `safe_error_category = authentication_error`
 
 ## Test Case 7: Pagination Validity
-- **สถานการณ์:** มีข้อมูล Audit Log 1,000 แถว Admin เรียกดูทีละ 50 แถวโดยระบุ limit/offset หรือ cursor
-- **สิ่งที่คาดหวัง:** จำนวนข้อมูลที่ถูกตอบกลับไม่เกิน 50 แถว และเมื่อเรียกหน้าถัดไป ข้อมูลต้องถูกต้อง ไม่ข้ามและไม่ซ้ำ ( Tie-breaker ด้วย `id` หรือ `created_at` อย่างถูกต้อง )
+- **สถานการณ์:** มีข้อมูล Audit Log 1,000 แถว Admin เรียกดูทีละ 50 แถวโดยระบุ cursor
+- **สิ่งที่คาดหวัง:** จำนวนข้อมูลที่ถูกตอบกลับไม่เกิน 50 แถว และเมื่อเรียกหน้าถัดไป ข้อมูลต้องถูกต้อง ไม่ข้ามและไม่ซ้ำ โดยบังคับใช้การ Sort และ Tie-breaker แบบ `created_at DESC, id DESC` ทั้งคู่ตาม API Contract
+
+## Test Case 8: Row-level Check for Permission Denied
+- **สถานการณ์:** ผู้ใช้ที่มีสิทธิ์ Viewer พยายามเรียกใช้ API ที่ต้องใช้สิทธิ์ Operator ขึ้นไป (เช่น POST /api/devices)
+- **สิ่งที่คาดหวัง:**
+  - ได้รับ HTTP 403 Forbidden
+  - ฐานข้อมูลและ API `GET /api/audit-logs` จะต้องมีข้อมูล Row ใหม่ที่ระบุ:
+    - `action = auth.permission_denied`
+    - `resource_type = auth`
+    - `result = failure`
+    - `safe_error_category = authorization_error`
+    - `actor_user_id` ตรงกับ ID ของ Viewer คนนั้น

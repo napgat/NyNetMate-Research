@@ -1,9 +1,11 @@
 ดีครับ! นี่คือ Component Diagram ของ **Authentication Module** ผมมีความเห็นดังนี้ครับ:
 
+> **Auth Architecture Update (2026-08-27):** เปลี่ยนจาก Stateful JWT เป็น Database-backed Opaque Server-side Session เพราะเดิมต้อง Query Database ทุก Request อยู่แล้ว จึงลดความซับซ้อนและ Revoke ได้ทันที
+
 ## ✅ สิ่งที่ออกแบบถูกต้องแล้ว
 
 1. **แยก 3 Layer ชัดเจน** (Frontend → Backend → Database) ตรงตามแผนภาพ System Overview ก่อนหน้า
-2. **JWT Token Generate แยกเป็น Component ของตัวเอง** — ดีครับ เพราะในอนาคตถ้าเปลี่ยนวิธีออก Token (เช่น เปลี่ยน Algorithm จาก HS256 เป็น RS256) ก็แก้จุดเดียว
+2. **Session Service / Auth Guard แยกเป็น Component ของตัวเอง** — สร้าง Opaque Token สุ่ม, เก็บเฉพาะ Hash ใน `auth_sessions`, ตรวจ Expiry/Revoke และอ่าน Role ปัจจุบันจาก `users` ที่จุดเดียว
 3. **Role Access Control แยกออกมา** — ถูกต้องตามหลัก Separation of Concerns เพราะ RBAC (Admin/Operator/Viewer) เป็น Logic คนละเรื่องกับการพิสูจน์ตัวตน (Authentication)
 
 ## 💡 สิ่งที่แนะนำเพิ่มเติม

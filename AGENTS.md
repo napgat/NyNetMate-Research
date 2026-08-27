@@ -1,7 +1,7 @@
 # 🤖 MyNetMate — Master AI Agent Context & Navigation Map
 > **Project:** MyNetMate (CEPP Capstone Project CEPP68-33, KMITL)  
 > **Purpose:** Master context guide, file index, and rules of engagement for AI Coding Agents (Antigravity, Cursor, Claude Code, GitHub Copilot).  
-> **Last Updated:** 2026-08-11
+> **Last Updated:** 2026-08-27
 
 ---
 
@@ -79,11 +79,11 @@
 | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- | -------------------------------------- |
 | [MyNetMate Weight Feature List.md](02_feature/MyNetMate%20Weight%20Feature%20List.md)      | **ไฟล์หลักล่าสุด** — MVP Scope ฉบับ Final หลังประเมิน (P1 vs P2 vs CUT) | 🔴 อ่านก่อนเลย                         |
 | [MyNetMate รายการ Features.md](02_feature/MyNetMate%20รายการ%20Features.md)                | รายการ Feature ทั้งหมด 11 หมวดฉบับดั้งเดิม + ปรัชญาระบบ                 | 🟡 อ่านอ้างอิง                         |
-| [Data Information.md](02_feature/02_Device%20Inventory%20Management/Data%20Information.md) | Schema ข้อมูลที่ต้องเก็บใน Device Inventory (PostgreSQL)                | 🟡 อ่านเมื่อทำ DB                      |
-| [Device Inventory.md](02_feature/02_Device%20Inventory%20Management/Device%20Inventory.md) | รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory               | 🟡 อ่านเมื่อทำ Discovery               |
-| [Plugin Driver Architecture.md](02_feature/05_Configuration%20Management/แนวคิด%20Plugin%20Driver%20Architecture.md) | สถาปัตยกรรม Multi-vendor Driver Pattern                                 | 🟡 อ่านเมื่อทำ Multi-vendor            |
-| [Cutting Your Own Legs.md](02_feature/10_Configuration%20Deployment/Cutting%20Your%20Own%20Legs.md)                  | Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค                               | 🟢 อ่านเมื่อต้องการทราบว่าทำไมถึงไม่ทำ |
-| [Restore Strategy.md](02_feature/10_Configuration%20Deployment/แนวคิด%20Restore%20Strategy.md)                       | กลยุทธ์การ Rollback และ Version Control                                 | 🟢 อ่านเมื่อทำ Version Control         |
+| [Data Information.md](02_feature/02_Device%20Inventory%20Management(Tee)/Data%20Information.md) | Schema ข้อมูลที่ต้องเก็บใน Device Inventory (PostgreSQL)                | 🟡 อ่านเมื่อทำ DB                      |
+| [Device Inventory.md](Device%20Inventory.md) | รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory               | 🟡 อ่านเมื่อทำ Discovery               |
+| [Plugin Driver Architecture.md](แนวคิด%20Plugin%20Driver%20Architecture.md) | สถาปัตยกรรม Multi-vendor Driver Pattern                                 | 🟡 อ่านเมื่อทำ Multi-vendor            |
+| [Cutting Your Own Legs.md](Cutting%20Your%20Own%20Legs.md)                  | Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค                               | 🟢 อ่านเมื่อต้องการทราบว่าทำไมถึงไม่ทำ |
+| [Restore Strategy.md](แนวคิด%20Restore%20Strategy.md)                       | กลยุทธ์การ Rollback และ Version Control                                 | 🟢 อ่านเมื่อทำ Version Control         |
 
 ### ⚖️ `03_tech_evaluations/` — Technology Research & Tool Selection
 - [ค้นคว้าเครื่องมือ Netmiko vs NAPALM vs Nornir vs Ansible.md](03_tech_evaluations/) — Tool Comparison Matrix
@@ -114,7 +114,8 @@
 อ้างอิงตามการประเมินล่าสุดในไฟล์ `02_feature/MyNetMate Weight Feature List.md` ฟีเจอร์ถูกแบ่งออกเป็น 3 ระยะ:
 
 ### 🏆 P1-CORE & P1-INFRA (CE Project 1 - The "Real" MVP)
-1. **Auth & RBAC [Infra]** — Login, JWT, แบ่ง 3 Roles
+1. **Auth & RBAC [Infra]** — Login, Database-backed Opaque Server-side Session ผ่าน HttpOnly Cookie, แบ่ง 3 Roles
+   - **เหตุผลที่เปลี่ยนจาก Stateful JWT (2026-08-27):** แบบเดิม Query `auth_sessions` ทุก Request อยู่แล้ว จึงใช้ Opaque Session เพื่อลดความซับซ้อนและ Revoke ได้ทันที
 2. **Dashboard [Infra]** — Metrics พื้นฐาน, Activity Feed, System API Status
 3. **Device Inventory [Core]** — เพิ่มอุปกรณ์แบบ Manual, Ping Status, Device Grouping
 4. **Config Gen (Template) [Core]** — 6-Tab Form, Jinja2 Render, Debouncing
@@ -160,4 +161,4 @@
 
 ---
 
-*Maintained by Antigravity AI for CEPP68-33 | Last Updated: 2026-07-30*
+*Maintained by Antigravity AI for CEPP68-33 | Last Updated: 2026-08-27*

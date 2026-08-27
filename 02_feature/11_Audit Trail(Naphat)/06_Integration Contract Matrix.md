@@ -4,9 +4,9 @@
 
 | Feature | สถานะการตรวจสอบ | รายละเอียดความสอดคล้อง | Proposed Cross-Feature Delta |
 | :--- | :--- | :--- | :--- |
-| **Central Schema** (`Data Information.md`) | ✅ สอดคล้องสมบูรณ์ | โครงสร้าง 10 ฟิลด์ของตาราง `audit_logs` (`id`, `user_id`, `action`, `resource_type`, `resource_id`, `result`, `safe_error_category`, `description`, `ip_address`, `created_at`) ใน Central Schema ถูกต้องและรองรับ MVP ครบถ้วน | - ไม่มี - |
-| **Authentication & RBAC** | ✅ สอดคล้องสมบูรณ์ | Auth มี Action Name เช่น `user.login_success` ฯลฯ ครบถ้วนตามมาตรฐาน และกำหนด Permission `audit.read` เฉพาะ Admin ตาม `06_Permission Catalog.md` | - ไม่มี - |
-| **Dashboard & Monitoring** | ✅ สอดคล้องสมบูรณ์ | D&M `04_API Contracts.md` กำหนดให้ `GET /api/dashboard/recent-activity` อ่านค่าแบบ Read-only ด้วย SQLAlchemy ORM, แสดงผลด้วย Allowlist (Positive actions 5 ตัว) และทำ Redaction ตามเงื่อนไขของ Audit Trail อย่างเคร่งครัด | - ไม่มี - |
+| **Central Schema** (`Data Information.md`) | ✅ สอดคล้องสมบูรณ์ | โครงสร้าง 10 ฟิลด์ของตาราง `audit_logs` รองรับ MVP ครบถ้วน และได้ปรับคำอธิบายคอลัมน์ `action` เป็น "Canonical Dotted Event Format" ตรงกับ Audit Catalog แล้ว | - ไม่มี - |
+| **Authentication & RBAC** | ✅ สอดคล้องสมบูรณ์ | ใช้ Cursor ร่วมกัน, ยึดสเปก Audit เป็น Source of Truth, และปรับแก้ Component Diagram ให้ `validation_error`/`server_error` ติดสถานะ Reserved เพื่อไม่ให้ขัดกับ P1 Scope | - ไม่มี - |
+| **Dashboard & Monitoring** | ✅ สอดคล้องสมบูรณ์ | D&M กำหนดให้ `GET /api/dashboard/recent-activity` อ่านค่าแบบ Read-only, แสดงผลด้วย Allowlist (Positive actions 5 ตัว) **โดยห้ามรับหรือแสดง `safe_error_category`, `description`, และ `ip_address` เด็ดขาด** ซึ่งได้ปรับคำอธิบายในเอกสาร Auth Component ให้สอดคล้องกันแล้ว | - ไม่มี - |
 
 ## สรุปภาพรวม (Conclusion)
-การทำงานร่วมกันระหว่าง Audit Trail, Central Database Schema, Authentication และ Dashboard & Monitoring **มีความสมบูรณ์แบบในระดับ Specification** ไม่มีความขัดแย้ง (Conflict) ในเชิง Design และพร้อมที่จะนำไปขึ้นโครงสร้าง Backend ได้ทันทีโดยไม่ต้องแก้ไขเอกสารฝั่งผู้ผลิต (Producers)
+โครงสร้างสถาปัตยกรรมและ Contract ระหว่าง Audit Trail, Central Database Schema, Authentication และ Dashboard & Monitoring **ได้รับการ Reconcile อย่างสมบูรณ์และไม่มี P1 Blocker เชิงโครงสร้างหลงเหลืออยู่ (Approved)** พร้อมสำหรับการพัฒนา Backend ในระยะ P1

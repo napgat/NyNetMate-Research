@@ -34,7 +34,8 @@ flowchart TD
     end
 
     %% Connections - Write Flow
-    Auth -.->|Same DB Transaction| recordFn
+    Auth -.->|Business mutation: Same DB Transaction| recordFn
+    Auth -.->|Rejected request: Intentional Audit Transaction| recordFn
     Device -.->|Same DB Transaction| recordFn
     Config -.->|Same DB Transaction| recordFn
     CIS -.->|Same DB Transaction| recordFn
@@ -51,5 +52,5 @@ flowchart TD
 ```
 
 ## สาระสำคัญของ Architecture
-1. **Internal Contract (`record_audit_event`)**: ทุก Producer ต้องเรียกผ่านฟังก์ชันนี้ในระดับ Application Layer เพื่อให้มั่นใจว่าจะไม่มีการเขียนตรงๆ ที่ผิดมาตรฐาน (เช่น ลืมทำ Redaction) และต้องใช้ Database Session (Transaction) เดียวกัน
+1. **Internal Contract (`record_audit_event`)**: ทุก Producer ต้องเรียกผ่านฟังก์ชันนี้ในระดับ Application Layer เพื่อให้มั่นใจว่าจะไม่มีการเขียนตรงๆ ที่ผิดมาตรฐาน (เช่น ลืมทำ Redaction) Event ที่ผูกกับ Business Mutation ใช้ Database Session/Transaction เดียวกัน ส่วน Intentional Failure/Denial Event ใช้ Audit Transaction แยกที่ Commit ได้แม้ Request ถูกปฏิเสธ
 2. **D&M Direct Read**: Dashboard & Monitoring สามารถใช้ SQLAlchemy Query จากตาราง `audit_logs` ได้โดยตรง ไม่ต้องผ่าน Full Audit API เพื่อความสะดวก แต่ต้องทำตาม Contract การ Redaction ข้อมูลและการใช้ Cursor Pagination อย่างเคร่งครัด

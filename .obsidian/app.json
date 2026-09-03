@@ -1,3 +1,8 @@
 {
-  "alwaysUpdateLinks": true
+  "alwaysUpdateLinks": true,
+  "tabSize": 4,
+  "readableLineLength": false,
+  "showInlineTitle": true,
+  "strictLineBreaks": false,
+  "foldHeading": true
 }

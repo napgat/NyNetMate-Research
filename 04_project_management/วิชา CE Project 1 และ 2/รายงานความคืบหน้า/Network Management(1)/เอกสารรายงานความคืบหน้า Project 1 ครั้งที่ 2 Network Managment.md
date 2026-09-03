@@ -117,7 +117,7 @@ Authentication & RBAC สามารถควบคุมสิทธิ์แ�
 
 **กระบวนการเปลี่ยนรหัสผ่านของตนเอง (Self-change Password Flow)**  
 กระบวนการนี้ต้องการความปลอดภัย จึงต้องมีการตรวจสอบทั้งรหัสผ่านเก่าและป้องกันการโจมตีแบบ CSRF ควบคู่กัน  
-![](../Img/network-management-progress-2-image2.png)
+![748](../Img/network-management-progress-2-image2.png)
 
 1. \[Frontend\] ผู้ใช้กรอก รหัสผ่านเก่า (Old Password) และ รหัสผ่านใหม่ (New Password)  
 2. \[Frontend\] ระบบแนบ Cookie (Token) และเพิ่ม Header CSRF Protection ส่งไปให้เซิร์ฟเวอร์  

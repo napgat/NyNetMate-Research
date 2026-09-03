@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "6b6b1b88d013e15f",
+        "id": "61e153657f81b8e9",
         "type": "tabs",
         "children": [
           {
-            "id": "cdd7dab56d289351",
+            "id": "28bdede7b1574093",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02_feature/11_Audit Trail(Naphat)/ให้คนอ่าน/01_สรุป Audit Trail.md",
+                "file": "README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "01_สรุป Audit Trail"
+              "title": "README"
             }
           }
         ]
@@ -80,7 +80,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 597.5
+    "width": 328.5
   },
   "right": {
     "id": "2024716cf3b09ec9",
@@ -158,21 +158,47 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "04_project_management/Document Project/MyNetMate_Features_and_Tools_Comprehensive.md",
+                "file": "README.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of MyNetMate_Features_and_Tools_Comprehensive"
+              "title": "Outline"
+            }
+          },
+          {
+            "id": "fd5248b8746f6404",
+            "type": "leaf",
+            "state": {
+              "type": "review-queue-list-view",
+              "state": {},
+              "icon": "SpacedRepIcon",
+              "title": "Notes Review Queue"
+            }
+          }
+        ],
+        "currentTab": 4
+      },
+      {
+        "id": "37e37793f1682706",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "edff854952216b7f",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 364.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -182,56 +208,65 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "obsidian-git:Open Git source control": false,
+      "templater-obsidian:Templater": false,
+      "darlal-switcher-plus:Open in Headings Mode": false,
+      "darlal-switcher-plus:Open Symbols for the active editor": false,
+      "obsidian-excalidraw-plugin:New drawing": false,
+      "mermaid-tools:Open Mermaid Toolbar": false,
+      "obsidian-spaced-repetition:Review flashcards": false,
+      "obsidian-kanban:Create new board": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "fc176a42bf02d4e3",
+  "active": "28bdede7b1574093",
   "lastOpenFiles": [
-    "02_feature/11_Audit Trail(Naphat)/01_MVP - Audit Trail.md",
-    "02_feature/11_Audit Trail(Naphat)/ให้คนอ่าน/01_สรุป Audit Trail.md",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Configuration Automation(2)/เอกสารรายงานความคืบหน้า Project 1 ครั้งที่ 1 Configuration Automation.md",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Network Management(1)/เอกสารรายงานความคืบหน้า Project 1 ครั้งที่ 1 Network Managment.md",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Img/network-management-progress-2-image11.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Img/network-management-progress-2-image10.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Img/network-management-progress-2-image1.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Img/network-management-progress-1-image8.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Img/network-management-progress-1-image7.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Img/network-management-progress-1-image6.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Img/network-management-progress-1-image5.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Img/network-management-progress-1-image4.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Img/network-management-progress-1-image3.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Img/network-management-progress-1-image2.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Img",
+    "Img/README.md",
+    "README.md",
+    "Img/Pasted image 20260715215308.png",
+    "Img/Pasted image 20260716123713.png",
+    "Img/Pasted image 20260715222327.png",
+    "Img/Pasted image 20260715200840.png",
     "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Network Management(1)/เอกสารรายงานความคืบหน้า Project 1 ครั้งที่ 2 Network Managment.md",
-    "image10.md",
     "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Configuration Automation(2)/เอกสารรายงานความคืบหน้า Project 1 ครั้งที่ 2 Configuration Automation.md",
-    "image1.md",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Network Management(1)/เอกสารรายงานความคืบหน้า ครั้งที่ 2 Project 1 Network Managment.md",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Network Management(1)/เอกสารรายงานความคืบหน้า ครั้งที่ 1 Project 1 Network Managment.md",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Configuration Automation(2)/เอกสารรายงานความคืบหน้า ครั้งที่ 2 Project 1 Configuration Automation.md",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Configuration Automation(2)/เอกสารรายงานความคืบหน้า ครั้งที่ 1 Project 1 Configuration Automation.md",
+    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Configuration Automation(2)/เอกสารรายงานความคืบหน้า Project 1 ครั้งที่ 1 Configuration Automation.md",
+    "05_knowledge_base/UML/Component based Diagram - UML.md",
+    "05_knowledge_base/UML/Overview each Diagram.md",
+    "AGENTS.md",
+    "OBSIDIAN_EXTENSIONS.md",
+    "Excalidraw/Drawing 2026-09-03 20.09.29.excalidraw.md",
+    "เอกสารรายงานความคืบหน้า Project 1/images/image25.png",
+    "เอกสารรายงานความคืบหน้า Project 1/images/image24.png",
+    "เอกสารรายงานความคืบหน้า Project 1/images/image23.png",
+    "เอกสารรายงานความคืบหน้า Project 1/images/image22.png",
+    "เอกสารรายงานความคืบหน้า Project 1/images/image21.png",
+    "เอกสารรายงานความคืบหน้า Project 1/images/image20.png",
+    "เอกสารรายงานความคืบหน้า Project 1/images",
+    "เอกสารรายงานความคืบหน้า Project 1/Project1.html",
+    "เอกสารรายงานความคืบหน้า Project 1",
+    "เอกสารรายงานความคืบหน้า Project 1.zip",
+    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Network Management(1)/เอกสารรายงานความคืบหน้า Project 1 ครั้งที่ 1 Network Managment.md",
+    "01_architecture_and_specs/System Diagram in Proposal(CEPP).md",
+    "02_feature/00_Authentication(Naphat)/Authentication-Review-History(Ai ไม่ควรอ่าน)/07_P1 ให้คนอ่าน.md",
+    "02_feature/00_Authentication(Naphat)/Untitled.md",
+    "Excalidraw",
+    "02_feature/MyNetMate รายการ Features.md",
+    "02_feature/MyNetMate Weight Feature List (AI คิด).md",
+    "02_feature/Data Information 27-06-69.md",
+    "02_feature/00_Authentication(Naphat)/02_Database Schema.md",
+    "02_feature/00_Authentication(Naphat)/04_API Contracts.md",
+    "Untitled.canvas",
+    "02_feature/00_Authentication(Naphat)/03_Component Diagram.md",
+    "02_feature/11_Audit Trail(Naphat)/02_Data Ownership and Event Catalog.md",
+    "02_feature/11_Audit Trail(Naphat)/03_Component Diagram.md",
+    "02_feature/11_Audit Trail(Naphat)/01_MVP - Audit Trail.md",
+    "02_feature/11_Audit Trail(Naphat)/ให้คนอ่าน/04_สิ่งที่ต้องส่งต่อ.md",
+    "02_feature/11_Audit Trail(Naphat)/ให้คนอ่าน/03_ใครส่งมา และ ฉันต้องขออะไร.md",
+    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Img",
     "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Configuration Automation(2)/เอกสารรายงานความคืบหน้า ครั้งที่ 1 Project 1 Configuration.txt",
     "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Configuration Automation(2)",
     "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Configuration Auotmation(2)/เอกสารรายงานความคืบหน้า ครั้งที่ 1 Project 1 Configuration.txt",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Configuration Auotmation(2)",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Network Management(1)/เอกสารรายงานความคืบหน้า ครั้งที่ 1 Project 1 Network Managment.txt",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Network Management(1)",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/(2)/เอกสารรายงานความคืบหน้า ครั้งที่ 1 Project 1 Configuration.txt",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/(1)/เอกสารรายงานความคืบหน้า ครั้งที่ 1 Project 1 Network Managment.txt",
-    "mynetmate/docs/Database Design/02_Device Inventory Management/README.md",
-    "mynetmate/README.md",
-    "mynetmate/docs/Feature Design/00_Authentication(Naphat)/05_Acceptance Tests.md",
-    "mynetmate/docs/Feature Design/00_Authentication(Naphat)/04_API Contracts.md",
-    "mynetmate/docs/Feature Design/00_Authentication(Naphat)/02_Database Schema.md",
-    "mynetmate/docs/Feature Design/00_Authentication(Naphat)/01_MVP - Authentication & RBAC.md",
-    "mynetmate/docs/Feature Design/00_Authentication(Naphat)/00_Glossary.md",
-    "mynetmate/docs/MyNetMate รายการ Features.md",
-    "02_feature/01_Dashboard&Monitoring(Naphat)/00_Glossary.md",
-    "02_feature/00_Authentication(Naphat)/Authentication-Review-History(Ai ไม่ควรอ่าน)/00_สรุประบบ Authentication.md",
-    "check_links.py",
-    "02_feature/01_Dashboard&Monitoring(Naphat)/Archive_Research/ทำให้ Metric เชื่อถือได้ ตีความได้ และลงมือแก้ไขต่อได้.md",
-    "02_feature/01_Dashboard&Monitoring(Naphat)/Archive_Research/Question 1.md",
-    "02_feature/01_Dashboard&Monitoring(Naphat)/Archive_Research/prompt for reseach Dashboard.md",
-    "02_feature/01_Dashboard&Monitoring(Naphat)/Archive_Research/MyNetMate Minimal MVP Dashboard & Monitoring Research Plan.md"
+    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Configuration Auotmation(2)"
   ]
 }

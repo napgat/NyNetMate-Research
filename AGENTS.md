@@ -1,164 +1,201 @@
 # 🤖 MyNetMate — Master AI Agent Context & Navigation Map
+
 > **Project:** MyNetMate (CEPP Capstone Project CEPP68-33, KMITL)  
-> **Purpose:** Master context guide, file index, and rules of engagement for AI Coding Agents (Antigravity, Cursor, Claude Code, GitHub Copilot).  
-> **Last Updated:** 2026-08-27
+> **Purpose:** Canonical project context, navigation map, implementation snapshot, and rules for AI coding agents
+> **Last verified:** 2026-09-03
 
 ---
 
-## 📌 1. Project Overview
+## 1. Project Overview
 
-**MyNetMate** คือ Web Application สำหรับ Network Management และ Configuration Automation สำหรับวิศวกรเครือข่าย ทำเป็น Capstone Project (CEPP) ของ KMITL โดยทีม 4 คน
+**MyNetMate** คือ Web Application สำหรับ Network Management และ Configuration Automation สำหรับวิศวกรเครือข่าย พัฒนาเป็น Capstone Project ของทีม 4 คน
 
-### ปรัชญาหลักของระบบ
-> **"ใช้ AI เมื่อต้องการ 'ความเข้าใจ' — ไม่ใช้ AI เมื่อต้องการ 'ความถูกต้อง'"**
+### Core philosophy
 
-- **Golden Rule:** "มีคำตอบถูกต้องเพียง 1 คำตอบหรือไม่?" → **ใช่** = ใช้ Rule/Jinja2 Template → **ไม่** = ใช้ Gemini AI
-- **80/20 Hybrid Ratio:** 80% Deterministic Jinja2 Templates + 20% AI-Powered Gemini
-- **Vendor Scope:** Cisco IOS เป็น Baseline หลัก ส่วน MikroTik Switch และ Huawei Router เป็น Candidate สำหรับการทดสอบกับอุปกรณ์จริงหลังกลางภาค การรับรอง Vendor รองต้องรอทราบรุ่น ระบบปฏิบัติการ และชุดคำสั่งที่ทดสอบผ่านก่อน
-  - **หลักฐานอุปกรณ์ล่าสุด (2026-08-11):** อาจารย์มี Huawei Router 1 ตัว, MikroTik Switch 1 ตัว และ Cisco Switch 1 ตัวให้ทีมใช้ทดสอบจริงหลังกลางภาค
-  - **สถานะ Scope:** ข้อมูลนี้ยกเลิกข้อสรุปเดิมที่ว่า “Huawei ตัดออก” แต่ยังไม่ใช่การรับรอง Full Support หรือ Complex Multi-vendor Policy
-- **Safety First:** AI ห้าม Execute คำสั่งบนอุปกรณ์โดยตรง ต้องผ่าน Human-in-the-Loop เสมอ
-- **Data Privacy:** PII (IPs, Passwords, Keys) ต้อง Mask 100% ด้วย `yacryptopan` (IP) + Regex (Password) ก่อนส่งออกหา Gemini API
+> **“ใช้ AI เมื่อต้องการความเข้าใจ — ไม่ใช้ AI เมื่อต้องการความถูกต้อง”**
 
----
+- **Golden Rule:** ถ้ามีคำตอบที่ถูกต้องเพียงหนึ่งคำตอบ ให้ใช้ Rule/Jinja2 Template; ถ้าต้องตีความหรืออธิบายจึงพิจารณาใช้ AI
+- **Target ratio:** 80% deterministic templates/rules + 20% AI assistance
+- **Safety first:** AI ห้าม Execute คำสั่งบนอุปกรณ์จริงโดยตรง ทุกการ Deploy ต้องผ่าน Human-in-the-Loop
+- **Privacy first:** IP, Password, Key และข้อมูลอ่อนไหวต้องถูก Mask ก่อนส่งไปยังบริการ AI ภายนอกทุกครั้ง
+- **Validation gate:** Config ทุกก้อนต้องผ่าน CIS rule check ก่อนเข้าสู่ขั้น Deploy
 
-## 🛠️ 2. Core Tech Stack
+### Vendor scope
 
-| Layer           | Technologies                                                                          |
-| --------------- | ------------------------------------------------------------------------------------- |
-| **Frontend**    | React 18, TypeScript, Tailwind CSS, TanStack Router/Query, Zustand                    |
-| **Backend**     | Python 3.11+, FastAPI (Async), Pydantic v2, SQLAlchemy 2.0, Uvicorn                   |
-| **Network**     | Netmiko (SSH Push), TextFSM / NTC Templates (CLI Parsing), ciscoconfparse (CIS Rules) |
-| **AI**          | Google Gemini 1.5 Flash/Pro API, Structured Output (JSON Schema)                      |
-| **PII Masking** | `yacryptopan` (IP Anonymization, Prefix-preserving) + Regex (Passwords/Keys)          |
-| **Database**    | PostgreSQL 15+ (Production), SQLite (Dev/Test)                                        |
-| **Infra/Test**  | Docker, Docker Compose, GNS3 / Packet Tracer (Network Simulation), Pytest, Jest       |
+- **Baseline:** Cisco IOS
+- **Candidate test vendors:** Huawei Router และ MikroTik Switch ตามอุปกรณ์จริงที่อาจารย์มีให้ทดสอบหลังกลางภาค
+- Huawei/MikroTik ยังไม่ถือว่า Full Support จนกว่าจะยืนยันรุ่น OS ชุดคำสั่ง และผลทดสอบใน Isolated Lab
+- **Complex Multi-vendor Policy:** CUT และอยู่นอกขอบเขตปัจจุบัน
 
-> ⚠️ **เลิกใช้แล้ว:** LangChain, Pinecone/ChromaDB (RAG Vector DB), Microsoft Presidio, spaCy NLP  
-> เหตุผล: ซับซ้อนเกินจำเป็นสำหรับ Use-case ของโปรเจกต์ ใช้ DB Context Injection + Regex แทน
+### Project constraints
 
----
-
-## ⚠️ 3. ข้อจำกัดหลักของโปรเจกต์ (Project Constraints)
-
-| ข้อจำกัด | รายละเอียด |
+| Constraint | Working implication |
 |---|---|
-| **เวลา** | ~1 semester (CE Project 1 = Proposal/Research, CE Project 2 = Implementation) |
-| **จำนวนคน** | 4 คน (นักศึกษา) |
-| **Tech Complexity** | Backend + Frontend + Network Device จริงพร้อมกัน |
-| **ความเสี่ยง** | Config ผิด = อุปกรณ์จริงพัง |
-| **ของที่ต้องส่ง** | Thesis เล่ม + ระบบที่ทำงานได้จริง + การนำเสนอ |
-| **อุปกรณ์** | ทดสอบบนคอม (GNS3/Packet Tracer), อุปกรณ์จริงต้องขอยืมอาจารย์ (ไม่แน่ใจว่ามีรุ่นที่ต้องการ) |
-| **IOS Version** | คำสั่ง Cisco ต่างกันตาม IOS Version — Template ที่เขียนอาจใช้ไม่ได้กับรุ่นที่ยืมมา |
-| **Simulation ≠ Real** | GNS3/Packet Tracer มีพฤติกรรมต่างจากอุปกรณ์จริง (SSH Timing, SNMP Response) |
-| **Network มหาลัย** | ห้ามทำ Ping Sweep/Port Scan บนเครือข่ายมหาลัย ทดสอบได้แค่ Isolated Lab |
-| **เวลา Coding จริงน้อยกว่าที่คิด** | CE Project 1 กินเวลาเขียนเอกสาร — เวลา Coding จริงอยู่ใน CE Project 2 เป็นหลัก |
-| **ทักษะทีมไม่เท่ากัน** | บางคนถนัด Frontend บางคนถนัด Network — ฟีเจอร์ที่ต้องทักษะรอบด้านจะเป็น Bottleneck |
-| **Gemini API Quota** | Free Tier มี Rate Limit — ตอน Demo อาจ Error ถ้ากดบ่อยเกินไป |
-| **อาจารย์ที่ปรึกษา** | นัด Feedback แต่ละรอบใช้เวลาหลายวัน ทำให้ตัดสินใจบางอย่างล่าช้า |
+| ทีม 4 คนและเวลา Coding ประมาณหนึ่งเทอม | รักษา P1 critical path และหลีกเลี่ยง scope expansion |
+| อุปกรณ์จริงมีจำกัดและอาจใช้ OS/IOS เก่า | ใช้ conservative command set และยืนยันรุ่นก่อนรับรอง compatibility |
+| Simulation ไม่เหมือน Hardware จริง | ทดสอบ GNS3/Packet Tracer ก่อน แล้วแยกผล Lab simulation ออกจากผลอุปกรณ์จริง |
+| เครือข่ายมหาวิทยาลัยอยู่นอกขอบเขต Scan | Discovery, Ping Sweep และ Port Scan ทำได้เฉพาะ Isolated Lab |
+| External AI มี quota และอาจล้มระหว่าง Demo | P1 ต้องทำงานแบบ deterministic/offline ได้; AI เป็นส่วนเสริม ไม่ใช่ dependency หลัก |
+| ทักษะทีมต่างกันและ Advisor feedback ใช้เวลา | ทำ API contract และ decision record ให้ชัด ลดงานที่ต้องรอคนเดียวหรือรอคำตอบภายนอก |
 
 ---
 
-## 🗺️ 4. Project Directory Map & File Index
+## 2. Documentation and Decision Precedence
 
-### 🏢 `mynetmate/` — Central Team Repository (Codebase & Frontend)
-นี่คือ Repository กลางของทีมที่เก็บ Source Code และเว็บไซต์จริง:
-- `mynetmate/backend/` — ฝั่ง Backend (FastAPI)
-- `mynetmate/website/` — ฝั่งเว็บไซต์/Frontend (React)
-- `mynetmate/docs/` — เอกสารที่อยู่ใน Repo ทีม
-- `mynetmate/network-discovery/` — ส่วน Network Discovery (งานเพื่อน — **Read-only** ห้าม AI แก้ไข ดูรายละเอียดในกฎข้อ 9)
+เมื่อข้อมูลขัดกัน ให้ใช้ลำดับนี้:
 
-> **หมายเหตุ:** โฟลเดอร์ `01_architecture_and_specs` ถึง `05_knowledge_base` ด้านล่างนี้คือพื้นที่เก็บเอกสารวางแผนและความรู้หลักของ Project
+1. กฎความปลอดภัยและข้อห้ามใน `AGENTS.md`
+2. [MyNetMate Weight Feature List](<02_feature/MyNetMate Weight Feature List (AI คิด).md>) — Single Source of Truth สำหรับ MVP scope
+3. เอกสาร Feature เฉพาะเรื่องที่อัปเดตล่าสุด
+4. Source code, dependency manifest และ configuration จริง — Source of Truth สำหรับสิ่งที่ Implement แล้ว
+5. [MyNetMate รายการ Features](<02_feature/MyNetMate รายการ Features.md>) — Raw/original feature inventory ใช้อ้างอิงเท่านั้น
 
-### 🏛️ `01_architecture_and_specs/` — System Architecture & UI Specifications
-- [System Diagram in Proposal.md](System%20Diagram%20in%20Proposal(CEPP).md) — สถาปัตยกรรมระบบ 8 ส่วนหลัก
-
-### 🔍 `02_feature/` — Feature Documentation (⚠️ โฟลเดอร์ชื่อใหม่ ไม่ใช่ 02_feature_deep_dives แล้ว)
-
-| ไฟล์                                                                                       | เนื้อหา                                                                 | ความสำคัญ                              |
-| ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- | -------------------------------------- |
-| [MyNetMate Weight Feature List.md](02_feature/MyNetMate%20Weight%20Feature%20List%20(AI%20คิด).md)      | **ไฟล์หลักล่าสุด** — MVP Scope ฉบับ Final หลังประเมิน (P1 vs P2 vs CUT) | 🔴 อ่านก่อนเลย                         |
-| [MyNetMate รายการ Features.md](02_feature/MyNetMate%20รายการ%20Features.md)                | รายการ Feature ทั้งหมด 11 หมวดฉบับดั้งเดิม + ปรัชญาระบบ                 | 🟡 อ่านอ้างอิง                         |
-| [Data Information.md](02_feature/02_Device%20Inventory%20Management(Tee)/Data%20Information.md) | Schema ข้อมูลที่ต้องเก็บใน Device Inventory (PostgreSQL)                | 🟡 อ่านเมื่อทำ DB                      |
-| [Device Inventory.md](02_feature/02_Device%20Inventory%20Management(Tee)/Device%20Inventory.md) | รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory               | 🟡 อ่านเมื่อทำ Discovery               |
-| [Plugin Driver Architecture.md](02_feature/05_Configuration%20Management(Aom)/แนวคิด%20Plugin%20Driver%20Architecture.md) | สถาปัตยกรรม Multi-vendor Driver Pattern                                 | 🟡 อ่านเมื่อทำ Multi-vendor            |
-| [Cutting Your Own Legs.md](02_feature/10_Configuration%20Deployment(Aom)/Cutting%20Your%20Own%20Legs.md)                  | Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค                               | 🟢 อ่านเมื่อต้องการทราบว่าทำไมถึงไม่ทำ |
-| [Restore Strategy.md](02_feature/10_Configuration%20Deployment(Aom)/แนวคิด%20Restore%20Strategy.md)                       | กลยุทธ์การ Rollback และ Version Control                                 | 🟢 อ่านเมื่อทำ Version Control         |
-
-### ⚖️ `03_tech_evaluations/` — Technology Research & Tool Selection
-- [ค้นคว้าเครื่องมือ Netmiko vs NAPALM vs Nornir vs Ansible.md](03_tech_evaluations/) — Tool Comparison Matrix
-- [Microsoft Presidio.md](03_tech_evaluations/Microsoft%20Presidio.md) — **(เลิกใช้แล้ว)** เก็บไว้เป็น Reference
-- [Netmiko.md](03_tech_evaluations/Netmiko.md) — Netmiko SSH Library (ใช้อยู่)
-- [NAPALM.md](03_tech_evaluations/NAPALM.md) — NAPALM Framework Evaluation
-- [Nornir.md](03_tech_evaluations/Nornir.md) — Nornir Framework Evaluation
-- [Ansible.md](03_tech_evaluations/Ansible.md) — Ansible Evaluation
-- [Netdisco.md](03_tech_evaluations/Netdisco.md) — Open-source NMS Reference
-- [SolarWinds Hybrid Cloud Observability.md](03_tech_evaluations/SolarWinds%20Hybrid%20Cloud%20Observability.md) — Commercial NMS Comparison
-
-### 📋 `04_project_management/` — Proposals, Reports & Feedback
-- [Document Project/](04_project_management/Document%20Project/) — เอกสาร Proposal และ Gantt Chart 
-- [Advisor Teacher/](04_project_management/Advisor%20Teacher/) — Feedback จากอาจารย์ที่ปรึกษา (อาจารย์ปริญญา)
-- [วิชา CE Project 1 และ 2/](04_project_management/วิชา%20CE%20Project%201%20และ%202/) — เกณฑ์การให้คะแนนและ Grading Policy
-
-### 📚 `05_knowledge_base/` — Book Summaries & Research Notes
-- [What is Network Automationa.md](05_knowledge_base/What%20is%20Network%20Automationa.md) — Overview of Network Automation
-- **NPA2e (Network Programmability and Automation 2nd Ed.):**
-  - Ch.2 (Automation), Ch.8 (Data Models), Ch.9 (Jinja2 Templates), Ch.10 (APIs & Netmiko), Ch.12 (Ansible/Nornir), Ch.14 (NAA Architecture)
-- **AI Networking Cookbook:**
-  - Ch.5 (LangChain for Networking), Ch.7 (LLM Backend), Ch.8 (Network Co-Pilot & RAG)
+อย่าอ้างว่า Feature “เสร็จแล้ว” เพียงเพราะมีอยู่ในเอกสารหรือมี Router/Service stub ต้องตรวจ implementation และ test จริงก่อน
 
 ---
 
-## 🎯 5. Feature Priority Summary (MVP Scope)
+## 3. Current Implementation Snapshot
 
-อ้างอิงตามการประเมินล่าสุดในไฟล์ `02_feature/MyNetMate Weight Feature List.md` ฟีเจอร์ถูกแบ่งออกเป็น 3 ระยะ:
+ตรวจจากไฟล์จริงเมื่อ 2026-09-03:
 
-### 🏆 P1-CORE & P1-INFRA (CE Project 1 - The "Real" MVP)
-1. **Auth & RBAC [Infra]** — Login, Database-backed Opaque Server-side Session ผ่าน HttpOnly Cookie, แบ่ง 3 Roles
-   - **เหตุผลที่เปลี่ยนจาก Stateful JWT (2026-08-27):** แบบเดิม Query `auth_sessions` ทุก Request อยู่แล้ว จึงใช้ Opaque Session เพื่อลดความซับซ้อนและ Revoke ได้ทันที
-2. **Dashboard [Infra]** — Metrics พื้นฐาน, Activity Feed, System API Status
-3. **Device Inventory [Core]** — เพิ่มอุปกรณ์แบบ Manual, Ping Status, Device Grouping
-4. **Config Gen (Template) [Core]** — 6-Tab Form, Jinja2 Render, Debouncing
-5. **PII Masking [Infra]** — ซ่อน IP/Password ด้วย `yacryptopan` และ Regex ก่อนส่งออก API
-6. **Deployment (Plan) [Core]** — UI Flow โชว์การจำลองก่อน Push จริง (ยังไม่ส่ง SSH)
-7. **CIS Benchmark [Core]** — สแกน 8 กฎหลักด้วย Regex
-8. **Audit Trail [Infra]** — เก็บ Log ใครทำอะไร เมื่อไหร่ลง Database
-9. **AI Guardrails [Infra]** — Context Injection ฉีดข้อมูลเข้า Prompt
-10. **Settings [Infra]** — จัดการ User, เปิด/ปิดกฎ CIS, โหมด Offline
+| Area | Current verified state | Target / note |
+|---|---|---|
+| **Frontend** | React 19.2.8, React DOM 19.2.8, Vite 8.2.0, TypeScript 6.0.2, Oxlint 1.75; ยังเป็น Vite starter screen | MyNetMate UI, routing, state management และ styling stack ยังต้อง Implement/ยืนยันก่อนใช้ |
+| **Backend** | FastAPI 0.141.1, Uvicorn 0.52.4, Pydantic Settings 2.15.0; API version 0.1.0 | มี feature-oriented routers/services แต่หลายส่วนเป็น prototype, sample หรือ in-memory |
+| **Network discovery integration** | Backend ใช้ `oxian_py` จาก Mynetmate/oxian | โฟลเดอร์ `mynetmate/network-discovery/` เป็นงานเพื่อนและ Read-only สำหรับ AI |
+| **Database** | ยังไม่พบ SQLAlchemy/PostgreSQL/Alembic dependency ใน Backend ปัจจุบัน; device/group/version service ใช้ in-memory state | Target คือ PostgreSQL 15+, SQLAlchemy 2 และ Alembic; SQLite ใช้ Dev/Test ตามแผน |
+| **Config generation** | มี API prototype ที่ประกอบข้อความ Config แบบง่าย | Target คือ deterministic Jinja2 templates และ conservative Cisco IOS command set |
+| **CIS validation** | มี sample checks ใน service | Target คือ 8 กฎหลักด้วย deterministic rules/Regex |
+| **AI config** | มี fallback/sample response; ยังไม่ใช่ Gemini integration ที่พร้อมใช้งาน | AI Config & Review อยู่ P2; ต้องผ่าน PII masking, context guardrails และ CIS gate |
+| **Documentation** | มี Feature, Architecture, Project Management และ Knowledge Base ใน Vault และ `mynetmate/docs/` | Scope file ใน Vault เป็นตัวตัดสิน MVP เว้นแต่ผู้ใช้ประกาศเปลี่ยน |
+| **Obsidian** | เปิด Community plugins 12 ตัว รวม Advanced Tables | อ่าน [OBSIDIAN_EXTENSIONS.md](OBSIDIAN_EXTENSIONS.md) ก่อนสร้าง artifact ที่พึ่ง plugin |
 
-### 🚀 P2 (CE Project 2 - Advanced & AI Features)
-1. **Network Discovery** — สแกนหาอุปกรณ์อัตโนมัติ (Ping Sweep, SNMP, LLDP)
-2. **Topology Visualization** — วาดแผนผัง Network อัตโนมัติด้วย React Flow
-3. **AI Config & Review** — แชท AI ช่วยเขียนคำสั่ง และช่วยตรวจ Config (Natural Language)
-4. **SSH Command Push** — สั่ง Deploy ลงอุปกรณ์จริง (Netmiko) + Pre/Post Snapshot
-5. **Version Control** — ระบบกด Rollback กลับไปใช้ Config เดิม
+### Approved target technologies not yet proof of implementation
 
-### ✂️ CUT (ตัดออกถาวร)
-| Feature | เหตุผลที่ตัด |
-|---|---|
-| **Complex Multi-vendor Policy** | AI Hallucination Risk สูง + ต้องการ Abstraction Layer ซับซ้อน |
-| **Auto-Rollback on Error** | Cisco IOS ไม่รองรับ Atomic Transaction เสี่ยงพังกว่าเดิม |
-| **Idempotency Check** | ต้องการ Full Config Parser ทุก Command ทุก Vendor |
-| **Cross-Device Impact Analysis** | ต้องทำ Network Simulator Engine ซึ่งเกินสโคป ป.ตรี |
-| **RAG Vector Database** | ใช้ DB Context Injection แทน — เบากว่าและไม่มี Overhead |
-| **spaCy NLP** | ใช้ Regex ทำ PII Masking แทน — เบาและเร็วกว่ามาก |
-| **MOP Generation** | เพิ่มภาระโดยไม่จำเป็น ไม่ใช่ Core Value ของโปรเจกต์ |
-| **Jinja2 Template Manager UI** | ห้ามทำหน้าแก้โค้ดบนเว็บ ให้ Dev แก้ไฟล์โดยตรง |
+- **Backend target:** Python 3.11+, FastAPI, Pydantic v2, SQLAlchemy 2, PostgreSQL, Alembic, Jinja2
+- **Network target:** Netmiko, TextFSM/NTC Templates, ciscoconfparse
+- **PII target:** `yacryptopan` สำหรับ IP + Regex สำหรับ Password/Secret
+- **AI target:** Gemini API with structured output and database context injection
+- **Infrastructure target:** Docker/Compose, Pytest, isolated GNS3/Packet Tracer lab
+- **Frontend candidates in planning:** Tailwind CSS, TanStack Router/Query และ Zustand; ห้ามอ้างว่าติดตั้งแล้วจนกว่าจะพบใน `mynetmate/website/package.json`
+
+### Explicitly retired or rejected
+
+ห้ามแนะนำเป็นสถาปัตยกรรมปัจจุบัน: LangChain, Pinecone/ChromaDB หรือ Vector DB, Microsoft Presidio และ spaCy ใช้ database context injection, `yacryptopan` และ Regex ตามหน้าที่แทน
 
 ---
 
-## 🔒 6. Rules for AI Agents Working on This Project
+## 4. MVP Scope
 
-1. **อ่าน `02_feature/MyNetMate Weight Feature List.md` ก่อนเสมอ** — นี่คือ Single Source of Truth ฉบับ Final สำหรับ Scope ของ MVP ส่วน `02_feature/MyNetMate รายการ Features.md` เป็นเพียง Raw Data ต้นฉบับ
-2. **อ้างอิง `02_feature/Mockup จากภาพพี่ออม.md`** เมื่อทำงานที่เกี่ยวกับ Frontend UI
-3. **ห้ามแนะนำ LangChain, Presidio, spaCy, Vector DB** — ตัดออกจากโปรเจกต์แล้ว ใช้ของแทนที่ที่บอกไว้ใน Tech Stack
-4. **ห้าม AI Execute Command บนอุปกรณ์จริง** — Generate เท่านั้น Human กด Deploy เอง
-5. **PII ต้อง Mask ก่อนส่ง Gemini API ทุกกรณี**
-6. **Config ทุกก้อนต้องผ่าน CIS Rule Check** ก่อน Deploy ไม่ว่าจะมาจาก Template หรือ AI
-7. **เน้น Cisco เป็น Baseline หลัก** — MikroTik และ Huawei เป็น Candidate ตามอุปกรณ์จริงหลังกลางภาค ห้ามรับรองว่า Support เต็มรูปแบบจนกว่าจะยืนยันรุ่น ระบบปฏิบัติการ ชุดคำสั่ง และผลทดสอบใน Isolated Lab
-8. **Scope ของการทดสอบคือ Isolated Lab Environment เท่านั้น** — ห้าม Scan เครือข่ายมหาลัยจริง
-9. **โฟลเดอร์งานของเพื่อน (ห้ามแก้ไข):** `mynetmate/network-discovery/` เป็นส่วน Network Discovery ของ Repository ทีมที่เพื่อนรับผิดชอบ ห้าม AI แก้ไข สร้าง ลบ ย้าย เปลี่ยนชื่อ หรือรันคำสั่งที่ทำให้ไฟล์ในโฟลเดอร์นี้เปลี่ยนแปลง รวมถึงห้าม commit, push หรือเปิด Pull Request โดยเด็ดขาด อนุญาตให้อ่าน/ตรวจสอบเพื่ออธิบายความคืบหน้าได้เท่านั้น เว้นแต่ผู้ใช้สั่งให้แก้ไขเป็นลายลักษณ์อักษรอย่างชัดเจนในคำขอนั้น
+### P1-CORE and P1-INFRA
+
+Critical demo flow:
+
+`Login → Add Device → 6-Tab Config Builder → Jinja2 Preview → CIS Scan → Plan/Apply Modal`
+
+1. **Auth & RBAC:** Opaque server-side session ผ่าน HttpOnly cookie, 3 roles
+2. **Dashboard:** Basic metrics, activity feed, system API status
+3. **Device Inventory:** Manual enrollment, reachability/collection status, grouping
+4. **Template Config Generation:** 6-tab form, Jinja2 render, frontend debounce
+5. **PII Masking:** `yacryptopan` + Regex ก่อน external AI call
+6. **Deployment Plan:** Preview/plan flow; P1 ยังไม่ Push SSH จริง
+7. **CIS Benchmark:** 8 deterministic rules
+8. **Audit Trail:** Database-backed actor/action/time records
+9. **AI Guardrails Infrastructure:** Context injection and structured output foundation
+10. **Settings:** User management, CIS toggles, offline mode
+
+### P2 — start only after P1 is stable
+
+- Network Discovery ใน Isolated Lab
+- Topology Visualization ด้วย evidence จาก Discovery
+- AI Config Generation and Review
+- SSH Command Push พร้อม pre/post snapshot
+- Config Version Control and manual rollback workflow
+
+### CUT
+
+- Complex Multi-vendor Policy
+- Auto-rollback on error
+- Full idempotency engine
+- Cross-device impact simulation
+- RAG Vector Database
+- spaCy NLP
+- MOP generation
+- Jinja2 Template Manager UI
 
 ---
 
-*Maintained by Antigravity AI for CEPP68-33 | Last Updated: 2026-08-27*
+## 5. Repository and Vault Map
+
+### Root knowledge Vault
+
+- [README.md](README.md) — Human-facing project overview and quick navigation
+- [OBSIDIAN_EXTENSIONS.md](OBSIDIAN_EXTENSIONS.md) — Obsidian plugins, versions, syntax, commands and safety notes
+- `.obsidian/` — Local Vault configuration; plugin binaries are not application source code
+- `01_architecture_and_specs/` — System architecture and UI specifications
+- `02_feature/` — Feature research/specification; MVP scope lives here
+- `03_tech_evaluations/` — Technology evaluations, including retired options kept as references
+- `04_project_management/` — Proposal, timeline, advisor feedback and grading material
+- `05_knowledge_base/` — Book notes and technical research
+- `Img/` — Images used by Vault documents
+- `Excalidraw/` — Excalidraw drawings
+
+### Central team repository: `mynetmate/`
+
+`mynetmate/` เป็น nested Git repository ภายใน workspace นี้ และมี nested repositories/submodules ของตัวเอง:
+
+- `mynetmate/backend/` — FastAPI backend
+- `mynetmate/website/` — React/Vite frontend
+- `mynetmate/docs/` — Team documentation repository
+- `mynetmate/network-discovery/` — Network Discovery work owned by another teammate; AI read-only
+
+ก่อนใช้ Git ให้ตรวจว่ากำลังทำงานใน Root Vault, `mynetmate/`, `backend/`, `website/` หรือ `docs/` เพราะแต่ละขอบเขตมีประวัติ Git แยกกัน ห้าม Commit/Push ข้ามขอบเขตโดยไม่ตั้งใจ
+
+### Key document links
+
+- [System Diagram in Proposal](<01_architecture_and_specs/System Diagram in Proposal(CEPP).md>)
+- [Full-page UI specification](01_architecture_and_specs/netconfig_full_page_specs.html)
+- [MVP Scope / Weight Feature List](<02_feature/MyNetMate Weight Feature List (AI คิด).md>)
+- [Original Feature List](<02_feature/MyNetMate รายการ Features.md>)
+- [Data Information](<02_feature/Data Information 27-06-69.md>)
+- [Device Inventory notes](<02_feature/02_Device Inventory Management(Tee)/README 1.md>)
+- [Configuration Driver Architecture](<02_feature/05_Configuration Management(Aom)/แนวคิด Plugin Driver Architecture.md>)
+- [AI or No-AI Decision](<02_feature/05_Configuration Management(Aom)/Decision AI or NoAI in Project.md>)
+- [Restore Strategy](<02_feature/10_Configuration Deployment(Aom)/แนวคิด Restore Strategy.md>)
+- [Cut Features and Rationale](<02_feature/10_Configuration Deployment(Aom)/Cutting Your Own Legs.md>)
+- [Proposal](<04_project_management/Document Project/CEPP68-33 Proposal.md>)
+- [Gantt chart](<04_project_management/Document Project/gantt_chart.md>)
+- [Frontend Config Builder mockup](<mynetmate/docs/Feature Design/02_Device Inventory Management(Tee)/Mockup จากภาพพี่ออม.md>)
+
+---
+
+## 6. Non-negotiable Rules for AI Agents
+
+1. **อ่าน MVP Scope ก่อนเริ่มงานทุกครั้ง:** [MyNetMate Weight Feature List](<02_feature/MyNetMate Weight Feature List (AI คิด).md>)
+2. **Frontend UI:** อ่าน [Config Builder mockup](<mynetmate/docs/Feature Design/02_Device Inventory Management(Tee)/Mockup จากภาพพี่ออม.md>) และ source code ปัจจุบันก่อนเสนอหรือแก้ UI
+3. **Do not revive retired stack:** ห้ามแนะนำ LangChain, Presidio, spaCy หรือ Vector DB เป็นทางเลือกหลัก
+4. **No autonomous device execution:** AI สร้าง/วิเคราะห์ Config ได้ แต่ห้ามรันคำสั่งบนอุปกรณ์จริง
+5. **Mask before external AI:** PII และ secret ต้อง Mask ก่อน external API call ทุกกรณี
+6. **CIS gate:** Config ทุกแหล่งต้องผ่าน CIS rule check ก่อน Deploy
+7. **Vendor honesty:** Cisco เป็น baseline; Huawei/MikroTik เป็น candidate เท่านั้นจนกว่าจะมี test evidence
+8. **Isolated Lab only:** ห้าม Ping Sweep, Port Scan หรือ Discovery บนเครือข่ายมหาวิทยาลัยจริง
+9. **Protected teammate folder:** ห้ามแก้ สร้าง ลบ ย้าย เปลี่ยนชื่อ หรือรันคำสั่งที่เปลี่ยนไฟล์ใน `mynetmate/network-discovery/`; ห้าม Commit, Push หรือเปิด PR สำหรับโฟลเดอร์นี้ เว้นแต่ผู้ใช้อนุญาตเป็นลายลักษณ์อักษรในคำขอนั้น
+10. **Obsidian-aware work:** ก่อนสร้าง/แก้ Table, Diagram, Template, Dashboard, Kanban, Flashcard หรือ Periodic Note ให้อ่าน [OBSIDIAN_EXTENSIONS.md](OBSIDIAN_EXTENSIONS.md)
+11. **Respect Git boundaries:** ตรวจ repository root และ working tree ก่อนแก้; รักษาการเปลี่ยนแปลงเดิมของผู้ใช้และ nested repos
+12. **Implementation claims require evidence:** แยก Planned, Prototype, Implemented และ Tested ให้ชัด
+
+## 7. Keeping Context Documents Current
+
+เมื่อผู้ใช้ขออัปเดต Context หรือมีการเปลี่ยนแปลงที่ยืนยันได้ ให้ตรวจและอัปเดต `AGENTS.md` กับ `README.md` คู่กันในหัวข้อที่เกี่ยวข้อง:
+
+- MVP scope หรือ feature priority
+- Installed dependencies และ implementation status
+- Vendor/device evidence และ safety boundary
+- Repository/folder structure หรือ Git boundary
+- Obsidian plugin inventory โดยรายละเอียด plugin ให้อัปเดตใน `OBSIDIAN_EXTENSIONS.md`
+
+ห้ามอัปเดต version/status จากความจำ ให้ตรวจ manifest, source code หรือเอกสารตัดสินใจจริงก่อน และเปลี่ยน `Last verified` เฉพาะเมื่อได้ตรวจข้อมูลในรอบนั้น
+
+---
+
+*Maintained for CEPP68-33 | Last verified: 2026-09-03*

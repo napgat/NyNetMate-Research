@@ -1,64 +1,169 @@
-# 🌐 MyNetMate — Capstone Project Directory
+# 🌐 MyNetMate — Project Knowledge Vault
 
-Welcome to the **MyNetMate** project repository! This directory contains full architecture documentation, feature deep dives, tool evaluations, research notes, and project management files for the MyNetMate Capstone Engineering Project (CEPP68-33) at KMITL.
+MyNetMate คือ Capstone Project CEPP68-33 ของ KMITL สำหรับ **Network Management และ Configuration Automation** โดยมุ่งช่วยวิศวกรเครือข่ายจัดการอุปกรณ์ สร้างและตรวจสอบ Configuration และลดความเสี่ยงก่อนนำคำสั่งไปใช้จริง
+
+> **แนวคิดหลัก:** ใช้ AI เมื่อต้องการ “ความเข้าใจ” และใช้ Rule/Jinja2 Template เมื่อต้องการ “ความถูกต้อง”
+
+เอกสารนี้เป็นหน้าเริ่มต้นของ Knowledge Vault ส่วน Source Code ของทีมอยู่ใน [`mynetmate/`](mynetmate/)
+
+## Current Status
+
+สถานะที่ตรวจจาก Source Code เมื่อ **2026-09-03**:
+
+| Component | Current state |
+|---|---|
+| Frontend | React 19.2.8 + Vite 8.2 + TypeScript 6; ปัจจุบันยังเป็น starter screen |
+| Backend | FastAPI API prototype version 0.1.0 มี feature routers/services หลายหมวด แต่หลายส่วนยังเป็น sample หรือ in-memory |
+| Database | ยังไม่พบ SQLAlchemy/PostgreSQL/Alembic ใน dependency ปัจจุบัน |
+| Configuration generation | มี prototype แบบง่าย; Jinja2 template engine ตาม MVP ยังต้อง Implement |
+| CIS validation | มี sample checks; เป้าหมายคือ 8 deterministic CIS rules |
+| AI-assisted config | มี fallback/sample response; Gemini integration อยู่ใน P2 และต้องผ่าน PII/CIS guardrails |
+| Documentation | Feature specs, architecture, proposal, advisor feedback และ knowledge base มีการพัฒนาต่อเนื่อง |
+| Obsidian | เปิด Community plugins 12 ตัว รวม Advanced Tables; ดู [คู่มือ Extensions](OBSIDIAN_EXTENSIONS.md) |
+
+สถานะข้างต้นแยกจากแผนสถาปัตยกรรม เพื่อไม่ให้เข้าใจว่า Feature ที่มีเอกสารหรือ API stub ถือว่าเสร็จแล้ว
+
+## MVP Direction
+
+### P1 — Core and Infrastructure
+
+Demo flow หลัก:
+
+`Login → Add Device → 6-Tab Config Builder → Jinja2 Preview → CIS Scan → Plan/Apply Modal`
+
+- Auth & RBAC ด้วย opaque server-side session
+- Dashboard และ activity feed
+- Manual Device Inventory และ grouping
+- Deterministic Config Generation ด้วย Jinja2
+- PII masking ด้วย `yacryptopan` + Regex
+- Deployment Plan/Preview โดย P1 ยังไม่ Push SSH จริง
+- CIS Benchmark 8 rules
+- Audit Trail
+- AI guardrail infrastructure และ Offline Mode
+
+### P2 — after P1 is stable
+
+- Network Discovery ใน Isolated Lab
+- Topology Visualization
+- AI Config Generation and Review
+- SSH Command Push พร้อม snapshot
+- Version Control และ manual rollback workflow
+
+### Out of Scope / CUT
+
+- Complex Multi-vendor Policy
+- Auto-rollback on error
+- Full idempotency engine
+- Cross-device impact simulator
+- RAG Vector Database, spaCy และ Presidio
+- MOP generation และ Jinja2 Template Manager UI
+
+รายละเอียดและเหตุผลฉบับเต็มอยู่ใน [MyNetMate Weight Feature List](<02_feature/MyNetMate Weight Feature List (AI คิด).md>)
+
+## Vendor and Safety Boundary
+
+- **Cisco IOS** เป็น baseline หลัก
+- **Huawei Router** และ **MikroTik Switch** เป็น candidate สำหรับทดสอบกับอุปกรณ์จริงหลังกลางภาค ยังไม่ใช่ Full Support
+- ทดสอบ Discovery/Scan เฉพาะ **Isolated Lab** เช่น GNS3 หรือ Packet Tracer ห้าม Scan เครือข่ายมหาวิทยาลัย
+- AI ห้าม Execute คำสั่งบนอุปกรณ์จริง ผู้ใช้ต้อง Review และกด Deploy เอง
+- Config ทุกก้อนต้องผ่าน CIS validation ก่อน Deploy
+- IP, Password, Key และข้อมูลอ่อนไหวต้องถูก Mask ก่อนส่งไปยัง AI ภายนอก
+
+## Repository Layout
+
+```text
+Project/
+├── AGENTS.md                      # Canonical rules and context for AI agents
+├── README.md                      # This human-facing overview
+├── OBSIDIAN_EXTENSIONS.md         # Obsidian plugin inventory and usage guide
+├── .obsidian/                     # Vault configuration
+├── 01_architecture_and_specs/     # Architecture and UI specifications
+├── 02_feature/                    # Feature research and MVP scope
+├── 03_tech_evaluations/           # Technology evaluations
+├── 04_project_management/         # Proposal, timeline and advisor feedback
+├── 05_knowledge_base/             # Research and book notes
+├── Excalidraw/                    # Excalidraw drawings
+├── Img/                           # Images used by documents
+└── mynetmate/                     # Central team Git repository
+    ├── backend/                   # FastAPI repository
+    ├── website/                   # React/Vite repository
+    ├── docs/                      # Team documentation repository
+    └── network-discovery/         # Teammate-owned; AI read-only
+```
+
+`mynetmate/` และ `backend/`, `website/`, `docs/` มีขอบเขต Git แยกกัน ควรตรวจ repository root ก่อน Commit หรือ Push ทุกครั้ง
+
+## Quick Navigation
+
+### Architecture and UI
+
+- [System Diagram in Proposal](<01_architecture_and_specs/System Diagram in Proposal(CEPP).md>)
+- [Full-page UI specification](01_architecture_and_specs/netconfig_full_page_specs.html)
+- [Config Builder mockup](<mynetmate/docs/Feature Design/02_Device Inventory Management(Tee)/Mockup จากภาพพี่ออม.md>)
+
+### Feature scope and design
+
+- [MVP Scope — Weight Feature List](<02_feature/MyNetMate Weight Feature List (AI คิด).md>) — อ่านก่อนเริ่มงาน
+- [Original Feature List](<02_feature/MyNetMate รายการ Features.md>)
+- [Data Information](<02_feature/Data Information 27-06-69.md>)
+- [Device Inventory notes](<02_feature/02_Device Inventory Management(Tee)/README 1.md>)
+- [Configuration Driver Architecture](<02_feature/05_Configuration Management(Aom)/แนวคิด Plugin Driver Architecture.md>)
+- [AI or No-AI Decision](<02_feature/05_Configuration Management(Aom)/Decision AI or NoAI in Project.md>)
+- [Restore Strategy](<02_feature/10_Configuration Deployment(Aom)/แนวคิด Restore Strategy.md>)
+- [Cut Features and Rationale](<02_feature/10_Configuration Deployment(Aom)/Cutting Your Own Legs.md>)
+
+### Project and research
+
+- [Proposal](<04_project_management/Document Project/CEPP68-33 Proposal.md>)
+- [Gantt chart](<04_project_management/Document Project/gantt_chart.md>)
+- [Advisor feedback](<04_project_management/Advisor Teacher/>)
+- [Course requirements](<04_project_management/วิชา CE Project 1 และ 2/>)
+- [Technology evaluations](03_tech_evaluations/)
+- [Knowledge base](05_knowledge_base/)
+
+### AI and Obsidian
+
+- [AI Agent Instructions](AGENTS.md)
+- [Obsidian Extensions Guide](OBSIDIAN_EXTENSIONS.md)
+
+## Run the Current Prototype
+
+### Backend
+
+```powershell
+cd mynetmate/backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+เมื่อเริ่มสำเร็จ:
+
+- API documentation: `http://127.0.0.1:8000/docs`
+- Health check: `http://127.0.0.1:8000/health`
+
+### Frontend
+
+```powershell
+cd mynetmate/website
+npm install
+npm run dev
+```
+
+คำสั่งเพิ่มเติม:
+
+```powershell
+npm run build
+npm run lint
+```
+
+> Frontend ปัจจุบันยังเป็น Vite starter และยังไม่ใช่ MyNetMate UI ที่สมบูรณ์
+
+## For AI Agents
+
+อ่าน [AGENTS.md](AGENTS.md) ก่อนทำงานทุกครั้ง โดยเฉพาะ MVP scope, PII masking, CIS gate, Vendor honesty, Git boundaries และข้อห้ามแก้ `mynetmate/network-discovery/`
 
 ---
 
-## 🗺️ Quick Directory Navigation & Vault Sitemap
-
-### 🏢 [mynetmate](./mynetmate/) — Team Repository (Codebase & Frontend)
-นี่คือ Repository กลางของทีมที่เก็บ Source Code และเว็บไซต์จริง:
-- `mynetmate/backend/` — ฝั่ง Backend (FastAPI)
-- `mynetmate/website/` — ฝั่งเว็บไซต์/Frontend (React)
-- `mynetmate/docs/` — เอกสารที่อยู่ใน Repo ทีม
-- `mynetmate/network-discovery/` — ส่วน Network Discovery (งานเพื่อน — **Read-only** ห้าม AI แก้ไข)
-
-> **หมายเหตุ:** โฟลเดอร์ `01` ถึง `05` ด้านล่างนี้คือพื้นที่เก็บเอกสารวางแผนและความรู้หลักของ Project
-
-### 🏛️ [01_architecture_and_specs](./01_architecture_and_specs/) — System Architecture & UI Specs
-- [System Diagram in Proposal.md](./01_architecture_and_specs/System%20Diagram%20in%20Proposal%28CEPP%29.md) — สถาปัตยกรรมระบบ 8 ส่วนหลัก
-- [netconfig_full_page_specs.html](./01_architecture_and_specs/netconfig_full_page_specs.html) — ข้อกำหนด UI/UX ละเอียด 8 หน้า (P0-P7)
-
-### 🔍 [02_feature](./02_feature/) — Core Feature Deep Dives
-- [MyNetMate Weight Feature List.md](02_feature/MyNetMate%20Weight%20Feature%20List%20(AI%20คิด).md) — 🔴 **(MUST READ)** The final prioritized MVP scope (P1 vs P2 vs CUT).
-- [MyNetMate รายการ Features.md](./02_feature/MyNetMate%20รายการ%20Features.md) — Original comprehensive list of all requested features.
-- [Claude MyNetMate Weight Feature List.md](02_feature/Archive/Claude%20MyNetMate%20Weight%20Feature%20List.md) — AI's initial feature weighting analysis.
-- [00_Authentication(Naphat)](./02_feature/00_Authentication(Naphat)/) — เอกสารฟีเจอร์ Authentication
-- [01_Dashboard&Monitoring(Naphat)](./02_feature/01_Dashboard&Monitoring(Naphat)/) — เอกสารฟีเจอร์ Dashboard
-- [03_Network Topology Visualization(Naphat)](./02_feature/03_Network%20Topology%20Visualization(Naphat)/) — เอกสารฟีเจอร์ Network Topology
-- [Mockup จากภาพพี่ออม.md](02_feature/02_Device%20Inventory%20Management(Tee)/Mockup%20จากภาพพี่ออม.md) — UI Mockup 6 แท็บสำหรับ Config Builder
-- [Data Information.md](02_feature/02_Device%20Inventory%20Management(Tee)/Data%20Information.md) — Schema ข้อมูลที่ต้องเก็บใน Device Inventory (PostgreSQL)
-- [Device Inventory.md](02_feature/02_Device%20Inventory%20Management(Tee)/Device%20Inventory.md) — รายละเอียดเชิงลึกของ Feature Device Discovery & Inventory
-- [Plugin Driver Architecture.md](02_feature/05_Configuration%20Management(Aom)/แนวคิด%20Plugin%20Driver%20Architecture.md) — สถาปัตยกรรม Multi-vendor Driver Pattern
-- [Decision AI or NoAI in Project.md](02_feature/05_Configuration%20Management(Aom)/Decision%20AI%20or%20NoAI%20in%20Project.md) — กรอบการตัดสินใจ AI 12 ฟังก์ชัน
-- [Restore Strategy.md](02_feature/10_Configuration%20Deployment(Aom)/แนวคิด%20Restore%20Strategy.md) — กลยุทธ์การ Rollback และ Version Control
-- [Cutting Your Own Legs.md](02_feature/10_Configuration%20Deployment(Aom)/Cutting%20Your%20Own%20Legs.md) — Feature ที่ตัดออกแล้วพร้อมเหตุผลทางเทคนิค
-- [MyNetMate (1).drawio.html](./02_feature/MyNetMate%20(1).drawio.html) — Diagram ภาพรวมโปรเจกต์
-
-### ⚖️ [03_tech_evaluations](./03_tech_evaluations/) — Research & Tool Evaluations
-- [ค้นคว้าเครื่องมือ Netmik vs NAPALM vs Nornir vs Ansible.md](./03_tech_evaluations/%E0%B8%84%E0%B9%89%E0%B8%99%E0%B8%84%E0%B8%A7%E0%B9%89%E0%B8%B2%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%A1%E0%B8%B7%E0%B8%AD%20Netmik%20vs%20NAPALM%20vs%20Nornir%20vs%20Ansible.md) — Tool Abstraction Level Comparison
-- [Microsoft Presidio.md](./03_tech_evaluations/Microsoft%20Presidio.md) — Local PII Masking Guide (เลิกใช้)
-- [Netmiko.md](./03_tech_evaluations/Netmiko.md) — Netmiko Usage Guide
-- [NAPALM.md](./03_tech_evaluations/NAPALM.md) — NAPALM Framework
-- [Nornir.md](./03_tech_evaluations/Nornir.md) — Nornir Framework
-- [Ansible.md](./03_tech_evaluations/Ansible.md) — Ansible Network Automation
-- [Netdisco.md](./03_tech_evaluations/Netdisco.md) — Netdisco Reference
-- [SolarWinds Hybrid Cloud Observability.md](./03_tech_evaluations/SolarWinds%20Hybrid%20Cloud%20Observability.md) — Commercial NMS
-
-### 📋 [04_project_management](./04_project_management/) — Management & Proposals
-- [CEPP68-33 Proposal.md](./04_project_management/Document%20Project/CEPP68-33%20Proposal.md) — Proposal Document
-- [gantt_chart.md](./04_project_management/Document%20Project/gantt_chart.md) — Project Timeline
-- [ทำไมเราถึงต้องทำโปรเจกต์นี้ เพราะปั.md](./04_project_management/Document%20Project/ทำไมเราถึงต้องทำโปรเจกต์นี้%20เพราะปั.md) — Business Value & Pain points
-- [Advisor Teacher/](./04_project_management/Advisor%20Teacher/) — Feedback จากอาจารย์ที่ปรึกษา
-- [ความคืบหน้า รายงานส่งอาจารย์ ตอนปี 2 เทอม 2/](./04_project_management/ความคืบหน้า%20รายงานส่งอาจารย์%20ตอนปี%202%20เทอม%202/) — Progress Reports
-- [วิชา CE Project 1 และ 2/](./04_project_management/วิชา%20CE%20Project%201%20และ%202/) — Grading Criteria
-- [แผนการค้นหาข้อมูล Project 1 - Week 1/](./04_project_management/แผนการค้นหาข้อมูล%20Project%201%20-%20Week%201/) — Research Plan
-
-### 📚 [05_knowledge_base](./05_knowledge_base/) — Knowledge Base & Literature
-- [What is Network Automationa.md](./05_knowledge_base/What%20is%20Network%20Automationa.md) — Network Automation Intro
-- [NPA_The Netmiko Python Library.md](./05_knowledge_base/%E0%B8%AB%E0%B8%99%E0%B8%B1%E0%B8%87%E0%B8%AA%E0%B8%B7%E0%B8%AD/NPA_The%20Netmiko%20Python%20Library.md) — NPA Book Summary
-
----
-
-## 🤖 For AI Agents
-Please refer to **[AGENTS.md](./AGENTS.md)** for full project instructions, sitemap, file links, and rules of engagement.
+*MyNetMate — CEPP68-33, KMITL | Last verified: 2026-09-03*

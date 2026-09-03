@@ -1,3 +1,7 @@
 {
-  "baseFontSize": 19
+  "baseFontSize": 18,
+  "textFontFamily": "Sarabun",
+  "interfaceFontFamily": "Sarabun",
+  "cssTheme": "Blue Topaz",
+  "nativeMenus": false
 }

@@ -39,13 +39,13 @@ Audit Trail นี้ไม่ใช่ AI Audit และไม่ใช่ Ver
 
 ## เจ้าของและหน้าที่
 
-|ส่วน|หน้าที่|
-|---|---|
-|Central Schema Owner|กำหนดโครงสร้าง `audit_logs`|
-|Audit Owner|ดูแล `record_audit_event()` และ `GET /api/audit-logs`|
-|Auth Producer|ส่งเหตุการณ์ Auth ผ่าน `record_auth_event()` โดยส่งเฉพาะ 4 Business Arguments|
-|Device/Config/CIS/Settings|เป็น Producer เรียก Writer กลางเมื่อเกิดเหตุการณ์|
-|Dashboard & Monitoring|เป็น Read-only Consumer อ่าน Recent Activity เท่านั้น|
+| ส่วน                       | หน้าที่                                                                       |
+| -------------------------- | ----------------------------------------------------------------------------- |
+| Central Schema Owner       | กำหนดโครงสร้าง `audit_logs`                                                   |
+| Audit Owner                | ดูแล `record_audit_event()` และ `GET /api/audit-logs`                         |
+| Auth Producer              | ส่งเหตุการณ์ Auth ผ่าน `record_auth_event()` โดยส่งเฉพาะ 4 Business Arguments |
+| Device/Config/CIS/Settings | เป็น Producer เรียก Writer กลางเมื่อเกิดเหตุการณ์                             |
+| Dashboard & Monitoring     | เป็น Read-only Consumer อ่าน Recent Activity เท่านั้น                         |
 
 Producer ห้ามเขียน `audit_logs` โดยตรง และ Auth ห้ามส่ง Client IP หรือ `description` จาก Request เข้า Audit Writer
 
@@ -138,3 +138,27 @@ Event ที่ไม่อยู่ใน Registry หรือส่ง `resou
 > **Audit Trail ของ MyNetMate อยู่ในสถานะ Design-ready / Approved & Reconciled สำหรับ P1 แต่ยังไม่ Implementation-ready ในความหมายว่าโค้ดเสร็จแล้ว**
 
 เอกสารอ้างอิงหลัก: [MVP Audit Trail (line 5)](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/mynetmate/docs/Feature Design/11_Audit Trail(Naphat\)/01_MVP - Audit Trail.md:5), [Event Registry (line 6)](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/mynetmate/docs/Feature Design/11_Audit Trail(Naphat\)/02_Data Ownership and Event Catalog.md:6), [API Contracts (line 9)](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/mynetmate/docs/Feature Design/11_Audit Trail(Naphat\)/04_API Contracts.md:9), [Integration Matrix (line 7)](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/mynetmate/docs/Feature Design/11_Audit Trail(Naphat\)/06_Integration Contract Matrix.md:7) และ [Central Schema (line 201)](E:/CEPP Project/หลักศูตร/KMITL_Knowledge/Project/mynetmate/docs/Feature Design/Data Information 27-06-69.md:201)
+
+
+# Outcome
+Outcome ของ Audit Trail คือ:
+
+> **MyNetMate สามารถแสดงหลักฐานย้อนหลังได้อย่างน่าเชื่อถือว่า ใครทำอะไร กับข้อมูลใด เมื่อไร และผลเป็นอย่างไร โดยไม่เปิดเผยข้อมูลลับ**
+
+เมื่อ P1 เสร็จ ผู้ใช้ควรเห็นผลลัพธ์ดังนี้:
+
+- ทุก Action สำคัญถูกบันทึกลง `audit_logs` อัตโนมัติ
+- Admin เปิดดูประวัติทั้งหมดและกรองข้อมูลได้
+- Dashboard แสดงกิจกรรมล่าสุดแบบย่อได้
+- การแก้ไขข้อมูลกับ Audit Log สำเร็จหรือ Rollback พร้อมกัน
+- Login ล้มเหลวและ Permission Denied ยังมีหลักฐาน แม้คำขอถูกปฏิเสธ
+- ไม่มี Password, Token, Credential Secret หรือ Client IP หลุดเข้า Log
+- ไม่มีใครแก้ไขหรือลบ Audit Log ผ่าน Application API ได้
+- ทีมสามารถใช้ Log สืบหาสาเหตุและรองรับการตรวจสอบด้าน Security/Compliance
+
+ตัวชี้วัดความสำเร็จหลักคือ:
+
+> **ทุก P1 Action ที่อยู่ใน Event Registry ต้องมี Audit Log ที่ถูกต้องครบถ้วน 100% และไม่มีข้อมูลลับรั่วไหล**
+
+หมายเหตุ: ใน Schema ปัจจุบันไม่มีฟิลด์ชื่อ `outcome` แล้ว แต่ใช้ `result = success | failure` ร่วมกับ `safe_error_category` แทน เพื่อระบุผลของแต่ละเหตุการณ์อย่างเป็นมาตรฐานครับ
+

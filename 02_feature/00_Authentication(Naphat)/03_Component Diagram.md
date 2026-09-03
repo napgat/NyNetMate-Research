@@ -41,41 +41,77 @@
 
 **วิธีคิดของ Diagram A — เริ่มจาก Functional Requirement:**
 
-1. ระบุสิ่งที่ระบบต้องทำ ได้แก่ Login/Logout, Session, Current User, User Management และ RBAC
-2. รวมหน้าที่ที่เกี่ยวข้องกันเป็น Component หลัก ได้แก่ Auth API, Authentication/Session Service, User/RBAC Management, Authorization Guard และ Repository
-3. หา Provided Interface ขั้นต่ำ คือ Auth HTTP API และ Authorization Guard ที่ Feature อื่นเรียกใช้
+1. ระบุสิ่งที่ระบบต้องทำ ได้แก่
+	1. Login/Logout,
+	2. Session,
+	3. Current
+	4. User,
+	5. User Management
+	6. RBAC
+2. รวมหน้าที่ที่เกี่ยวข้องกันเป็น Component หลัก ได้แก่
+	1. Auth API,
+	2. Authentication/Session Service,
+	3. User/RBAC Management,
+	4. Authorization Guard และ
+	5. Repository
+3. หา Provided Interface ขั้นต่ำ คือ
+	1. Auth HTTP API และ
+	2. Authorization Guard ที่ Feature อื่นเรียกใช้
 4. แสดงเฉพาะ Dependency ที่จำเป็นต่อการทำงาน โดยยังรวม Password Verification และรายละเอียด Security ไว้ภายใน Service
 5. แยก React, Protected Feature APIs และ PostgreSQL ออกจาก Auth Boundary
 
 คำถามที่ภาพนี้ต้องตอบคือ **“ระบบทำอะไร และโมดูลหลักใดต้องคุยกับใคร?”**
 
 ภาพนี้แสดงเฉพาะความสามารถหลัก ได้แก่ Login/Session, User Management, RBAC และการอ่านเขียนข้อมูล โดยยังไม่แยก Security Control เช่น CSRF Guard, Rate Limiter, Password Hasher และ Audit Adapter ออกมาเป็น Component ชัดเจน
+```plantuml
+@startuml
+left to right direction
 
-```mermaid
-flowchart LR
-    WEB["«component»<br/>React Web Application"]
-    FEATURES["«external component»<br/>Protected Feature APIs"]
-    DB[("PostgreSQL<br/>users, auth_sessions")]
+skinparam componentStyle rectangle
 
-    subgraph CORE["Authentication and RBAC Core - FastAPI"]
-        API["«component»<br/>Auth REST API"]
-        AUTHN["«component»<br/>Authentication and Session Service"]
-        USERS["«component»<br/>User and RBAC Management"]
-        ACCESS["«component»<br/>Authorization Guard"]
-        REPO["«component»<br/>Auth Repository"]
-    end
+component "React Web Application" as WEB <<component>>
+component "Protected Feature APIs" as FEATURES <<external component>>
+database "PostgreSQL\nusers, auth_sessions" as DB
 
-    WEB -.->|requires Auth HTTP API| API
-    WEB -.->|requires Feature HTTP API| FEATURES
-    API -.->|requires Authentication Use Cases| AUTHN
-    API -.->|requires User Management Use Cases| USERS
-    API -.->|requires Authorization Guard| ACCESS
-    FEATURES -.->|requires Authorization Guard| ACCESS
-    AUTHN -.->|requires Auth Repository| REPO
-    USERS -.->|requires Auth Repository| REPO
-    ACCESS -.->|requires Auth Repository| REPO
-    REPO -.->|reads and writes auth data| DB
+package "Authentication and RBAC Core - FastAPI" as CORE {
+    component "Auth REST API" as API <<component>>
+    component "Authentication and Session Service" as AUTHN <<component>>
+    component "User and RBAC Management" as USERS <<component>>
+    component "Authorization Guard" as ACCESS <<component>>
+    component "Auth Repository" as REPO <<component>>
+}
+
+WEB ..> API : requires Auth HTTP API
+WEB ..> FEATURES : requires Feature HTTP API
+API ..> AUTHN : requires Authentication Use Cases
+API ..> USERS : requires User Management Use Cases
+API ..> ACCESS : requires Authorization Guard
+FEATURES ..> ACCESS : requires Authorization Guard
+AUTHN ..> REPO : requires Auth Repository
+USERS ..> REPO : requires Auth Repository
+ACCESS ..> REPO : requires Auth Repository
+REPO ..> DB : reads and writes auth data
+
+@enduml
 ```
+
+#### วิธีอ่านเส้นใน Diagram A
+
+ใน PlantUML รูปแบบ `A ..> B : requires X` หมายถึง **A เป็น Consumer ที่ต้องใช้ Interface X ซึ่ง B เป็น Provider** เส้นนี้แสดง Dependency ไม่ได้หมายความว่า B จะไม่ตอบกลับ A และไม่ได้บอกว่าเหตุการณ์ใดเกิดก่อนหลัง
+
+|  #  | เส้น Dependency       | Required → Provided Interface                    | ความหมายและเหตุผล                                                                                                                                                    | ถ้าไม่มีเส้นนี้                                                     |
+| :-: | :-------------------- | :----------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------ |
+| A1  | `WEB ..> API`         | React ต้องใช้ → Auth HTTP API                    | React เรียก Login, Logout, Current User, Change Password และ User Management ผ่าน HTTP โดยไม่เข้าถึง Service/Database โดยตรง                                         | หน้าเว็บใช้งานความสามารถ Auth ไม่ได้ หรือเกิดการข้าม API Boundary   |
+| A2  | `WEB ..> FEATURES`    | React ต้องใช้ → Feature HTTP API                 | หลัง Login แล้ว React เรียก Device, Config, CIS, Settings และ Feature API อื่น โดย Browser แนบ Session Cookie ตาม HTTP Contract                                      | ผู้ใช้ Login ได้แต่ใช้งาน Feature หลักของ MyNetMate ไม่ได้          |
+| A3  | `API ..> AUTHN`       | Auth API ต้องใช้ → Authentication Use Cases      | Endpoint ส่งงาน Login, Logout, Current User และ Session Lifecycle ให้ Service เพื่อไม่ใส่ Business Logic ไว้ใน Route Handler                                         | Route จะรับผิดชอบมากเกินไปและทดสอบ Business Logic แยกได้ยาก         |
+| A4  | `API ..> USERS`       | Auth API ต้องใช้ → User Management Use Cases     | Admin Endpoint ส่งงาน Create User, Change Role และ Activate/Deactivate ให้ Component ที่เป็นเจ้าของกฎผู้ใช้                                                          | กฎ User Management จะกระจายอยู่ตาม Endpoint และเสี่ยงใช้ไม่สม่ำเสมอ |
+| A5  | `API ..> ACCESS`      | Protected Auth API ต้องใช้ → Authorization Guard | Endpoint ที่ต้อง Login เช่น `/me`, Change Password และ Admin User API ต้องตรวจ Session/Permission ก่อนเข้า Use Case ส่วน Login เป็น Public Endpoint และเป็นข้อยกเว้น | ผู้ที่ไม่มี Session หรือ Permission อาจเรียก Protected Auth API ได้ |
+| A6  | `FEATURES ..> ACCESS` | Feature API ต้องใช้ → Authorization Guard        | Device, Config, CIS และ Settings ต้องพึ่ง Guard กลางเพื่อใช้ RBAC ชุดเดียวกันแบบ Default Deny                                                                        | แต่ละ Feature อาจตรวจสิทธิ์ไม่เหมือนกันหรือเผลอเปิด Endpoint        |
+| A7  | `AUTHN ..> REPO`      | Authentication Service ต้องใช้ → Auth Repository | Service ค้นผู้ใช้ สร้าง/Revoke Session และอ่าน Current User ผ่าน Repository โดยไม่เขียน SQL โดยตรง                                                                   | Login และ Session Lifecycle ไม่มีช่องทาง Persistence ที่ควบคุมได้   |
+| A8  | `USERS ..> REPO`      | User Management ต้องใช้ → Auth Repository        | Service อ่าน/แก้ `users` และ Revoke Session เมื่อเปลี่ยน Role หรือ Deactivate                                                                                        | การแก้ผู้ใช้ไม่คงอยู่ หรือ Session เก่ายังใช้สิทธิ์เดิมต่อได้       |
+| A9  | `ACCESS ..> REPO`     | Authorization Guard ต้องใช้ → Auth Repository    | Guard นำ Cookie Token ไปหา Session แล้วอ่าน `is_active` และ Role ปัจจุบันจาก Database ทุก Protected Request                                                          | ไม่สามารถตรวจ Expiry/Revoke หรือทำให้ Role Change มีผลทันทีได้      |
+| A10 | `REPO ..> DB`         | Repository ต้องใช้ → PostgreSQL Persistence      | Repository เป็นจุดรวม SQLAlchemy Query สำหรับ `users` และ `auth_sessions`                                                                                            | Auth ไม่มี Source of Truth สำหรับผู้ใช้และ Session                  |
+
 
 > ภาพ A เป็น Baseline สำหรับอธิบายพัฒนาการของ Architecture เท่านั้น ไม่ใช่แบบที่อนุมัติให้นำไป Implement เพราะยังไม่แสดง Security Boundary และ Audit Evidence ที่ P1 บังคับใช้
 
@@ -92,51 +128,87 @@ flowchart LR
 
 คำถามที่ภาพนี้ต้องตอบคือ **“เมื่อเพิ่ม Threat Model แล้ว ต้องมี Security Boundary และ Interface ใดเพื่อให้ P1 Implement และทดสอบได้?”**
 
-```mermaid
-flowchart LR
-    WEB["«component»<br/>React Web Application<br/>Safe Text Rendering"]
-    FEATURES["«external component»<br/>Protected Feature APIs"]
-    AUDIT["«external component»<br/>Audit Writer and Registry"]
-    DB[("PostgreSQL<br/>users, auth_sessions, audit_logs")]
 
-    subgraph AUTH["Authentication and RBAC Subsystem - FastAPI"]
-        API["«component»<br/>Auth REST API"]
-        SEC["«component»<br/>Request Security Guard"]
-        AUTHN["«component»<br/>Authentication Service"]
-        USERS["«component»<br/>User Management Service"]
-        ACCESS["«component»<br/>Session and Permission Guard"]
-        RATE["«component»<br/>Login Rate Limiter"]
-        HASH["«component»<br/>Password Hasher"]
-        REPO["«component»<br/>Auth Repository"]
-        ADAPTER["«component»<br/>Auth Audit Adapter"]
-    end
+```plantuml
+@startuml
+left to right direction
 
-    WEB -.->|requires Auth HTTP API| API
-    WEB -.->|requires Feature HTTP API| FEATURES
+skinparam componentStyle rectangle
 
-    API -.->|requires Request Security Guard| SEC
-    FEATURES -.->|requires Request Security Guard| SEC
-    API -.->|requires Authentication Use Cases| AUTHN
-    API -.->|requires User Management Use Cases| USERS
-    API -.->|requires Authorization Guard| ACCESS
-    FEATURES -.->|requires Authorization Guard| ACCESS
+component "React Web Application\nSafe Text Rendering" as WEB <<component>>
+component "Protected Feature APIs" as FEATURES <<external component>>
+component "Audit Writer and Registry" as AUDIT <<external component>>
+database "PostgreSQL\nusers, auth_sessions, audit_logs" as DB
 
-    AUTHN -.->|requires Rate Limit Port| RATE
-    AUTHN -.->|requires Password Hashing Port| HASH
-    AUTHN -.->|requires Auth Repository Port| REPO
-    AUTHN -.->|requires Auth Audit Port| ADAPTER
+package "Authentication and RBAC Subsystem - FastAPI" as AUTH {
+    component "Auth REST API" as API <<component>>
+    component "Request Security Guard" as SEC <<component>>
+    component "Authentication Service" as AUTHN <<component>>
+    component "User Management Service" as USERS <<component>>
+    component "Session and Permission Guard" as ACCESS <<component>>
+    component "Login Rate Limiter" as RATE <<component>>
+    component "Password Hasher" as HASH <<component>>
+    component "Auth Repository" as REPO <<component>>
+    component "Auth Audit Adapter" as ADAPTER <<component>>
+}
 
-    USERS -.->|requires Password Hashing Port| HASH
-    USERS -.->|requires Auth Repository Port| REPO
-    USERS -.->|requires Auth Audit Port| ADAPTER
+WEB ..> API : requires Auth HTTP API
+WEB ..> FEATURES : requires Feature HTTP API
 
-    ACCESS -.->|requires Auth Repository Port| REPO
-    ACCESS -.->|requires Auth Audit Port| ADAPTER
-    ADAPTER -.->|requires record_audit_event| AUDIT
+API ..> SEC : requires Request Security Guard
+FEATURES ..> SEC : requires Request Security Guard
+API ..> AUTHN : requires Authentication Use Cases
+API ..> USERS : requires User Management Use Cases
+API ..> ACCESS : requires Authorization Guard
+FEATURES ..> ACCESS : requires Authorization Guard
 
-    REPO -.->|reads and writes auth data| DB
-    AUDIT -.->|appends audit events| DB
+AUTHN ..> RATE : requires Rate Limit Port
+AUTHN ..> HASH : requires Password Hashing Port
+AUTHN ..> REPO : requires Auth Repository Port
+AUTHN ..> ADAPTER : requires Auth Audit Port
+
+USERS ..> HASH : requires Password Hashing Port
+USERS ..> REPO : requires Auth Repository Port
+USERS ..> ADAPTER : requires Auth Audit Port
+
+ACCESS ..> REPO : requires Auth Repository Port
+ACCESS ..> ADAPTER : requires Auth Audit Port
+ADAPTER ..> AUDIT : requires record_audit_event
+
+REPO ..> DB : reads and writes auth data
+AUDIT ..> DB : appends audit events
+@enduml
 ```
+
+
+#### วิธีอ่านเส้นใน Diagram B
+
+ใน Mermaid รูปแบบ `A -.->|requires X| B` มีความหมายเดียวกับ Dependency ใน Diagram A คือ **A ต้องใช้ Interface X จาก B** ไม่ใช่ Sequence ของ Request
+
+|  #  | เส้น Dependency     | Required → Provided Interface                           | ความหมายและเหตุผล                                                                                         | ถ้าไม่มีเส้นนี้                                                            |
+| :-: | :------------------ | :------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------- |
+| B1  | `WEB → API`         | React ต้องใช้ → Auth HTTP API                           | UI ใช้ Auth Endpoint ผ่าน Cookie-based HTTP Contract และรับ DTO/Error Envelope กลาง                       | Frontend ไม่สามารถ Login หรือจัดการ Auth State ได้                         |
+| B2  | `WEB → FEATURES`    | React ต้องใช้ → Feature HTTP API                        | UI เรียก Feature หลัง Login โดย Browser แนบ HttpOnly Cookie อัตโนมัติ                                     | ผู้ใช้พิสูจน์ตัวตนได้แต่เข้าถึงงานหลักไม่ได้                               |
+| B3  | `API → SEC`         | Auth API ต้องใช้ → Request Security Guard               | State-changing Auth Endpoint รวม Login ต้องผ่าน Exact Origin/Referer, CSRF Header และ Content-Type Policy | Auth Endpoint เสี่ยง CSRF และรับ Request รูปแบบที่ Contract ไม่อนุญาต      |
+| B4  | `FEATURES → SEC`    | Feature API ต้องใช้ → Request Security Guard            | State-changing Endpoint ของ Feature อื่นใช้ Security Boundary กลางชุดเดียวกัน                             | การแก้ Device/Config/Settings อาจถูกเรียกจาก Cross-site Request            |
+| B5  | `API → AUTHN`       | Auth API ต้องใช้ → Authentication Use Cases             | Route Delegate Login, Logout, Current User และ Change Password ไปยัง Business Service                     | Business Logic จะผูกกับ HTTP Layer และทดสอบแยกยาก                          |
+| B6  | `API → USERS`       | Auth API ต้องใช้ → User Management Use Cases            | Admin Route Delegate การสร้างผู้ใช้ เปลี่ยน Role และ Activate/Deactivate                                  | Last-admin Guard และ Session Revoke อาจถูกใช้ไม่สม่ำเสมอ                   |
+| B7  | `API → ACCESS`      | Protected Auth API ต้องใช้ → Authorization Guard        | Auth Route ที่ไม่ใช่ Public Route ตรวจ Opaque Session และ Permission ก่อนทำงาน                            | Protected Auth Endpoint อาจถูกเรียกโดยผู้ไม่มีสิทธิ์                       |
+| B8  | `FEATURES → ACCESS` | Feature API ต้องใช้ → Authorization Guard               | ทุก Feature ใช้ Permission Catalog และ Default Deny จากจุดกลาง                                            | RBAC จะกระจาย ซ้ำซ้อน และมีโอกาสเปิดช่องว่าง                               |
+| B9  | `AUTHN → RATE`      | Authentication Service ต้องใช้ → Rate Limit Port        | Login ตรวจ Sliding-window Counter ก่อน User Query และ Argon2id เพื่อจำกัด Brute Force/Resource Exhaustion | ผู้โจมตีเรียก Password Verification จำนวนมากได้                            |
+| B10 | `AUTHN → HASH`      | Authentication Service ต้องใช้ → Password Hashing Port  | Login และ Change Password ใช้ Argon2id Configuration/Dummy Hash ชุดเดียวกัน                               | Password Verification อาจไม่สม่ำเสมอหรือเกิด User Enumeration จาก Timing   |
+| B11 | `AUTHN → REPO`      | Authentication Service ต้องใช้ → Auth Repository Port   | อ่านผู้ใช้และสร้าง/Revoke `auth_sessions` ผ่าน Persistence Boundary                                       | Session ไม่สามารถตรวจหรือ Revoke แบบ Server-side ได้                       |
+| B12 | `AUTHN → ADAPTER`   | Authentication Service ต้องใช้ → Auth Audit Port        | Login, Logout และ Password Change ส่งเฉพาะ 4 Business Arguments ผ่าน Auth Adapter                         | เหตุการณ์ Auth สำคัญไม่มีหลักฐานหรืออาจส่งข้อมูลเกิน Contract              |
+| B13 | `USERS → HASH`      | User Management ต้องใช้ → Password Hashing Port         | Create User ต้อง Hash Password ด้วย Argon2id ชุดเดียวกับ Login/Seed                                       | อาจเก็บ Password ไม่ปลอดภัยหรือสร้าง Hash ที่ Login ตรวจไม่ได้             |
+| B14 | `USERS → REPO`      | User Management ต้องใช้ → Auth Repository Port          | จัดเก็บผู้ใช้ เปลี่ยน Role/Status และ Revoke Session แบบ Transactional                                    | User Mutation และ Session State อาจไม่สอดคล้องกัน                          |
+| B15 | `USERS → ADAPTER`   | User Management ต้องใช้ → Auth Audit Port               | สร้าง `user.created`, `user.updated`, `user.deactivated` โดยไม่เขียน Audit Table ตรง                      | การจัดการบัญชีไม่มี Security Evidence ตาม Canonical Registry               |
+| B16 | `ACCESS → REPO`     | Session/Permission Guard ต้องใช้ → Auth Repository Port | Hash Token แล้ว Query `auth_sessions JOIN users` เพื่ออ่าน Session, Active Status และ Role ปัจจุบัน       | Cookie จะถูกเชื่อโดยไม่ตรวจ Source of Truth ฝั่ง Server                    |
+| B17 | `ACCESS → ADAPTER`  | Session/Permission Guard ต้องใช้ → Auth Audit Port      | เมื่อ Permission Denied ให้บันทึก `auth.permission_denied` ผ่าน Intentional Audit Transaction             | การปฏิเสธสิทธิ์ไม่มีหลักฐานตรวจสอบย้อนหลัง                                 |
+| B18 | `ADAPTER → AUDIT`   | Auth Audit Adapter ต้องใช้ → `record_audit_event`       | Adapter แปลง Auth Contract ไปยัง Shared Writer/Registry โดย Auth ไม่เขียน `audit_logs` เอง                | Ownership จะปนกันและ Canonical Mapping/Redaction อาจไม่เป็นมาตรฐานเดียวกัน |
+| B19 | `REPO → DB`         | Auth Repository ต้องใช้ → PostgreSQL                    | SQLAlchemy Repository อ่าน/เขียนเฉพาะ `users` และ `auth_sessions`                                         | Auth ไม่มี Persistence Source of Truth                                     |
+| B20 | `AUDIT → DB`        | Audit Writer ต้องใช้ → Audit Persistence                | Shared Writer ตรวจ Registry/Redaction แล้ว Append ลง `audit_logs`                                         | Event ผ่านการตรวจแล้วแต่ไม่ถูกเก็บเป็นหลักฐานถาวร                          |
+
+สิ่งที่ไม่มีเส้นแยกไม่ได้แปลว่าไม่มี Security Control: XSS Safe Rendering เป็น Responsibility ภายใน React, Cookie Attributes เป็น Auth HTTP Contract และ HTTPS/Server Placement ควรอธิบายใน Deployment Diagram ไม่ใช่สร้าง Component เพิ่มโดยไม่มีพฤติกรรมของตนเอง
 
 ### 1.4 Responsibility และ Interface Contract
 
@@ -159,6 +231,7 @@ flowchart LR
 เส้น Dependency ในภาพทำหน้าที่เทียบเท่าแนวคิด **Required Interface → Provided Interface** หรือ Assembly Connector ใน UML แม้ Mermaid จะไม่ได้วาดสัญลักษณ์ Lollipop/Socket โดยตรง
 
 ## 2. Login Sequence Flow
+
 
 ```mermaid
 sequenceDiagram
@@ -344,11 +417,11 @@ Auth Caller **ห้ามส่ง** `description` หรือ Client IP เ�
 เพื่อยุติปัญหาการใช้ชื่อ Field ไม่ตรงกันระหว่าง Database, Auth API และ D&M Contract ระบบกำหนดกฎการ Mapping ดังนี้:
 
 | Auth Function Caller | Central DB Storage (`audit_logs`) | Full Audit API DTO (Admin Only) |
-| :--- | :--- | :--- |
-| `actor_id` | `user_id` | `actor_user_id` |
-| (computed now) | `created_at` | `occurred_at` |
-| (mapped) | `result` | `result` |
-| (mapped) | `safe_error_category` | `safe_error_category` |
+| :------------------- | :-------------------------------- | :------------------------------ |
+| `actor_id`           | `user_id`                         | `actor_user_id`                 |
+| (computed now)       | `created_at`                      | `occurred_at`                   |
+| (mapped)             | `result`                          | `result`                        |
+| (mapped)             | `safe_error_category`             | `safe_error_category`           |
 
 > [!NOTE]
 > **สถานะสัญญา (Approved & Reconciled):**

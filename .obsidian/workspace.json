@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02_feature/00_Authentication(Naphat)/03_Component Diagram.md",
+                "file": "02_feature/ข้อสรุปการดำเนินการพัฒนา_04_09_2569.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "03_Component Diagram"
+              "title": "ข้อสรุปการดำเนินการพัฒนา_04_09_2569"
             }
           }
         ]
@@ -158,6 +158,7 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "02_feature/ข้อสรุปการดำเนินการพัฒนา_04_09_2569.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -177,7 +178,7 @@
             }
           }
         ],
-        "currentTab": 5
+        "currentTab": 4
       },
       {
         "id": "37e37793f1682706",
@@ -219,38 +220,38 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "fd5248b8746f6404",
+  "active": "9ede2baa7ff8abc3",
   "lastOpenFiles": [
-    "02_feature/00_Authentication(Naphat)/03_Component Diagram.md",
-    "02_feature/00_Authentication(Naphat)/02_Database Schema.md",
-    "02_feature/00_Authentication(Naphat)/00_Glossary.md",
-    "02_feature/00_Authentication(Naphat)/01_MVP - Authentication & RBAC.md",
-    "OBSIDIAN_EXTENSIONS.md",
-    "02_feature/11_Audit Trail(Naphat)/ให้คนอ่าน/03_ใครส่งมา และ ฉันต้องขออะไร.md",
-    "02_feature/11_Audit Trail(Naphat)/ให้คนอ่าน/04_สิ่งที่ต้องส่งต่อ.md",
-    "02_feature/11_Audit Trail(Naphat)/ให้คนอ่าน/Conflict (1).md",
-    "02_feature/11_Audit Trail(Naphat)/ให้คนอ่าน/02_เหตุผลที่ต้องมี Audit Trail กลาง.md",
-    "02_feature/11_Audit Trail(Naphat)/ให้คนอ่าน/01_สรุป Audit Trail.md",
-    "02_feature/11_Audit Trail(Naphat)/04_API Contracts.md",
-    "02_feature/11_Audit Trail(Naphat)/01_MVP - Audit Trail.md",
-    "02_feature/11_Audit Trail(Naphat)/02_Data Ownership and Event Catalog.md",
-    "02_feature/11_Audit Trail(Naphat)/03_Component Diagram.md",
+    "02_feature/00_Authentication(Naphat)/อัพเดทกับอาจารย์ _auth_04_09_2569.md",
+    "02_feature/ข้อสรุปการดำเนินการพัฒนา_04_09_2569.md",
+    "02_feature/11_Audit Trail(Naphat)/อัพเดทกับอาจารย์ _audittrail_04_09_2569.md",
+    "02_feature/03_Network Topology Visualization(Naphat)/อัพเดทกับอาจารย์ _ntv_04_09_2569.md",
+    "02_feature/01_Dashboard&Monitoring(Naphat)/อัพเดทกับอาจารย์ _d&m_04_09_2569.md",
+    "02_feature/03_Network Topology Visualization(Naphat)/03_Component Diagram.md",
+    "02_feature/03_Network Topology Visualization(Naphat)/02_Database Schema.md",
+    "02_feature/03_Network Topology Visualization(Naphat)/01_MVP - MyNetMate NTV.md",
+    "02_feature/02_Device Inventory Management(Tee)/README 1.md",
     "02_feature/00_Authentication(Naphat)/05_Acceptance Tests.md",
     "02_feature/00_Authentication(Naphat)/04_API Contracts.md",
-    "02_feature/07_AI Component(King)/จากคิง.md",
-    "README.md",
-    "Img/README.md",
+    "02_feature/00_Authentication(Naphat)/03_Component Diagram.md",
+    "02_feature/00_Authentication(Naphat)/02_Database Schema.md",
+    "02_feature/11_Audit Trail(Naphat)/02_Data Ownership and Event Catalog.md",
+    "02_feature/11_Audit Trail(Naphat)/03_Component Diagram.md",
+    "02_feature/11_Audit Trail(Naphat)/00_Glossary.md",
+    "02_feature/11_Audit Trail(Naphat)/01_MVP - Audit Trail.md",
+    "02_feature/03_Network Topology Visualization(Naphat)/00_README - AI Navigation.md",
+    "02_feature/11_Audit Trail(Naphat)/05_Acceptance Tests.md",
+    "02_feature/11_Audit Trail(Naphat)/04_API Contracts.md",
+    "02_feature/11_Audit Trail(Naphat)/ให้คนอ่าน/01_สรุป Audit Trail.md",
+    "02_feature/Feature Switch & Router/Router.md",
+    "02_feature/Feature Switch & Router/Switch L3.md",
+    "02_feature/Feature Switch & Router/Switch L2.md",
+    "02_feature/Data Information 27-06-69.md",
+    "02_feature/MyNetMate Weight Feature List (AI คิด).md",
     "Img/Pasted image 20260715215308.png",
     "Img/Pasted image 20260716123713.png",
     "Img/Pasted image 20260715222327.png",
     "Img/Pasted image 20260715200840.png",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Network Management(1)/เอกสารรายงานความคืบหน้า Project 1 ครั้งที่ 2 Network Managment.md",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Configuration Automation(2)/เอกสารรายงานความคืบหน้า Project 1 ครั้งที่ 2 Configuration Automation.md",
-    "04_project_management/วิชา CE Project 1 และ 2/รายงานความคืบหน้า/Configuration Automation(2)/เอกสารรายงานความคืบหน้า Project 1 ครั้งที่ 1 Configuration Automation.md",
-    "05_knowledge_base/UML/Component based Diagram - UML.md",
-    "05_knowledge_base/UML/Overview each Diagram.md",
-    "AGENTS.md",
-    "Excalidraw/Drawing 2026-09-03 20.09.29.excalidraw.md",
     "เอกสารรายงานความคืบหน้า Project 1/images/image25.png",
     "เอกสารรายงานความคืบหน้า Project 1/images/image24.png",
     "เอกสารรายงานความคืบหน้า Project 1/images/image23.png",

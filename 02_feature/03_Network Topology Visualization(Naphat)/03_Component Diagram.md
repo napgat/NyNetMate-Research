@@ -207,14 +207,14 @@ flowchart LR
 
 ## 6. Data Ownership ตาม Component
 
-| Component | อ่าน | เขียน |
-|---|---|---|
-| Topology Query Service | ข้อมูลผ่าน Inventory/Collection Interface และ NTV Repository | ไม่มี |
-| Topology Reconciliation Service | Observation, Interface และ Reconciliation State | `topology_reconciliation_*`, `topology_links`, `topology_link_evaluations`, `topology_link_evidence` |
-| Layout Service | Device Reference และ View | `topology_views`, `topology_node_placements` |
-| Discovery & Collection | Device Target และ Credential Reference ตามสิทธิ์ | `collection_runs`, `neighbor_observations` |
-| Device Inventory | ผล Collection ของตัวตนอุปกรณ์และ Interface | `devices`, `interfaces` |
-| Audit Trail | Audit Event จาก Component อื่น | `audit_logs` |
+| Component                       | อ่าน                                                         | เขียน                                                                                                |
+| ------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| Topology Query Service          | ข้อมูลผ่าน Inventory/Collection Interface และ NTV Repository | ไม่มี                                                                                                |
+| Topology Reconciliation Service | Observation, Interface และ Reconciliation State              | `topology_reconciliation_*`, `topology_links`, `topology_link_evaluations`, `topology_link_evidence` |
+| Layout Service                  | Device Reference และ View                                    | `topology_views`, `topology_node_placements`                                                         |
+| Discovery & Collection          | Device Target และ Credential Reference ตามสิทธิ์             | `collection_runs`, `neighbor_observations`                                                           |
+| Device Inventory                | ผล Collection ของตัวตนอุปกรณ์และ Interface                   | `devices`, `interfaces`                                                                              |
+| Audit Trail                     | Audit Event จาก Component อื่น                               | `audit_logs`                                                                                         |
 
 `NTV API Controller` และ `NTV Web UI` ไม่มีสิทธิ์เขียนตารางโดยตรง
 

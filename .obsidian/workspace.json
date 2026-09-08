@@ -178,7 +178,7 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 5
       },
       {
         "id": "37e37793f1682706",
@@ -222,8 +222,13 @@
   },
   "active": "9ede2baa7ff8abc3",
   "lastOpenFiles": [
-    "02_feature/01_Dashboard&Monitoring(Naphat)/P2_Operational_Monitoring/MVP D&M.md",
+    "OBSIDIAN_EXTENSIONS - Copy.md",
+    "02_feature/00_Authentication(Naphat)/อัพเดทกับอาจารย์ _auth_04_09_2569.md",
+    "02_feature/00_Authentication(Naphat)/07_Test Users and Environment Policy.md",
+    "02_feature/00_Authentication(Naphat)/05_Acceptance Tests.md",
+    "02_feature/00_Authentication(Naphat)/06_Permission Catalog.md",
     "02_feature/01_Dashboard&Monitoring(Naphat)/คำถามที่จะถามเพื่อน.md",
+    "02_feature/01_Dashboard&Monitoring(Naphat)/P2_Operational_Monitoring/MVP D&M.md",
     "02_feature/01_Dashboard&Monitoring(Naphat)/P2_Operational_Monitoring/Display in MVP.md",
     "02_feature/01_Dashboard&Monitoring(Naphat)/P2_Operational_Monitoring/Router Operational Visibility.md",
     "02_feature/01_Dashboard&Monitoring(Naphat)/P1_Core/MyNetMate Dashboard.md",
@@ -233,7 +238,6 @@
     "02_feature/01_Dashboard&Monitoring(Naphat)/Archive_Research/prompt for reseach Dashboard.md",
     "02_feature/01_Dashboard&Monitoring(Naphat)/Archive_Research/ทำให้ Metric เชื่อถือได้ ตีความได้ และลงมือแก้ไขต่อได้.md",
     "02_feature/01_Dashboard&Monitoring(Naphat)/Archive_Research/Question 1.md",
-    "02_feature/00_Authentication(Naphat)/อัพเดทกับอาจารย์ _auth_04_09_2569.md",
     "02_feature/ข้อสรุปการดำเนินการพัฒนา_04_09_2569.md",
     "02_feature/MyNetMate รายการ Features.md",
     "mynetmate/docs/Feature Design/11_Audit Trail(Naphat)/อัพเดทกับอาจารย์ _audittrail_04_09_2569.md",
@@ -245,10 +249,6 @@
     "mynetmate/docs/Feature Design/11_Audit Trail(Naphat)/ให้คนอ่าน",
     "mynetmate/docs/Feature Design/03_Network Topology Visualization(Naphat)/อัพเดทกับอาจารย์ _ntv_04_09_2569.md",
     "mynetmate/docs/Feature Design/03_Network Topology Visualization(Naphat)/Lib ที่เพื่อนแนะนำ/server-survival.md",
-    "mynetmate/docs/Feature Design/03_Network Topology Visualization(Naphat)/Lib ที่เพื่อนแนะนำ/isometric.md",
-    "mynetmate/docs/Feature Design/01_Dashboard&Monitoring(Naphat)/อัพเดทกับอาจารย์ _d&m_04_09_2569.md",
-    "mynetmate/docs/Feature Design/01_Dashboard&Monitoring(Naphat)/Archive_Research/ทำให้ Metric เชื่อถือได้ ตีความได้ และลงมือแก้ไขต่อได้.md",
-    "mynetmate/docs/Feature Design/01_Dashboard&Monitoring(Naphat)/Archive_Research/Question 1.md",
     "mynetmate/docs/Feature Design/01_Dashboard&Monitoring(Naphat)/Archive_Research/MyNetMate Minimal MVP Dashboard & Monitoring Research Plan.txt",
     "mynetmate/docs/Feature Design/01_Dashboard&Monitoring(Naphat)/Archive_Research",
     "mynetmate/docs/Feature Design/01_Dashboard&Monitoring(Naphat)/P2_Operational_Monitoring",

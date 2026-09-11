@@ -10,16 +10,16 @@ MyNetMate คือ Capstone Project CEPP68-33 ของ KMITL สำหรั�
 
 สถานะที่ตรวจจาก Source Code เมื่อ **2026-09-03**:
 
-| Component | Current state |
-|---|---|
-| Frontend | React 19.2.8 + Vite 8.2 + TypeScript 6; ปัจจุบันยังเป็น starter screen |
-| Backend | FastAPI API prototype version 0.1.0 มี feature routers/services หลายหมวด แต่หลายส่วนยังเป็น sample หรือ in-memory |
-| Database | ยังไม่พบ SQLAlchemy/PostgreSQL/Alembic ใน dependency ปัจจุบัน |
-| Configuration generation | มี prototype แบบง่าย; Jinja2 template engine ตาม MVP ยังต้อง Implement |
-| CIS validation | มี sample checks; เป้าหมายคือ 8 deterministic CIS rules |
-| AI-assisted config | มี fallback/sample response; Gemini integration อยู่ใน P2 และต้องผ่าน PII/CIS guardrails |
-| Documentation | Feature specs, architecture, proposal, advisor feedback และ knowledge base มีการพัฒนาต่อเนื่อง |
-| Obsidian | เปิด Community plugins 12 ตัว รวม Advanced Tables; ดู [คู่มือ Extensions](OBSIDIAN_EXTENSIONS.md) |
+| Component                | Current state                                                                                                     |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| Frontend                 | React 19.2.8 + Vite 8.2 + TypeScript 6; ปัจจุบันยังเป็น starter screen                                            |
+| Backend                  | FastAPI API prototype version 0.1.0 มี feature routers/services หลายหมวด แต่หลายส่วนยังเป็น sample หรือ in-memory |
+| Database                 | ยังไม่พบ SQLAlchemy/PostgreSQL/Alembic ใน dependency ปัจจุบัน                                                     |
+| Configuration generation | มี prototype แบบง่าย; Jinja2 template engine ตาม MVP ยังต้อง Implement                                            |
+| CIS validation           | มี sample checks; เป้าหมายคือ 8 deterministic CIS rules                                                           |
+| AI-assisted config       | มี fallback/sample response; Gemini integration อยู่ใน P2 และต้องผ่าน PII/CIS guardrails                          |
+| Documentation            | Feature specs, architecture, proposal, advisor feedback และ knowledge base มีการพัฒนาต่อเนื่อง                    |
+| Obsidian                 | เปิด Community plugins 12 ตัว รวม Advanced Tables; ดู [คู่มือ Extensions](OBSIDIAN_EXTENSIONS.md)                 |
 
 สถานะข้างต้นแยกจากแผนสถาปัตยกรรม เพื่อไม่ให้เข้าใจว่า Feature ที่มีเอกสารหรือ API stub ถือว่าเสร็จแล้ว
 

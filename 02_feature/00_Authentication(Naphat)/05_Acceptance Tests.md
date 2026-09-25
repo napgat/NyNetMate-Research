@@ -2,13 +2,16 @@
 
 เอกสารนี้ระบุเงื่อนไขการยอมรับ (Acceptance Criteria / Tests) สำหรับฟีเจอร์ Authentication & RBAC
 
+> [!NOTE] ปรับเกณฑ์วันที่ 2026-09-25
+> ตัวอย่าง URL ใช้ `/api/v1` ตาม router กลางของ `mynetmate/backend` branch `main`; Auth API ต้องทดสอบบนเส้นทางนี้เมื่อ implement จริง และ frontend Auth state ใช้ Jotai ตาม dependency ปัจจุบัน
+
 ## Test Cases
 
 1. **Successful Login & Session Creation:**
    - การ Login ที่ถูกต้องต้องสร้าง Opaque Session Token ใหม่จาก CSPRNG ขนาด 32 bytes (256 bits)
    - Response ต้องคืน Session Token ผ่าน Cookie ที่เป็น `HttpOnly`, `SameSite=Strict`, Path `/`, ไม่กำหนด Domain และเป็น `Secure` ใน Production
    - Database ต้องมีเฉพาะ `SHA-256(token)` ใน `auth_sessions.session_token_hash` โดย Token ดิบต้องไม่ตรงกับค่าที่เก็บใน Database
-   - สามารถใช้ Cookie นั้นเรียก API `/api/auth/me` และได้ข้อมูลตนเองกลับมา
+   - สามารถใช้ Cookie นั้นเรียก API `/api/v1/auth/me` และได้ข้อมูลตนเองกลับมา
    - **Case Normalization:** ระบบต้องทำ Case Normalization สำหรับ Username/Email (บังคับให้ระบบแปลงตัวอักษรเป็นพิมพ์เล็ก `lowercase` เสมอ) และอนุญาตให้ Username มีเฉพาะตัวอักษร ตัวเลข `._-` เท่านั้น (ห้ามมี `@`)
 2. **Password & Session Token Security:**
    - รหัสผ่านที่เก็บใน Database ต้องไม่ใช่ Plaintext และใช้ `Argon2id`
@@ -33,7 +36,7 @@
    - เมื่อ Admin เปลี่ยน Role หรือ Deactivate ผู้ใช้อื่น Backend ต้อง Revoke Session ทั้งหมดของผู้ใช้เป้าหมายแบบ Atomic และ Session เดิมต้องถูกปฏิเสธด้วย `401 AUTH_SESSION_INVALID`
 6. **Session Expiry & Revocation:**
    - Session ที่ `expires_at <= now()` หรือถูกตั้ง `is_revoked=true` ต้องตอบ `401 AUTH_SESSION_INVALID` แม้ Browser ยังส่ง Cookie เดิม
-   - เมื่อผู้ใช้ทำการ Logout สำเร็จ (`POST /api/auth/logout`) ต้อง Revoke Session ปัจจุบันและบันทึก Audit Log action: `user.logout` ใน Transaction เดียวกัน หาก Audit Write ล้มเหลวต้อง Rollback Session Revoke และตอบ `503 AUTH_SERVICE_UNAVAILABLE`
+   - เมื่อผู้ใช้ทำการ Logout สำเร็จ (`POST /api/v1/auth/logout`) ต้อง Revoke Session ปัจจุบันและบันทึก Audit Log action: `user.logout` ใน Transaction เดียวกัน หาก Audit Write ล้มเหลวต้อง Rollback Session Revoke และตอบ `503 AUTH_SERVICE_UNAVAILABLE`
    - Logout ต้อง Revoke เฉพาะ Session ปัจจุบันและลบ Cookie หลัง Transaction สำเร็จ โดยใช้ Name/Path/Secure/SameSite ตรงกับตอนสร้าง
 7. **Change Password Lifecycle (Self-change):**
    - การเรียกเปลี่ยนรหัสผ่านด้วยตนเอง ต้องส่ง `current_password` มาด้วยเสมอ
@@ -42,7 +45,7 @@
 8. **Admin User Management & Safety Guard:**
    - `Admin` สามารถสร้าง User ใหม่ ระงับบัญชี และเปลี่ยน Role ได้
    - **Password Policy:** Admin สร้าง User ใหม่ต้องใช้ Password Policy เดียวกับ Self-change (ยาว 12-128 ตัวอักษร)
-   - หาก Operator หรือ Viewer พยายามเรียกใช้ Endpoints กลุ่ม `/api/admin/users/*` ต้องถูกปฏิเสธด้วยสถานะ `403 AUTH_FORBIDDEN` ทันที
+   - หาก Operator หรือ Viewer พยายามเรียกใช้ Endpoints กลุ่ม `/api/v1/admin/users/*` ต้องถูกปฏิเสธด้วยสถานะ `403 AUTH_FORBIDDEN` ทันที
    - **Deactivate → Revoke:** เมื่อตั้ง `is_active=false` ให้ผู้ใช้ ระบบต้อง Revoke ทุก Session ของผู้ใช้เป้าหมายทันทีแบบ Atomic (ภายใน Transaction เดียวกัน)
    - **Reactivate ≠ Restore Session:** เมื่อเปิดบัญชีกลับมา (`is_active=true`) ห้ามคืน Session เก่า ผู้ใช้ต้อง Login ใหม่
    - **Fallback Prevention:** ระบบต้องปฏิเสธ (`409 AUTH_LAST_ADMIN_PROTECTED`) การ Demote หรือ Deactivate บัญชี Admin หากนั่นคือ Admin ที่ `is_active=true` คนสุดท้ายของระบบ
@@ -58,7 +61,8 @@
     - **Cancellation/System Error:** Error หรือ Cancel ก่อนทราบผลตรวจต้องคืน Reservation ต่อเมื่องานตรวจที่เริ่มแล้วหยุดจริงและไม่เพิ่ม Credential Failure; Cancel หลังทราบผลล้มเหลวต้องคง Failure ไว้ Cleanup ซ้ำต้องไม่เพิ่มหรือลด Counter ซ้ำ และต้องส่งต่อ `CancelledError` หลัง Cleanup โดยไม่กลืน Cancellation
     - **Lock Boundary:** Limiter ทำงานบน Event Loop เดียวและใช้ `asyncio.Lock` เฉพาะ State Transition ห้ามถือ Lock ระหว่าง User Query, Argon2id, Audit หรืองาน I/O หาก Argon2id ใน Thread ยังทำงานอยู่ การ Cancel Coroutine ที่รอผลต้องไม่คืน Reservation ก่อนงานจริงจบ
     - **IP-only Store:** Rate Limiter ต้องไม่รับหรือเก็บ Username, Email, Raw Identifier, HMAC Digest หรือ Identifier Counter การเปลี่ยน Identifier บน IP เดิมต้องไม่สร้าง Bucket ใหม่ และกฎห้าม Raw Failed-login Identifier ปรากฏใน Application/Audit Log ยังคงมีผล
-    - **Bounded Capacity:** P1 ใช้ Bounded In-memory Sliding-window TTL Store สูงสุด 10,000 Canonical Client IP Keys แต่ละ IP เก็บ Failure Timestamp ที่ยังมีผลสูงสุด 5 รายการและ In-flight Count แบบมีขอบเขต โดยรัน FastAPI หนึ่ง Process/Worker; Restart แล้ว Counter หายเป็นข้อจำกัดที่ต้องอธิบายใน Deployment Configuration
+     - **Bounded Capacity:** P1 ใช้ Bounded In-memory Sliding-window TTL Store สูงสุด 10,000 Canonical Client IP Keys แต่ละ IP เก็บ Failure Timestamp ที่ยังมีผลสูงสุด 5 รายการและ In-flight Count แบบมีขอบเขต โดยรัน FastAPI หนึ่ง Process/Worker; Restart แล้ว Counter หายเป็นข้อจำกัดที่ต้องอธิบายใน Deployment Configuration
+     - **Actual Startup Path:** ต้องทดสอบผ่านคำสั่งเริ่ม backend ที่ใช้จริงในการ Deploy ว่า Auth runtime settings และ Login Rate Limiter ถูกเตรียมก่อนรับ Request และมีเพียงหนึ่ง Process/Worker; เส้นทาง `/api/v1/auth/login` ต้องเข้าถึงได้ ส่วน `/api/auth/login` ต้องไม่ถูกสร้างเป็นเส้นทางคู่ขนาน
     - **Store Full:** เมื่อ Store เต็มต้อง Prune Key ที่หมดอายุและไม่มี In-flight Attempt ให้ครบก่อน หากยังเต็มด้วย Active IP Keys ต้องปฏิเสธ IP Key ใหม่ด้วย `503 AUTH_SERVICE_UNAVAILABLE`, ไม่ใช้ `429`, ไม่สร้าง Partial State และไม่ Evict Failure ที่ยังมีผล เมื่อพื้นที่ว่างจึงต้องรับ IP Key ใหม่ได้
     - **Window Semantics:** Login สำเร็จและ Request ที่ถูก Rate-limit ต้องไม่ล้าง Failure เก่าหรือต่ออายุ Window Failure Timestamp ใช้เวลาที่ทราบผลล้มเหลว และรายการต้องหมดอายุทันทีเมื่อ `age >= 900` วินาที Tests ต้องใช้ Injected/Fake Clock และ Test Event ห้ามใช้ Sleep จริง
     - **IP Canonicalization:** IPv4/IPv6 ที่ Parse ไม่ได้หรือ Client IP หายต้องตอบ `503 AUTH_SERVICE_UNAVAILABLE` โดยไม่เรียก User Query/Verifier และห้ามใช้ Bucket `unknown`; IPv4-mapped IPv6 ต้อง Normalize เป็น IPv4 เพื่อไม่ให้ Client เดียวสร้างสอง Bucket
@@ -68,12 +72,12 @@
     - CORS ต้องระบุ Method Allowlist และ Header Allowlist ที่รองรับ `Content-Type` กับ `X-CSRF-Protection` อย่างชัดเจน
     - State-changing Request (`POST`, `PUT`, `PATCH`, `DELETE`) ต้องมี Exact `Origin`; หากไม่มีให้ตรวจ Exact `Referer`; หากไม่ตรงหรือไม่มีทั้งคู่ให้ตอบ `403 AUTH_ORIGIN_REJECTED`
     - State-changing Request ต้องมี `X-CSRF-Protection: 1`; หากไม่มีหรือค่าผิดให้ตอบ `403 AUTH_CSRF_REJECTED`
-    - `POST /api/auth/login` ต้องผ่าน CSRF Guard แม้ Request ยังไม่มี Session: Origin/Header ผิดต้องได้ `403`; เมื่อ Origin/Header ถูกต้องแต่ Credential ผิดจึงได้ `401 AUTH_INVALID_CREDENTIALS`
-    - Auth API ที่มี Body ต้องปฏิเสธ Content Type ที่ไม่ใช่ `application/json` แต่ `POST /api/auth/logout` ที่ไม่มี Body และมี Origin/Header ถูกต้องต้องสำเร็จได้โดยไม่ส่ง `Content-Type`
+    - `POST /api/v1/auth/login` ต้องผ่าน CSRF Guard แม้ Request ยังไม่มี Session: Origin/Header ผิดต้องได้ `403`; เมื่อ Origin/Header ถูกต้องแต่ Credential ผิดจึงได้ `401 AUTH_INVALID_CREDENTIALS`
+    - Auth API ที่มี Body ต้องปฏิเสธ Content Type ที่ไม่ใช่ `application/json` แต่ `POST /api/v1/auth/logout` ที่ไม่มี Body และมี Origin/Header ถูกต้องต้องสำเร็จได้โดยไม่ส่ง `Content-Type`
     - `GET` และ `HEAD` ต้องไม่มี State-changing Side Effect ส่วน `OPTIONS` ต้องถูกจัดการเป็น CORS Preflight โดยไม่เรียก Business Action
 12. **Audit Log Data Integrity & Privacy Policy:**
     - เหตุการณ์ต้องระบุ `action` (ใช้ Canonical Action Names: `user.login_success`, `user.login_failed`, `user.logout`, `user.password_changed`, `user.created`, `user.updated`, `user.deactivated`, `auth.permission_denied`) และ `resource_type`
-    - ระบบเก็บข้อมูลลงตารางกลางด้วยคอลัมน์ `user_id`, `created_at` แต่ตอนตอบกลับ API `/api/audit-logs` จะต้อง Map ชื่อเป็น `actor_user_id` และ `occurred_at` เสมอ
+    - ระบบเก็บข้อมูลลงตารางกลางด้วยคอลัมน์ `user_id`, `created_at` แต่ตอนตอบกลับ API `/api/v1/audit-logs` จะต้อง Map ชื่อเป็น `actor_user_id` และ `occurred_at` เสมอ
     - กรณีที่เข้าถึงโดยไม่ทราบตัวตน (เช่น Login ผิดพลาดของ Hacker) ค่า `actor_user_id` และ `resource_id` จะต้องยอมรับค่า **NULL** ได้
     - **Strict Privacy Rule:** Auth Caller ไม่มี `description` หรือ Client IP Argument และส่งเฉพาะ 4 Business Arguments เท่านั้น Wrapper/Audit Writer กำหนด `description` เป็น `null` หรือ Fixed Safe Template ภายใน โดยห้ามมี Password (Plaintext/Hash), Session Token, Cookie Header, Session Token Hash, Credential Secret หรือ Raw Failed-login Identifier
 13. **Environment Policy (Test Users):**
@@ -83,7 +87,7 @@
 14. **Failed Login Target Binding:**
     - หากมีการพยายาม Login เข้าบัญชีที่มีอยู่จริงแต่รหัสผ่านผิด Audit Log ต้องบันทึกว่า `actor_id = null` (เนื่องจากผู้กระทำยังยืนยันตัวไม่ได้) แต่ต้องบันทึก `resource_id` เป็น ID ของบัญชีเป้าหมายนั้น
 15. **Dashboard Recent Activity Redaction:**
-    - การดึงข้อมูลผ่าน API `/api/dashboard/recent-activity` หากเหตุการณ์นั้นมี `actor_user_id = null` ข้อมูลที่ตอบกลับต้องแสดงคำว่า `Unknown` แทน
+    - การดึงข้อมูลผ่าน API `/api/v1/dashboard/recent-activity` หากเหตุการณ์นั้นมี `actor_user_id = null` ข้อมูลที่ตอบกลับต้องแสดงคำว่า `Unknown` แทน
     - ต้องไม่มีการหลุด PII หรือข้อมูลลับใดๆ ทั้งสิ้น (ได้แก่: ห้ามแสดง IP Address, ห้ามแสดง User-Agent, ห้ามแสดง Error Detail, ห้ามแสดง Secret, ห้ามแสดง Full Audit Description)
 16. **Password Change Atomic Rollback:**
     - หากระบบสามารถ Update Password Hash และ Revoke Sessions ได้สำเร็จ แต่ไม่สามารถเขียน Audit Log ลง Database ได้ ระบบจะต้อง Rollback การกระทำทั้งหมดใน Transaction นั้น กลับสู่สถานะเดิม และตอบ `503 AUTH_SERVICE_UNAVAILABLE`
@@ -115,7 +119,7 @@
     - `401 AUTH_INVALID_CREDENTIALS` ต้องใช้ Message เดียวกันสำหรับไม่พบบัญชี, รหัสผ่านผิด และบัญชี Inactive
     - `500/503` ห้ามมี Stack Trace, SQL/Driver Error, Token, Cookie หรือ Secret ใน Response
 25. **Frontend 401/403 Behavior:**
-    - เมื่อ Protected API ตอบ `AUTH_SESSION_MISSING` หรือ `AUTH_SESSION_INVALID` Frontend ต้องล้าง Zustand Auth State และ User-scoped TanStack Query Cache แล้ว Redirect ไปหน้า Login; เฉพาะ `AUTH_SESSION_INVALID` จึงแสดงข้อความ Session สิ้นสุด
+    - เมื่อ Protected API ตอบ `AUTH_SESSION_MISSING` หรือ `AUTH_SESSION_INVALID` Frontend ต้องล้าง Jotai Auth state และ User-scoped TanStack Query Cache แล้ว Redirect ไปหน้า Login; เฉพาะ `AUTH_SESSION_INVALID` จึงแสดงข้อความ Session สิ้นสุด
     - เมื่อ API ตอบ `AUTH_FORBIDDEN` Frontend ต้องไม่ Logout ผู้ใช้และต้องแสดง Access Denied หรือกลับไปหน้าที่มีสิทธิ์
     - เมื่อ API ตอบ `AUTH_ORIGIN_REJECTED` หรือ `AUTH_CSRF_REJECTED` Frontend ต้องไม่ Logout และห้าม Retry State-changing Request อัตโนมัติ
     - Concurrent Protected Requests ที่ได้ `401` พร้อมกันต้องทำให้เกิดการ Clear/Redirect/Notification เพียงหนึ่งรอบ

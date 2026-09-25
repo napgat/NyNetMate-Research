@@ -2,6 +2,9 @@
 
 เพื่อป้องกันการ Hardcode รหัสผ่านลงใน Source Code และรองรับการทำ MVP Demo/Dev ระบบ MyNetMate กำหนดให้ใช้ Seed Script สร้างผู้ใช้งานทดสอบ (Test Users) ภายใต้เงื่อนไขความปลอดภัยดังนี้
 
+> [!NOTE] เพิ่มข้อกำหนดการเชื่อม Startup วันที่ 2026-09-25
+> `mynetmate/backend` branch `main` mount feature routers ภายใต้ `/api/v1` ส่วน Auth API ยังเป็นงานที่จะต้องเชื่อมเข้ากับ router กลาง เมื่อทำจริงให้ตรวจคำสั่งเริ่ม backend ของ Deployment ว่าโหลด Auth runtime settings, เตรียม Rate Limiter และใช้หนึ่ง Process/Worker ตามนโยบายด้านล่าง ข้อความนี้เป็นเกณฑ์พัฒนา ไม่ใช่สถานะว่า Auth API ทำงานแล้ว
+
 ## 1. Test Users Definition
 สคริปต์จะต้องสร้างผู้ใช้งานเริ่มต้น 3 บัญชีเฉพาะเมื่อบัญชีนั้นยังไม่เคยถูกสร้างมาก่อน (ป้องกันการรีเซ็ตรหัสผ่านหากผู้ใช้เคยเปลี่ยนไปแล้ว):
 
@@ -38,5 +41,7 @@
 | `AUTH_RATE_LIMIT_MAX_KEYS` | ค่าเริ่มต้น `10000` สำหรับ Bounded In-memory Store โดยนับเฉพาะ Canonical Client IP Keys |
 
 P1 Deployment ต้องใช้ FastAPI/Uvicorn เพียงหนึ่ง Process/Worker เมื่อเลือก In-memory Rate Limiter หากจะใช้หลาย Worker หรือหลาย Instance ต้องเปลี่ยนเป็น Shared Rate-limit Store และอัปเดต Architecture Contract ก่อน ห้ามใช้ Per-process Counter หลายชุดเพราะทำให้ Threshold ถูกหลบได้
+
+คำสั่งเริ่ม backend ที่ใช้งานจริงทั้งแบบ local และ Docker/Compose ต้องสร้างแอปพร้อม Auth runtime settings และเตรียม Login Rate Limiter ใน Lifespan ก่อนรับคำขอ พร้อมตรวจว่า Auth router ถูก mount ภายใต้ `/api/v1` ตาม API Contract ห้ามใช้ entry point ที่ข้ามการเตรียม Auth runtime แม้ตัวแอปจะเริ่มฟังพอร์ตได้
 
 P1 ไม่เก็บ Identifier Telemetry, HMAC Secret หรือ Identifier Counter ใน Runtime Configuration ส่วน Request field `identifier` ยังคงใช้สำหรับค้นหา Username/Email เท่านั้นและห้ามถูกบันทึกเป็น Raw Value ใน Application/Audit Log

@@ -2,6 +2,9 @@
 
 เอกสารนี้กำหนดขอบเขต (Scope) การทำงานขั้นต่ำ (MVP) ของฟีเจอร์ Authentication และการควบคุมสิทธิ์ (RBAC) สำหรับ MyNetMate (Phase 1)
 
+> [!NOTE] ปรับสัญญา URL วันที่ 2026-09-25
+> ตัวอย่าง Auth API ในเอกสารนี้ใช้ prefix `/api/v1` ตาม `settings.api_v1_prefix` และการ mount `api_router` ใน `mynetmate/backend` branch `main` เพื่อให้การพัฒนาจริงใช้เส้นทางเดียวกัน
+
 ## 1. Core Architecture
 - **Authentication:** ใช้ **Database-backed Opaque Server-side Session** โดยส่ง Session Token แบบสุ่มผ่าน `HttpOnly` Cookie
 - **Session Token:** สร้างด้วย CSPRNG ขนาด 32 bytes (256 bits) ทุกครั้งที่ Login สำเร็จ และเก็บเฉพาะ SHA-256 Hash ใน Database ห้ามเก็บหรือ Log Token ดิบ
@@ -24,8 +27,8 @@ MyNetMate เลือก Server-side Session แทน JWT สำหรับ P
 
 ### 1.2 Browser Security Boundary (P1)
 
-- **CSRF:** ใช้ FastAPI/Starlette `CORSMiddleware` ร่วมกับ CSRF Guard กลางของ Backend โดยทุก `POST`, `PUT`, `PATCH`, `DELETE` ต้องผ่าน Exact `Origin`/`Referer` และ `X-CSRF-Protection: 1` ก่อนทำ Business Action รวมถึง `POST /api/auth/login` ซึ่งยังไม่มี Session
-- **Request Body:** ตรวจ `Content-Type: application/json` เฉพาะ Endpoint ที่มี Request Body เท่านั้น ดังนั้น `POST /api/auth/logout` ซึ่งไม่มี Body ต้องทำงานได้โดยไม่ต้องส่ง `Content-Type` เมื่อผ่าน Origin และ CSRF Header แล้ว
+- **CSRF:** ใช้ FastAPI/Starlette `CORSMiddleware` ร่วมกับ CSRF Guard กลางของ Backend โดยทุก `POST`, `PUT`, `PATCH`, `DELETE` ต้องผ่าน Exact `Origin`/`Referer` และ `X-CSRF-Protection: 1` ก่อนทำ Business Action รวมถึง `POST /api/v1/auth/login` ซึ่งยังไม่มี Session
+- **Request Body:** ตรวจ `Content-Type: application/json` เฉพาะ Endpoint ที่มี Request Body เท่านั้น ดังนั้น `POST /api/v1/auth/logout` ซึ่งไม่มี Body ต้องทำงานได้โดยไม่ต้องส่ง `Content-Type` เมื่อผ่าน Origin และ CSRF Header แล้ว
 - **XSS:** ข้อมูลจากผู้ใช้หรือ API ต้อง Render เป็น Text ด้วย React JSX ห้ามนำไปใช้กับ `dangerouslySetInnerHTML`, `innerHTML`, `outerHTML`, `insertAdjacentHTML` หรือ `document.write` หากไม่มี Security Review และ Sanitization ที่ได้รับอนุมัติ
 - **Session Impact:** `HttpOnly` ลดโอกาสขโมย Token แต่ไม่หยุด Script อันตรายจากการเรียก API ใน Browser ของเหยื่อ จึงยังต้องป้องกัน XSS ที่จุด Render และบังคับ Authorization ที่ Backend
 - **Library Decision:** P1 ไม่เพิ่ม Third-party CSRF Library เพราะ Contract ปัจจุบันไม่ใช้ Synchronizer/Double-submit Token และสามารถบังคับด้วย CORS Middleware กับ Guard กลางได้โดยตรง หากรูปแบบ Deployment หรือ Form เปลี่ยนในอนาคตต้องทบทวนการตัดสินใจนี้

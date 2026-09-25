@@ -2,6 +2,13 @@
 
 เอกสารนี้ระบุสเปคของ API เพื่อให้ทีม Frontend และ Backend สามารถทำงานร่วมกันได้ทันที
 
+> [!IMPORTANT] ปรับสัญญาการพัฒนา วันที่ 2026-09-25
+> `mynetmate/backend` branch `main` กำหนด `settings.api_v1_prefix = "/api/v1"` และ mount feature routers ผ่าน `api_router` จึงกำหนดให้ Auth และ Admin API ของ P1 ใช้ `/api/v1/...` ตามเอกสารนี้ ห้ามสร้างเส้นทางคู่ขนาน `/api/auth/...` หรือ `/api/admin/...` เมื่อ implement จริง ส่วน `/health`, `/docs`, `/redoc`, `/openapi.json` และ `/docs/scalar` ของ backend เป็นเส้นทางระบบที่อยู่นอก prefix นี้
+>
+> Frontend ปัจจุบันติดตั้งและใช้ Jotai แล้ว จึงปรับข้อกำหนด Auth state จาก Zustand เป็น Jotai โดยยังเก็บเพียง Current User Summary และล้าง User-scoped TanStack Query Cache เมื่อ Session ไม่ถูกต้อง ข้อกำหนดนี้เป็นเป้าหมายการพัฒนา Auth; ยังไม่ใช่การยืนยันว่า Auth UI ทำเสร็จแล้ว
+>
+> `/api/v1/audit-logs` และ `/api/v1/dashboard/recent-activity` ในเอกสาร Auth เป็นเส้นทางเป้าหมายสำหรับการเชื่อม Feature Audit/Dashboard; `backend/main` ยังไม่มี router สองเส้นนี้ และเอกสารเจ้าของ Feature ยังใช้ `/api/...` เดิม จึงต้องปรับสัญญากับเจ้าของ Feature ก่อน implement การเชื่อมจริง
+
 ## 1. Server-side Session & Cookie Specification
 
 ### 1.1 Opaque Session Token
@@ -41,7 +48,7 @@
 ## 2. API Endpoints
 
 ### 2.1 Login
-- **URL:** `POST /api/auth/login`
+- **URL:** `POST /api/v1/auth/login`
 - **Rate Limit Enforcement:** ใช้ Sliding Window 15 นาทีต่อ Canonical Client IP โดยอนุญาตให้เริ่มตรวจ Login เมื่อ `Failed Attempts ที่ยังอยู่ใน Window + In-flight Attempts < 5` เท่านั้น การตรวจ Capacity และจองสิทธิ์ต้อง Atomic ก่อน User Query/Argon2id หากผลรวมเท่ากับหรือมากกว่า 5 ให้ตอบ `429 AUTH_LOGIN_RATE_LIMITED` แม้ In-flight Attempts ยังไม่ทราบผล การจองยังไม่ถือเป็น Failure จนกว่าจะยืนยันผลล้มเหลว
 - **P1 Storage:** ใช้ Bounded In-memory TTL Store ค่าเริ่มต้นสูงสุด 10,000 Canonical Client IP Keys ใน FastAPI Process เดียว แต่ละ IP เก็บ Failure Timestamp ที่ยังมีผลได้สูงสุด 5 รายการและ In-flight Count แบบมีขอบเขต การ Restart ทำให้ Counter หายเป็นข้อจำกัดที่ยอมรับใน P1; หากใช้หลาย Worker/Instance ต้องเปลี่ยนเป็น Shared Store และทบทวน Contract ก่อน
 - **Capacity Failure:** ก่อนปฏิเสธเพราะ Store เต็มต้อง Prune IP Key ที่หมดอายุและไม่มี In-flight Attempt ให้ครบก่อน หากยังเต็มด้วย Active IP Keys ให้ปฏิเสธ IP Key ใหม่ด้วย `503 AUTH_SERVICE_UNAVAILABLE` ไม่ใช้ `429` และห้าม Evict Active Failure State เพื่อรับ Key ใหม่
@@ -70,7 +77,7 @@
   - `503 AUTH_SERVICE_UNAVAILABLE` — Client IP ใช้ไม่ได้หรือ Rate-limit Store ไม่มีพื้นที่สำหรับ IP Key ใหม่หลัง Prune แล้ว
 
 ### 2.2 Get Current User (Me)
-- **URL:** `GET /api/auth/me`
+- **URL:** `GET /api/v1/auth/me`
 - **Request:** (แนบ Cookie อัตโนมัติ)
 - **Response Success (200 OK):**
   ```json
@@ -85,13 +92,13 @@
   *(หมายเหตุ: `email` อาจเป็น `null` หากผู้ใช้ไม่ได้ระบุ)*
 
 ### 2.3 Logout
-- **URL:** `POST /api/auth/logout`
+- **URL:** `POST /api/v1/auth/logout`
 - **Response Success (204 No Content):** (ไม่มี Body)
   *(Backend จะอัปเดต Session ปัจจุบันเป็น `is_revoked=true` และบันทึก `user.logout` ใน Database Transaction เดียวกัน จากนั้นจึงส่ง `Set-Cookie` เพื่อลบ Cookie ด้วย `Max-Age=0` โดยใช้ชื่อเดิม, `Path=/` และไม่กำหนด `Domain` ให้ตรงกับ Cookie เดิม หาก Mandatory Audit Write ล้มเหลวต้อง Rollback Session Revoke และตอบ `503 AUTH_SERVICE_UNAVAILABLE`)*
   *(หมายเหตุ: Cookie ถูกระบุตัวหลักด้วย Name + Domain + Path; Production ต้องใส่ `Secure` เพื่อให้ Cookie ชื่อ `__Host-mynetmate_session` ผ่านข้อกำหนดของ Prefix และควรใช้ `HttpOnly`/`SameSite` ตาม Policy เดิมอย่างสม่ำเสมอ)*
 
 ### 2.4 Self-Change Password
-- **URL:** `POST /api/auth/change-password`
+- **URL:** `POST /api/v1/auth/change-password`
 - **Request Body:**
   ```json
   {
@@ -117,7 +124,7 @@
 
 ### 2.6 Admin User Management
 - **Authorization:** ต้องมี Permission `user.manage` (เฉพาะ Admin)
-- **GET `/api/admin/users` (List Users):**
+- **GET `/api/v1/admin/users` (List Users):**
   - **Query Params:** `?page=1&limit=50&status=active` (Optional)
   - **Response (200 OK):**
     ```json
@@ -128,7 +135,7 @@
       "meta": { "total": 1, "page": 1, "limit": 50 }
     }
     ```
-- **POST `/api/admin/users` (Create User):**
+- **POST `/api/v1/admin/users` (Create User):**
   - **Request Body:**
     ```json
     {
@@ -141,7 +148,7 @@
     *(Validation: Username format, `email` เป็น Optional (ส่งได้หรือไม่ส่งก็ได้), `password` ต้องยาว 12-128 ตัวอักษร, `role` ∈ [admin, operator, viewer])*
   - **Response (201 Created):** คืนค่า User Object ที่เพิ่งสร้าง (ไม่มี Password)
   - *(Side Effect: ต้องบันทึก Audit Log `user.created` โดย `actor_id` = Admin, `resource_id` = User ใหม่)*
-- **PATCH `/api/admin/users/{user_id}` (Update User):**
+- **PATCH `/api/v1/admin/users/{user_id}` (Update User):**
   - **Request Body:**
     ```json
     {
@@ -158,7 +165,7 @@
 
 ### 2.7 Audit Logs API
 - **Authorization:** ต้องมี Permission `audit.read` (เฉพาะ Admin เท่านั้น Operator/Viewer ต้องไปใช้ API หมวด Dashboard แยกต่างหากเพื่อดูสรุป Activity)
-- **GET `/api/audit-logs`:**
+- **GET `/api/v1/audit-logs`:**
   - *หมายเหตุ: API เส้นนี้มี Feature Audit Trail เป็นเจ้าของ (Source of Truth) กรุณาอ้างอิง Request/Response DTO และระบบ Cursor Pagination แบบเต็มจากเอกสาร `02_feature/11_Audit Trail(Naphat)/04_API Contracts.md` เพื่อป้องกันความขัดแย้งของเอกสาร*
 
 ## 3. Error Response Contract
@@ -205,10 +212,10 @@ Auth Error ทุกตัวต้องตอบ JSON รูปแบบเด
 - **CORS Credentials:** `Access-Control-Allow-Credentials: true`
 - **CORS Methods/Headers:** กำหนด Method Allowlist แบบชัดเจนอย่างน้อย `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, `OPTIONS` และ Header Allowlist อย่างน้อย `Content-Type`, `X-CSRF-Protection`; ห้ามใช้ Wildcard กับ CORS Configuration ที่อนุญาต Credentials
 - **Frontend Credential Mode:** React ต้องใช้ `credentials: "include"` กับทุก Request ที่ต้องใช้ Session
-- **Central CSRF Guard:** คำขอประเภท State-changing (`POST`, `PUT`, `PATCH`, `DELETE`) ทุกเส้นต้องผ่าน Guard กลางก่อนทำ Business Action รวมถึง Public Endpoint เช่น `POST /api/auth/login` โดยมีเงื่อนไขดังนี้:
+- **Central CSRF Guard:** คำขอประเภท State-changing (`POST`, `PUT`, `PATCH`, `DELETE`) ทุกเส้นต้องผ่าน Guard กลางก่อนทำ Business Action รวมถึง Public Endpoint เช่น `POST /api/v1/auth/login` โดยมีเงื่อนไขดังนี้:
   1. `Origin` ต้องตรงกับ Exact Allowlist; หากไม่มี `Origin` ให้ Parse Scheme + Host + Port จาก `Referer` แล้วเปรียบเทียบกับ Allowlist; หากไม่ตรงหรือไม่มีทั้งคู่ให้ตอบ `403 AUTH_ORIGIN_REJECTED`
   2. ต้องมี Custom Header `X-CSRF-Protection: 1`; หากไม่มีหรือค่าผิดให้ตอบ `403 AUTH_CSRF_REJECTED`
-  3. Endpoint ที่มี Request Body ต้องรับเฉพาะ `Content-Type: application/json` ส่วน Endpoint ที่ไม่มี Body เช่น `POST /api/auth/logout` ห้ามบังคับว่าต้องมี `Content-Type`
+  3. Endpoint ที่มี Request Body ต้องรับเฉพาะ `Content-Type: application/json` ส่วน Endpoint ที่ไม่มี Body เช่น `POST /api/v1/auth/logout` ห้ามบังคับว่าต้องมี `Content-Type`
   4. ห้ามมี State-changing `GET`; `GET` และ `HEAD` ต้องไม่มี Side Effect ส่วน `OPTIONS` ให้ CORS Middleware จัดการเป็น Preflight และไม่ต้องผ่าน Session/CSRF Validation ของ Route
 - **Custom Header Purpose:** `X-CSRF-Protection: 1` ไม่ใช่ Secret หรือ CSRF Token แต่ใช้บังคับให้ Cross-origin JavaScript ผ่าน CORS Preflight จึงต้องตรวจร่วมกับ Exact Origin/Referer เสมอ
 - **Guard Order:** State-changing Request ต้องผ่าน CORS/CSRF Guard ก่อน จากนั้น Protected Endpoint จึงผ่าน Session Guard และ Permission Guard ก่อนถึง Handler; Public Endpoint ข้ามเฉพาะ Session/Permission Guard
@@ -219,7 +226,7 @@ Auth Error ทุกตัวต้องตอบ JSON รูปแบบเด
 
 ## 5. Frontend Authentication State Contract
 
-- Frontend ต้องเรียก API ที่ใช้ Session ด้วย `credentials: "include"` และเก็บเฉพาะ Current User Summary ใน Zustand ห้ามเก็บ Session Token
+- Frontend ต้องเรียก API ที่ใช้ Session ด้วย `credentials: "include"` และเก็บเฉพาะ Current User Summary ใน Jotai Auth state ห้ามเก็บ Session Token
 - `AUTH_INVALID_CREDENTIALS` บนหน้า Login: อยู่หน้าเดิมและแสดงข้อความ Generic
 - `AUTH_SESSION_MISSING` จาก Protected API: ล้าง Auth State/User-scoped Query Cache แล้วไปหน้า Login โดยไม่แสดงข้อความ Session Expired
 - `AUTH_SESSION_INVALID` จาก Protected API: ล้าง Auth State/User-scoped Query Cache แล้วไปหน้า Login พร้อมข้อความ “Session หมดอายุหรือถูกยกเลิก กรุณาเข้าสู่ระบบอีกครั้ง”

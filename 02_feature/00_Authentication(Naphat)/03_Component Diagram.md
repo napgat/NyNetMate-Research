@@ -1,5 +1,8 @@
 # Component & Flow Diagram - Authentication
 
+> [!NOTE] ปรับสัญญา URL วันที่ 2026-09-25
+> เส้นทาง Auth API ในแผนภาพและคำอธิบายใช้ prefix `/api/v1` ตาม `api_router` ของ `mynetmate/backend` branch `main`; implementation ต้อง mount Auth router ผ่าน router กลางเดียวกัน
+
 ## 1. UML Component Diagram (Architecture View)
 
 ### 1.1 หลักคิดร่วมตาม UML
@@ -241,7 +244,7 @@ sequenceDiagram
     participant DB as Database
     participant L as Audit Log
 
-    C->>A: POST /api/auth/login (Identifier, Password)
+    C->>A: POST /api/v1/auth/login (Identifier, Password)
     A->>R: Atomically begin attempt for canonical Client IP
     alt Failures in window + In-flight attempts >= 5
         R-->>A: Reject without creating reservation
@@ -350,9 +353,9 @@ sequenceDiagram
     end
 ```
 
-CSRF Guard ต้องทำงานกับ State-changing Request ทุกเส้น รวมถึง Public Endpoint เช่น `POST /api/auth/login`; Public Endpoint จะข้าม Auth/Permission Guard แล้วไปยัง Handler หลังผ่าน CSRF Guard ส่วน `OPTIONS` เป็น CORS Preflight และไม่ถือเป็น State-changing Request
+CSRF Guard ต้องทำงานกับ State-changing Request ทุกเส้น รวมถึง Public Endpoint เช่น `POST /api/v1/auth/login`; Public Endpoint จะข้าม Auth/Permission Guard แล้วไปยัง Handler หลังผ่าน CSRF Guard ส่วน `OPTIONS` เป็น CORS Preflight และไม่ถือเป็น State-changing Request
 
-การตรวจ `Content-Type` ใช้เฉพาะ Endpoint ที่มี Request Body ดังนั้น `POST /api/auth/logout` ซึ่งไม่มี Body ต้องผ่านได้โดยไม่ส่ง `Content-Type` หาก Origin/Referer และ CSRF Header ถูกต้อง Backend ต้องอ่าน Role ปัจจุบันจาก `users` ทุก Protected Request ห้ามเก็บหรือเชื่อ Role จาก Cookie และต้อง Fail Closed หาก Database ใช้งานไม่ได้
+การตรวจ `Content-Type` ใช้เฉพาะ Endpoint ที่มี Request Body ดังนั้น `POST /api/v1/auth/logout` ซึ่งไม่มี Body ต้องผ่านได้โดยไม่ส่ง `Content-Type` หาก Origin/Referer และ CSRF Header ถูกต้อง Backend ต้องอ่าน Role ปัจจุบันจาก `users` ทุก Protected Request ห้ามเก็บหรือเชื่อ Role จาก Cookie และต้อง Fail Closed หาก Database ใช้งานไม่ได้
 
 ## 4. Self-Change Password Sequence Flow
 เมื่อผู้ใช้ต้องการเปลี่ยนรหัสผ่านของตนเอง
@@ -365,7 +368,7 @@ sequenceDiagram
     participant DB as Database
     participant L as Audit Log
 
-    C->>A: POST /api/auth/change-password (current_password, new_password)
+    C->>A: POST /api/v1/auth/change-password (current_password, new_password)
     A->>DB: Load current user password_hash
     A->>H: Verify current_password with Argon2id
     alt Current Password Invalid

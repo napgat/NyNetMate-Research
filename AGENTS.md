@@ -2,7 +2,7 @@
 
 > **Project:** MyNetMate (CEPP Capstone Project CEPP68-33, KMITL)  
 > **Purpose:** Canonical project context, navigation map, implementation snapshot, and rules for AI coding agents
-> **Last verified:** 2026-09-03
+> **Last verified:** 2026-10-01 (implementation snapshot; vendor/lab evidence unchanged)
 
 ---
 
@@ -56,28 +56,30 @@
 
 ## 3. Current Implementation Snapshot
 
-ตรวจจากไฟล์จริงเมื่อ 2026-09-03:
+ตรวจจาก manifest, source และผลทดสอบ Auth/Audit/UI จริงเมื่อ 2026-10-01:
 
 | Area | Current verified state | Target / note |
 |---|---|---|
-| **Frontend** | React 19.2.8, React DOM 19.2.8, Vite 8.2.0, TypeScript 6.0.2, Oxlint 1.75; ยังเป็น Vite starter screen | MyNetMate UI, routing, state management และ styling stack ยังต้อง Implement/ยืนยันก่อนใช้ |
-| **Backend** | FastAPI 0.141.1, Uvicorn 0.52.4, Pydantic Settings 2.15.0; API version 0.1.0 | มี feature-oriented routers/services แต่หลายส่วนเป็น prototype, sample หรือ in-memory |
+| **Frontend** | React 19.2.8, Vite 8.2.1, TypeScript 6.0.3, MUI 9.4.0, TanStack Router/Query, Tailwind 4, Jotai และ Zustand 5.0.15; มี Device/Topology UI เดิมและหน้า Login/Account/Users/Audit ที่เชื่อม API แล้ว | Auth UI ผ่าน Build/Lint และ client tests; การรับรอง Device/Topology ทั้งระบบต้องแยกทดสอบ |
+| **Backend** | FastAPI 0.141.1, Uvicorn 0.52.4, Pydantic Settings 2.15.0; API version 0.1.0 | Auth/Audit เชื่อม PostgreSQL แล้ว; Config/CIS/AI ยังเป็น stub |
 | **Network discovery integration** | Backend ใช้ `oxian_py` จาก Mynetmate/oxian | โฟลเดอร์ `mynetmate/network-discovery/` เป็นงานเพื่อนและ Read-only สำหรับ AI |
-| **Database** | ยังไม่พบ SQLAlchemy/PostgreSQL/Alembic dependency ใน Backend ปัจจุบัน; device/group/version service ใช้ in-memory state | Target คือ PostgreSQL 15+, SQLAlchemy 2 และ Alembic; SQLite ใช้ Dev/Test ตามแผน |
-| **Config generation** | มี API prototype ที่ประกอบข้อความ Config แบบง่าย | Target คือ deterministic Jinja2 templates และ conservative Cisco IOS command set |
-| **CIS validation** | มี sample checks ใน service | Target คือ 8 กฎหลักด้วย deterministic rules/Regex |
-| **AI config** | มี fallback/sample response; ยังไม่ใช่ Gemini integration ที่พร้อมใช้งาน | AI Config & Review อยู่ P2; ต้องผ่าน PII masking, context guardrails และ CIS gate |
+| **Database** | ติดตั้ง SQLAlchemy 2.0.52, Alembic 1.19.2, asyncpg 0.31.0; มี Inventory/Auth/Audit models และ migration chain ถึง `20261001_02` | Auth/Audit ทดสอบกับ PostgreSQL 16 แยก; ไม่รัน migration บนฐานทีมในรอบนี้ |
+| **Auth & RBAC** | Server-side session cookie, Login/Me/Logout/Change Password, Admin Users API, permission guard และ manual bootstrap/seed 3 Role Implemented และ Tested | Demo seed เฉพาะ development/test; guard ยังไม่ได้ครอบ Feature API ของเพื่อน |
+| **Audit Trail** | Mandatory transaction-bound writer, P1 registry/privacy gate และ Admin read API พร้อม cursor Implemented และ Tested | Frontend Audit ใช้ข้อมูลจริง; ไม่รับรอง Dashboard activity หรือ producer ของ Feature อื่น |
+| **Config generation** | Service ปัจจุบันเป็น stub (`pass`) | Target คือ deterministic Jinja2 templates และ conservative Cisco IOS command set |
+| **CIS validation** | Service ปัจจุบันเป็น stub (`pass`) | Target คือ 8 กฎหลักด้วย deterministic rules/Regex |
+| **AI config** | Service ปัจจุบันเป็น stub (`pass`); ยังไม่ใช่ Gemini integration ที่พร้อมใช้งาน | AI Config & Review อยู่ P2; ต้องผ่าน PII masking, context guardrails และ CIS gate |
 | **Documentation** | มี Feature, Architecture, Project Management และ Knowledge Base ใน Vault และ `mynetmate/docs/` | Scope file ใน Vault เป็นตัวตัดสิน MVP เว้นแต่ผู้ใช้ประกาศเปลี่ยน |
 | **Obsidian** | เปิด Community plugins 12 ตัว รวม Advanced Tables | อ่าน [OBSIDIAN_EXTENSIONS.md](OBSIDIAN_EXTENSIONS.md) ก่อนสร้าง artifact ที่พึ่ง plugin |
 
-### Approved target technologies not yet proof of implementation
+### Approved targets and remaining implementation gaps
 
 - **Backend target:** Python 3.11+, FastAPI, Pydantic v2, SQLAlchemy 2, PostgreSQL, Alembic, Jinja2
 - **Network target:** Netmiko, TextFSM/NTC Templates, ciscoconfparse
 - **PII target:** `yacryptopan` สำหรับ IP + Regex สำหรับ Password/Secret
 - **AI target:** Gemini API with structured output and database context injection
 - **Infrastructure target:** Docker/Compose, Pytest, isolated GNS3/Packet Tracer lab
-- **Frontend candidates in planning:** Tailwind CSS, TanStack Router/Query และ Zustand; ห้ามอ้างว่าติดตั้งแล้วจนกว่าจะพบใน `mynetmate/website/package.json`
+- **Frontend installed:** Tailwind CSS, TanStack Router/Query, MUI, Jotai และ Zustand ตรวจจาก `mynetmate/website/package.json` และ local package metadata; Zustand ใช้เฉพาะ public Auth state แบบไม่ persist
 
 ### Explicitly retired or rejected
 
@@ -198,4 +200,4 @@ Critical demo flow:
 
 ---
 
-*Maintained for CEPP68-33 | Last verified: 2026-09-03*
+*Maintained for CEPP68-33 | Last verified: 2026-10-01*

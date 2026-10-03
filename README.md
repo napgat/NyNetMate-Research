@@ -8,16 +8,18 @@ MyNetMate คือ Capstone Project CEPP68-33 ของ KMITL สำหรั�
 
 ## Current Status
 
-สถานะที่ตรวจจาก Source Code เมื่อ **2026-09-03**:
+สถานะที่ตรวจจาก Source Code และผลทดสอบ Auth/Audit/UI เมื่อ **2026-10-01**:
 
 | Component                | Current state                                                                                                     |
 | ------------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| Frontend                 | React 19.2.8 + Vite 8.2 + TypeScript 6; ปัจจุบันยังเป็น starter screen                                            |
-| Backend                  | FastAPI API prototype version 0.1.0 มี feature routers/services หลายหมวด แต่หลายส่วนยังเป็น sample หรือ in-memory |
-| Database                 | ยังไม่พบ SQLAlchemy/PostgreSQL/Alembic ใน dependency ปัจจุบัน                                                     |
-| Configuration generation | มี prototype แบบง่าย; Jinja2 template engine ตาม MVP ยังต้อง Implement                                            |
-| CIS validation           | มี sample checks; เป้าหมายคือ 8 deterministic CIS rules                                                           |
-| AI-assisted config       | มี fallback/sample response; Gemini integration อยู่ใน P2 และต้องผ่าน PII/CIS guardrails                          |
+| Frontend                 | React 19.2.8 + Vite 8.2.1 + TypeScript 6.0.3 + MUI/TanStack; มีหน้า Device/Topology เดิม และ Login/Account/Users/Audit เชื่อม API แล้ว |
+| Backend                  | FastAPI 0.141.1 API version 0.1.0; Auth/Audit เชื่อม PostgreSQL แล้ว ส่วน Config/CIS/AI ยังเป็น stub |
+| Database                 | SQLAlchemy 2 + PostgreSQL + Alembic; migration chain ถึง `20261001_02` ผ่านฐานทดสอบแยก ไม่รันบนฐานทีม |
+| Auth & RBAC              | Cookie session, Auth HTTP, Admin Users, permission guard และ manual bootstrap/Demo seed 3 Role Implemented/Tested; ยังไม่ครอบ Feature API ของเพื่อน |
+| Audit Trail              | Writer/Audit transaction/privacy และ Admin read API พร้อมหน้า Audit ใช้ข้อมูลจริง Implemented/Tested |
+| Configuration generation | Service ยังเป็น stub; Jinja2 template engine ตาม MVP ยังต้อง Implement |
+| CIS validation           | Service ยังเป็น stub; เป้าหมายคือ 8 deterministic CIS rules |
+| AI-assisted config       | Service ยังเป็น stub; Gemini integration อยู่ใน P2 และต้องผ่าน PII/CIS guardrails |
 | Documentation            | Feature specs, architecture, proposal, advisor feedback และ knowledge base มีการพัฒนาต่อเนื่อง                    |
 | Obsidian                 | เปิด Community plugins 12 ตัว รวม Advanced Tables; ดู [คู่มือ Extensions](OBSIDIAN_EXTENSIONS.md)                 |
 
@@ -135,7 +137,8 @@ cd mynetmate/backend
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-uvicorn app.main:app --reload
+$env:APP_ENV = 'development'
+python -m app.server
 ```
 
 เมื่อเริ่มสำเร็จ:
@@ -147,18 +150,19 @@ uvicorn app.main:app --reload
 
 ```powershell
 cd mynetmate/website
-npm install
-npm run dev
+bun install
+bun run dev --port 5173
 ```
 
 คำสั่งเพิ่มเติม:
 
 ```powershell
-npm run build
-npm run lint
+bun run test:auth
+bun run build
+bun run lint
 ```
 
-> Frontend ปัจจุบันยังเป็น Vite starter และยังไม่ใช่ MyNetMate UI ที่สมบูรณ์
+Frontend มี Auth/Users/Audit ที่ใช้งานกับ Backend จริงแล้ว แต่ Dashboard และ critical config/demo flow ทั้งหมดยังไม่ได้รับรองว่าเสร็จ ดูวิธีสร้างบัญชีแรกใน [Backend README](mynetmate/backend/README.md#manual-initial-admin-and-demo-users) และการเชื่อม Cookie/proxy ใน [Frontend README](mynetmate/website/README.md#auth-user-management-and-audit)
 
 ## For AI Agents
 
@@ -166,4 +170,4 @@ npm run lint
 
 ---
 
-*MyNetMate — CEPP68-33, KMITL | Last verified: 2026-09-03*
+*MyNetMate — CEPP68-33, KMITL | Last verified: 2026-10-01*

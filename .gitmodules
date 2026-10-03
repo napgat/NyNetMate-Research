@@ -1,0 +1,3 @@
+[submodule "mynetmate"]
+	path = mynetmate
+	url = https://github.com/Mynetmate/mynetmate.git

@@ -1,4 +1,4 @@
-# Dashboard & Monitoring — Glossary
+s# Dashboard & Monitoring — Glossary
 
 > **วัตถุประสงค์:** เป็นคำศัพท์กลางสำหรับเอกสาร Feature, Database Schema, Component Diagram, API Contract, UI และ Acceptance Test ของ Dashboard & Monitoring (D&M)
 >

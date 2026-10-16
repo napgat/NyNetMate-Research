@@ -1,0 +1,110 @@
+[
+  {
+    "id": "wf-01-login",
+    "title": "Login / เข้าสู่ระบบ",
+    "width": 1360,
+    "height": 900,
+    "cells": 16,
+    "labels": 11,
+    "errors": []
+  },
+  {
+    "id": "wf-02-dashboard",
+    "title": "Dashboard / แนวทางข้อมูลสรุป",
+    "width": 1360,
+    "height": 900,
+    "cells": 44,
+    "labels": 36,
+    "errors": []
+  },
+  {
+    "id": "wf-03-device-inventory",
+    "title": "Device Inventory / รายการอุปกรณ์",
+    "width": 1360,
+    "height": 900,
+    "cells": 59,
+    "labels": 54,
+    "errors": []
+  },
+  {
+    "id": "wf-04-device-details",
+    "title": "Device Details / แผงรายละเอียดอุปกรณ์",
+    "width": 1360,
+    "height": 900,
+    "cells": 48,
+    "labels": 34,
+    "errors": []
+  },
+  {
+    "id": "wf-05-add-device",
+    "title": "Add Device / เพิ่มอุปกรณ์",
+    "width": 1360,
+    "height": 900,
+    "cells": 46,
+    "labels": 31,
+    "errors": []
+  },
+  {
+    "id": "wf-06-network-discovery",
+    "title": "Network Discovery / ค้นหาอุปกรณ์",
+    "width": 1360,
+    "height": 900,
+    "cells": 41,
+    "labels": 26,
+    "errors": []
+  },
+  {
+    "id": "wf-07-topology",
+    "title": "Topology / แผนผังเครือข่าย",
+    "width": 1360,
+    "height": 900,
+    "cells": 40,
+    "labels": 28,
+    "errors": []
+  },
+  {
+    "id": "wf-08-user-management",
+    "title": "User Management / รายการผู้ใช้งาน",
+    "width": 1360,
+    "height": 900,
+    "cells": 46,
+    "labels": 41,
+    "errors": []
+  },
+  {
+    "id": "wf-09-create-user",
+    "title": "Create User / เพิ่มบัญชีผู้ใช้งาน",
+    "width": 1360,
+    "height": 900,
+    "cells": 36,
+    "labels": 29,
+    "errors": []
+  },
+  {
+    "id": "wf-10-edit-user",
+    "title": "Edit User / แก้ไขบทบาทและสถานะบัญชี",
+    "width": 1360,
+    "height": 900,
+    "cells": 33,
+    "labels": 26,
+    "errors": []
+  },
+  {
+    "id": "wf-11-audit-history",
+    "title": "Audit History / ประวัติเหตุการณ์",
+    "width": 1360,
+    "height": 900,
+    "cells": 61,
+    "labels": 56,
+    "errors": []
+  },
+  {
+    "id": "wf-12-audit-details",
+    "title": "Audit Event Details / รายละเอียดเหตุการณ์",
+    "width": 1360,
+    "height": 900,
+    "cells": 41,
+    "labels": 34,
+    "errors": []
+  }
+]

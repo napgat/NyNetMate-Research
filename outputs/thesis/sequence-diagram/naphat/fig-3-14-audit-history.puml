@@ -1,0 +1,36 @@
+@startuml
+hide footbox
+skinparam monochrome true
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 16
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+title Audit History Sequence Diagram
+actor "Admin" as U
+participant "Frontend\nReact / TypeScript" as F
+participant "Backend\nAudit Read Service" as B
+database "PostgreSQL" as D
+U -> F : เปิดหน้า Audit History\nและกำหนดตัวกรองถ้าต้องการ
+F -> B : GET /api/audit-logs\nตัวกรอง + Cursor + Session Cookie
+B -> D : ตรวจ Session และบัญชีผู้ใช้งาน
+D --> B : ข้อมูลผู้ใช้และ Role ปัจจุบัน
+B -> B : ตรวจสิทธิ์ audit.read\nและตรวจรูปแบบตัวกรอง
+alt [เป็น Admin และคำขอถูกต้อง]
+B -> D : อ่าน audit_logs ตามตัวกรอง\nเรียงเวลาและ ID จากใหม่ไปเก่า
+D --> B : รายการเหตุการณ์และข้อมูลผู้เกี่ยวข้อง
+B -> B : ตรวจความปลอดภัยของข้อมูล\nจัดรูปแบบรายการและ Next Cursor
+B --> F : รายการ Audit และ Next Cursor
+F --> U : แสดงประวัติแบบอ่านอย่างเดียว\nหรือข้อความเมื่อไม่พบรายการ
+opt [ผู้ใช้เลือกดูหน้าถัดไป]
+U -> F : เลือกดูรายการถัดไป
+F -> B : ขอรายการต่อด้วย Next Cursor
+B -> B : ดำเนินการอ่านซ้ำ\nโดยตรวจ Session และสิทธิ์ทุกคำขอ
+B --> F : รายการหน้าถัดไปและ Next Cursor
+F --> U : แสดงรายการหน้าถัดไป
+end
+else [Session สิทธิ์ หรือตัวกรองไม่ถูกต้อง]
+B --> F : 401 / 403 / 422\nตามสาเหตุที่ปฏิเสธ
+F --> U : แจ้งข้อผิดพลาด\nโดยไม่เปิดเผยประวัติ
+end
+note over U,D : ไม่แก้ไขหรือลบ Audit จากหน้านี้ และไม่บันทึก Audit ใหม่จากการอ่านที่สำเร็จ
+@enduml

@@ -1,0 +1,308 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>นภัทร — MyNetMate Advisor Update 9 Oct 2026</title><style>*{box-sizing:border-box}body{margin:0;background:#f1f5f9;color:#172b4d;font:18px/1.9 Tahoma,Arial,sans-serif}header{position:sticky;top:0;z-index:3;background:#0c4a6e;color:white;padding:12px 24px}header strong{font-size:18px}nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}button{font:15px Tahoma;border:1px solid #cbd5e1;border-radius:8px;padding:9px 14px;background:white;color:#075985;cursor:pointer}main{max-width:1200px;margin:26px auto;background:white;padding:36px 46px;box-shadow:0 2px 14px #cbd5e1;border-radius:14px}h1{font-size:30px;line-height:1.6}h2{font-size:26px;margin-top:48px;scroll-margin-top:145px;color:#075985}h3{font-size:21px;margin-top:36px}p{margin:16px 0}a{color:#0369a1;overflow-wrap:anywhere}blockquote{margin:18px 0;border-left:5px solid #0284c7;background:#f0f9ff;padding:8px 24px}table{width:100%;border-collapse:collapse;font-size:16px;line-height:1.8;margin:24px 0}td,th{border:1px solid #cbd5e1;padding:12px;vertical-align:top}th{background:#e0f2fe;text-align:left}img{display:block;max-width:100%;max-height:760px;width:auto;height:auto;margin:25px auto;object-fit:contain;cursor:zoom-in;border:1px solid #cbd5e1;background:white}li{margin:9px 0}code{font-size:15px;background:#f1f5f9;padding:2px 5px;border-radius:4px}dialog{width:96vw;height:95vh;max-width:none;max-height:none;border:0;border-radius:12px;padding:0;background:#e2e8f0}dialog::backdrop{background:#0f172abf}.viewerbar{height:65px;display:flex;align-items:center;gap:18px;background:white;padding:12px 22px}.viewerbody{height:calc(100% - 65px);overflow:auto;padding:20px}.viewerbody img{max-width:none;max-height:none;cursor:default;margin:0 auto}.hint{font-size:14px;color:#dbeafe;margin-left:15px}@media(max-width:700px){main{padding:22px 18px;margin:12px}table{font-size:13px}body{font-size:16px}header{padding:10px}h1{font-size:25px}}@media print{header,dialog{display:none}main{box-shadow:none;margin:0;padding:0}section[hidden]{display:block!important}img{max-height:900px}body{background:white;font-size:13px}h2{break-before:page}table{font-size:11px}}</style></head><body><header><strong>MyNetMate • เนื้อหาให้นภัทรอัปเดตอาจารย์ • 9 ตุลาคม 2569</strong><span class="hint">คลิกภาพเพื่อขยาย • เปิดได้โดยไม่ใช้อินเทอร์เน็ต</span><nav><button onclick="showPart('2')">บทเปิด 1 นาที</button><button onclick="showPart('3')">บทพูด 5–7 นาที</button><button onclick="showPart('7')">ภาพและบทอธิบาย</button><button onclick="showPart('9')">คำถาม–คำตอบ</button><button onclick="showPart('6')">ผลทดสอบ</button><button onclick="showPart('all')">ทั้งหมด</button></nav></header><main><section data-part="intro"><h1>MyNetMate — เนื้อหาให้นภัทรอัปเดตอาจารย์ วันที่ 9 ตุลาคม 2569</h1>
+<p><strong>ผู้นำเสนอและผู้พัฒนางาน Implementation ที่เล่าในเอกสารนี้: นภัทร</strong><br>ตรวจหลักฐานวันที่ 9 ตุลาคม 2569 (Asia/Bangkok) เปรียบเทียบกับรายงานครั้งที่ 3 และใช้รายงานครั้งที่ 4 เป็นข้อมูลล่าสุด ไม่ประเมินเปอร์เซ็นต์ความสำเร็จแทนทีม</p>
+<p><strong>ประเด็นที่จะให้อาจารย์จำ:</strong> จากโมดูลพื้นฐาน มาเป็นโค้ดที่เชื่อมหน้า Login/My Account, การจัดการบัญชี และประวัติเหตุการณ์กับบริการ Backend แล้ว ผล Unit ผ่านตามขอบเขตที่เลือก แต่ Build Frontend จากสำเนาใหม่ยังไม่ผ่าน และยังต้องยืนยันการรวมระบบกับ PostgreSQL และ Browser รวมถึงเชื่อมสิทธิ์กับ API งานอุปกรณ์ให้ครบ ส่วน Dashboard พื้นฐานและ P2 Operational Monitoring ยังอยู่ระหว่างแบบออกแบบและแผนพัฒนา [E02–E08]</p>
+<p>เปิดอ่านเอกสารนี้ใน Markdown Preview/Obsidian ได้ ภาพเป็น PNG ที่เตรียมไว้แล้ว จึงไม่ต้องพึ่งบริการ Render ภายนอก สำหรับเปิดเล่าและขยายภาพสะดวก ใช้ <a href="index.html">หน้าอ่านพร้อมภาพ</a> และแก้ภาพผ่านไฟล์ใน <a href="editable">โฟลเดอร์ editable</a></p>
+<p><strong>ปรับตามเอกสารเพิ่มเติม:</strong> ใช้ Component Diagram ที่เพิ่มในบทที่ 3 เป็นภาพ A สำหรับเปิดเล่าโครงสร้าง <strong>เฉพาะ Network Management ไม่รวม P2 หรือ Configuration Management</strong> พร้อมคำอธิบายจุดเชื่อมของ Auth/Users/Audit ภาพนี้แสดงโมดูลภายใน Backend แอปเดียว ไม่ใช่บริการแยกกล่องละตัว และไม่ใช่ผลทดสอบระบบ ส่วน Dashboard/P2 ในเอกสารอัปเดตนี้ยังแยกไว้เฉพาะแบบและแผนทำต่อจากคำขอเดิม [E16]</p>
+</section>
+<section data-part="1"><h2 id="section-1">1. ขอบเขตผลงานและการอ่านสถานะ</h2>
+<table>
+<thead>
+<tr>
+<th>สถานะ</th>
+<th>ความหมายในเอกสารนี้</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ออกแบบแล้ว</strong></td>
+<td>มีข้อกำหนด Contract/Diagram/Wireframe; ยังไม่ยืนยันพฤติกรรมของระบบ</td>
+</tr>
+<tr>
+<td><strong>พัฒนาแล้ว</strong></td>
+<td>พบโค้ดที่ทำพฤติกรรมนั้นและตรวจเส้นทางเรียกใช้แล้ว; ยังไม่เท่ากับพร้อมใช้งานจริงครบ</td>
+</tr>
+<tr>
+<td><strong>ทดสอบแล้ว</strong></td>
+<td>มีผลรันรอบนี้ โดยระบุชนิดและขอบเขตของ Test แยกกัน</td>
+</tr>
+<tr>
+<td><strong>วางแผนทำต่อ</strong></td>
+<td>ยังเหลืองานหรือข้อตกลงที่ต้องทำก่อนรับรองความสามารถ</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>นับเป็นงานพัฒนาของนภัทร:</strong> Authentication/RBAC foundation และการเชื่อม Auth API/UI, User Management, Audit Writer/Reader และ Audit History UI; รายงานครั้งที่ 4 และ Commit <code>NaphatJa</code> สนับสนุนการแบ่งงานนี้ [E02, E03]</li>
+<li><strong>งานออกแบบ/แผนของนภัทร:</strong> Dashboard &amp; Monitoring และแนวทาง P2; พบเอกสารในกลุ่ม <code>(Naphat)</code> แต่ปัจจุบัน Dashboard ยังเป็นหน้า Placeholder [E08]</li>
+<li><strong>งานเพื่อน ใช้เล่าเฉพาะบริบท:</strong> Inventory, Discovery/Collection และการปรับ Topology ที่พบ Commit ของ <code>Chatnarint Boonsaeng</code>; ไม่อ้างว่านภัทรพัฒนา Collector, การเก็บ Snapshot หรือการแก้ Default Route เหล่านี้ [E03, E09]</li>
+<li><strong>รอยืนยันผู้จัดทำเป็นรายชิ้น:</strong> Architecture, Component Diagram, Activity, ER, Navigation/Wireframe และ Mockup P2 เป็นชิ้นงานเอกสารร่วม/ชิ้นงานใน Workspace ซึ่งชื่อโฟลเดอร์เพียงอย่างเดียวไม่พิสูจน์ผู้วาดทุกภาพ; Topology เดิมมีทั้งงานออกแบบของนภัทรและการปรับ Implementation ของเพื่อน ต้องแยกก่อนอ้างผลงานเฉพาะบุคคล</li>
+</ul>
+<p>ขอบเขตระบบยังยึด P1 ก่อน P2: Flow เป้าหมายรวมของทีมคือ Login → Add Device → Config Builder → Preview → CIS Scan → Plan/Apply Modal ไม่รับรองว่าทั้ง Flow ผ่าน End-to-End แล้วจากความก้าวหน้าของ Auth เพียงส่วนเดียว P1 ยังไม่ Push SSH จริง และการเก็บข้อมูลเครือข่ายต้องจำกัดใน Isolated Lab [E01]</p>
+</section>
+<section data-part="2"><h2 id="section-2">2. สรุปเปิดการอัปเดตประมาณ 1 นาที</h2>
+<blockquote>
+<p>รอบนี้งานของผมขยับจากการเตรียมโมดูลพื้นฐาน มาเป็นการเชื่อมส่วนบัญชีผู้ใช้กับหน้าจอและ Backend ครับ ตอนนี้มีโค้ด Login, อ่านผู้ใช้ปัจจุบัน, Logout, เปลี่ยนรหัสผ่าน รวมถึงหน้า Admin สำหรับสร้างบัญชี เปลี่ยนบทบาท และเปิดปิดบัญชีแล้ว อีกส่วนคือ Audit กลางกับหน้าอ่านประวัติ เพื่อให้ตรวจย้อนกลับได้ว่าใครทำเหตุการณ์ที่ระบบกำหนดไว้ เมื่อไร และผลเป็นอย่างไร</p>
+<p>จุดที่ผมให้ความสำคัญคือ ถ้าเปลี่ยนสิทธิ์หรือปิดบัญชี Session เดิมต้องใช้ต่อไม่ได้ และถ้าบันทึก Audit ที่จำเป็นไม่สำเร็จ ก็ต้องไม่ตอบว่างานสำเร็จ ตอนนี้ตรวจโค้ดและรันทดสอบส่วน Auth/Audit แบบไม่ต่อฐานข้อมูลจริงแล้ว แต่ Build Frontend จากสำเนาใหม่ยังไม่ผ่าน และยังต้องทดสอบ PostgreSQL กับการใช้งานผ่าน Browser รวมถึงเชื่อม Guard กับ API งานอุปกรณ์ให้ครบครับ ส่วน Dashboard P2 ที่จะเปิดให้ดูวันนี้เป็นแบบออกแบบ ใช้อธิบายแนวทางที่จะทำหลัง P1 เสถียร ยังไม่ใช่ผลจากระบบ Monitoring ที่ทำงานแล้ว</p>
+</blockquote>
+<p>หลักฐานประกอบ: [E03–E08, E10] ผลรอบนี้อ่านในหัวข้อ 6; ไม่ใช้ตัวเลขผลทดสอบจากรายงานครั้งที่ 3</p>
+</section>
+<section data-part="3"><h2 id="section-3">3. บทพูดหลักประมาณ 5–7 นาที</h2>
+<p>เวลาต่อไปนี้เป็นจังหวะซ้อมโดยประมาณ ให้เล่าด้วยคำของตนเองและหยุดชี้ภาพตามที่ระบุ ใช้บทเปิดหนึ่งนาทีแยก หรือใช้ย่อหน้าเปิดด้านล่างแทน ไม่ต้องอ่านบทเปิดซ้ำ และไม่ต้องอ่านรายละเอียดทุกหัวข้อในเอกสาร</p>
+<h3>0:00–0:45 — ทำไมงานส่วนนี้จึงอยู่ใน Network Management (เปิดภาพ A)</h3>
+<blockquote>
+<p>ภาพนี้แสดงเฉพาะ Network Management ครับ หน้าเว็บเรียก Backend ผ่าน HTTP แล้ว Router ส่งต่อให้โมดูลภายในแอปเดียว งานที่ผมพัฒนาคือกล่อง Auth/RBAC และ User Management กับกล่อง Audit เพื่อรู้ว่าใครใช้ระบบ มีสิทธิ์ทำอะไร และตรวจเหตุการณ์สำคัญย้อนหลังได้ ส่วน Device Management, Discovery และ Library เป็นจุดเชื่อมกับงานเพื่อน ลูกศรในภาพบอกว่าโมดูลไหนเรียกใช้โมดูลไหน ไม่ใช่ลำดับการทำงาน และไม่ได้แปลว่าทุก API ผูกสิทธิ์กับ Audit ครบแล้ว ส่วนที่ยังขาดเราต้องเชื่อมร่วมกับเจ้าของงาน ภาพนี้ไม่มี P2; ผมจะแยกแผน Dashboard ไว้ท้ายการอัปเดตครับ</p>
+</blockquote>
+<h3>0:45–2:00 — Authentication: จากพื้นฐานไปสู่เส้นทางใช้งาน (เปิดภาพ B)</h3>
+<blockquote>
+<p>ครั้งก่อนมีโมเดลผู้ใช้ Session การ Hash รหัสผ่าน และตัวจำกัดการ Login แล้ว รอบนี้ผมเชื่อม Login, me, Logout และเปลี่ยนรหัสผ่านเข้ากับ FastAPI และหน้าจอ Login กับ My Account ครับ หลัง Login สำเร็จ Browser ถือเพียง Token สุ่มใน HttpOnly Cookie ส่วน Backend เก็บ Hash และอ่านสถานะผู้ใช้กับบทบาทจากฐานข้อมูล</p>
+<p>เหตุผลที่เลือกแบบนี้มีบันทึกในรายงานก่อนหน้า คือแบบ JWT เดิมก็ยังต้องตรวจฐานข้อมูลทุกคำขออยู่แล้ว เราจึงเปลี่ยนเป็น Server-side Session เพื่อลดส่วนที่ซับซ้อน และจัดการเพิกถอน Session ได้ตรงกับโจทย์ของระบบ ไม่ใช่ว่า Session จะปลอดภัยกว่า JWT เสมอไปครับ</p>
+<p>ระหว่างเชื่อมระบบ ผมเพิ่มการตรวจ Origin และเงื่อนไขป้องกัน CSRF สำหรับคำขอเปลี่ยนข้อมูล แล้วแยกให้หน้าเว็บรู้ว่ากรณีไหนต้องกลับไป Login เช่น Session หมดอายุหรือถูกเพิกถอน ส่วนกรณีไม่มีสิทธิ์ใช้คำสั่งนั้น ไม่ควรทำให้ผู้ใช้หลุดออกจากระบบทั้งหมด โค้ดยังป้องกันคำตอบเก่าที่กลับมาหลัง Logout ไปเติมข้อมูลผู้ใช้เดิมอีกด้วย ตรงนี้เป็นพฤติกรรมที่ตรวจพบในโค้ดและมี Test รองรับ ผมไม่ได้อ้างว่าเคยเกิดเหตุข้อมูลหลุดในระบบจริงครับ</p>
+</blockquote>
+<h3>2:00–3:10 — User Management: เปลี่ยนบัญชีต้องเปลี่ยนการเข้าถึงด้วย (เปิดภาพ C)</h3>
+<blockquote>
+<p>ส่วน Admin ตอนนี้ผมเพิ่มหน้ารายการบัญชี ตัวกรองและการแบ่งหน้า สร้างบัญชี เปลี่ยนบทบาท และเปิดปิดบัญชีแล้วครับ จุดที่ต้องคิดเพิ่มจากแบบฟอร์มทั่วไปคือ ถ้าลดสิทธิ์หรือปิดบัญชี แต่ Session เดิมยังใช้ได้ ก็จะขัดกับสิ่งที่ Admin เพิ่งสั่ง โค้ดจึงเพิกถอน Session ของบัญชีเป้าหมายเมื่อบทบาทเปลี่ยนหรือบัญชีถูกปิด หลังเปิดบัญชีกลับมาก็ต้อง Login ใหม่ ไม่คืน Session เก่า</p>
+<p>อีกเงื่อนไขคือห้ามทำให้ไม่เหลือ Admin ที่ใช้งานได้ Backend ตรวจซ้ำภายใน Transaction และมีการจัดลำดับการแก้บัญชี เพื่อรองรับกรณีมีคำขอพร้อมกัน ตอนนี้ Test แบบจำลองตรวจการเรียกขั้นตอนและการปฏิเสธ Admin คนสุดท้ายได้ ส่วนการล็อกจริงและกรณีสอง Admin แก้พร้อมกันบน PostgreSQL ยังต้องรันทดสอบแยกครับ เราใช้ปิดบัญชีแทนลบ และยังไม่มีระบบสมัครเองหรือลืมรหัสผ่านใน P1</p>
+</blockquote>
+<h3>3:10–4:25 — Audit: เก็บสิ่งที่จำเป็นและผูกกับผลของงาน (เปิดภาพ D)</h3>
+<blockquote>
+<p>Audit รอบนี้พัฒนาเป็น Writer กลาง มีชื่อ Event ที่กำหนดไว้ มีโมเดลกับ Migration แล้วครับ งาน Auth และการจัดการบัญชีเรียก Writer ภายใน Transaction ของงานนั้น ถ้า Audit ที่บังคับให้เก็บล้มเหลว ก็ต้องย้อนการเปลี่ยนแปลงและไม่ตอบว่าสำเร็จ ส่วน Login ที่ล้มเหลวหรือการปฏิเสธสิทธิ์ มีการบันทึกเหตุการณ์แยกตามเงื่อนไข เพื่อให้เก็บเหตุการณ์ได้แม้คำขอหลักถูกปฏิเสธ</p>
+<p>ปัญหาที่รายงานครั้งก่อนบันทึกไว้คือ ถ้าแต่ละ Feature เขียนประวัติคนละรูปแบบ จะตรวจรวมยากและเสี่ยงเก็บข้อมูลลับ ผมจึงใช้รายการ Event กลางและ Writer เดียวกัน สำหรับรอบนี้ข้อความ Description ถูกตัดเป็นค่าว่างก่อนจัดเก็บทั้งหมด เป็นข้อจำกัดที่ตั้งใจยอมรับเพื่อไม่รับข้อความอิสระที่อาจปนข้อมูลลับ</p>
+<p>หน้า Audit History ให้ Admin กรองประวัติ โหลดรายการต่อ และเปิดรายละเอียดได้ ชื่อคนหรือทรัพยากรที่เห็นเป็นชื่อปัจจุบัน ไม่ใช่ชื่อที่ Snapshot ไว้ตอนเกิดเหตุ และต้องพูดให้ชัดว่าบันทึกเฉพาะเหตุการณ์ที่กำหนดและเชื่อมแล้ว ไม่ใช่ทุกการคลิก หรือทุก Feature ของระบบครับ</p>
+</blockquote>
+<h3>4:25–5:15 — ผลที่ยืนยันได้และส่วนที่ยังยืนยันไม่ได้</h3>
+<blockquote>
+<p>ตอนนี้มีหลักฐานโค้ดที่เชื่อมหน้าเว็บกับ API ของ Auth, Users และ Audit แล้ว และมีผลรันทดสอบรอบวันที่ 9 ตุลาคมเฉพาะ Auth/Audit ครับ แต่ต้องแยกการพิสูจน์: Test แบบจำลองช่วยตรวจเงื่อนไขและลำดับการเรียก ส่วน HTTP Test ในโปรเซสตรวจรูปแบบคำตอบและการปฏิเสธคำขอ ไม่ใช่การเปิด Browser แล้วต่อ PostgreSQL จริง</p>
+<p>Frontend unit ผ่าน 17 กรณี แต่ Build จากสำเนาใหม่ยังไม่ผ่านครับ พบว่าต้องสร้าง API client ก่อนตามขั้นตอนเดิม และเมื่อทดลองสร้างด้วย Schema ภายในเครื่อง ตัวสร้างก็หยุดด้วย Error อีกจุด จึงยังไม่บอกว่า Build พร้อม Demo และต้องตรวจสาเหตุเพิ่ม โดยไม่ได้แก้โค้ดในงานเตรียมเอกสารนี้</p>
+</blockquote>
+<blockquote>
+<p>ข้อจำกัดที่ตรวจพบตอนนี้คือ Router งาน Devices, Credential และ Discovery/Topology ยังไม่ได้ใช้ Permission Guard ครบ จึงยังพูดไม่ได้ว่า RBAC ป้องกันทุก API แล้ว ผมจะนำไปตกลงจุดเชื่อมกับเจ้าของ Feature และยืนยันผลผ่านฐานข้อมูลกับ Browser ก่อนรับรองการรวมระบบครับ</p>
+</blockquote>
+<h3>5:15–6:30 — Dashboard และลำดับงานต่อ (เปิดภาพ G)</h3>
+<blockquote>
+<p>หน้า Dashboard ปัจจุบันยังเป็น Placeholder ครับ สิ่งที่ทำไว้ตอนนี้คือข้อกำหนดและภาพออกแบบ ผมจะทำ P1 ให้ได้จำนวนอุปกรณ์ กิจกรรมที่อนุญาตให้แสดง และสถานะระบบจากข้อมูลจริงก่อน แล้วค่อยต่อ P2 Operational Monitoring</p>
+<p>ภาพ P2 นี้ใช้ข้อมูลสมมติ แต่ช่วยอธิบายสิ่งที่ต้องระวัง เช่น ติดต่ออุปกรณ์ไม่ได้ เก็บข้อมูลไม่สำเร็จ และข้อมูลเก่า เป็นคนละเรื่องกัน ถ้ารอบใหม่เก็บไม่สำเร็จ แต่มีข้อมูลเก่า ต้องบอกว่าเป็น Last Known State ไม่แสดงเหมือนเป็นสถานะปัจจุบัน ส่วน Interface Down จะสรุปว่าเป็นปัญหาได้ต้องรู้ก่อนว่าพอร์ตนั้นควร Up และสำคัญอย่างไร</p>
+<p>ขั้นต่อไปของผมจึงเป็นปิดช่องว่างสิทธิ์และ Audit ร่วมกับเพื่อน ตรวจ PostgreSQL และ Browser ให้มีหลักฐาน แล้วทำ Dashboard พื้นฐานครับ สำหรับ P2 ต้องตกลง Contract เรื่องข้อมูล เวลา Expected State และสิทธิ์ Refresh ก่อน โดย Refresh เป็นการอ่านที่ผู้ใช้สั่งเองเฉพาะอุปกรณ์ลงทะเบียนใน Lab ยังไม่ใช่ Real-time และไม่เปลี่ยน Config อุปกรณ์ครับ</p>
+</blockquote>
+</section>
+<section data-part="4"><h2 id="section-4">4. รายละเอียดรายงานแต่ละงาน</h2>
+<h3>4.1 Authentication/RBAC และการเชื่อม Frontend — ผู้พัฒนา: นภัทร</h3>
+<ul>
+<li><strong>ปัญหา/เป้าหมาย:</strong> ให้ระบบระบุตัวผู้ใช้ ตรวจสถานะ Session และบังคับสิทธิ์ปัจจุบันได้; แบบเดิมที่เป็น Stateful JWT ยังต้อง Query ฐานข้อมูลทุก Protected Request [E04, E11]</li>
+<li><strong>สิ่งที่ทำเพิ่ม:</strong> เชื่อม Login/me/Logout/change-password, HttpOnly Cookie, Auth Runtime และบริการฐานข้อมูลเข้ากับ API; เพิ่ม Login/My Account, การล้าง User State/Query Cache และการไม่ใช้คำตอบที่หมดอายุของคำขอหลังเปลี่ยนสถานะบัญชี [E04]</li>
+<li><strong>สิ่งที่พบ:</strong> รายงานครั้งที่ 3 บันทึกความซับซ้อนของ Stateful JWT; ส่วนความเสี่ยงจาก Session Invalid กับ Permission Denied และคำตอบที่กลับมาช้า เป็นเงื่อนไขที่โค้ด/Test จัดการ ไม่ใช่ประวัติเหตุผิดพลาดในระบบใช้งานจริง [E11, E10]</li>
+<li><strong>วิธีจัดการและเหตุผล:</strong> ใช้ Token สุ่มและ Hash ฝั่ง Server; อ่านบัญชี/Role ปัจจุบัน; ตรวจ Origin/CSRF; ปฏิเสธเมื่อฐานข้อมูลหรือ Audit ที่จำเป็นใช้ไม่ได้; ล้างสถานะผู้ใช้เฉพาะ Session Missing/Invalid โดยไม่ Logout เพราะ 403 ทั่วไป [E04]</li>
+<li><strong>ผลปัจจุบันและหลักฐาน:</strong> <strong>พัฒนาแล้ว</strong> ตาม Router/Service/UI; <strong>ทดสอบแล้วเฉพาะขอบเขตรอบนี้</strong> ตามหัวข้อ 6 มีการตรวจ Session, Error Mapping, Rate Limiter, Schema, DTO และ HTTP boundary ที่ใช้ตัวแทนบริการ [E10]</li>
+<li><strong>ข้อจำกัด/งานเหลือ:</strong> ไม่รับรอง Guard ครบทุก API; ยังต้องทดสอบ PostgreSQL, Cookie/CORS หลังผ่าน Proxy และ Browser; Login Rate Limiter เก็บในหน่วยความจำ ต้องใช้หนึ่ง Worker, Counter หายเมื่อ Restart และผู้ใช้หลัง NAT เดียวกันใช้โควตาร่วมกัน [E09, E11]</li>
+</ul>
+<h3>4.2 User Management — ผู้พัฒนา: นภัทร</h3>
+<ul>
+<li><strong>ปัญหา/เป้าหมาย:</strong> Admin ต้องจัดการบัญชีโดยการเปลี่ยน Role/Active มีผลต่อการเข้าถึง และไม่ทำให้ระบบสูญเสีย Admin คนสุดท้าย</li>
+<li><strong>สิ่งที่ทำเพิ่ม:</strong> API รายการ/สร้าง/แก้บัญชี, หน้า Users และ Create/Edit Dialog, ตัวกรองสถานะ/แบ่งหน้า/ยืนยันการแก้; ตรวจ <code>user.manage</code> ที่ Backend และส่งกลับเฉพาะ Public User [E05]</li>
+<li><strong>สิ่งที่พบ:</strong> ไม่พบหลักฐานยืนยันว่าเคยเกิดเหตุ Admin หายหรือใช้ Session เดิมผิดสิทธิ์จริง จึงระบุเป็น <strong>ความเสี่ยงที่โค้ดออกแบบป้องกัน</strong>: คำขอพร้อมกันและสิทธิ์ผู้สั่งที่อาจเปลี่ยนระหว่างทำงาน</li>
+<li><strong>วิธีจัดการและเหตุผล:</strong> ตรวจ Session/สิทธิ์ซ้ำใน Transaction ใช้ PostgreSQL advisory lock สำหรับงานแก้บัญชีและ Row Lock ที่เกี่ยวข้อง; ตรวจจำนวน Active Admin; Role เปลี่ยนหรือ Deactivate ให้ Revoke Session เป้าหมาย; Business Change และ Audit อยู่ใน Transaction เดียวกัน [E05]</li>
+<li><strong>ผลปัจจุบันและหลักฐาน:</strong> <strong>พัฒนาแล้ว</strong> ทั้ง API/UI; Test แบบจำลองในรอบนี้ตรวจ Public DTO, Permission Denial, Session Revocation, Last Admin และเส้นทางเมื่อ Audit ล้มเหลว; ไม่ใช้ผลนี้แทนการพิสูจน์ Lock/Commit จริง [E10]</li>
+<li><strong>ข้อจำกัด/งานเหลือ:</strong> PostgreSQL concurrent-admin test ยังไม่รันรอบนี้; ยังไม่มี Browser E2E; ไม่รองรับลบบัญชี สมัครเอง Forgot Password หรือ Admin Reset Password ใน P1 [E05, E11]</li>
+</ul>
+<h3>4.3 Audit Writer และ Audit History — ผู้พัฒนา: นภัทร</h3>
+<ul>
+<li><strong>ปัญหา/เป้าหมาย:</strong> รวมเหตุการณ์ที่จำเป็นไว้รูปแบบเดียว ตรวจ actor/action/resource/result/time และลดความเสี่ยงข้อมูลลับหลุดลงประวัติ; ปัญหาเรื่องรูปแบบและเจ้าของข้อมูลมีบันทึกในรายงานครั้งที่ 3 [E11]</li>
+<li><strong>สิ่งที่ทำเพิ่ม:</strong> Writer/Registry/Redaction, โมเดลและ Migration, Auth Adapter, Admin Read API แบบ Cursor Pagination, หน้า Audit History/Details และชื่อผู้กระทำ/ทรัพยากรให้อ่านง่าย [E06, E07]</li>
+<li><strong>สิ่งที่พบ:</strong> ชื่อ Event ที่อยู่ใน Registry ไม่ได้แปลว่าทุก Producer เรียกใช้แล้ว; <code>resource_id</code> เป็นรหัสทรัพยากรได้หลายประเภท ไม่มี Foreign Key ไปทุกตาราง; ชื่อที่อ่านมาแสดงเป็นชื่อปัจจุบัน; Reader ปฏิเสธแถวที่ไม่ตรง Canonical Contract รวมถึง Description ที่ไม่ใช่ค่าว่าง [E06, E07]</li>
+<li><strong>วิธีจัดการและเหตุผล:</strong> Writer ตรวจชุด Event/Binding แล้ว Insert/Flush โดยให้ผู้เรียกเป็นเจ้าของ Transaction; งานเปลี่ยนข้อมูลสำเร็จร่วมกับ Audit หรือย้อนกลับร่วมกัน; Failed Login/Permission Denied ใช้ Intentional Audit Transaction ตาม Contract; Description ทุกข้อความถูกลดเป็น <code>NULL</code> และไม่มี Client IP ใน Audit Table [E06]</li>
+<li><strong>ผลปัจจุบันและหลักฐาน:</strong> <strong>พัฒนาแล้ว</strong> และเชื่อม Auth/User Management; อ่านได้เฉพาะ Admin กรองและโหลดต่อได้; <strong>ทดสอบแล้วแบบจำลอง/HTTP ในโปรเซส</strong> เช่นไม่ให้ Writer Commit เอง, ไม่เก็บข้อความ, Pagination/เวลาและ ID, ส่ง Error ปลอดภัยเมื่อข้อมูลไม่ถูกต้อง [E10]</li>
+<li><strong>ข้อจำกัด/งานเหลือ:</strong> ไม่ครบทุก Feature/ทุกการกระทำ; ไม่รองรับ Description อิสระหรือชื่อแบบ Historical Snapshot; ไม่รับรองการป้องกันแก้จากผู้มีสิทธิ์ฐานข้อมูลโดยตรง; Atomicity/FK/Migration บน PostgreSQL ยังต้องทดสอบจริงรอบถัดไป; การอ่านประวัติที่สำเร็จไม่สร้าง Audit ใหม่ [E06, E07]</li>
+</ul>
+<p><strong>Event ที่พบว่า Auth/User Management เรียกบันทึก:</strong> <code>user.login_success</code>, <code>user.login_failed</code>, <code>user.logout</code>, <code>user.password_changed</code>, <code>user.created</code>, <code>user.updated</code>, <code>user.deactivated</code>, <code>auth.permission_denied</code> ตามเงื่อนไขของแต่ละเส้นทาง ไม่รวมว่า Request ที่ถูก Reject ก่อนตรวจ Credential จะบันทึก Login Failed เสมอ และการอ่าน <code>me</code>/รายชื่อ/ประวัติที่สำเร็จไม่ได้บันทึกเป็น Event ใหม่ [E04–E07]</p>
+<h3>4.4 Dashboard P1 และ P2 Operational Monitoring — นภัทรรับผิดชอบด้านออกแบบ/แผน</h3>
+<ul>
+<li><strong>ปัญหา/เป้าหมาย:</strong> ให้ผู้ดูแลรู้ภาพรวมและเลือกจุดตรวจต่อ; P2 ต้องแยกว่าอุปกรณ์ติดต่อไม่ได้ Collector ล้มเหลว หรือข้อมูลเก่า แทนการรวมเป็นสถานะสีเดียว</li>
+<li><strong>สิ่งที่ทำเพิ่มในหลักฐานปัจจุบัน:</strong> มี Contract Dashboard P1, Navigation/Wireframe และ Mockup P2 พร้อมคำอธิบายใน UI บทที่ 3 หัวข้อ 3.8; เป็น <strong>งานออกแบบ</strong> ไม่ใช่การพัฒนา Widget/API สำเร็จ [E08, E12]</li>
+<li><strong>สิ่งที่พบ:</strong> <code>HomePage.tsx</code> ยังมี <code>Dashboard is Empty</code> และทางลัด; ไม่พบ Route ตาม Dashboard Contract ใน Backend ที่ตรวจ; คำว่า “live telemetry” ในข้อความหน้าเว็บไม่ใช่หลักฐานว่ามี Real-time Monitoring [E08]</li>
+<li><strong>วิธีจัดการและเหตุผลตามแบบ:</strong> P1 อ่านจำนวนอุปกรณ์/กิจกรรมผ่าน Allowlist/สถานะระบบจากเจ้าของข้อมูล; P2 ใช้ Manual Read-only Refresh แยก Reachability, Collection Attempt, Last Successful Collection และ Freshness; สรุปปัญหาจาก Expected State/Criticality ตามประเภท ไม่ใช้ AI ตัดสิน [E08, E12]</li>
+<li><strong>ผลปัจจุบันและหลักฐาน:</strong> <strong>ออกแบบแล้ว</strong> ตามไฟล์ UI และ Diagram; หน้า Placeholder <strong>พัฒนาแล้ว</strong> แต่ Widget/Operational Dashboard <strong>ยังไม่พัฒนา/ยังไม่ทดสอบการทำงาน</strong> การตรวจภาพเป็นเพียง QA เอกสาร</li>
+<li><strong>ข้อจำกัด/งานเหลือ:</strong> ต้องยืนยัน API Contract, Refresh Permission, Expected State/Criticality, Freshness Policy และ Audit Event ของ Refresh; ทำหลัง P1 เสถียร ไม่มี Auto-refresh, Real-time, กราฟย้อนหลัง, CPU/Memory หรือ AI Root-cause ในแบบ MVP นี้ [E12]</li>
+</ul>
+<h3>4.5 สภาพแวดล้อมรวมระบบ — งานเตรียมที่ตรวจพบในผลงานนภัทร</h3>
+<p>มี Docker/Compose สำหรับ Backend/PostgreSQL และ Frontend/Nginx พร้อมแนวทาง Migration ในโค้ดและประวัติ Commit ของนภัทร ช่วยกำหนดวิธีเริ่มระบบร่วมกันได้ [E13] แต่รอบนี้ <strong>ไม่ได้ Deploy Container, Apply Migration หรือทดสอบเครือข่ายจริง</strong> จึงเรียกว่าเตรียมสภาพแวดล้อมแล้ว ไม่เรียกว่า Deploy สำเร็จ ผล Build Frontend แยกในหัวข้อ 6 โดยการลองสร้าง Client ในสภาพแวดล้อมรอบนี้ยังล้มเหลว ต้องตรวจสาเหตุเพิ่ม</p>
+</section>
+<section data-part="5"><h2 id="section-5">5. ตารางสรุปสั้นสำหรับใช้ตอบอาจารย์</h2>
+<table>
+<thead>
+<tr>
+<th>งาน</th>
+<th>ทำอะไรเพิ่ม</th>
+<th>พบอะไร</th>
+<th>ผลปัจจุบัน</th>
+<th>หลักฐาน</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Auth/RBAC — นภัทร</td>
+<td>เชื่อม Auth API, Login/My Account และ Cookie Session</td>
+<td>Stateful JWT เดิมซับซ้อน; API งานอุปกรณ์ยังใช้ Guard ไม่ครบ</td>
+<td>พัฒนาแล้ว; ผ่าน Test รอบนี้เฉพาะขอบเขตที่ระบุ</td>
+<td>E04, E09–E11</td>
+</tr>
+<tr>
+<td>User Management — นภัทร</td>
+<td>Create/Role/Active + UI; Revoke Session + Last Admin</td>
+<td>ความเสี่ยงคำขอพร้อมกัน ต้องยืนยัน Lock จริง</td>
+<td>พัฒนาแล้ว; Unit/HTTP แบบจำลองผ่านในชุดที่รัน; PG/E2E ยังเหลือ</td>
+<td>E05, E10</td>
+</tr>
+<tr>
+<td>Audit — นภัทร</td>
+<td>Writer กลาง, Read API/History, ชื่ออ่านง่าย</td>
+<td>Registry ไม่เท่ากับเชื่อมทุก Feature; Description ถูกตัด</td>
+<td>เชื่อม Auth/Users แล้ว; ยังไม่รับรอง Atomicity บน PG รอบนี้</td>
+<td>E06, E07, E10</td>
+</tr>
+<tr>
+<td>Dashboard — แบบของนภัทร</td>
+<td>Contract P1 และแนวทาง P2/UI บท 3.8</td>
+<td>หน้าโค้ดจริงยัง Empty; สถานะกับความใหม่ต้องแยก</td>
+<td>ออกแบบแล้ว; Widget/P2 ยังไม่พัฒนา</td>
+<td>E08, E12</td>
+</tr>
+<tr>
+<td>การรวมระบบ — นภัทรในส่วนเตรียม</td>
+<td>Docker/Compose/แนวทาง Migration</td>
+<td>มีไฟล์ตั้งค่าไม่เท่ากับ Deploy ผ่าน</td>
+<td>เตรียมแล้ว; Build สำเนาใหม่ไม่ผ่าน; Deploy/Browser E2E ยังไม่ทดสอบ</td>
+<td>E13, E10</td>
+</tr>
+</tbody></table>
+</section>
+<section data-part="6"><h2 id="section-6">6. ผลตรวจและผลทดสอบวันที่ 9 ตุลาคม 2569</h2>
+<p>รันจาก <strong>สำเนา Backend/Frontend ในโฟลเดอร์ชั่วคราว</strong> ด้วย Lockfile เดิม ไม่แก้โค้ดต้นฉบับ ไม่ใช้ <code>.env</code> จริง และไม่ตั้งฐานข้อมูลทดสอบ จึงไม่มีการเรียกอุปกรณ์หรือ Scan ใด ๆ ชุดทดสอบเลือกเฉพาะไฟล์ Auth/Audit; ไม่ใช่การทดสอบ Backend ทั้ง Repository</p>
+<table>
+<thead>
+<tr>
+<th>ชนิดหลักฐาน</th>
+<th>ผลรอบนี้</th>
+<th>พิสูจน์อะไร</th>
+<th>ยังพิสูจน์อะไรไม่ได้</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Backend Auth/Audit: Unit และ HTTP/ASGI ในโปรเซส ส่วนบริการ/ฐานข้อมูลใช้ตัวแทนตาม Test</td>
+<td><strong>1,003 passed / 16 skipped / 137 deselected</strong>, ไม่มี failed ในชุดที่รัน</td>
+<td>เงื่อนไขที่ Test Assert, Schema, Error, Guard, การเรียก Transaction/Writer, การตอบ HTTP ที่จำลอง</td>
+<td>Database Lock/FK/Commit/Migration บน PostgreSQL จริง, Browser/Proxy, อุปกรณ์จริง</td>
+</tr>
+<tr>
+<td>PostgreSQL Integration</td>
+<td><strong>ไม่ได้รัน</strong>; <code>-m not database</code> ตัด 137 กรณีออก และ 16 กรณี Skip เนื่องจากไม่มีสภาพแวดล้อม PostgreSQL</td>
+<td>มีชุด Test/เงื่อนไขที่ต้องพิสูจน์อยู่ใน Source</td>
+<td>ห้ามนับ Deselected/Skipped เป็น Passed</td>
+</tr>
+<tr>
+<td>Frontend Auth/Audit unit</td>
+<td><strong>17 pass / 0 fail ใน 2 ไฟล์</strong></td>
+<td>Auth Client/Session State/Cache ด้วย Mock Fetch และ Audit Display Labels</td>
+<td>ไม่ใช่การทดสอบ UI ผ่าน Browser หรือ Backend/DB จริง</td>
+</tr>
+<tr>
+<td>Frontend Production Build</td>
+<td><strong>ไม่ผ่าน (exit 2); การสร้าง API client ตามขั้นตอนเดิมก็ไม่ผ่าน (exit 1)</strong></td>
+<td>ยังไม่ยืนยันว่า Frontend ทั้งชุด Compile ได้จากสำเนาใหม่ตาม Lockfile รอบนี้</td>
+<td>ไม่พิสูจน์ Login/Permissions/Persistence หรือ Deploy จริง</td>
+</tr>
+<tr>
+<td>Browser End-to-End</td>
+<td><strong>ไม่ได้รันรอบนี้</strong></td>
+<td>ยังไม่มีผลรอบนี้</td>
+<td>Flow Login → เปลี่ยน Role/Deactivate → Session ถูกปฏิเสธ → Audit ที่อ่านได้</td>
+</tr>
+<tr>
+<td>Diagram/UI QA</td>
+<td>ตรวจภาพที่เลือกและลิงก์ในชุดนำเสนอนี้</td>
+<td>ภาพเปิดได้ ตัวอักษรอ่านได้ และมีไฟล์แก้ไข</td>
+<td>ไม่ใช่ผลทดสอบระบบหรือ Dashboard P2</td>
+</tr>
+</tbody></table>
+<p><strong>ข้อจำกัด Build ที่ตรวจพบวันนี้:</strong> <code>bun run build</code> จากสำเนาใหม่ไม่พบ <code>@/client</code>/generated client และมี Type Error ต่อเนื่อง จึงตรวจขั้นตอนใน Dockerfile ที่กำหนดให้ Generate Client ก่อน Build เพิ่ม โดย Export OpenAPI จากโค้ด Backend ภายในเครื่องแบบ Offline ได้ แต่ <code>openapi:generate</code> หยุดด้วย <code>Cannot read properties of undefined (reading &#39;importFileExtension&#39;)</code> จึงยังไม่ได้ Build หลัง Generation สำเร็จ Root Cause ของ Generator ยังไม่ยืนยัน ไม่สรุปว่าเป็นบั๊กที่นภัทรเคยพบหรือแก้แล้ว และไม่ได้แก้โค้ด/Config ในรอบเตรียมเนื้อหานี้ <a href="evidence/frontend-schema.log">Schema Export log</a>, <a href="evidence/frontend-client-generation.log">Generation log</a></p>
+<p>16 Skipped แบ่งเป็น 15 กรณีที่ต้องมี Disposable PostgreSQL Inspection และ 1 กรณีที่ต้องมี <code>TEST_DATABASE_URL</code>; รายละเอียด Test Case/เหตุผลอยู่ใน <a href="evidence/backend-auth-audit.xml">ผล Backend แบบ XML</a> ไม่รวมกรณีที่ Deselected ในตัวเลข Passed</p>
+<p>ผล/คำสั่ง/Commit/สถานะก่อนหลัง: <a href="evidence/verification.json">verification.json</a>, <a href="evidence/backend-auth-audit.log">Backend log</a>, <a href="evidence/frontend-auth-audit.log">Frontend unit log</a>, <a href="evidence/frontend-build.log">Build log</a> [E10]</p>
+<p><strong>ประโยคตอบเรื่องผลทดสอบ:</strong> “ผลที่ผ่านเป็นผลของเงื่อนไขในชุดทดสอบที่รันรอบนี้ครับ ยังไม่รวม PostgreSQL และ Browser ทั้ง Flow ผมจะใช้ผลนั้นยืนยันเงื่อนไขเฉพาะที่ตรวจได้ และเก็บผล Integration เพิ่มก่อนบอกว่าระบบใช้งานได้ครบ”</p>
+</section>
+<section data-part="7"><h2 id="section-7">7. Diagram พร้อมบทพูดและลำดับชี้ภาพ</h2>
+<p>ใช้ A → B → C → D → G ในบทพูดหลัก ภาพ E/F เป็นภาพสำรองเมื่ออาจารย์ถามเรื่องข้อมูลและการนำทาง บทพูดภาพด้านล่างเป็นทางเลือกสำหรับขยายคำอธิบาย 30–60 วินาทีต่อภาพ ไม่จำเป็นต้องนำมาบวกกับบทพูด 6 นาทีทั้งหมด</p>
+<h3>ภาพ A — Component Diagram: ภาพรวม Network Management และตำแหน่งงานของนภัทร</h3>
+<p><img src="images/network-management-components.png" alt="Component Diagram เดิมที่เพิ่มในบทที่ 3 เฉพาะ Network Management ไม่รวม P2"></p>
+<p><strong>ใช้ภาพที่ผู้ใช้เพิ่มไว้แล้วโดยคัดลอกเนื้อหาเดิม:</strong> มุมมององค์ประกอบเชิงตรรกะเฉพาะ Network Management ไม่รวม Dashboard P2, Configuration Management หรือรายละเอียดการติดตั้ง ไม่มีเลขหัวข้อ/เลขรูปของรายงานเพิ่มในต้นทาง<br>ต้นฉบับแก้ไข: <a href="editable/network-management-components.puml">PlantUML (สำเนาในชุดนำเสนอ)</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/component-diagram/network-management-components.puml">PlantUML ต้นทาง</a><br>อ่านรายละเอียด: <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/component-diagram/component-diagram-network-management.md">คำอธิบายแต่ละโมดูลในบทที่ 3</a>, <a href="images/network-management-components.svg">SVG สำหรับขยาย</a> [E16]</p>
+<p><strong>บทพูดประมาณ 45–60 วินาที:</strong> “เริ่มจากหน้าเว็บที่ใช้ HTTP API ครับ ภายในกรอบ Backend เป็นหลายโมดูลในแอปเดียว งานที่ผมพัฒนาคือ Auth/RBAC กับ User Management และ Audit ส่วน Auth เรียก Writer เพื่อบันทึกเหตุการณ์ ขณะที่ Reader เรียก Auth เพื่อตรวจสิทธิ์คนดูประวัติ จึงเป็นคนละหน้าที่ ไม่ใช่เรียกวนกัน งานอุปกรณ์กับ Discovery เป็นบริบทของเพื่อน ใช้ Library ใน Backend อ่านข้อมูลจากอุปกรณ์เฉพาะ Lab ส่วน Database Session เป็นตัวสร้าง Session สำหรับเข้าฐานข้อมูล ไม่ได้แปลว่าทุกคำขอใช้ Transaction เดียวกัน ลูกศรเป็นความสัมพันธ์การเรียกใช้ ไม่ใช่ลำดับเวลา และยังมี API งานอุปกรณ์ที่ต้องเชื่อม Guard/Audit ให้ครบครับ ภาพนี้ไม่มี P2”</p>
+<p><strong>ชี้ตามลำดับ:</strong> 1) Web UI → วงกลม HTTP API → API Routers 2) กรอบ Backend แอปเดียว 3) Auth/RBAC &amp; User Management และ Audit — งานพัฒนาของนภัทร 4) ลูกศร <code>record_audit_event</code> กับ <code>authorize</code> — Writer/Reader คนละหน้าที่ 5) Device Management/Discovery/Library — บริบทงานเพื่อน 6) Database Session → PostgreSQL และ Library → อุปกรณ์ใน Isolated Lab<br><strong>ตอบคำถาม:</strong> งานนภัทรเชื่อมกับ Network Management อย่างไร? แต่ละกล่องเป็นบริการแยกหรือไม่? ทำไม Auth กับ Audit มีลูกศรสองทิศทาง?<br><strong>ทำแล้ว/ยังออกแบบ:</strong> พบโค้ดและเส้นทางเรียกใช้ของโมดูลในภาพ; Auth/Users/Audit เป็น Implementation ของนภัทรตามหลักฐาน ส่วน Devices/Discovery/Library เป็นบริบทของทีม ไม่รับรองผล Lab, PostgreSQL, Deploy หรือ E2E จากภาพนี้ และไม่อ้างว่าทุก Endpoint ตรวจสิทธิ์/บันทึก Audit แล้ว ส่วน Dashboard/P2 ไม่อยู่ในภาพนี้และยังเป็นแบบ/แผนตามภาพ G [E03–E09, E16]</p>
+<p><strong>ถ้าต้องอธิบายการติดตั้ง:</strong> ใช้ <a href="editable/system-architecture-original.drawio">System Architecture ฉบับเดิม (สำเนา)</a> แยกจากภาพ Component [E14] ภาพสรุปสีที่ทำไว้ก่อนหน้านี้ยังเก็บเป็น <a href="images/overview-naphat.png">ภาพเสริม</a> พร้อม <a href="editable/overview-naphat.drawio">Draw.io</a> และ <a href="editable/overview-naphat.mmd">Mermaid</a>; ไม่ใช้แทน Component Diagram ต้นทาง</p>
+<h3>ภาพ B — Login, Session และการเริ่มตรวจสิทธิ์</h3>
+<p><img src="images/fig-3-6-login.png" alt="Sequence Diagram Login เดิม"></p>
+<p>ต้นฉบับแก้ไข: <a href="editable/fig-3-6-login.drawio">Draw.io</a>, <a href="editable/fig-3-6-login.puml">PlantUML</a> [E14]</p>
+<p><strong>บทพูด:</strong> “Frontend ส่งคำขอ Login ไป Backend ครับ Backend ตรวจคำขอกับรหัสผ่าน ถ้าถูกต้องจึงสร้าง Session และบันทึก Audit ก่อน Commit แล้วค่อยส่ง Cookie กลับ หลังจากนั้น me อ่านผู้ใช้กับ Role ปัจจุบัน ภาพนี้เน้นการเข้าสู่ระบบ ส่วน Protected Route ที่ผูก Guard จะตรวจ Session และ Permission ที่ Backend ต่อทุกคำขอ หากฐานข้อมูลหรือ Audit จำเป็นล้มเหลว จะตอบ 503 และไม่ออก Session ให้ ไม่ได้ยอมผ่านเพราะเว็บจำว่า Login อยู่ครับ”</p>
+<p><strong>ชี้ตามลำดับ:</strong> 1) POST Login 2) Origin/CSRF/Rate Limit 3) ตรวจรหัสผ่าน 4) Commit Session + Audit 5) Cookie และ me 6) หมายเหตุ 503 ด้านล่าง<br><strong>ตอบคำถาม:</strong> ทำไม Session ไม่ได้เชื่อสิทธิ์จาก Browser และบันทึกก่อนตอบสำเร็จ?<br><strong>ทำแล้ว/ยังออกแบบ:</strong> ลำดับหลักมีโค้ด Auth รองรับและมี Test ตามหัวข้อ 6; ภาพเดิมเป็นเอกสาร Sequence ไม่ใช่ภาพผลรันทดสอบ; Permission Guard ยังไม่ครอบคลุมทุก Router [E04, E09]</p>
+<h3>ภาพ C — User Management และผลต่อ Session</h3>
+<p><img src="images/fig-3-13-user-management.png" alt="Sequence Diagram User Management เดิม"></p>
+<p>ต้นฉบับแก้ไข: <a href="editable/fig-3-13-user-management.drawio">Draw.io</a>, <a href="editable/fig-3-13-user-management.puml">PlantUML</a> [E14]</p>
+<p><strong>บทพูด:</strong> “Admin ขอจัดการบัญชีก็ต้องผ่าน Session กับ user.manage ก่อนครับ ตอนเปลี่ยน Role หรือปิดบัญชี Backend ตรวจซ้ำใน Transaction ป้องกันไม่ให้เสีย Admin คนสุดท้าย และเพิกถอน Session ของบัญชีเป้าหมาย จากนั้นบันทึก Audit แล้ว Commit ร่วมกัน จึงตอบว่าสำเร็จ ถ้า Audit เขียนไม่ได้ จะไม่ตอบว่าบัญชีเปลี่ยนสำเร็จ ภาพนี้ช่วยชี้ว่าการจัดการบัญชีเป็นการเปลี่ยนขอบเขตการเข้าถึงด้วย ไม่ใช่แค่แก้ค่าหน้าตาราง ส่วนการล็อกพร้อมกันจริงต้องยืนยันด้วย PostgreSQL Test ครับ”</p>
+<p><strong>ชี้ตามลำดับ:</strong> 1) user.manage 2) POST/PATCH 3) Last Admin 4) opt เพิกถอน Session 5) Audit + Commit 6) กรณีปฏิเสธ/หมายเหตุ Rollback<br><strong>ตอบคำถาม:</strong> ลดสิทธิ์แล้ว Session เดิมทำอย่างไร และป้องกัน Admin คนสุดท้ายอย่างไร?<br><strong>ทำแล้ว/ยังออกแบบ:</strong> โค้ด API/UI และเงื่อนไขมีแล้ว; Unit/HTTP แบบจำลองผ่านตามชุดรอบนี้; PostgreSQL Lock/Atomicity และ Browser ยังไม่ได้ยืนยันรอบนี้ [E05, E10]</p>
+<h3>ภาพ D — การอ่าน Audit History</h3>
+<p><img src="images/fig-3-14-audit-history.png" alt="Sequence Diagram Audit History เดิม"></p>
+<p>ต้นฉบับแก้ไข: <a href="editable/fig-3-14-audit-history.drawio">Draw.io</a>, <a href="editable/fig-3-14-audit-history.puml">PlantUML</a> [E14]</p>
+<p><strong>บทพูด:</strong> “ส่วนนี้เป็นการอ่านประวัติที่เก็บแล้วครับ Backend ตรวจ Session กับ audit.read ก่อน แล้วใช้ตัวกรองอ่าน audit_logs เรียงเวลาและ ID จากใหม่ไปเก่า ส่ง Cursor ให้โหลดหน้าต่อไป โดยทุกคำขอตรวจสิทธิ์ใหม่ หน้าเว็บเปิดรายละเอียดได้แต่แก้หรือลบไม่ได้ การอ่านที่สำเร็จไม่เขียน Event ใหม่ ส่วนการเขียนประวัติมาจาก Business Action ผ่าน Writer ตามภาพก่อนหน้า เราจึงไม่อ้างว่าทุกการคลิกถูกเก็บ และไม่รับรองว่าผู้มีสิทธิ์ฐานข้อมูลโดยตรงแก้ประวัติไม่ได้ครับ”</p>
+<p><strong>ชี้ตามลำดับ:</strong> 1) GET audit-logs 2) audit.read 3) ORDER เวลา/ID 4) Next Cursor 5) ตรวจซ้ำหน้าถัดไป 6) หมายเหตุอ่านอย่างเดียว<br><strong>ตอบคำถาม:</strong> ใครอ่านประวัติได้ อ่านต่ออย่างไร และบันทึกครอบคลุมแค่ไหน?<br><strong>ทำแล้ว/ยังออกแบบ:</strong> Writer, Reader, API และ History UI พัฒนาแล้ว; ภาพนี้เป็นแบบ Sequence ของเส้นทางอ่าน; Dashboard Activity Summary/Producer งานเพื่อนยังไม่ถือว่าเชื่อมแล้ว [E06, E07]</p>
+<h3>ภาพ E — โครงสร้างข้อมูลผู้ใช้ Session และ Audit (ภาพสำรอง)</h3>
+<p><img src="images/fig-3-15-mynetmate-er.png" alt="ER Diagram เดิม แสดงข้อมูลผู้ใช้ Session Audit และบริบท Inventory"></p>
+<p>ต้นฉบับแก้ไข: <a href="editable/fig-3-15-mynetmate-er.drawio">Draw.io ภาพรวม</a><br>ไฟล์ราย Entity สำหรับถามรายละเอียด: <a href="editable/fig-3-16-users.drawio">users</a>, <a href="editable/fig-3-17-auth-sessions.drawio">auth_sessions</a>, <a href="editable/fig-3-18-audit-logs.drawio">audit_logs</a> [E14]</p>
+<p><strong>บทพูด:</strong> “ผมชี้เฉพาะส่วนบนของ ER ครับ users เก็บบัญชีกับบทบาท หนึ่งผู้ใช้มี Session ได้หลายรายการ Session เก็บ Hash กับวันหมดอายุและการเพิกถอน ส่วน Audit เก็บผู้กระทำ การกระทำ ผล และเวลา ผู้กระทำอาจว่างได้ใน Failed Login บางกรณี จึงไม่ควรเดาว่ารู้ตัวผู้ใช้เสมอ ส่วนล่างเป็น Inventory กับหลักฐาน Discovery ของทีมที่ใช้ร่วมกัน การมีโมเดลและ Migration ไม่เท่ากับยืนยัน Schema ที่ Deploy แล้ว และ resource_id ของ Audit ก็ไม่ได้เป็น Foreign Key ไปทุกตารางครับ”</p>
+<p><strong>ชี้ตามลำดับ:</strong> 1) users 2) has → auth_sessions 3) performs → audit_logs/ผู้กระทำอาจว่าง 4) Inventory ส่วนล่างเพื่อเชื่อมบริบท<br><strong>ตอบคำถาม:</strong> ทำไมแยก User/Session/Audit และฐานข้อมูลเชื่อมงานเพื่อนอย่างไร?<br><strong>ทำแล้ว/ยังออกแบบ:</strong> ภาพเดิมอ้างโมเดลปัจจุบัน; Auth/Audit มีโมเดลและ Migration; โครงสร้างและ Constraint บน PostgreSQL จริงยังไม่ได้ตรวจรอบนี้ Inventory ส่วนล่างไม่ใช่งานพัฒนาที่นภัทรอ้าง [E04, E06, E09]</p>
+<h3>ภาพ F — Navigation Flow (ภาพสำรอง)</h3>
+<p><img src="images/navigation-flow.png" alt="Navigation Flow เดิม เป็นแบบออกแบบการเชื่อมหน้าจอ"></p>
+<p>ต้นฉบับแก้ไข: <a href="editable/navigation-flow.drawio">Draw.io</a>, <a href="editable/navigation-flow.mmd">Mermaid</a> [E12, E14]</p>
+<p><strong>บทพูด:</strong> “ภาพนี้แสดงการเปลี่ยนหน้า ไม่ใช่การเรียก API ครับ Login เข้าหน้าหลัก แล้วเลือก Devices หรือ Topology สำหรับ Admin มี Users กับ Audit เพิ่ม กล่องเส้นประคือ Dialog/Drawer ที่เปิดทับหน้าเดิม รอบนี้หน้าที่ผมเชื่อม Implementation คือ Login, My Account, Users และ Audit ส่วน Dashboard ยัง Placeholder และ My Account ที่มีในโค้ดไม่ได้อยู่ใน Navigation รูปนี้ จึงยังต้องปรับแบบให้ตรงโค้ดก่อนใช้เป็นแผนผังสุดท้าย และการซ่อนเมนูก็ยังต้องมีสิทธิ์ฝั่ง Backend ประกอบครับ”</p>
+<p><strong>ชี้ตามลำดับ:</strong> 1) Login/ทางผิดพลาด 2) Dashboard 3) เมนู Admin 4) Dialog Users 5) Audit Details<br><strong>ตอบคำถาม:</strong> ผู้ใช้ไปแต่ละงานอย่างไร และแบบตรงกับระบบปัจจุบันครบหรือยัง?<br><strong>ทำแล้ว/ยังออกแบบ:</strong> เป็น Navigation Design; Auth/Users/Audit มีหน้าในโค้ดแล้ว; Widgets/Discovery Flow/สิทธิ์ทุก Route ไม่ได้ยืนยันด้วยภาพนี้ [E04–E09]</p>
+<h3>ภาพ G — Dashboard P2 เพื่ออธิบายงานต่อ</h3>
+<p><img src="images/dashboard-p2.png" alt="Dashboard P2 Mockup เดิม ใช้ข้อมูลสมมติและยังไม่ Implement"></p>
+<p>ต้นฉบับแก้ไข: <a href="editable/dashboard-p2.drawio">Draw.io</a> [E12, E14]</p>
+<p><strong>บทพูด:</strong> “ภาพนี้เป็นแบบ P2 ทั้งหมด ใช้ข้อมูลสมมติครับ เริ่มที่ผู้ใช้เลือกอุปกรณ์และกด Refresh แบบอ่านอย่างเดียว จากนั้นแยกติดต่อไม่ได้ เก็บข้อมูลล้มเหลว และ Snapshot เก่า เพราะเครื่องเดียวอยู่หลายสถานะได้ การ์ด Critical เป็นจำนวนประเด็น ไม่ใช่จำนวนเครื่อง และต้องมี Expected State/Criticality กับเวลาของหลักฐานก่อนสรุป ด้านล่างแยกความสำเร็จครั้งล่าสุดจากข้อมูลที่เก็บสำเร็จครั้งก่อน หากมีแต่ข้อมูลเก่าต้องแสดง Last Known State สิ่งที่จะทำก่อนภาพนี้คือ Dashboard P1 กับ Contract ของข้อมูลครับ”</p>
+<p><strong>ชี้ตามลำดับ:</strong> 1) P2 Design Preview/Sample Data 2) Refresh selected 3) การ์ดสถานะที่ทับซ้อนกันได้ 4) Switch/Router Problems 5) Last attempt/Last success/Freshness 6) Security/System/Activity ที่อ่านจากเจ้าของข้อมูล<br><strong>ตอบคำถาม:</strong> P2 จะช่วยดูแลเครือข่ายอย่างไร และต่างจาก Real-time อย่างไร?<br><strong>ทำแล้ว/ยังออกแบบ:</strong> <strong>ทั้งภาพเป็น Mockup</strong> ไม่มีผลทดสอบ Dashboard P2; ตัวเลข เวลา อุปกรณ์และสถานะเป็นข้อมูลสมมติ; Refresh Event ใน Activity ยังเป็นข้อเสนอ ไม่ใช่ Event ที่รับรองว่าเชื่อมในระบบ [E08, E12]</p>
+</section>
+<section data-part="8"><h2 id="section-8">8. งานที่จะทำต่อ เรียงตามความสำคัญ</h2>
+<ol>
+<li><strong>ปิดขอบเขตสิทธิ์และ Audit ของ P1 ร่วมกับเจ้าของ Feature ก่อน</strong> — นภัทรดูแล Contract/Guard/Writer ให้เพื่อนใช้; ตกลง Route กับ Permission/Event และให้เจ้าของงานเชื่อม Producer ที่ยังขาด ต้องทำก่อนเพราะเมนูที่ถูกซ่อนไม่ป้องกันการเรียก API โดยตรง เกณฑ์จบคือ API ที่เลือกไม่มี Session ต้องถูกปฏิเสธ Viewer เปลี่ยนข้อมูลไม่ได้ และ Role อื่นทำได้ตาม Catalog พร้อม Audit ที่กำหนด ไม่ขยาย P2 โดยอัตโนมัติ</li>
+<li><strong>ยืนยัน Build และ Integration ก่อน Demo</strong> — ให้นภัทรกับทีมตรวจสาเหตุ API Client Generator ตาม Lockfile/Config/Environment ให้สร้าง Client และ Build จากสำเนาใหม่ได้ก่อน; อย่าใช้ผล Build เก่า จากนั้นทดสอบบน PostgreSQL แยกและ Browser: ตรวจ Migration, FK/Lock, Last Admin พร้อมกัน, Audit Rollback, Revoke หลังเปลี่ยน Role/Deactivate/Password และ Cookie/CORS/Proxy จริง แล้วทำ Browser Flow Login → Admin เปลี่ยนบัญชี → Session เป้าหมายใช้ไม่ได้ → อ่าน Audit; เก็บ Commit/เวลา/ผลแต่ละชนิดก่อนยืนยัน Demo เสถียร ขั้นนี้ให้ผลที่ Unit/Build ยังพิสูจน์ไม่ได้</li>
+<li><strong>พัฒนา Dashboard P1 ให้ใช้ข้อมูลจริง</strong> — จำนวนอุปกรณ์จาก Inventory, Recent Activity เฉพาะ Allowlist, Health จากสัญญาระบบที่ตกลง; จัด Empty/Error/Stale ไม่ใช้ตัวเลข Mockup ไม่ใช้ <code>/health</code> ปัจจุบันแทนการพิสูจน์ Database Healthy; ตรวจสิทธิ์อ่านก่อนปล่อยหน้า Dashboard</li>
+<li><strong>ปรับเอกสารบทที่ 3 ให้ตรงโค้ดและผู้รับผิดชอบ</strong> — เพิ่ม My Account/ปรับ Navigation เมื่อทีมตกลง แยกภาพออกแบบจากผลทดสอบ ตรวจชื่อ/หมายเลขรูปและ Guard ที่ยังไม่ครบ ไม่ใช้ภาพเป็นหลักฐาน Deployment</li>
+<li><strong>เตรียม P2 Operational Monitoring หลัง P1 เสถียรและทีมยืนยัน</strong> — ตกลง Input/Output กับเจ้าของ Inventory/Collection, เวลาของ Attempt/Success/Snapshot, Freshness Policy, Expected State/Criticality, Refresh Permission และ Audit Event; ใช้ Mock Data ตรวจการแปลความหมายก่อนทำ Manual Read-only Refresh ของอุปกรณ์ลงทะเบียน/Allowlist ใน Isolated Lab ผล Lab กับ Hardware ต้องรายงานแยก และ Cisco เป็น baseline; Huawei/MikroTik ยังต้องยืนยันด้วย Test Evidence</li>
+</ol>
+</section>
+<section data-part="9"><h2 id="section-9">9. คำถาม–คำตอบที่เตรียมไว้ (10 ข้อ)</h2>
+<p><strong>1) ทำไมเลือก Server-side Session แทน JWT?</strong><br>“ระบบเป็นเว็บกับ Backend/Database กลาง และต้องให้การเปลี่ยนบัญชีมีผลกับคำขอถัดไปครับ แบบ JWT เดิมก็ต้องอ่านฐานข้อมูลอยู่แล้ว เราเลือก Token สุ่มกับสถานะที่ Server เพื่อลดความซับซ้อน ไม่ได้บอกว่า JWT ใช้ไม่ได้หรือ Session ปลอดภัยกว่าเสมอไป” [E04, E11]</p>
+<p><strong>2) ตอนนี้ใช้งานได้ถึงไหน?</strong><br>“มีโค้ดและ UI เชื่อม Auth, Users และ Audit แล้วครับ มีผล Test เฉพาะชุดรอบนี้ แต่ Build สำเนาใหม่ยังไม่ผ่าน และยังไม่รับรอง Browser/PostgreSQL หรือ Demo ทั้งระบบ P1 ส่วน Dashboard ยังเป็น Placeholder” [E04–E10]</p>
+<p><strong>3) ทดสอบอย่างไร ผลผ่านพิสูจน์อะไร?</strong><br>“ใช้สำเนาโค้ดตาม Commit ปัจจุบันรัน Auth/Audit โดยไม่ต่ออุปกรณ์ครับ Backend ผ่าน 1,003 กรณี แต่ข้าม 16 และตัด 137 กรณีออก ไม่ได้นับเป็นผ่าน ตรวจได้เฉพาะ Assertion ใน Unit/HTTP แบบจำลอง ส่วน PostgreSQL, Browser E2E และ Deploy ยังต้องมีผลแยก” ผล Frontend/Build ใช้ตัวเลขและสถานะในหัวข้อ 6 [E10]</p>
+<p><strong>4) ปัญหาหลักที่พบคืออะไร แก้อย่างไร?</strong><br>“รายงานก่อนหน้าบันทึกความซับซ้อน Stateful JWT และความเสี่ยงรูปแบบ Audit/ข้อมูลลับครับ ใช้ Opaque Session และ Writer/Registry กลางจัดการ ส่วนข้อจำกัดที่ตรวจพบตอนนี้คือ API งานอุปกรณ์ยังเชื่อม Guard/Audit ไม่ครบ กับ Dashboard ยังไม่ Implement และพบข้อจำกัด Build/Client Generator จากสำเนาใหม่วันนี้ ต้องตรวจสาเหตุและเชื่อมร่วมกับเพื่อน” [E09, E11]</p>
+<p><strong>5) เปลี่ยน Role หรือปิดบัญชีแล้วผู้ใช้ยังเปิดหน้าอยู่ได้ไหม?</strong><br>“หน้าที่เปิดอาจยังเห็นสิ่งที่โหลดไปก่อนหน้า แต่ Session เดิมถูกเพิกถอนในโค้ดครับ คำขอถัดไปผ่าน Guard จะถูกปฏิเสธ และ Auth Client ล้างสถานะเมื่อ Session Invalid ไม่ได้ผลัก Logout ไปทุก Browser ทันทีโดยไม่มีคำขอ และผล Browser จริงยังต้องตรวจ” [E04, E05]</p>
+<p><strong>6) ถ้า Audit ล้มเหลว งานจะสำเร็จไหม?</strong><br>“งาน Auth/User ที่กำหนด Audit เป็น Mandatory ต้องไม่ตอบสำเร็จครับ Business Change กับ Audit ใช้ Transaction ร่วมกัน ส่วน Failed Login/Permission Denied ใช้ Transaction บันทึกแยกตาม Contract ตอนนี้ตรวจลำดับกับ Test แบบจำลองแล้ว ต้องยืนยัน Rollback/Commit จริงบน PostgreSQL” [E04–E07, E10]</p>
+<p><strong>7) Audit เก็บทุกการกระทำและแก้ไม่ได้หรือไม่?</strong><br>“เก็บเฉพาะ Event ที่กำหนดและ Producer ที่เชื่อมแล้วครับ การอ่านประวัติสำเร็จไม่เขียน Event ใหม่ API/UI นี้ไม่มีแก้หรือลบ แต่ยังไม่รับรองการแก้ผ่านสิทธิ์ฐานข้อมูลโดยตรง และ Description ถูกตัดเป็นค่าว่างทั้งหมดในระยะนี้” [E06, E07]</p>
+<p><strong>8) งานนภัทรเชื่อมงานเพื่อนอย่างไร และนับเป็น Network Management อย่างไร?</strong><br>“ในภาพ A งานที่ผมพัฒนาคือ Auth/RBAC, User Management และ Audit ภายใน Backend แอปเดียวครับ ส่วน Inventory/Collection เป็นงานเพื่อน จุดเชื่อมคือแต่ละ Route ต้องเรียก Guard และเหตุการณ์ที่ตกลงต้องเรียก Writer ซึ่งยังเชื่อมไม่ครบทุก API ภาพ Component แสดงความสัมพันธ์โมดูล ไม่ได้พิสูจน์ว่าทั้งระบบใช้งานได้ครบ ส่วน Dashboard จะอ่านข้อมูลจากเจ้าของข้อมูลพร้อมเวลา งานเก็บอุปกรณ์กับการปรับ Topology ของเพื่อนผมไม่อ้างเป็นงานที่เขียนเอง” [E02, E03, E09, E12, E16]</p>
+<p><strong>9) สิ่งใดเป็นออกแบบ สิ่งใดพัฒนาแล้ว และ P2 Real-time ไหม?</strong><br>“Auth/Users/Audit มีโค้ดครับ Diagram เป็นคำอธิบายแบบและต้องดูผล Test ประกอบ ส่วน Dashboard P1 Widget และ P2 Mockup ยังไม่พัฒนา P2 ตั้งใจอ่าน Snapshot เมื่อผู้ใช้ Refresh และแสดงเวลา/ความใหม่ ไม่ใช่เฝ้าต่อเนื่องหรือ Real-time” [E08, E12, E14]</p>
+<p><strong>10) ขั้นต่อไปติดอะไร ต้องขอความเห็นอาจารย์เรื่องใด?</strong><br>“ก่อนอื่นปิด Guard/Audit ของ P1 กับเจ้าของงาน แก้ข้อจำกัด Build/Client Generator และเก็บผล PostgreSQL/Browser ให้ครบครับ จากนั้นทำ Dashboard พื้นฐาน สำหรับ P2 ยังต้องยืนยัน Contract, Expected State/Criticality และอายุข้อมูล จึงอยากให้อาจารย์ช่วยดูว่าภาพสรุปกับ Last Known State ตอบโจทย์พอหรือไม่ ก่อนเริ่มพัฒนาส่วนนั้นหลัง P1 เสถียร” [E01, E09, E12]</p>
+</section>
+<section data-part="10"><h2 id="section-10">10. รายการหลักฐานและข้อจำกัดการตรวจ</h2>
+<p>อ่าน Google Docs ที่อ้างในชุดบทที่ 3 ได้ผ่าน Google Drive แบบอ่านอย่างเดียวเมื่อ 9 ตุลาคม 2569; Title คือ “เอกสารรายงานความคืบหน้า Project 1” และ Modified Time ที่ Connector คืนคือ <code>2026-10-09T04:02:14.259Z</code> เอกสารมีหลายส่วน/หลายช่วงรายงานและมีหัวข้อ/วันที่ย้อนหลังปน จึงใช้โค้ด/ผลรันรอบนี้ยืนยัน Implementation และใช้ UI ภายในเครื่องตามคำขอเป็นหลักสำหรับภาพ P2 ไม่ถือข้อความออกแบบในเอกสารออนไลน์เป็นผลทดสอบ ไม่มีการแก้ Google Docs/รายงานเดิม/โค้ดระบบหรือโฟลเดอร์งานเพื่อน</p>
+<ul>
+<li><strong>E01 — กฎและขอบเขต:</strong> <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/AGENTS.md">AGENTS.md</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/02_feature/MyNetMate%20Weight%20Feature%20List%20(AI%20%E0%B8%84%E0%B8%B4%E0%B8%94).md">MVP Weight Feature List</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/OBSIDIAN_EXTENSIONS.md">Obsidian Extensions</a></li>
+<li><strong>E02 — ความก้าวหน้าและฐานเปรียบเทียบ:</strong> <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/04_project_management/%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%20CE%20Project%201%20%E0%B9%81%E0%B8%A5%E0%B8%B0%202/%E0%B8%A3%E0%B8%B2%E0%B8%A2%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%84%E0%B8%B7%E0%B8%9A%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2/Network%20Management(1)/%E0%B9%80%E0%B8%AD%E0%B8%81%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B8%A3%E0%B8%B2%E0%B8%A2%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%84%E0%B8%B7%E0%B8%9A%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%20Project%201%20%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%97%E0%B8%B5%E0%B9%88%204%20Network%20Management.md">รายงานครั้งที่ 4</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/04_project_management/%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%20CE%20Project%201%20%E0%B9%81%E0%B8%A5%E0%B8%B0%202/%E0%B8%A3%E0%B8%B2%E0%B8%A2%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%84%E0%B8%B7%E0%B8%9A%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2/Network%20Management(1)/%E0%B9%80%E0%B8%AD%E0%B8%81%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B8%A3%E0%B8%B2%E0%B8%A2%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%84%E0%B8%B7%E0%B8%9A%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%20Project%201%20%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%97%E0%B8%B5%E0%B9%88%203%20Network%20Management.md">รายงานครั้งที่ 3</a></li>
+<li><strong>E03 — การแบ่งผู้พัฒนา:</strong> ตรวจ Git Log ใน Backend/Website; Backend <code>3f7ac59</code>, <code>b862c60</code> และ Website <code>8c662c2</code>, <code>7522d2a</code> เป็น Auth/Users/Audit ในนาม <code>NaphatJa</code>; ตัวอย่างงานเพื่อน Backend <code>b2387b6</code>, Website <code>167eb88</code> ในนาม <code>Chatnarint Boonsaeng</code>; Snapshot เต็มใน <a href="evidence/verification.json">verification.json</a> และ <a href="evidence/source-notes.md">บันทึกหลักฐานเพิ่มเติม</a></li>
+<li><strong>E04 — Auth:</strong> <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/authentication/router.py">Router</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/authentication/service.py">Service</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/authentication/session_guard.py">Session Guard</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/authentication/repository.py">Repository</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/authentication/permissions.py">Permission Catalog</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/main.py">App Wiring</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/website/src/features/authentication/client.ts">Auth Client</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/website/src/features/authentication/actions.ts">Actions</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/website/src/features/authentication/store.ts">Store</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/website/src/features/authentication/LoginPage.tsx">Login UI</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/website/src/features/authentication/AccountPage.tsx">Account UI</a></li>
+<li><strong>E05 — Users:</strong> <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/authentication/admin_router.py">Admin Router</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/authentication/service.py">Service create/update/locked_admin</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/website/src/features/users/UsersPage.tsx">Users UI</a></li>
+<li><strong>E06 — Audit Write/Schema:</strong> <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/audit_trail/writer.py">Writer</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/audit_trail/registry.py">Registry</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/audit_trail/redaction.py">Redaction</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/audit_trail/models.py">Models</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/authentication/audit_adapter.py">Auth Adapter</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/alembic/versions/20261001_02_audit_logs.py">Migration</a></li>
+<li><strong>E07 — Audit Read/UI:</strong> <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/audit_trail/router.py">Read Router</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/audit_trail/reader.py">Reader</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/website/src/features/audit/AuditPage.tsx">Audit UI</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/website/src/features/audit/display.ts">Display Labels</a></li>
+<li><strong>E08 — Dashboard ปัจจุบันเทียบแบบ:</strong> <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/website/src/features/home/HomePage.tsx">HomePage</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/core/router.py">Backend Router List</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/02_feature/01_Dashboard&amp;Monitoring(Naphat)/P1_Core/04_API%20Contracts.md">P1 API Contracts</a></li>
+<li><strong>E09 — จุดเชื่อมงานเพื่อน/ช่องว่าง Guard:</strong> <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/devices/router.py">Devices Router</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/network_device_discovery/router.py">Discovery Router</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/app/features/devices/services/topology.py">Topology Service</a>; อ่านเพื่อบริบท ไม่แก้ไฟล์เหล่านี้หรือ <code>network-discovery/</code></li>
+<li><strong>E10 — Test รอบนี้และสิ่งที่ Assert:</strong> <a href="evidence/verification.json">ผลรัน</a>, <a href="evidence/backend-auth-audit.xml">Backend XML</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/tests/test_authentication_session_guard.py">Session Tests</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/tests/test_authentication_admin_service.py">Admin Service Tests</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/tests/test_authentication_http_application.py">HTTP Application Tests</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/tests/test_audit_writer.py">Writer Tests</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/tests/test_audit_reader.py">Reader Tests</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/tests/test_authentication_admin_postgres.py">Admin PG Tests ที่ยังไม่รัน</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/website/tests/authentication.test.ts">Frontend Auth Tests</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/website/tests/audit-display.test.ts">Frontend Display Tests</a></li>
+<li><strong>E11 — เหตุผล/ข้อกำหนด:</strong> <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/02_feature/00_Authentication(Naphat)/01_MVP%20-%20Authentication%20&amp;%20RBAC.md">Auth MVP</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/02_feature/00_Authentication(Naphat)/ADR_Login%20Rate%20Limiter%20Decisions.md">Login Limiter ADR</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/02_feature/11_Audit%20Trail(Naphat)/01_MVP%20-%20Audit%20Trail.md">Audit MVP</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/02_feature/11_Audit%20Trail(Naphat)/06_Integration%20Contract%20Matrix.md">Integration Contract Matrix</a> โดยสถานะ Approved ในเอกสารคือข้อตกลง ไม่ใช่ผล Integration ผ่าน</li>
+<li><strong>E12 — UI ล่าสุดและ P2:</strong> <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/chapter-3-8-ui-design.md">บทที่ 3.8 ตามคำขอ</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/02_feature/01_Dashboard&amp;Monitoring(Naphat)/P2_Operational_Monitoring/MVP%20D&amp;M.md">P2 MVP</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/02_feature/01_Dashboard&amp;Monitoring(Naphat)/P2_Operational_Monitoring/Display%20in%20MVP.md">แนวทางจัดหน้า</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/p2-operational-monitoring/README.md">Mockup Notes</a></li>
+<li><strong>E13 — เตรียม Runtime:</strong> <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/README.md">Backend README</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/README-migrations.md">Migration Guide</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/docker-compose.yml">Backend Compose</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/website/Dockerfile">Frontend Dockerfile</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/backend/pyproject.toml">Backend Manifest</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/mynetmate/website/package.json">Frontend Manifest</a></li>
+<li><strong>E14 — ต้นทางภาพบทที่ 3:</strong> <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/System%20Architecture/System%20Diagram.drawio">Architecture</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/sequence-diagram/naphat/README.md">Sequence Notes</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/er-diagram/chapter-3-6-er.md">ER Chapter</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design">UI Sources</a>, <a href="evidence/artifact-qa.json">Diagram Copy/QA Manifest</a></li>
+<li><strong>E15 — เอกสารออนไลน์ที่อ่านได้:</strong> <a href="https://docs.google.com/document/d/1bgBgFPAoSGiob5yRsHnE9WyIwqhd6PmakMJAyo3S82c/edit">เอกสารรายงานความคืบหน้า Project 1</a> อ่านเนื้อหา Network Management บทที่ 3 และส่วนความคืบหน้าเพื่อเทียบกับหลักฐานภายในเครื่อง; ไม่แก้เอกสาร และไม่รับรองภาพ/ทุก Tab จากการอ่าน Text ของ Connector เพียงอย่างเดียว</li>
+<li><strong>E16 — Component Diagram ที่เพิ่มล่าสุด:</strong> <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/component-diagram/component-diagram-network-management.md">เอกสารโมดูล Network Management</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/component-diagram/network-management-components.png">PNG ต้นทาง</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/component-diagram/network-management-components.puml">PlantUML ต้นทาง</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/component-diagram/README.md">หลักฐานเส้นเชื่อมและข้อจำกัด</a>, <a href="file:///D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/component-diagram/render-qa.json">ผลตรวจ Render ต้นทาง</a> ตรวจเทียบกับโค้ด Auth runtime/Audit Reader และคัดลอกภาพ/ต้นฉบับมาใช้เป็นภาพ A; ขอบเขตเฉพาะ Network Management ไม่รวม P2 ไม่ได้ตรวจหรือแก้เอกสารออนไลน์เพิ่มเติมในการปรับชุดนำเสนอครั้งนี้</li>
+</ul>
+<p><strong>รายการรอยืนยัน:</strong> ผู้จัดทำภาพเอกสารร่วมรายชิ้น; การแบ่ง Implementation Topology เดิม; ช่วงวันที่/เปอร์เซ็นต์รายงานครั้งที่ 4; ผู้รับผิดชอบการเชื่อม Guard/Audit ของแต่ละ Route; Contract Dashboard/P2 และผล PostgreSQL/Browser/Deploy รอบถัดไป</p>
+</section></main><dialog><div class="viewerbar"><button id="close">ปิดภาพ</button><label>ขยาย <input id="zoom" type="range" min="60" max="300" value="100"></label><span>เลื่อนดูรายละเอียดในภาพได้</span></div><div class="viewerbody"><img id="large" alt=""></div></dialog><script>function showPart(n){document.querySelectorAll('main section').forEach(s=>s.hidden=n!=='all'&&s.dataset.part!==n);window.scrollTo(0,0)}const dlg=document.querySelector('dialog'),zoom=document.querySelector('#zoom'),large=document.querySelector('#large');document.querySelectorAll('main img').forEach(img=>img.addEventListener('click',()=>{large.src=img.src;large.alt=img.alt;zoom.value=100;large.style.width='100%';dlg.showModal()}));zoom.addEventListener('input',()=>large.style.width=zoom.value+'%');document.querySelector('#close').onclick=()=>dlg.close();</script></body></html>

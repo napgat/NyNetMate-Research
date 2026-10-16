@@ -1,0 +1,15 @@
+$ openapi-ts
+[90m[root] [39m❌ [31mFailed with the message:[39m
+[90m[root] [39m[31m  [39mCannot read properties of undefined (reading 'importFileExtension')
+Unexpected error: TypeError: Cannot read properties of undefined (reading 'importFileExtension')
+    at $finalize (file:///C:/Users/evilm/AppData/Local/Temp/mynetmate-advisor-20261009-kr3sck8v/website/node_modules/@hey-api/openapi-ts/dist/init-D6Y8JFUS.mjs:19459:13)
+    at resolveTable (file:///C:/Users/evilm/AppData/Local/Temp/mynetmate-advisor-20261009-kr3sck8v/website/node_modules/@hey-api/shared/dist/index.mjs:428:13)
+    at normalize (file:///C:/Users/evilm/AppData/Local/Temp/mynetmate-advisor-20261009-kr3sck8v/website/node_modules/@hey-api/shared/dist/index.mjs:518:10)
+    at getOutput (file:///C:/Users/evilm/AppData/Local/Temp/mynetmate-advisor-20261009-kr3sck8v/website/node_modules/@hey-api/openapi-ts/dist/init-D6Y8JFUS.mjs:19490:9)
+    at file:///C:/Users/evilm/AppData/Local/Temp/mynetmate-advisor-20261009-kr3sck8v/website/node_modules/@hey-api/openapi-ts/dist/init-D6Y8JFUS.mjs:19543:8
+    at Array.map (<anonymous>)
+    at validateJobs (file:///C:/Users/evilm/AppData/Local/Temp/mynetmate-advisor-20261009-kr3sck8v/website/node_modules/@hey-api/openapi-ts/dist/init-D6Y8JFUS.mjs:19539:14)
+    at resolveJobs (file:///C:/Users/evilm/AppData/Local/Temp/mynetmate-advisor-20261009-kr3sck8v/website/node_modules/@hey-api/openapi-ts/dist/init-D6Y8JFUS.mjs:19576:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async createClient (file:///C:/Users/evilm/AppData/Local/Temp/mynetmate-advisor-20261009-kr3sck8v/website/node_modules/@hey-api/openapi-ts/dist/src-CI9riJdm.mjs:198:20)
+error: script "openapi:generate" exited with code 1

@@ -1,0 +1,36 @@
+bun install v1.4.2 (744846f84)
+
++ @babel/core@8.0.6
++ @hey-api/client-axios@0.9.1
++ @hey-api/openapi-ts@0.99.0
++ @rolldown/plugin-babel@0.2.3
++ @tanstack/router-devtools@1.167.1
++ @tanstack/router-plugin@1.168.35
++ @types/babel__core@7.20.5
++ @types/node@26.6.2
++ @types/react@19.2.18
++ @types/react-dom@19.2.4
++ @vitejs/plugin-react@6.1.0
++ babel-plugin-react-compiler@1.0.0
++ oxlint@1.79.0
++ typescript@6.0.3
++ vite@8.2.1
++ @dagrejs/dagre@3.1.1
++ @elchininet/isometric@4.0.0
++ @emotion/react@11.14.0
++ @emotion/styled@11.14.1
++ @mui/icons-material@9.4.0
++ @mui/material@9.4.0
++ @tailwindcss/vite@4.3.3
++ @tanstack/react-query@5.102.8
++ @tanstack/react-query-devtools@5.102.8
++ @tanstack/react-router@1.170.32
++ @types/dagre@0.7.54
++ axios@1.20.0
++ jotai@3.0.0
++ react@19.2.8
++ react-dom@19.2.8
++ tailwindcss@4.3.3
++ zustand@5.0.15
+
+312 packages installed [135.13s]

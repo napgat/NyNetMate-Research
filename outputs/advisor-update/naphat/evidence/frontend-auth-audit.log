@@ -1,0 +1,27 @@
+bun test v1.4.2 (744846f84)
+
+tests\audit-display.test.ts:
+(pass) audit display names > uses current user and target names instead of identifiers [0.17ms]
+(pass) audit display names > missing or deleted names keep readable labels without UUID fallbacks [0.05ms]
+(pass) audit display names > anonymous failed logins do not imply a known account or resource [0.02ms]
+(pass) audit display names > all supported events and resource types have English labels [0.10ms]
+
+tests\authentication.test.ts:
+(pass) cookie-only Auth client and session transitions > JSON mutation includes credentials/CSRF and excludes Authorization [1.53ms]
+(pass) cookie-only Auth client and session transitions > missing401 clears identity and all user caches without expiry notice [1.76ms]
+(pass) cookie-only Auth client and session transitions > invalid401 shows safe expiry notice and duplicate clear is idempotent [0.18ms]
+(pass) cookie-only Auth client and session transitions > late401 from old session cannot clear newly authenticated user or cache [1.67ms]
+(pass) cookie-only Auth client and session transitions > late success after logout is discarded [0.21ms]
+(pass) cookie-only Auth client and session transitions > failure%s retains current user and never retries [0.18ms]
+(pass) cookie-only Auth client and session transitions > failure%s retains current user and never retries [0.05ms]
+(pass) cookie-only Auth client and session transitions > failure%s retains current user and never retries [0.04ms]
+(pass) cookie-only Auth client and session transitions > errors retain only safe code; do not include raw server text or payload [0.23ms]
+(pass) cookie-only Auth client and session transitions > login obtains allowlisted public user exclusively through /me [0.31ms]
+(pass) cookie-only Auth client and session transitions > successful logout/change clears session after204 [0.12ms]
+(pass) cookie-only Auth client and session transitions > successful logout/change clears session after204 [0.13ms]
+(pass) cookie-only Auth client and session transitions > failed logout retains logged-in identity [0.53ms]
+
+ 17 pass
+ 0 fail
+ 67 expect() calls
+Ran 17 tests across 2 files. [345.00ms]

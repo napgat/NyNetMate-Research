@@ -1,0 +1,43 @@
+@startuml
+hide footbox
+skinparam monochrome true
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 16
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+title User Management Sequence Diagram
+actor "Admin" as U
+participant "Frontend\nReact / TypeScript" as F
+participant "Backend\nUser Management Service" as B
+database "PostgreSQL" as D
+U -> F : เปิดหน้า User Management
+F -> B : ขอรายการผู้ใช้งาน\nพร้อม Session Cookie
+B -> D : ตรวจ Session และสิทธิ์ user.manage\nแล้วอ่านรายการ users
+D --> B : รายการผู้ใช้งานที่เปิดเผยได้
+B --> F : รายการผู้ใช้งานและ Role
+F --> U : แสดงรายการผู้ใช้งาน
+U -> F : เพิ่มบัญชี หรือแก้ไข Role\nหรือปิดใช้งานบัญชี
+F -> B : POST /api/admin/users\nหรือ PATCH /api/admin/users/{id}
+B -> B : ตรวจ Origin / CSRF / ข้อมูล\nและยืนยันสิทธิ์ Admin
+alt [ข้อมูลและสิทธิ์ถูกต้อง]
+alt [เพิ่มบัญชี]
+B -> B : Hash Password ด้วย Argon2id
+B -> D : ตรวจสิทธิ์ซ้ำใน Transaction\nสร้างผู้ใช้และตรวจข้อมูลซ้ำ
+D --> B : สร้างบัญชีรอ Commit
+else [เปลี่ยน Role หรือสถานะบัญชี]
+B -> D : ตรวจสิทธิ์ซ้ำและแก้ไขบัญชี\nป้องกันการเสีย Admin คนสุดท้าย
+opt [Role เปลี่ยนหรือบัญชีถูกปิด]
+B -> D : เพิกถอน Session ของบัญชีเป้าหมาย
+end
+D --> B : แก้ไขข้อมูลรอ Commit
+end
+B -> D : บันทึกเหตุการณ์ผ่าน Audit Writer\nและ Commit Transaction
+D --> B : Commit ข้อมูลและ Audit สำเร็จ
+B --> F : ผลการจัดการผู้ใช้งาน
+F --> U : แสดงผลสำเร็จและปรับรายการ
+else [ไม่มีสิทธิ์ ข้อมูลผิด ซ้ำ หรือ Admin คนสุดท้าย]
+B --> F : ปฏิเสธคำขอและไม่บันทึกการเปลี่ยนแปลง
+F --> U : แสดงข้อความอธิบายข้อผิดพลาด
+end
+note over U,D : ปิดบัญชีโดยไม่ลบข้อมูลผู้ใช้; หาก Audit ล้มเหลว ต้อง Rollback และไม่ตอบสำเร็จ
+@enduml

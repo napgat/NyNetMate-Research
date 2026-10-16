@@ -1,0 +1,105 @@
+src/features/devices/components/AddDeviceModal.tsx(5,87): error TS2307: Cannot find module '@/client/@tanstack/react-query.gen' or its corresponding type declarations.
+src/features/devices/components/AddDeviceModal.tsx(6,47): error TS2307: Cannot find module '@/client' or its corresponding type declarations.
+src/features/devices/components/AddDeviceModal.tsx(21,32): error TS18046: 'data' is of type 'unknown'.
+src/features/devices/components/AddDeviceModal.tsx(25,28): error TS2339: Property 'response' does not exist on type 'Error'.
+src/features/devices/components/AddDeviceModal.tsx(37,21): error TS2345: Argument of type '{ body: any; }' is not assignable to parameter of type 'void'.
+src/features/devices/components/DeviceDetailDrawer.tsx(28,63): error TS2307: Cannot find module '@/client/@tanstack/react-query.gen' or its corresponding type declarations.
+src/features/devices/components/DeviceDetailDrawer.tsx(114,26): error TS2339: Property 'hostname' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(116,24): error TS2339: Property 'reachability' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(118,33): error TS2339: Property 'reachability' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(119,33): error TS2339: Property 'reachability' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(126,22): error TS2339: Property 'management_state' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(126,64): error TS2339: Property 'management_ip' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(126,89): error TS2339: Property 'management_ip' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(128,25): error TS2339: Property 'management_ip' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(148,43): error TS2339: Property 'interfaces' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(168,27): error TS2339: Property 'hostname' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(171,61): error TS2339: Property 'hostname' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(175,27): error TS2339: Property 'management_state' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(175,68): error TS2339: Property 'management_ip' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(175,93): error TS2339: Property 'management_ip' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(179,33): error TS2339: Property 'management_ip' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(184,27): error TS2339: Property 'advertised_management_ip' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(188,33): error TS2339: Property 'advertised_management_ip' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(196,27): error TS2339: Property 'vendor' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(200,33): error TS2339: Property 'vendor' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(205,27): error TS2339: Property 'device_type' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(209,33): error TS2339: Property 'device_type' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(214,27): error TS2339: Property 'role' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(214,42): error TS2339: Property 'role' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(217,62): error TS2339: Property 'role' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(221,27): error TS2339: Property 'platform' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(225,33): error TS2339: Property 'platform' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(230,27): error TS2339: Property 'os_version' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(233,61): error TS2339: Property 'os_version' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(237,27): error TS2339: Property 'model' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(240,61): error TS2339: Property 'model' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(244,27): error TS2339: Property 'serial_number' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(248,33): error TS2339: Property 'serial_number' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(253,27): error TS2339: Property 'chassis_id' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(257,33): error TS2339: Property 'chassis_id' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(264,25): error TS2339: Property 'notes' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(269,33): error TS2339: Property 'notes' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(280,27): error TS2339: Property 'interfaces' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(280,48): error TS2339: Property 'interfaces' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(298,33): error TS2339: Property 'interfaces' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(298,49): error TS7006: Parameter 'iface' implicitly has an 'any' type.
+src/features/devices/components/DeviceDetailDrawer.tsx(302,99): error TS7006: Parameter 'a' implicitly has an 'any' type.
+src/features/devices/components/DeviceDetailDrawer.tsx(325,49): error TS2339: Property 'management_ip' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(332,26): error TS2339: Property 'management_ip' does not exist on type '{}'.
+src/features/devices/components/DeviceDetailDrawer.tsx(332,67): error TS2339: Property 'management_ip' does not exist on type '{}'.
+src/features/devices/components/DeviceFilterToolbar.tsx(28,33): error TS2307: Cannot find module '@/client' or its corresponding type declarations.
+src/features/devices/components/DeviceTable.tsx(28,45): error TS2307: Cannot find module '@/client' or its corresponding type declarations.
+src/features/devices/components/DiscoveryModal.tsx(12,8): error TS2307: Cannot find module '@/client/@tanstack/react-query.gen' or its corresponding type declarations.
+src/features/devices/components/DiscoveryModal.tsx(13,46): error TS2307: Cannot find module '@/client' or its corresponding type declarations.
+src/features/devices/components/DiscoveryModal.tsx(59,30): error TS18046: 'profile' is of type 'unknown'.
+src/features/devices/components/DiscoveryModal.tsx(65,35): error TS2339: Property 'response' does not exist on type 'Error'.
+src/features/devices/components/DiscoveryModal.tsx(104,34): error TS2345: Argument of type '{ body: CredentialProfileCreate; }' is not assignable to parameter of type 'void'.
+src/features/devices/DeviceInventoryPage.tsx(25,8): error TS2307: Cannot find module '@/client/@tanstack/react-query.gen' or its corresponding type declarations.
+src/features/devices/DeviceInventoryPage.tsx(33,45): error TS2307: Cannot find module '@/client' or its corresponding type declarations.
+src/features/devices/DeviceInventoryPage.tsx(113,45): error TS18046: 'data' is of type 'unknown'.
+src/features/devices/DeviceInventoryPage.tsx(113,74): error TS18046: 'data' is of type 'unknown'.
+src/features/devices/DeviceInventoryPage.tsx(113,113): error TS18046: 'data' is of type 'unknown'.
+src/features/devices/DeviceInventoryPage.tsx(114,19): error TS18046: 'data' is of type 'unknown'.
+src/features/devices/DeviceInventoryPage.tsx(134,21): error TS18046: 'data' is of type 'unknown'.
+src/features/devices/DeviceInventoryPage.tsx(134,39): error TS18046: 'data' is of type 'unknown'.
+src/features/devices/DeviceInventoryPage.tsx(134,65): error TS18046: 'data' is of type 'unknown'.
+src/features/devices/DeviceInventoryPage.tsx(134,99): error TS18046: 'data' is of type 'unknown'.
+src/features/devices/DeviceInventoryPage.tsx(134,128): error TS18046: 'data' is of type 'unknown'.
+src/features/devices/DeviceInventoryPage.tsx(135,19): error TS18046: 'data' is of type 'unknown'.
+src/features/devices/DeviceInventoryPage.tsx(151,32): error TS2345: Argument of type '{ path: { device_id: any; }; }' is not assignable to parameter of type 'void'.
+src/features/devices/DeviceInventoryPage.tsx(161,45): error TS18046: 'device' is of type 'unknown'.
+src/features/devices/DeviceInventoryPage.tsx(172,28): error TS2345: Argument of type '{ path: { device_id: any; }; body: { management_state: string; }; }' is not assignable to parameter of type 'void'.
+src/features/devices/DeviceInventoryPage.tsx(208,27): error TS2345: Argument of type '{ path: { device_id: any; }; }' is not assignable to parameter of type 'void'.
+src/features/devices/DeviceInventoryPage.tsx(240,56): error TS2345: Argument of type '{}' is not assignable to parameter of type 'void'.
+src/features/devices/types.ts(1,57): error TS2307: Cannot find module '@/client' or its corresponding type declarations.
+src/features/topology/hooks/useNetworkScan.ts(7,8): error TS2307: Cannot find module '@/client/@tanstack/react-query.gen' or its corresponding type declarations.
+src/features/topology/TopologyPage.tsx(6,64): error TS2307: Cannot find module '@/client/@tanstack/react-query.gen' or its corresponding type declarations.
+src/features/topology/TopologyPage.tsx(69,26): error TS2339: Property 'devices' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(69,46): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/features/topology/TopologyPage.tsx(81,26): error TS2339: Property 'external_nodes' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(81,53): error TS7006: Parameter 'node' implicitly has an 'any' type.
+src/features/topology/TopologyPage.tsx(91,23): error TS2339: Property 'devices' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(92,20): error TS7006: Parameter 'device' implicitly has an 'any' type.
+src/features/topology/TopologyPage.tsx(93,17): error TS7006: Parameter 'device' implicitly has an 'any' type.
+src/features/topology/TopologyPage.tsx(96,23): error TS2339: Property 'external_nodes' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(96,50): error TS7006: Parameter 'node' implicitly has an 'any' type.
+src/features/topology/TopologyPage.tsx(99,23): error TS2339: Property 'devices' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(99,43): error TS7006: Parameter 'device' implicitly has an 'any' type.
+src/features/topology/TopologyPage.tsx(103,26): error TS2339: Property 'links' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(103,44): error TS7006: Parameter 'l' implicitly has an 'any' type.
+src/features/topology/TopologyPage.tsx(111,26): error TS2339: Property 'external_links' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(111,66): error TS7006: Parameter 'link' implicitly has an 'any' type.
+src/features/topology/TopologyPage.tsx(116,41): error TS2339: Property 'management_ip' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(118,15): error TS2322: Type '{}' is not assignable to type 'string'.
+src/features/topology/TopologyPage.tsx(119,39): error TS2339: Property 'management_ip' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(120,45): error TS2339: Property 'hostname' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(120,70): error TS2339: Property 'management_ip' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(128,13): error TS2322: Type '{}' is not assignable to type 'string'.
+src/features/topology/TopologyPage.tsx(129,32): error TS2339: Property 'ip' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(130,38): error TS2339: Property 'hostname' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(150,43): error TS2339: Property 'devices' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(151,25): error TS2339: Property 'devices' does not exist on type '{}'.
+src/features/topology/TopologyPage.tsx(152,8): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/main.tsx(7,24): error TS2307: Cannot find module './client/client.gen' or its corresponding type declarations.
+$ tsc -b && vite build

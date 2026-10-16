@@ -1,0 +1,21 @@
+flowchart TB
+  UI["Browser / Frontend — Login, My Account, Users, Audit เชื่อมแล้ว"]
+  AUTH["นภัทร — Auth / Session / User Management / Audit"]
+  TEAM["บริบทงานเพื่อน — Inventory / Discovery / Collection / Topology"]
+  OWNDB[("users / auth_sessions / audit_logs")]
+  TEAMDB[("Inventory / Collection / Neighbor Evidence")]
+  PLAN["นภัทร: Dashboard P1 / Operational P2 — แบบและแผน"]
+  GAP["Guard / Audit ของ API งานอุปกรณ์ยังต้องเชื่อมให้ครบ"]
+  UI -->|Auth / Admin / Audit API| AUTH
+  UI -->|Device / Discovery API| TEAM
+  AUTH --> OWNDB
+  TEAM --> TEAMDB
+  PLAN -.->|อ่านข้อมูลตาม Contract ที่ต้องพัฒนา| OWNDB
+  PLAN -.->|อ่านข้อมูลตาม Contract ที่ต้องพัฒนา| TEAMDB
+  GAP -.-> TEAM
+  classDef own fill:#e0f2fe,stroke:#0284c7;
+  classDef team fill:#f1f5f9,stroke:#64748b;
+  classDef planned fill:#fffbeb,stroke:#d97706,stroke-dasharray:5 5;
+  class AUTH,OWNDB own;
+  class TEAM,TEAMDB team;
+  class PLAN,GAP planned;

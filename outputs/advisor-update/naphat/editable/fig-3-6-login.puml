@@ -1,0 +1,42 @@
+@startuml
+hide footbox
+skinparam monochrome true
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 16
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+title Login Sequence Diagram
+actor "User\nAdmin / Operator / Viewer" as U
+participant "Frontend\nReact / TypeScript" as F
+participant "Backend\nAuthentication Service" as B
+database "PostgreSQL" as D
+U -> F : กรอก Username / Email\nและ Password แล้วกดเข้าสู่ระบบ
+F -> B : POST /api/auth/login\nidentifier + password
+B -> B : ตรวจ Origin / CSRF / JSON\nและจำกัดคำขอต่อ IP
+alt [คำขอได้รับอนุญาต]
+B -> D : ค้นหาบัญชีผู้ใช้งาน\nจากตาราง users
+D --> B : ข้อมูลบัญชีและ Password Hash
+B -> B : ตรวจ Password ด้วย Argon2id\nและสถานะบัญชี
+alt [ข้อมูลถูกต้องและบัญชีใช้งานได้]
+B -> B : ตรวจบัญชีซ้ำใน Transaction\nสร้าง Opaque Session Token
+B -> D : บันทึก Token Hash และ login_success\nผ่าน Audit Writer แล้ว Commit
+D --> B : Commit Session และ Audit สำเร็จ
+B --> F : 200 OK + Set-Cookie\nHttpOnly Session Cookie
+F -> B : GET /api/auth/me\nพร้อม Session Cookie
+B -> D : ตรวจ Session และอ่านผู้ใช้ปัจจุบัน
+D --> B : ข้อมูลผู้ใช้และ Role
+B --> F : ข้อมูลผู้ใช้ที่เข้าสู่ระบบ
+F --> U : แสดงหน้าหลักของระบบ
+else [ข้อมูลไม่ถูกต้องหรือบัญชีไม่ใช้งาน]
+B -> B : นับความล้มเหลวของ IP\nใน Login Rate Limiter
+B -> D : บันทึก login_failed\nผ่าน Audit Writer
+D --> B : บันทึกเหตุการณ์สำเร็จ
+B --> F : 401 Unauthorized
+F --> U : แจ้งข้อมูลเข้าสู่ระบบไม่ถูกต้อง
+end
+else [คำขอถูกปฏิเสธก่อนตรวจรหัสผ่าน]
+B --> F : 403 / 422 / 429\nตามสาเหตุที่ปฏิเสธ
+F --> U : แจ้งข้อผิดพลาด\nหรือให้ลองใหม่ภายหลัง
+end
+note over U,D : หากฐานข้อมูลหรือ Audit ล้มเหลว: ตอบ 503 และไม่ส่ง Session Cookie
+@enduml

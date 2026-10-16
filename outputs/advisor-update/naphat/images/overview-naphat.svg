@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1420" height="980" viewBox="0 0 1420 980"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#475569"/></marker></defs><rect width="1420" height="980" fill="white"/>
+<rect x="40" y="312" width="1340" height="360" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+<path d="M267,247 L267,374" stroke="#475569" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="97" y="267" width="340" height="29" fill="white"/><text x="267" y="287" text-anchor="middle" font-family="Tahoma,Arial,sans-serif" font-size="17" fill="#475569">Auth / Admin / Audit API</text>
+<path d="M708,247 L708,374" stroke="#475569" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="538" y="267" width="340" height="29" fill="white"/><text x="708" y="287" text-anchor="middle" font-family="Tahoma,Arial,sans-serif" font-size="17" fill="#475569">Device / Discovery API</text>
+<path d="M267,591 L267,742" stroke="#475569" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<path d="M708,591 L708,742" stroke="#475569" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<g id="title" font-family="Tahoma,Arial,sans-serif" fill="#0f172a" font-size="27">
+<text x="40" y="55" font-weight="700">MyNetMate — ตำแหน่งงานของนภัทรและจุดเชื่อมของระบบ</text>
+</g>
+<g id="subtitle" font-family="Tahoma,Arial,sans-serif" fill="#0f172a" font-size="17">
+<text x="40" y="93" font-weight="700">ภาพสรุปเพิ่มเติมจากแบบและโค้ด ณ 9 ตุลาคม 2569 • ไม่ใช่หลักฐาน Deploy หรือ End-to-End</text>
+</g>
+<rect x="40" y="135" width="1340" height="112" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2" />
+<g id="browser" font-family="Tahoma,Arial,sans-serif" fill="#0f172a" font-size="21">
+<text x="58" y="168" font-weight="700">ผู้ใช้ → Browser / Frontend</text>
+<text x="58" y="203" >นภัทร: Login · My Account · Users · Audit UI   |   Devices / Topology: บริบทของทีม   |   Dashboard: Placeholder</text>
+</g>
+<g id="backend" font-family="Tahoma,Arial,sans-serif" fill="#0f172a" font-size="19">
+<text x="1080" y="343" font-weight="700">Backend API / Service</text>
+</g>
+<rect x="65" y="374" width="404" height="217" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2" />
+<g id="naphat" font-family="Tahoma,Arial,sans-serif" fill="#0f172a" font-size="19">
+<text x="83" y="407" font-weight="700">พัฒนาแล้ว — นภัทร</text>
+<text x="83" y="442" >Authentication / Session / RBAC foundation</text>
+<text x="83" y="477" >Admin User Management</text>
+<text x="83" y="512" >Audit Writer + Audit Read API</text>
+<text x="83" y="547" >Guard บังคับใช้กับ Users / Audit แล้ว</text>
+</g>
+<rect x="506" y="374" width="404" height="217" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="2" />
+<g id="team" font-family="Tahoma,Arial,sans-serif" fill="#0f172a" font-size="19">
+<text x="524" y="407" font-weight="700">บริบทงานสมาชิกผู้รับผิดชอบ</text>
+<text x="524" y="442" >Device Inventory / Credential</text>
+<text x="524" y="477" >Discovery / Read-only Collection</text>
+<text x="524" y="512" >Topology จากข้อมูลที่จัดเก็บ</text>
+<text x="524" y="547" >ไม่อ้างเป็น Implementation ของนภัทร</text>
+</g>
+<rect x="947" y="374" width="404" height="217" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="2" stroke-dasharray="8 5"/>
+<g id="dashboard" font-family="Tahoma,Arial,sans-serif" fill="#0f172a" font-size="19">
+<text x="965" y="407" font-weight="700">ออกแบบ / แผน — นภัทร</text>
+<text x="965" y="442" >Dashboard P1 → Operational P2</text>
+<text x="965" y="477" >อ่าน Inventory + Activity ที่อนุญาต</text>
+<text x="965" y="512" >และ System Health ตาม Contract</text>
+<text x="965" y="547" >P2: Manual Refresh หลัง P1 เสถียร</text>
+</g>
+<rect x="65" y="616" width="1286" height="34" rx="10" fill="#f8fafc" stroke="none" stroke-width="2" />
+<g id="gap" font-family="Tahoma,Arial,sans-serif" fill="#0f172a" font-size="17">
+<text x="65" y="633" font-weight="700">จุดที่ต้องเชื่อมต่อ: Guard / Audit ของ API อุปกรณ์ยังไม่ครบ • ไม่รับรอง RBAC ทั้งระบบจากหน้าเว็บเพียงอย่างเดียว</text>
+</g>
+<rect x="65" y="742" width="404" height="116" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2" />
+<g id="db-auth" font-family="Tahoma,Arial,sans-serif" fill="#0f172a" font-size="20">
+<text x="83" y="775" font-weight="700">PostgreSQL: โมเดลส่วนบัญชี / ประวัติ</text>
+<text x="83" y="810" >users · auth_sessions · audit_logs</text>
+<text x="83" y="845" >มี Schema / Migration; PG Test ยังเหลือ</text>
+</g>
+<rect x="506" y="742" width="404" height="116" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="2" />
+<g id="db-team" font-family="Tahoma,Arial,sans-serif" fill="#0f172a" font-size="20">
+<text x="524" y="775" font-weight="700">PostgreSQL: Inventory / Evidence</text>
+<text x="524" y="810" >อุปกรณ์ · ผล Collection · Neighbor</text>
+<text x="524" y="845" >ข้อมูลนี้เป็นบริบทของงานเพื่อน</text>
+</g>
+<rect x="947" y="742" width="404" height="116" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="2" stroke-dasharray="8 5"/>
+<g id="p2note" font-family="Tahoma,Arial,sans-serif" fill="#0f172a" font-size="19">
+<text x="965" y="775" font-weight="700">P2 ยังไม่ Implement / ไม่ใช่ Real-time</text>
+<text x="965" y="810" >อ่านอุปกรณ์ลงทะเบียนใน Isolated Lab</text>
+<text x="965" y="845" >เวลา / Freshness / Expected State ต้องตกลง</text>
+</g>
+<g id="legend" font-family="Tahoma,Arial,sans-serif" fill="#0f172a" font-size="17">
+<text x="40" y="927" font-weight="700">สีน้ำเงิน: โค้ดงานนภัทร   •   สีเทา: จุดเชื่อมของทีม   •   เส้นประ: แบบ / แผน</text>
+<text x="40" y="962" >เส้นทึบแสดงเส้นทางที่พบในโค้ด ไม่เท่ากับผลทดสอบระบบจริง; ภาพย่อไม่แสดง Infrastructure ทุกกล่อง</text>
+</g>
+</svg>

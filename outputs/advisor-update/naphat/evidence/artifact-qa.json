@@ -1,0 +1,191 @@
+{
+  "checked_at": "2026-10-09T05:53:13.977Z",
+  "copies": [
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\sequence-diagram\\naphat\\fig-3-6-login.png",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\images\\fig-3-6-login.png",
+      "identical": true,
+      "sha256": "c3173f89b025c11619320b94baf994b2e06ea45cc29fb7992ac77c9d25ec7351"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\sequence-diagram\\naphat\\fig-3-6-login.drawio",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\fig-3-6-login.drawio",
+      "identical": true,
+      "sha256": "b98322a793d620c9798ce1943d91ea7ea1696969e95532ffa9264e09d1c8d322"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\sequence-diagram\\naphat\\fig-3-6-login.puml",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\fig-3-6-login.puml",
+      "identical": true,
+      "sha256": "51f77d59644dddbc89b235ce97a3d8101babdd8b463aeb34d0c1e41e81b7e5ef"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\sequence-diagram\\naphat\\fig-3-13-user-management.png",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\images\\fig-3-13-user-management.png",
+      "identical": true,
+      "sha256": "ff37ea1e96b1db6cd83aa052df64f3212fdc6b8aa6edc9ffb6732ee07e92f0a2"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\sequence-diagram\\naphat\\fig-3-13-user-management.drawio",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\fig-3-13-user-management.drawio",
+      "identical": true,
+      "sha256": "19231ae99d4c25fbbaa44f51f15b17ed104e869e668af419dfe5e22f70d10929"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\sequence-diagram\\naphat\\fig-3-13-user-management.puml",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\fig-3-13-user-management.puml",
+      "identical": true,
+      "sha256": "3be1da5b6416fb4ed1743a66785f73da485e934757c7013847e41b6be341523f"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\sequence-diagram\\naphat\\fig-3-14-audit-history.png",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\images\\fig-3-14-audit-history.png",
+      "identical": true,
+      "sha256": "41217d02313729b853564e77138650da0b769d9778267d29ffb6d9c224ea4070"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\sequence-diagram\\naphat\\fig-3-14-audit-history.drawio",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\fig-3-14-audit-history.drawio",
+      "identical": true,
+      "sha256": "1f5a04f1fbe7bf54125ce6280caa2688e6ac618e6e72ffa9fa6aaf800056b8d1"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\sequence-diagram\\naphat\\fig-3-14-audit-history.puml",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\fig-3-14-audit-history.puml",
+      "identical": true,
+      "sha256": "5969d7cdc516c527cc7e3454466f31cad89a70e53d5d019970f9ae2c666707f4"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\component-diagram\\network-management-components.png",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\images\\network-management-components.png",
+      "identical": true,
+      "sha256": "9ab9c0f87363bc692a25370870cb9be322db2736ef1b0b2fb522a452637b4f65"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\component-diagram\\network-management-components.svg",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\images\\network-management-components.svg",
+      "identical": true,
+      "sha256": "336edfa78aed3b414847c1997cd01b5386ceb1222c3d8c586a1bcf4e9d7678db"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\component-diagram\\network-management-components.puml",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\network-management-components.puml",
+      "identical": true,
+      "sha256": "c3164b6b1b591aaef1ccb337e5f126c6c0856dc58dbc43bb5c1a5c2ed62f947d"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\er-diagram\\fig-3-15-mynetmate-er.png",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\images\\fig-3-15-mynetmate-er.png",
+      "identical": true,
+      "sha256": "3254dbbcfdfc13c201c4c6a0ffd99d1272a5a2e895f900ad62f4009c3f6c02d8"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\er-diagram\\fig-3-15-mynetmate-er.drawio",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\fig-3-15-mynetmate-er.drawio",
+      "identical": true,
+      "sha256": "e12ca3576983dd2e618ee8b2960d8ade91acd70f9945a655cb02e560c3803e1f"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\er-diagram\\fig-3-16-users.drawio",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\fig-3-16-users.drawio",
+      "identical": true,
+      "sha256": "7e768062bfe09e4d944b105a0a4a765890ec5108740725a3b85e32b6feaca386"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\er-diagram\\fig-3-17-auth-sessions.drawio",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\fig-3-17-auth-sessions.drawio",
+      "identical": true,
+      "sha256": "7ab08865eb3b488a6dcbf42a54dc9f2e2065cf9b60bb7805bff75455adcded1c"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\er-diagram\\fig-3-18-audit-logs.drawio",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\fig-3-18-audit-logs.drawio",
+      "identical": true,
+      "sha256": "2d950d26d1c422fe62aeb4496507ce01c3f8b25dbd597444d15c1b4d5413aa79"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\ui-design\\navigation-flow\\navigation-flow.png",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\images\\navigation-flow.png",
+      "identical": true,
+      "sha256": "aefd9251f618e9de07a5b7b9d20e206a84736f48dba1a3f89b8d92f50b8bdfd6"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\ui-design\\navigation-flow\\navigation-flow.drawio",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\navigation-flow.drawio",
+      "identical": true,
+      "sha256": "6717d1b88642e20b9fedaa816c9634a864e90468135fc6632f42a037ea2c20a0"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\ui-design\\navigation-flow\\navigation-flow.mmd",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\navigation-flow.mmd",
+      "identical": true,
+      "sha256": "37b967723cb4961a159b94df26c45c11ebd8f48814adb44d73ddff557f585075"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\ui-design\\p2-operational-monitoring\\dashboard-p2.png",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\images\\dashboard-p2.png",
+      "identical": true,
+      "sha256": "32ee5c13c0bbc0066cda7c36a7c33dde4ca053a8527e456ac30a4170dc64b7b4"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\ui-design\\p2-operational-monitoring\\dashboard-p2.drawio",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\dashboard-p2.drawio",
+      "identical": true,
+      "sha256": "9e1e20c99f3420b432a1a5b7d33dc1b124f2779ab11135f0112c33457b04c65e"
+    },
+    {
+      "original": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\System Architecture\\System Diagram.drawio",
+      "target": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\editable\\system-architecture-original.drawio",
+      "identical": true,
+      "sha256": "680d26538377ae13ccedd814c08ba25e3f85ba732366e4227e86070dd097bf5d"
+    }
+  ],
+  "selected_images": [
+    {
+      "src": "images/network-management-components.png",
+      "loaded": true,
+      "width": 1334,
+      "height": 1560
+    },
+    {
+      "src": "images/fig-3-6-login.png",
+      "loaded": true,
+      "width": 2860,
+      "height": 3920
+    },
+    {
+      "src": "images/fig-3-13-user-management.png",
+      "loaded": true,
+      "width": 2860,
+      "height": 3892
+    },
+    {
+      "src": "images/fig-3-14-audit-history.png",
+      "loaded": true,
+      "width": 2860,
+      "height": 3180
+    },
+    {
+      "src": "images/fig-3-15-mynetmate-er.png",
+      "loaded": true,
+      "width": 2200,
+      "height": 2940
+    },
+    {
+      "src": "images/navigation-flow.png",
+      "loaded": true,
+      "width": 2800,
+      "height": 1800
+    },
+    {
+      "src": "images/dashboard-p2.png",
+      "loaded": true,
+      "width": 3024,
+      "height": 2544
+    }
+  ],
+  "overview_text_overflow": [],
+  "missing_links": [],
+  "image_viewer_opened": true,
+  "scope": "Artifact rendering and local links only; no system runtime/E2E assertions"
+}

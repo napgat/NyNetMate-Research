@@ -1,0 +1,58 @@
+@startuml
+!pragma layout smetana
+top to bottom direction
+skinparam componentStyle uml2
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 15
+skinparam dpi 170
+skinparam nodesep 35
+skinparam ranksep 55
+skinparam packageStyle rectangle
+
+title MyNetMate — Network Management Component Diagram
+
+component "Web User Interface\nReact / TypeScript" as WEB
+interface "HTTP\nAPI" as HTTP
+
+package "Backend Application — FastAPI\nModules in one application" {
+  component "API Routers" as ROUTERS
+  component "Authentication / RBAC\n& User Management" as AUTH
+  component "Audit Trail\nWriter / Reader" as AUDIT
+  component "Device Management\nInventory / Details / Topology" as DEVICES
+  component "Network Discovery\n& Collection" as DISCOVERY
+  component "Database Session\nSQLAlchemy engine / factory" as DATA
+  component "Network Discovery Library\nPython library" as LIBRARY
+}
+
+database "PostgreSQL\nExternal database service" as POSTGRES
+rectangle "Network Devices\nAuthorized isolated lab" as NETWORK <<external>>
+
+WEB ..> HTTP : <<use>>
+ROUTERS -left- HTTP
+ROUTERS ..> AUTH
+ROUTERS ..> AUDIT
+ROUTERS ..> DEVICES
+ROUTERS ..> DISCOVERY
+
+AUTH ..> AUDIT : record_audit_event
+AUDIT ..> AUTH : authorize
+AUTH ..> DATA
+AUDIT ..> DATA
+DEVICES ..> DATA
+DISCOVERY ..> DATA
+
+DISCOVERY ..> DEVICES : inventory services
+DEVICES ..> LIBRARY : SNMP client
+DISCOVERY ..> LIBRARY : discover / collect
+DATA ..> POSTGRES : SQL
+LIBRARY ..> NETWORK : SNMP read-only
+
+legend bottom
+  Component boxes = logical software modules
+  Circle + solid line = provided HTTP interface
+  Dashed arrow = uses / depends on; not execution order
+  PostgreSQL and network devices = external context
+endlegend
+@enduml

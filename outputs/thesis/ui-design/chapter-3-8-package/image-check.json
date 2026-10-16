@@ -1,0 +1,126 @@
+{
+  "report": "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\ui-design\\chapter-3-8-ui-design.md",
+  "imageCount": 14,
+  "captionCount": 14,
+  "images": [
+    {
+      "label": "Navigation Flow ของ MyNetMate",
+      "source": "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/navigation-flow/navigation-flow.png",
+      "filename": "navigation-flow.png",
+      "width": 2800,
+      "height": 1800,
+      "bytes": 187614
+    },
+    {
+      "label": "Wireframe หน้าเข้าสู่ระบบ",
+      "source": "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/wireframes/wf-01-login.png",
+      "filename": "wf-01-login.png",
+      "width": 2720,
+      "height": 1800,
+      "bytes": 72684
+    },
+    {
+      "label": "Wireframe หน้าภาพรวมระบบ",
+      "source": "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/wireframes/wf-02-dashboard.png",
+      "filename": "wf-02-dashboard.png",
+      "width": 2720,
+      "height": 1800,
+      "bytes": 155951
+    },
+    {
+      "label": "Mockup Dashboard P2 Operational Monitoring",
+      "source": "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/p2-operational-monitoring/dashboard-p2.png",
+      "filename": "dashboard-p2.png",
+      "width": 3024,
+      "height": 2544,
+      "bytes": 421217
+    },
+    {
+      "label": "Wireframe หน้ารายการอุปกรณ์",
+      "source": "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/wireframes/wf-03-device-inventory.png",
+      "filename": "wf-03-device-inventory.png",
+      "width": 2720,
+      "height": 1800,
+      "bytes": 171821
+    },
+    {
+      "label": "Wireframe แผงรายละเอียดอุปกรณ์",
+      "source": "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/wireframes/wf-04-device-details.png",
+      "filename": "wf-04-device-details.png",
+      "width": 2720,
+      "height": 1800,
+      "bytes": 141005
+    },
+    {
+      "label": "Wireframe หน้าต่างเพิ่มอุปกรณ์",
+      "source": "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/wireframes/wf-05-add-device.png",
+      "filename": "wf-05-add-device.png",
+      "width": 2720,
+      "height": 1800,
+      "bytes": 136571
+    },
+    {
+      "label": "Wireframe หน้าต่างค้นหาอุปกรณ์เครือข่าย",
+      "source": "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/wireframes/wf-06-network-discovery.png",
+      "filename": "wf-06-network-discovery.png",
+      "width": 2720,
+      "height": 1800,
+      "bytes": 129765
+    },
+    {
+      "label": "Wireframe หน้าแผนผังเครือข่าย",
+      "source": "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/wireframes/wf-07-topology.png",
+      "filename": "wf-07-topology.png",
+      "width": 2720,
+      "height": 1800,
+      "bytes": 122803
+    },
+    {
+      "label": "Wireframe หน้าจัดการผู้ใช้งาน",
+      "source": "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/wireframes/wf-08-user-management.png",
+      "filename": "wf-08-user-management.png",
+      "width": 2720,
+      "height": 1800,
+      "bytes": 136781
+    },
+    {
+      "label": "Wireframe หน้าต่างสร้างบัญชีผู้ใช้งาน",
+      "source": "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/wireframes/wf-09-create-user.png",
+      "filename": "wf-09-create-user.png",
+      "width": 2720,
+      "height": 1800,
+      "bytes": 128767
+    },
+    {
+      "label": "Wireframe หน้าต่างแก้ไขบัญชีผู้ใช้งาน",
+      "source": "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/wireframes/wf-10-edit-user.png",
+      "filename": "wf-10-edit-user.png",
+      "width": 2720,
+      "height": 1800,
+      "bytes": 129966
+    },
+    {
+      "label": "Wireframe หน้าประวัติเหตุการณ์",
+      "source": "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/wireframes/wf-11-audit-history.png",
+      "filename": "wf-11-audit-history.png",
+      "width": 2720,
+      "height": 1800,
+      "bytes": 150559
+    },
+    {
+      "label": "Wireframe หน้าต่างรายละเอียดเหตุการณ์",
+      "source": "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/ui-design/wireframes/wf-12-audit-details.png",
+      "filename": "wf-12-audit-details.png",
+      "width": 2720,
+      "height": 1800,
+      "bytes": 130747
+    }
+  ],
+  "editableSources": [
+    "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\ui-design\\wireframes\\mynetmate-ui-wireframes.drawio",
+    "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\ui-design\\p2-operational-monitoring\\dashboard-p2.drawio",
+    "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\ui-design\\navigation-flow\\navigation-flow.drawio",
+    "D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\thesis\\ui-design\\navigation-flow\\navigation-flow.mmd"
+  ],
+  "errors": []
+}

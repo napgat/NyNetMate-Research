@@ -1,0 +1,14 @@
+flowchart TB
+    LOGIN["Login — Admin / Operator / Viewer"] -->|เข้าสู่ระบบสำเร็จ| HOME["Dashboard"]
+    HOME --> DEVICES["Device Inventory"]
+    HOME --> TOPOLOGY["Topology"]
+    HOME -->|Admin เท่านั้น| USERS["User Management"]
+    HOME -->|Admin เท่านั้น| AUDIT["Audit History"]
+    DEVICES --> DETAILS["Device Details — Drawer"]
+    DEVICES -->|ผู้มีสิทธิ์จัดการ| ADD["Add Device — Dialog"]
+    DEVICES -->|ผู้มีสิทธิ์ค้นหา| DISCOVERY["Network Discovery — Dialog"]
+    DISCOVERY -->|เริ่มค้นหา| TOPOLOGY
+    TOPOLOGY -->|เลือกอุปกรณ์| TOPOLOGY_DETAILS["Device Details — Drawer"]
+    USERS --> CREATE["Create User — Dialog"]
+    USERS --> EDIT["Edit User — Dialog"]
+    AUDIT --> AUDIT_DETAILS["Audit Event Details — Dialog / อ่านอย่างเดียว"]

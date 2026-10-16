@@ -1,0 +1,30 @@
+@startuml
+hide footbox
+skinparam monochrome true
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 16
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+title View Dashboard Sequence Diagram
+actor "User\nAdmin / Operator / Viewer" as U
+participant "Frontend\nReact / TypeScript" as F
+participant "Backend\nDashboard Service" as B
+database "PostgreSQL" as D
+U -> F : เปิดหน้า Dashboard
+F -> B : ขอข้อมูลสรุปและกิจกรรมล่าสุด\nพร้อม Session Cookie
+B -> D : ตรวจ Session และบัญชีผู้ใช้งาน
+D --> B : ข้อมูลผู้ใช้และ Role ปัจจุบัน
+alt [Session ถูกต้องและมีสิทธิ์อ่าน]
+B -> D : อ่านข้อมูลอุปกรณ์และสถานะ\nเพื่อสรุปภาพรวม
+D --> B : ข้อมูลสรุปเครือข่าย
+B -> D : อ่านกิจกรรมล่าสุดจาก audit_logs\nเฉพาะรายการที่อนุญาต
+D --> B : กิจกรรมล่าสุดที่เรียงตามเวลา
+B -> B : จัดรูปแบบข้อมูลสรุป\nและตัดข้อมูลอ่อนไหว
+B --> F : ข้อมูลสรุปและ Recent Activity
+F --> U : แสดง Dashboard\nหรือข้อความเมื่อยังไม่มีข้อมูล
+else [Session ไม่ถูกต้องหรือสิทธิ์ไม่เพียงพอ]
+B --> F : 401 Unauthorized / 403 Forbidden
+F --> U : ให้เข้าสู่ระบบใหม่\nหรือแจ้งว่าไม่มีสิทธิ์
+end
+note over U,D : Recent Activity แสดงเฉพาะข้อมูลสรุปที่อนุญาต ไม่แสดง Audit เต็มหรือข้อมูลลับ
+@enduml

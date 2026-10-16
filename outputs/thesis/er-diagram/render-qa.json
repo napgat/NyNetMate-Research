@@ -1,0 +1,92 @@
+[
+  {
+    "file": "fig-3-15-mynetmate-er",
+    "width": 1100,
+    "height": 1470,
+    "clippedLabels": []
+  },
+  {
+    "file": "fig-3-16-users",
+    "width": 1000,
+    "height": 266,
+    "clippedLabels": []
+  },
+  {
+    "file": "fig-3-17-auth-sessions",
+    "width": 1000,
+    "height": 266,
+    "clippedLabels": []
+  },
+  {
+    "file": "fig-3-18-audit-logs",
+    "width": 1000,
+    "height": 324,
+    "clippedLabels": []
+  },
+  {
+    "file": "fig-3-19-credential-profiles",
+    "width": 1000,
+    "height": 382,
+    "clippedLabels": []
+  },
+  {
+    "file": "fig-3-20-sites",
+    "width": 1000,
+    "height": 240,
+    "clippedLabels": []
+  },
+  {
+    "file": "fig-3-21-device-groups",
+    "width": 1000,
+    "height": 240,
+    "clippedLabels": []
+  },
+  {
+    "file": "fig-3-22-devices",
+    "width": 1000,
+    "height": 788,
+    "clippedLabels": []
+  },
+  {
+    "file": "fig-3-23-device-group-members",
+    "width": 1000,
+    "height": 240,
+    "clippedLabels": []
+  },
+  {
+    "file": "fig-3-24-device-interfaces",
+    "width": 1000,
+    "height": 440,
+    "clippedLabels": []
+  },
+  {
+    "file": "fig-3-25-interface-ip-addresses",
+    "width": 1000,
+    "height": 240,
+    "clippedLabels": []
+  },
+  {
+    "file": "fig-3-26-discovery-scans",
+    "width": 1000,
+    "height": 440,
+    "clippedLabels": []
+  },
+  {
+    "file": "fig-3-27-collection-runs",
+    "width": 1000,
+    "height": 498,
+    "clippedLabels": []
+  },
+  {
+    "file": "fig-3-28-neighbor-observations",
+    "width": 1000,
+    "height": 440,
+    "clippedLabels": []
+  },
+  {
+    "file": "fig-3-29-topology-default-routes",
+    "width": 1000,
+    "height": 240,
+    "clippedLabels": []
+  }
+]

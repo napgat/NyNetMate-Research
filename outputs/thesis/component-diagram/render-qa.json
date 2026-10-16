@@ -1,0 +1,20 @@
+{
+  "scope": "Current Network Management component structure; no future monitoring features",
+  "components": 8,
+  "providedInterfaces": 1,
+  "imageTargets": [
+    "D:/KMITL-Repo/KMITL_Knowledge/Project/outputs/thesis/component-diagram/network-management-components.png"
+  ],
+  "png": {
+    "width": 1334,
+    "height": 1560,
+    "bytes": 87735
+  },
+  "svg": {
+    "width": 1335,
+    "height": 1561,
+    "labels": 37
+  },
+  "errors": [],
+  "limitation": "Source/diagram/render verification only; not a MyNetMate runtime or end-to-end test"
+}

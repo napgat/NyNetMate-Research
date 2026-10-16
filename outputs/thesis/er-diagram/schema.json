@@ -1,0 +1,1267 @@
+[
+  {
+    "name": "users",
+    "source": "mynetmate\\backend\\app\\features\\authentication\\models.py",
+    "columns": [
+      {
+        "name": "id",
+        "type": "PG_UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "username",
+        "type": "String(100)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": true
+      },
+      {
+        "name": "email",
+        "type": "String(255)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": true
+      },
+      {
+        "name": "password_hash",
+        "type": "String(255)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "role",
+        "type": "String(50)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "is_active",
+        "type": "Boolean",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "created_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "updated_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      }
+    ],
+    "composite_foreign": []
+  },
+  {
+    "name": "auth_sessions",
+    "source": "mynetmate\\backend\\app\\features\\authentication\\models.py",
+    "columns": [
+      {
+        "name": "id",
+        "type": "PG_UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "session_token_hash",
+        "type": "CHAR(64)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": true
+      },
+      {
+        "name": "user_id",
+        "type": "PG_UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [
+          "users.id"
+        ],
+        "unique": false
+      },
+      {
+        "name": "created_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "expires_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "is_revoked",
+        "type": "Boolean",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "ip_address",
+        "type": "String(45)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "user_agent",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      }
+    ],
+    "composite_foreign": []
+  },
+  {
+    "name": "audit_logs",
+    "source": "mynetmate\\backend\\app\\features\\audit_trail\\models.py",
+    "columns": [
+      {
+        "name": "id",
+        "type": "PG_UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "user_id",
+        "type": "PG_UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [
+          "users.id"
+        ],
+        "unique": false
+      },
+      {
+        "name": "action",
+        "type": "String(100)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "resource_type",
+        "type": "String(50)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "resource_id",
+        "type": "PG_UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "result",
+        "type": "String(20)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "safe_error_category",
+        "type": "String(100)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "description",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "created_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      }
+    ],
+    "composite_foreign": []
+  },
+  {
+    "name": "credential_profiles",
+    "source": "mynetmate\\backend\\app\\core\\inventory_tables.py",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "name",
+        "type": "String(100)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": true
+      },
+      {
+        "name": "username",
+        "type": "String(100)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "password_encrypted",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "enable_secret_encrypted",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "snmp_community_ro_encrypted",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "ssh_port",
+        "type": "Integer",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "snmp_port",
+        "type": "Integer",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "description",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "created_by",
+        "type": "UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "created_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "updated_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      }
+    ],
+    "composite_foreign": []
+  },
+  {
+    "name": "sites",
+    "source": "mynetmate\\backend\\app\\core\\inventory_tables.py",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "name",
+        "type": "String(100)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": true
+      },
+      {
+        "name": "location_detail",
+        "type": "String(255)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "description",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "created_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "updated_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      }
+    ],
+    "composite_foreign": []
+  },
+  {
+    "name": "device_groups",
+    "source": "mynetmate\\backend\\app\\core\\inventory_tables.py",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "name",
+        "type": "String(100)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": true
+      },
+      {
+        "name": "color_tag",
+        "type": "String(7)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "description",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "created_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "updated_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      }
+    ],
+    "composite_foreign": []
+  },
+  {
+    "name": "devices",
+    "source": "mynetmate\\backend\\app\\core\\inventory_tables.py",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "management_ip",
+        "type": "INET",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": true
+      },
+      {
+        "name": "advertised_management_ip",
+        "type": "INET",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "hostname",
+        "type": "String(255)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "device_type",
+        "type": "String(20)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "role",
+        "type": "String(30)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "vendor",
+        "type": "String(50)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "model",
+        "type": "String(100)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "os_version",
+        "type": "String(100)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "serial_number",
+        "type": "String(100)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "chassis_id_subtype",
+        "type": "SmallInteger",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "chassis_id",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "site_id",
+        "type": "UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [
+          "sites.id"
+        ],
+        "unique": false
+      },
+      {
+        "name": "credential_profile_id",
+        "type": "UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [
+          "credential_profiles.id"
+        ],
+        "unique": false
+      },
+      {
+        "name": "platform",
+        "type": "String(50)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "management_state",
+        "type": "String(20)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "reachability",
+        "type": "String(20)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "enrollment_source",
+        "type": "String(30)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "last_seen_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "reachability_checked_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "last_collected_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "notes",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "created_by",
+        "type": "UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "created_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "updated_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      }
+    ],
+    "composite_foreign": []
+  },
+  {
+    "name": "device_group_members",
+    "source": "mynetmate\\backend\\app\\core\\inventory_tables.py",
+    "columns": [
+      {
+        "name": "device_id",
+        "type": "UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [
+          "devices.id"
+        ],
+        "unique": false
+      },
+      {
+        "name": "group_id",
+        "type": "UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [
+          "device_groups.id"
+        ],
+        "unique": false
+      },
+      {
+        "name": "added_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      }
+    ],
+    "composite_foreign": []
+  },
+  {
+    "name": "device_interfaces",
+    "source": "mynetmate\\backend\\app\\core\\inventory_tables.py",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "device_id",
+        "type": "UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [
+          "devices.id"
+        ],
+        "unique": false
+      },
+      {
+        "name": "if_index",
+        "type": "Integer",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "name",
+        "type": "String(255)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "mac_address",
+        "type": "MACADDR",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "description",
+        "type": "String(255)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "mode",
+        "type": "String(20)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "access_vlan_id",
+        "type": "Integer",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "admin_status",
+        "type": "String(20)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "oper_status",
+        "type": "String(20)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "speed_bps",
+        "type": "BigInteger",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "collected_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "retired_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "updated_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      }
+    ],
+    "composite_foreign": []
+  },
+  {
+    "name": "interface_ip_addresses",
+    "source": "mynetmate\\backend\\app\\core\\inventory_tables.py",
+    "columns": [
+      {
+        "name": "interface_id",
+        "type": "UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [
+          "device_interfaces.id"
+        ],
+        "unique": false
+      },
+      {
+        "name": "address",
+        "type": "INET",
+        "pk": true,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      }
+    ],
+    "composite_foreign": []
+  },
+  {
+    "name": "discovery_scans",
+    "source": "mynetmate\\backend\\app\\core\\inventory_tables.py",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "seed_ip",
+        "type": "INET",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "credential_profile_id",
+        "type": "UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [
+          "credential_profiles.id"
+        ],
+        "unique": false
+      },
+      {
+        "name": "status",
+        "type": "String(20)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "timeout_seconds",
+        "type": "Integer",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "max_depth",
+        "type": "Integer",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "max_devices",
+        "type": "Integer",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "environment",
+        "type": "String(20)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "initiated_by",
+        "type": "UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "error_message",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "requested_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "started_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "finished_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      }
+    ],
+    "composite_foreign": []
+  },
+  {
+    "name": "collection_runs",
+    "source": "mynetmate\\backend\\app\\core\\inventory_tables.py",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "discovery_scan_id",
+        "type": "UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [
+          "discovery_scans.id"
+        ],
+        "unique": false
+      },
+      {
+        "name": "device_id",
+        "type": "UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [
+          "devices.id"
+        ],
+        "unique": false
+      },
+      {
+        "name": "target_ip",
+        "type": "INET",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "credential_profile_id",
+        "type": "UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [
+          "credential_profiles.id"
+        ],
+        "unique": false
+      },
+      {
+        "name": "purpose",
+        "type": "String(30)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "transport",
+        "type": "String(20)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "environment",
+        "type": "String(20)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "status",
+        "type": "String(20)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "neighbor_status",
+        "type": "String(20)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "initiated_by",
+        "type": "UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "error_message",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "requested_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "started_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "finished_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      }
+    ],
+    "composite_foreign": []
+  },
+  {
+    "name": "neighbor_observations",
+    "source": "mynetmate\\backend\\app\\core\\inventory_tables.py",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "collection_run_id",
+        "type": "UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "local_device_id",
+        "type": "UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "local_interface_id",
+        "type": "UUID(as_uuid=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "observation_key",
+        "type": "String(255)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "protocol",
+        "type": "String(10)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "remote_chassis_id_subtype",
+        "type": "SmallInteger",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "remote_chassis_id",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "remote_port_id_subtype",
+        "type": "SmallInteger",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "remote_port_id",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "remote_system_name",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "remote_port_description",
+        "type": "Text",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "remote_management_ip",
+        "type": "INET",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "observed_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      }
+    ],
+    "composite_foreign": [
+      {
+        "columns": [
+          "collection_run_id",
+          "local_device_id"
+        ],
+        "references": [
+          "collection_runs.id",
+          "collection_runs.device_id"
+        ]
+      },
+      {
+        "columns": [
+          "local_device_id",
+          "local_interface_id"
+        ],
+        "references": [
+          "device_interfaces.device_id",
+          "device_interfaces.id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "topology_default_routes",
+    "source": "mynetmate\\backend\\app\\core\\inventory_tables.py",
+    "columns": [
+      {
+        "name": "source_device_id",
+        "type": "UUID(as_uuid=True)",
+        "pk": true,
+        "nullable": false,
+        "foreign": [
+          "devices.id"
+        ],
+        "unique": false
+      },
+      {
+        "name": "gateway_ip",
+        "type": "INET",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "gateway_hostname",
+        "type": "String(255)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "source_interface_name",
+        "type": "String(255)",
+        "pk": false,
+        "nullable": true,
+        "foreign": [],
+        "unique": false
+      },
+      {
+        "name": "observed_at",
+        "type": "DateTime(timezone=True)",
+        "pk": false,
+        "nullable": false,
+        "foreign": [],
+        "unique": false
+      }
+    ],
+    "composite_foreign": []
+  }
+]

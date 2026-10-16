@@ -1,0 +1,176 @@
+{
+  "checked_at_bangkok": "2026-10-09T11:08:34.952538+07:00",
+  "temporary_copy": "C:\\Users\\evilm\\AppData\\Local\\Temp\\mynetmate-advisor-20261009-kr3sck8v",
+  "checks": {
+    "backend-dependencies": {
+      "command": [
+        "uv",
+        "sync",
+        "--frozen",
+        "--python",
+        "3.11"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 23.97,
+      "log": "backend-dependencies.log"
+    },
+    "backend-auth-audit": {
+      "command": [
+        "C:\\Users\\evilm\\AppData\\Local\\Temp\\mynetmate-advisor-20261009-kr3sck8v\\backend\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "-m",
+        "not database",
+        "--junitxml=D:\\KMITL-Repo\\KMITL_Knowledge\\Project\\outputs\\advisor-update\\naphat\\evidence\\backend-auth-audit.xml",
+        "tests\\test_audit_adapter_compatibility.py",
+        "tests\\test_audit_http.py",
+        "tests\\test_audit_migration.py",
+        "tests\\test_audit_models.py",
+        "tests\\test_audit_read_postgres.py",
+        "tests\\test_audit_read_schemas.py",
+        "tests\\test_audit_reader.py",
+        "tests\\test_audit_redaction.py",
+        "tests\\test_audit_registry.py",
+        "tests\\test_audit_writer.py",
+        "tests\\test_audit_writer_postgres.py",
+        "tests\\test_authentication_admin_http.py",
+        "tests\\test_authentication_admin_postgres.py",
+        "tests\\test_authentication_admin_service.py",
+        "tests\\test_authentication_audit_adapter.py",
+        "tests\\test_authentication_authorization.py",
+        "tests\\test_authentication_boundaries.py",
+        "tests\\test_authentication_config.py",
+        "tests\\test_authentication_database_schema.py",
+        "tests\\test_authentication_http.py",
+        "tests\\test_authentication_http_application.py",
+        "tests\\test_authentication_http_postgres.py",
+        "tests\\test_authentication_migration.py",
+        "tests\\test_authentication_models.py",
+        "tests\\test_authentication_password_work.py",
+        "tests\\test_authentication_permission_guard.py",
+        "tests\\test_authentication_permission_postgres.py",
+        "tests\\test_authentication_provisioning.py",
+        "tests\\test_authentication_provisioning_cli.py",
+        "tests\\test_authentication_provisioning_postgres.py",
+        "tests\\test_authentication_rate_limiter.py",
+        "tests\\test_authentication_repository.py",
+        "tests\\test_authentication_repository_postgres.py",
+        "tests\\test_authentication_request_security.py",
+        "tests\\test_authentication_runtime.py",
+        "tests\\test_authentication_runtime_postgres.py",
+        "tests\\test_authentication_schemas.py",
+        "tests\\test_authentication_security.py",
+        "tests\\test_authentication_service.py",
+        "tests\\test_authentication_service_postgres.py",
+        "tests\\test_authentication_service_runtime.py",
+        "tests\\test_authentication_session_guard.py",
+        "tests\\test_authentication_startup.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 36.89,
+      "log": "backend-auth-audit.log"
+    },
+    "frontend-dependencies": {
+      "command": [
+        "C:\\Program Files\\nodejs\\npm.cmd",
+        "exec",
+        "--yes",
+        "--package=bun",
+        "--",
+        "bun",
+        "install",
+        "--frozen-lockfile"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 155.94,
+      "log": "frontend-dependencies.log"
+    },
+    "frontend-auth-audit": {
+      "command": [
+        "C:\\Program Files\\nodejs\\npm.cmd",
+        "exec",
+        "--yes",
+        "--package=bun",
+        "--",
+        "bun",
+        "test",
+        "tests/authentication.test.ts",
+        "tests/audit-display.test.ts"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 15.25,
+      "log": "frontend-auth-audit.log"
+    },
+    "frontend-build": {
+      "command": [
+        "C:\\Program Files\\nodejs\\npm.cmd",
+        "exec",
+        "--yes",
+        "--package=bun",
+        "--",
+        "bun",
+        "run",
+        "build"
+      ],
+      "exit_code": 2,
+      "elapsed_seconds": 10.75,
+      "log": "frontend-build.log"
+    },
+    "frontend-schema": {
+      "command": [
+        "C:\\Users\\evilm\\AppData\\Local\\Temp\\mynetmate-advisor-20261009-kr3sck8v\\backend\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-c",
+        "from pathlib import Path; import json; from app.main import app; Path('C:\\\\Users\\\\evilm\\\\AppData\\\\Local\\\\Temp\\\\mynetmate-advisor-20261009-kr3sck8v\\\\openapi.json').write_text(json.dumps(app.openapi()), encoding='utf-8')"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 11.23,
+      "log": "frontend-schema.log"
+    },
+    "frontend-client-generation": {
+      "command": [
+        "C:\\Program Files\\nodejs\\npm.cmd",
+        "exec",
+        "--yes",
+        "--package=bun",
+        "--",
+        "bun",
+        "run",
+        "openapi:generate"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 5.36,
+      "log": "frontend-client-generation.log"
+    }
+  },
+  "repositories": {
+    "backend": {
+      "head": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "status_before": "",
+      "status_after": "",
+      "unchanged": true
+    },
+    "website": {
+      "head": "3e4d85cbc94bcaab6fd6f4e1d9cd41ce56659251",
+      "status_before": "",
+      "status_after": "",
+      "unchanged": true
+    },
+    "docs": {
+      "head": "850d3a53e93f003b2801b7cf421192bf2ab07611",
+      "status_before": "",
+      "status_after": "",
+      "unchanged": true
+    }
+  },
+  "excluded": [
+    "PostgreSQL integration: -m not database, TEST_DATABASE_URL empty",
+    "Browser E2E",
+    "Device execution/discovery/scan",
+    "Deployment"
+  ]
+}

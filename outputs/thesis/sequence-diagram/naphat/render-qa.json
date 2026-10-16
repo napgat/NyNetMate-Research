@@ -1,0 +1,42 @@
+[
+  {
+    "id": "fig-3-6-login",
+    "width": 1430,
+    "height": 1960,
+    "messageCount": 22,
+    "errors": [],
+    "cells": 73
+  },
+  {
+    "id": "fig-3-7-view-dashboard",
+    "width": 1430,
+    "height": 1268,
+    "messageCount": 13,
+    "errors": [],
+    "cells": 49
+  },
+  {
+    "id": "fig-3-12-view-topology",
+    "width": 1430,
+    "height": 1208,
+    "messageCount": 12,
+    "errors": [],
+    "cells": 46
+  },
+  {
+    "id": "fig-3-13-user-management",
+    "width": 1430,
+    "height": 1946,
+    "messageCount": 21,
+    "errors": [],
+    "cells": 74
+  },
+  {
+    "id": "fig-3-14-audit-history",
+    "width": 1430,
+    "height": 1590,
+    "messageCount": 17,
+    "errors": [],
+    "cells": 59
+  }
+]

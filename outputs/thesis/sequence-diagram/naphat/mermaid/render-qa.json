@@ -1,0 +1,62 @@
+[
+  {
+    "id": "fig-3-6-login",
+    "mermaidVersion": "11.12.0",
+    "style": "monochrome-peer-style",
+    "nonGrayscaleElements": 0,
+    "messageCount": 27,
+    "renderedMessageCount": 27,
+    "fragmentCount": 2,
+    "width": 1498,
+    "height": 2173,
+    "errors": []
+  },
+  {
+    "id": "fig-3-7-view-dashboard",
+    "mermaidVersion": "11.12.0",
+    "style": "monochrome-peer-style",
+    "nonGrayscaleElements": 0,
+    "messageCount": 17,
+    "renderedMessageCount": 17,
+    "fragmentCount": 1,
+    "width": 1641,
+    "height": 1330,
+    "errors": []
+  },
+  {
+    "id": "fig-3-12-view-topology",
+    "mermaidVersion": "11.12.0",
+    "style": "monochrome-peer-style",
+    "nonGrayscaleElements": 0,
+    "messageCount": 16,
+    "renderedMessageCount": 16,
+    "fragmentCount": 1,
+    "width": 1670,
+    "height": 1336,
+    "errors": []
+  },
+  {
+    "id": "fig-3-13-user-management",
+    "mermaidVersion": "11.12.0",
+    "style": "monochrome-peer-style",
+    "nonGrayscaleElements": 0,
+    "messageCount": 26,
+    "renderedMessageCount": 26,
+    "fragmentCount": 3,
+    "width": 1651,
+    "height": 2028,
+    "errors": []
+  },
+  {
+    "id": "fig-3-14-audit-history",
+    "mermaidVersion": "11.12.0",
+    "style": "monochrome-peer-style",
+    "nonGrayscaleElements": 0,
+    "messageCount": 26,
+    "renderedMessageCount": 26,
+    "fragmentCount": 2,
+    "width": 1533,
+    "height": 2002,
+    "errors": []
+  }
+]

@@ -4,12 +4,12 @@ const { chromium } = require('C:/Users/evilm/.cache/codex-runtimes/codex-primary
 const specs = JSON.parse(fs.readFileSync(path.join(__dirname, 'diagrams.json'), 'utf8'));
 const esc = s => String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const html = s => esc(String(s).split('\n').map(esc).join('<br>'));
-const xs = [150, 490, 875, 1260];
-const width = 1430;
 const font = 'fontFamily=Tahoma;fontSize=18;fontColor=#111111;';
 const line = 'strokeColor=#111111;strokeWidth=1.3;';
 
 function build(spec) {
+  const xs = spec.separateService ? [150, 475, 800, 1140, 1480] : [150, 490, 875, 1260];
+  const width = spec.separateService ? 1640 : 1430;
   let cells = [], serial = 0, y = 190, messages = [], checks = [];
   const id = () => 'c' + (++serial);
   const vertex = (value,x,yy,w,h,style) => {
@@ -27,7 +27,7 @@ function build(spec) {
     return vertex(label,x,yy,w,h,`text;strokeColor=none;fillColor=#ffffff;align=${align};verticalAlign=middle;spacing=1;`);
   };
   function frame(kind,start,end,branches,depth) {
-    const left=42+depth*16, right=1390-depth*16;
+    const left=42+depth*16, right=width-40-depth*16;
     vertex('',left,start,right-left,end-start,`fillColor=none;${line}`);
     vertex(kind,left,start,60,28,`shape=umlFrame;fillColor=#ffffff;${line}fontStyle=1;fontSize=16;`);
     for(let i=0;i<branches.length;i++){
@@ -71,24 +71,27 @@ function build(spec) {
   cells=[];
   vertex(`${spec.title}`,48,18,width-96,38,'text;fillColor=none;strokeColor=none;fontSize=24;fontStyle=1;');
   for(let i=0;i<xs.length;i++){
-    const label=i===0?spec.actor:i===1?'Frontend\nReact / TypeScript':i===2?spec.service:'Database\nPostgreSQL';
+    const label=i===0?spec.actor:i===1?(spec.frontend || 'Frontend\nReact / TypeScript'):
+      spec.separateService?(i===2?'Backend':i===3?spec.service:'Database\nPostgreSQL'):
+      i===2?spec.service:'Database\nPostgreSQL';
     if(i===0){
       vertex('',xs[i]-24,62,48,55,`shape=umlActor;outlineConnect=0;fillColor=#ffffff;${line}`);
-      vertex(label,xs[i]-140,120,280,52,'text;strokeColor=none;fillColor=#ffffff;align=center;verticalAlign=top;fontSize=16;');
+      vertex(label,xs[i]-140,120,280,spec.separateService?70:52,'text;strokeColor=none;fillColor=#ffffff;align=center;verticalAlign=top;fontSize=16;');
     }
     else vertex(label,xs[i]-110,60,220,64,`fillColor=#ffffff;${line}`);
-    edge(xs[i],i===0?177:124,xs[i],height-35,'endArrow=none;dashed=1;dashPattern=4 4;strokeWidth=1;strokeColor=#666666;');
+    edge(xs[i],i===0?(spec.separateService?205:177):124,xs[i],height-35,'endArrow=none;dashed=1;dashPattern=4 4;strokeWidth=1;strokeColor=#666666;');
   }
   // Thin execution specifications; database bars match query/response pairs.
-  for(const who of [1,2]){
+  for(const who of Array.from({length:xs.length-2},(_,i)=>i+1)){
     const related=messages.filter(m=>m.from===who||m.to===who);
     const start=related[0].y-8, end=related.at(-1).y+10;
     vertex('',xs[who]-7,start,14,end-start,`fillColor=#ffffff;${line}`);
   }
   let dbStart=null;
+  const dbIndex=xs.length-1;
   for(const m of messages){
-    if(m.to===3&&dbStart===null)dbStart=m.y-8;
-    if(m.from===3&&dbStart!==null){vertex('',xs[3]-7,dbStart,14,m.y+8-dbStart,`fillColor=#ffffff;${line}`);dbStart=null;}
+    if(m.to===dbIndex&&dbStart===null)dbStart=m.y-8;
+    if(m.from===dbIndex&&dbStart!==null){vertex('',xs[dbIndex]-7,dbStart,14,m.y+8-dbStart,`fillColor=#ffffff;${line}`);dbStart=null;}
   }
   cells.push(...body);
   const model=`<mxGraphModel page="1" pageScale="1" pageWidth="${width}" pageHeight="${height}" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" background="#ffffff"><root><mxCell id="0"/><mxCell id="1" parent="0"/>${cells.join('\n')}</root></mxGraphModel>`;
@@ -96,8 +99,11 @@ function build(spec) {
 }
 
 function plantuml(spec){
-  const aliases=['U','F','B','D'];
-  let lines=['@startuml','hide footbox','skinparam monochrome true','skinparam defaultFontName Tahoma','skinparam defaultFontSize 16','skinparam sequenceMessageAlign center','skinparam responseMessageBelowArrow true',`title ${spec.title}`,`actor "${spec.actor.replaceAll('\n','\\n')}" as U`,'participant "Frontend\\nReact / TypeScript" as F',`participant "${spec.service.replaceAll('\n','\\n')}" as B`,'database "PostgreSQL" as D'];
+  const aliases=spec.separateService?['U','F','B','S','D']:['U','F','B','D'];
+  let lines=['@startuml','hide footbox','skinparam monochrome true','skinparam defaultFontName Tahoma','skinparam defaultFontSize 16','skinparam sequenceMessageAlign center','skinparam responseMessageBelowArrow true',`title ${spec.title}`,`actor "${spec.actor.replaceAll('\n','\\n')}" as U`,`participant "${(spec.frontend || 'Frontend\\nReact / TypeScript').replaceAll('\n','\\n')}" as F`];
+  if(spec.separateService){lines.push('participant "Backend" as B',`participant "${spec.service.replaceAll('\n','\\n')}" as S`);}
+  else lines.push(`participant "${spec.service.replaceAll('\n','\\n')}" as B`);
+  lines.push('database "PostgreSQL" as D');
   function emit(steps){for(const s of steps){
     if(s[0]==='msg'||s[0]==='return')lines.push(`${aliases[s[1]]} ${s[0]==='return'?'-->':'->'} ${aliases[s[2]]} : ${s[3].replaceAll('\n','\\n')}`);
     else if(s[0]==='self')lines.push(`${aliases[s[1]]} -> ${aliases[s[1]]} : ${s[2].replaceAll('\n','\\n')}`);
@@ -109,17 +115,20 @@ function plantuml(spec){
 
 (async()=>{
   const graphs=specs.map(build);
+  const target=process.argv[2] || null;
+  if(target && !specs.some(s=>s.id===target))throw new Error('Unknown diagram: '+target);
   const wrap=g=>`<diagram id="${g.spec.id}" name="${esc(g.spec.figure+' '+g.spec.title)}">${g.model}</diagram>`;
   fs.writeFileSync(path.join(__dirname,'naphat-sequence-diagrams.drawio'),`<mxfile host="app.diagrams.net">${graphs.map(wrap).join('\n')}</mxfile>`);
   let browser;
   try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'msedge'});}
-  const qa=[];
+  const qa=target&&fs.existsSync(path.join(__dirname,'render-qa.json'))?JSON.parse(fs.readFileSync(path.join(__dirname,'render-qa.json'),'utf8')).filter(x=>x.id!==target):[];
   try{
     const page=await browser.newPage({deviceScaleFactor:2});
     await page.route('**/*',route=>/^https:\/\/viewer\.diagrams\.net\//.test(route.request().url())?route.continue():route.abort());
     await page.setContent('<html><head><style>html,body{margin:0;background:white}#canvas{position:relative;overflow:hidden}</style></head><body><div id="canvas"></div></body></html>');
     await page.addScriptTag({url:'https://viewer.diagrams.net/js/viewer-static.min.js'});
     for(const g of graphs){
+      if(target && g.spec.id!==target)continue;
       fs.writeFileSync(path.join(__dirname,g.spec.id+'.drawio'),`<mxfile host="app.diagrams.net">${wrap(g)}</mxfile>`);
       fs.writeFileSync(path.join(__dirname,g.spec.id+'.puml'),plantuml(g.spec));
       await page.setViewportSize({width:g.width,height:g.height});
@@ -150,6 +159,6 @@ function plantuml(spec){
       qa.push({id:g.spec.id,width:g.width,height:g.height,messageCount:g.messageCount,...result});
     }
   }finally{await browser.close();}
-  fs.writeFileSync(path.join(__dirname,'render-qa.json'),JSON.stringify(qa,null,2));
+  fs.writeFileSync(path.join(__dirname,'render-qa.json'),JSON.stringify(specs.map(s=>qa.find(q=>q.id===s.id)).filter(Boolean),null,2));
   process.stdout.write(JSON.stringify(qa));
 })().catch(e=>{process.stderr.write(e.stack);process.exitCode=1;});

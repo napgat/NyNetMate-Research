@@ -7,24 +7,34 @@ skinparam sequenceMessageAlign center
 skinparam responseMessageBelowArrow true
 title Audit History Sequence Diagram
 actor "Admin" as U
-participant "Frontend\nReact / TypeScript" as F
-participant "Backend\nAudit Read Service" as B
+participant "Frontend" as F
+participant "Backend" as B
+participant "Audit Read Service" as S
 database "PostgreSQL" as D
 U -> F : เปิดหน้า Audit History\nและกำหนดตัวกรองถ้าต้องการ
 F -> B : GET /api/audit-logs\nตัวกรอง + Cursor + Session Cookie
-B -> D : ตรวจ Session และบัญชีผู้ใช้งาน
-D --> B : ข้อมูลผู้ใช้และ Role ปัจจุบัน
+B -> S : ตรวจ Session และบัญชีผู้ใช้งาน
+S -> D : อ่าน Session และบัญชีผู้ใช้งาน
+D --> S : ข้อมูลผู้ใช้และ Role ปัจจุบัน
+S --> B : ข้อมูลผู้ใช้และ Role ปัจจุบัน
 B -> B : ตรวจสิทธิ์ audit.read\nและตรวจรูปแบบตัวกรอง
 alt [เป็น Admin และคำขอถูกต้อง]
-B -> D : อ่าน audit_logs ตามตัวกรอง\nเรียงเวลาและ ID จากใหม่ไปเก่า
-D --> B : รายการเหตุการณ์และข้อมูลผู้เกี่ยวข้อง
-B -> B : ตรวจความปลอดภัยของข้อมูล\nจัดรูปแบบรายการและ Next Cursor
+B -> S : ขอรายการ Audit ตามตัวกรอง\nพร้อม Cursor ที่ตรวจสอบแล้ว
+S -> D : อ่าน audit_logs ตามตัวกรอง\nเรียงเวลาและ ID จากใหม่ไปเก่า
+D --> S : รายการเหตุการณ์และข้อมูลผู้เกี่ยวข้อง
+S -> S : ตรวจความปลอดภัยของข้อมูล\nจัดรูปแบบรายการและ Next Cursor
+S --> B : รายการ Audit และ Next Cursor
 B --> F : รายการ Audit และ Next Cursor
 F --> U : แสดงประวัติแบบอ่านอย่างเดียว\nหรือข้อความเมื่อไม่พบรายการ
 opt [ผู้ใช้เลือกดูหน้าถัดไป]
 U -> F : เลือกดูรายการถัดไป
 F -> B : ขอรายการต่อด้วย Next Cursor
-B -> B : ดำเนินการอ่านซ้ำ\nโดยตรวจ Session และสิทธิ์ทุกคำขอ
+B -> B : ตรวจ Session, สิทธิ์ audit.read\nและรูปแบบ Cursor อีกครั้ง
+B -> S : ขอข้อมูล Audit หน้าถัดไป\nด้วย Next Cursor ที่ตรวจสอบแล้ว
+S -> D : อ่าน audit_logs หน้าถัดไป\nเรียงเวลาและ ID
+D --> S : รายการเหตุการณ์หน้าถัดไป
+S -> S : ตรวจข้อมูลและจัด Next Cursor ใหม่
+S --> B : รายการหน้าถัดไปและ Next Cursor
 B --> F : รายการหน้าถัดไปและ Next Cursor
 F --> U : แสดงรายการหน้าถัดไป
 end

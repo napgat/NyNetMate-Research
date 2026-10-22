@@ -1,0 +1,40 @@
+%%{init: {"theme":"base","fontFamily":"Tahoma, Arial, sans-serif","themeVariables":{"background":"#ffffff","primaryColor":"#ffffff","primaryBorderColor":"#111111","primaryTextColor":"#111111","secondaryColor":"#ffffff","tertiaryColor":"#ffffff","lineColor":"#111111","textColor":"#111111","actorBkg":"#ffffff","actorBorder":"#111111","actorTextColor":"#111111","actorLineColor":"#111111","signalColor":"#111111","signalTextColor":"#111111","labelBoxBkgColor":"#ffffff","labelBoxBorderColor":"#111111","labelTextColor":"#111111","loopTextColor":"#111111","noteBkgColor":"#ffffff","noteBorderColor":"#111111","noteTextColor":"#111111","activationBkgColor":"#d9d9d9","activationBorderColor":"#666666","sequenceNumberColor":"#111111","fontSize":"17px"},"themeCSS":".actor-line{stroke:#111111!important;stroke-width:1px!important;stroke-dasharray:none!important}.actor{fill:#ffffff!important;stroke:#111111!important;filter:none!important}.actor-man circle,.actor-man line,.actor-man path{stroke:#111111!important;fill:#ffffff!important}.loopLine{stroke:#111111!important;stroke-width:1px!important;stroke-dasharray:2 2!important}.labelBox,.note{fill:#ffffff!important;stroke:#111111!important}text,tspan{fill:#111111!important}.messageLine0,.messageLine1{stroke:#111111!important;stroke-width:1.3px!important}.activation0,.activation1,.activation2{fill:#d9d9d9!important;stroke:#666666!important}text,tspan{font-size:17px!important}","sequence":{"useMaxWidth":false,"mirrorActors":true,"actorMargin":70,"messageMargin":35,"noteMargin":14,"actorFontSize":17,"messageFontSize":17,"noteFontSize":17}}}%%
+sequenceDiagram
+    actor U as Viewer / Operator / Admin
+    participant F as Frontend
+    participant B as Backend
+    participant S as Dashboard Service
+    participant D as PostgreSQL
+    U->>F: เปิดหน้า Dashboard
+    activate F
+    F->>B: ขอข้อมูลสรุปและกิจกรรมล่าสุด<br/>พร้อม Session Cookie
+    activate B
+    B->>S: ตรวจ Session และสิทธิ์ในการเข้าถึง Dashboard
+    activate S
+    S->>D: ตรวจ Session และบัญชีผู้ใช้งาน
+    activate D
+    D--)S: ข้อมูลผู้ใช้และ Role ปัจจุบัน
+    deactivate D
+    S--)B: ผลการตรวจ Session และสิทธิ์
+    alt Session ถูกต้องและมีสิทธิ์อ่าน
+        B->>S: ขอข้อมูล Dashboard<br/>และกิจกรรมล่าสุดที่อนุญาต
+        S->>D: อ่านข้อมูลอุปกรณ์และสถานะ<br/>เพื่อสรุปภาพรวม
+        activate D
+        D--)S: ข้อมูลสรุปเครือข่าย
+        deactivate D
+        S->>D: อ่านกิจกรรมล่าสุดจาก audit_logs<br/>เฉพาะรายการที่อนุญาต
+        activate D
+        D--)S: กิจกรรมล่าสุดที่เรียงตามเวลา
+        deactivate D
+        S->>S: จัดรูปแบบข้อมูลสรุป<br/>และตัดข้อมูลอ่อนไหว
+        S--)B: ข้อมูลสรุปและ Recent Activity
+        B--)F: ข้อมูลสรุปและ Recent Activity
+        F--)U: แสดง Dashboard<br/>หรือข้อความเมื่อยังไม่มีข้อมูล
+    else Session ไม่ถูกต้องหรือสิทธิ์ไม่เพียงพอ
+        B--)F: 401 Unauthorized / 403 Forbidden
+        F--)U: ให้เข้าสู่ระบบใหม่<br/>หรือแจ้งว่าไม่มีสิทธิ์
+    end
+    deactivate S
+    deactivate B
+    deactivate F
+    Note over U,D: Recent Activity แสดงเฉพาะข้อมูลสรุปที่อนุญาต ไม่แสดง Audit เต็มหรือข้อมูลลับ

@@ -6,31 +6,37 @@ skinparam defaultFontSize 16
 skinparam sequenceMessageAlign center
 skinparam responseMessageBelowArrow true
 title Login Sequence Diagram
-actor "User\nAdmin / Operator / Viewer" as U
-participant "Frontend\nReact / TypeScript" as F
-participant "Backend\nAuthentication Service" as B
+actor "Viewer\nOperator\nAdmin" as U
+participant "Frontend" as F
+participant "Backend" as B
+participant "Authentication Service" as S
 database "PostgreSQL" as D
 U -> F : กรอก Username / Email\nและ Password แล้วกดเข้าสู่ระบบ
 F -> B : POST /api/auth/login\nidentifier + password
 B -> B : ตรวจ Origin / CSRF / JSON\nและจำกัดคำขอต่อ IP
 alt [คำขอได้รับอนุญาต]
-B -> D : ค้นหาบัญชีผู้ใช้งาน\nจากตาราง users
-D --> B : ข้อมูลบัญชีและ Password Hash
-B -> B : ตรวจ Password ด้วย Argon2id\nและสถานะบัญชี
+B -> S : เรียก Authentication Service\nตรวจสอบบัญชีและรหัสผ่าน
+S -> D : ค้นหาบัญชีผู้ใช้งาน\nจากตาราง users
+D --> S : ข้อมูลบัญชีและ Password Hash
+S -> S : ตรวจ Password ด้วย Argon2id\nและสถานะบัญชี
 alt [ข้อมูลถูกต้องและบัญชีใช้งานได้]
-B -> B : ตรวจบัญชีซ้ำใน Transaction\nสร้าง Opaque Session Token
-B -> D : บันทึก Token Hash และ login_success\nผ่าน Audit Writer แล้ว Commit
-D --> B : Commit Session และ Audit สำเร็จ
+S -> S : ตรวจบัญชีซ้ำใน Transaction\nสร้าง Opaque Session Token
+S -> D : บันทึก Token Hash และ login_success\nผ่าน Audit Writer แล้ว Commit
+D --> S : Commit Session และ Audit สำเร็จ
+S --> B : ยืนยันตัวตนสำเร็จ\nส่ง Session Token ให้ Backend
 B --> F : 200 OK + Set-Cookie\nHttpOnly Session Cookie
 F -> B : GET /api/auth/me\nพร้อม Session Cookie
-B -> D : ตรวจ Session และอ่านผู้ใช้ปัจจุบัน
-D --> B : ข้อมูลผู้ใช้และ Role
+B -> S : ตรวจสอบ Session\nและดึงข้อมูลผู้ใช้ปัจจุบัน
+S -> D : อ่าน Session และผู้ใช้งานปัจจุบัน
+D --> S : ข้อมูลผู้ใช้และ Role
+S --> B : ข้อมูลผู้ใช้ที่เข้าสู่ระบบ
 B --> F : ข้อมูลผู้ใช้ที่เข้าสู่ระบบ
 F --> U : แสดงหน้าหลักของระบบ
 else [ข้อมูลไม่ถูกต้องหรือบัญชีไม่ใช้งาน]
-B -> B : นับความล้มเหลวของ IP\nใน Login Rate Limiter
-B -> D : บันทึก login_failed\nผ่าน Audit Writer
-D --> B : บันทึกเหตุการณ์สำเร็จ
+S -> S : นับความล้มเหลวของ IP\nใน Login Rate Limiter
+S -> D : บันทึก login_failed\nผ่าน Audit Writer
+D --> S : บันทึกเหตุการณ์สำเร็จ
+S --> B : ผลการยืนยันตัวตนไม่สำเร็จ
 B --> F : 401 Unauthorized
 F --> U : แจ้งข้อมูลเข้าสู่ระบบไม่ถูกต้อง
 end

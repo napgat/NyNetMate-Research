@@ -5,8 +5,8 @@
 ## สิ่งที่อยู่ในชุดนี้
 
 - เนื้อหา 3.8, 3.8.1 Navigation Flow และ 3.8.2 การออกแบบหน้าจอ พร้อมคำอธิบายใต้ภาพ
-- รูป PNG 14 ภาพ: Navigation Flow 1 ภาพ, Wireframe 12 ภาพ และ Mockup Dashboard P2 1 ภาพ
-- ต้นฉบับ Draw.io สำหรับแก้ไข Wireframe ทั้ง 12 หน้า, Dashboard P2 และ Navigation Flow ในโฟลเดอร์ `editable`
+- รูป PNG 15 ภาพ: Navigation Flow 1 ภาพ, Wireframe 13 ภาพ และ Mockup Dashboard P2 1 ภาพ
+- ต้นฉบับ Draw.io สำหรับแก้ไข Wireframe ทั้ง 13 หน้า, Dashboard P2 และ Navigation Flow ในโฟลเดอร์ `editable`
 - Navigation Flow แบบ Mermaid สำหรับปรับโครงสร้างผ่านข้อความ
 - `image-check.json` แสดงผลตรวจความครบถ้วนและความละเอียดของรูป ไม่ใช่ผลทดสอบระบบ MyNetMate
 
@@ -15,7 +15,8 @@
 - ใส่เลขรูปต่อจากหัวข้อก่อนหน้า โดยเปลี่ยน `รูป:` และ `จากรูป` ให้ตรงกันทั้งบท
 - ภาพเป็นแบบออกแบบที่ใช้ข้อมูลตัวอย่าง ไม่ใช่ภาพผลการทดสอบหรือหลักฐานว่าระบบพัฒนาเสร็จแล้ว
 - Dashboard พื้นฐานเป็น Wireframe ส่วน Dashboard P2 เป็น Mockup สำหรับความสามารถที่วางแผนเพิ่มเติม เลือกใช้ภาพให้ตรงขอบเขตรายงาน หากใช้ทั้งสองภาพให้คงคำอธิบายความแตกต่างไว้
-- หน้าต่าง Add Device, Create User, Edit User และ Audit Event Details เป็น Dialog; Device Details เป็น Drawer ไม่ใช่หน้าหลักแยกทุกภาพ
+- หน้าต่าง Add Device, Edit Device, Create User, Edit User และ Audit Event Details เป็น Dialog; Device Details เป็น Drawer ไม่ใช่หน้าหลักแยกทุกภาพ
+- Inventory เพิ่ม Edit ใน Actions สำหรับ Admin/Operator โดย Edit Device ให้แก้ข้อมูลประกอบและ Management State ส่วน Reachability เป็นข้อมูลอ่านอย่างเดียว
 - ตัวอย่าง Topology ไม่ใช่การรับรองว่า Discovery ค้นหา Endpoint ทุกชนิดได้
 - หากแก้ไฟล์ Draw.io ให้ส่งออก PNG ใหม่ก่อนนำไปแทรกในรายงาน
 

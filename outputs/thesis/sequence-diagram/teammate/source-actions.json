@@ -1,0 +1,944 @@
+[
+  {
+    "id": "fig-3-8-device-inventory",
+    "sourceImageId": "kix.8iufvnl378nm",
+    "participants": [
+      "Admin / Operator / Viewer",
+      "Frontend\n(Devices Page)",
+      "Backend",
+      "Device Inventory\nService",
+      "PostgreSQL"
+    ],
+    "actions": [
+      {
+        "kind": "note",
+        "label": "ทั้ง 3 บทบาทสามารถดูรายการอุปกรณ์ได้"
+      },
+      {
+        "kind": "msg",
+        "from": "Admin / Operator / Viewer",
+        "to": "Frontend\n(Devices Page)",
+        "label": "เปิดหน้า Device Inventory",
+        "arrowId": "c2",
+        "labelId": "c3"
+      },
+      {
+        "kind": "msg",
+        "from": "Frontend\n(Devices Page)",
+        "to": "Backend",
+        "label": "ส่งคำขอรายการอุปกรณ์",
+        "arrowId": "c4",
+        "labelId": "c5"
+      },
+      {
+        "kind": "msg",
+        "from": "Backend",
+        "to": "Device Inventory\nService",
+        "label": "ค้นหารายการอุปกรณ์ตามเงื่อนไข",
+        "arrowId": "c6",
+        "labelId": "c7"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Inventory\nService",
+        "to": "PostgreSQL",
+        "label": "Query Device Inventory",
+        "arrowId": "c8",
+        "labelId": "c9"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Device Inventory\nService",
+        "label": "Device list",
+        "arrowId": "c10",
+        "labelId": "c11"
+      },
+      {
+        "kind": "return",
+        "from": "Device Inventory\nService",
+        "to": "Backend",
+        "label": "Device list",
+        "arrowId": "c12",
+        "labelId": "c13"
+      },
+      {
+        "kind": "return",
+        "from": "Backend",
+        "to": "Frontend\n(Devices Page)",
+        "label": "ส่งรายการอุปกรณ์",
+        "arrowId": "c14",
+        "labelId": "c15"
+      },
+      {
+        "kind": "return",
+        "from": "Frontend\n(Devices Page)",
+        "to": "Admin / Operator / Viewer",
+        "label": "แสดงรายการอุปกรณ์",
+        "arrowId": "c16",
+        "labelId": "c17"
+      }
+    ]
+  },
+  {
+    "id": "fig-3-9-view-detail",
+    "sourceImageId": "kix.lmv8wc8uvd5s",
+    "participants": [
+      "Admin / Operator / Viewer",
+      "Frontend\n(Devices Page)",
+      "Backend",
+      "Device Inventory\nService",
+      "PostgreSQL"
+    ],
+    "actions": [
+      {
+        "kind": "note",
+        "label": "ทั้ง 3 บทบาทสามารถดูข้อมูลอุปกรณ์ได้"
+      },
+      {
+        "kind": "msg",
+        "from": "Admin / Operator / Viewer",
+        "to": "Frontend\n(Devices Page)",
+        "label": "เลือกอุปกรณ์จาก Device Inventory",
+        "arrowId": "c2",
+        "labelId": "c3"
+      },
+      {
+        "kind": "msg",
+        "from": "Frontend\n(Devices Page)",
+        "to": "Backend",
+        "label": "ส่งคำขอรายละเอียดอุปกรณ์",
+        "arrowId": "c4",
+        "labelId": "c5"
+      },
+      {
+        "kind": "msg",
+        "from": "Backend",
+        "to": "Device Inventory\nService",
+        "label": "get_by_id(device_id)",
+        "arrowId": "c6",
+        "labelId": "c7"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Inventory\nService",
+        "to": "PostgreSQL",
+        "label": "Query Device by ID",
+        "arrowId": "c8",
+        "labelId": "c9"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Device Inventory\nService",
+        "label": "Device, interfaces, groups and status",
+        "arrowId": "c10",
+        "labelId": "c11"
+      },
+      {
+        "kind": "alt-guard",
+        "label": "[พบอุปกรณ์]"
+      },
+      {
+        "kind": "return",
+        "from": "Device Inventory\nService",
+        "to": "Backend",
+        "label": "Device detail",
+        "arrowId": "c12",
+        "labelId": "c13"
+      },
+      {
+        "kind": "return",
+        "from": "Backend",
+        "to": "Frontend\n(Devices Page)",
+        "label": "ส่งรายละเอียดอุปกรณ์",
+        "arrowId": "c14",
+        "labelId": "c15"
+      },
+      {
+        "kind": "return",
+        "from": "Frontend\n(Devices Page)",
+        "to": "Admin / Operator / Viewer",
+        "label": "แสดงรายละเอียดอุปกรณ์",
+        "arrowId": "c16",
+        "labelId": "c17"
+      },
+      {
+        "kind": "alt-guard",
+        "label": "[ไม่พบอุปกรณ์]"
+      },
+      {
+        "kind": "return",
+        "from": "Device Inventory\nService",
+        "to": "Backend",
+        "label": "None",
+        "arrowId": "c18",
+        "labelId": "c19"
+      },
+      {
+        "kind": "return",
+        "from": "Backend",
+        "to": "Frontend\n(Devices Page)",
+        "label": "แจ้งว่าไม่พบอุปกรณ์",
+        "arrowId": "c20",
+        "labelId": "c21"
+      },
+      {
+        "kind": "return",
+        "from": "Frontend\n(Devices Page)",
+        "to": "Admin / Operator / Viewer",
+        "label": "แสดงข้อความไม่พบอุปกรณ์",
+        "arrowId": "c22",
+        "labelId": "c23"
+      }
+    ]
+  },
+  {
+    "id": "fig-3-10-add-edit-device",
+    "sourceImageId": "kix.aap147gsynyv",
+    "participants": [
+      "Admin / Operator",
+      "Frontend\n(Devices Page)",
+      "Backend",
+      "Device Service",
+      "Collection Service",
+      "Device via SNMP",
+      "PostgreSQL"
+    ],
+    "actions": [
+      {
+        "kind": "msg",
+        "from": "Admin / Operator",
+        "to": "Frontend\n(Devices Page)",
+        "label": "กรอกและบันทึกข้อมูลอุปกรณ์",
+        "arrowId": "c1",
+        "labelId": "c2"
+      },
+      {
+        "kind": "alt-guard",
+        "label": "[เพิ่มอุปกรณ์]"
+      },
+      {
+        "kind": "msg",
+        "from": "Frontend\n(Devices Page)",
+        "to": "Backend",
+        "label": "ส่งคำขอเพิ่มอุปกรณ์",
+        "arrowId": "c3",
+        "labelId": "c4"
+      },
+      {
+        "kind": "msg",
+        "from": "Backend",
+        "to": "Device Service",
+        "label": "ตรวจสอบ Management IP ซ้ำ",
+        "arrowId": "c5",
+        "labelId": "c6"
+      },
+      {
+        "kind": "alt-guard",
+        "label": "[IP ซ้ำ]"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Service",
+        "to": "PostgreSQL",
+        "label": "Query Device by management_ip",
+        "arrowId": "c7",
+        "labelId": "c8"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Device Service",
+        "label": "Existing device",
+        "arrowId": "c9",
+        "labelId": "c10"
+      },
+      {
+        "kind": "return",
+        "from": "Device Service",
+        "to": "Backend",
+        "label": "Duplicate device",
+        "arrowId": "c11",
+        "labelId": "c12"
+      },
+      {
+        "kind": "return",
+        "from": "Backend",
+        "to": "Frontend\n(Devices Page)",
+        "label": "แจ้งว่าอุปกรณ์มีอยู่แล้ว",
+        "arrowId": "c13",
+        "labelId": "c14"
+      },
+      {
+        "kind": "return",
+        "from": "Frontend\n(Devices Page)",
+        "to": "Admin / Operator",
+        "label": "แจ้งว่าอุปกรณ์มีอยู่แล้ว",
+        "arrowId": "c15",
+        "labelId": "c16"
+      },
+      {
+        "kind": "alt-guard",
+        "label": "[IP ไม่ซ้ำ]"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Service",
+        "to": "PostgreSQL",
+        "label": "Query Device by management_ip",
+        "arrowId": "c17",
+        "labelId": "c18"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Device Service",
+        "label": "No existing device",
+        "arrowId": "c19",
+        "labelId": "c20"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Service",
+        "to": "Collection Service",
+        "label": "collect_target(..., manual_enrollment)",
+        "arrowId": "c21",
+        "labelId": "c22"
+      },
+      {
+        "kind": "msg",
+        "from": "Collection Service",
+        "to": "Device via SNMP",
+        "label": "เก็บ Device และ Interface snapshot",
+        "arrowId": "c23",
+        "labelId": "c24"
+      },
+      {
+        "kind": "return",
+        "from": "Device via SNMP",
+        "to": "Collection Service",
+        "label": "Snapshot",
+        "arrowId": "c25",
+        "labelId": "c26"
+      },
+      {
+        "kind": "msg",
+        "from": "Collection Service",
+        "to": "PostgreSQL",
+        "label": "บันทึก Device, Interface และ Collection Run",
+        "arrowId": "c27",
+        "labelId": "c28"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Collection Service",
+        "label": "Persisted device",
+        "arrowId": "c29",
+        "labelId": "c30"
+      },
+      {
+        "kind": "return",
+        "from": "Collection Service",
+        "to": "Device Service",
+        "label": "Device ID",
+        "arrowId": "c31",
+        "labelId": "c32"
+      },
+      {
+        "kind": "return",
+        "from": "Device Service",
+        "to": "Backend",
+        "label": "Device detail",
+        "arrowId": "c33",
+        "labelId": "c34"
+      },
+      {
+        "kind": "return",
+        "from": "Backend",
+        "to": "Frontend\n(Devices Page)",
+        "label": "ส่งข้อมูลอุปกรณ์ที่เพิ่มแล้ว",
+        "arrowId": "c35",
+        "labelId": "c36"
+      },
+      {
+        "kind": "return",
+        "from": "Frontend\n(Devices Page)",
+        "to": "Admin / Operator",
+        "label": "แสดงอุปกรณ์ที่เพิ่มแล้ว",
+        "arrowId": "c37",
+        "labelId": "c38"
+      },
+      {
+        "kind": "alt-guard",
+        "label": "[แก้ไขอุปกรณ์]"
+      },
+      {
+        "kind": "msg",
+        "from": "Frontend\n(Devices Page)",
+        "to": "Backend",
+        "label": "ส่งข้อมูลที่แก้ไข",
+        "arrowId": "c44",
+        "labelId": "c45"
+      },
+      {
+        "kind": "msg",
+        "from": "Backend",
+        "to": "Device Service",
+        "label": "update(device_id, payload)",
+        "arrowId": "c46",
+        "labelId": "c47"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Service",
+        "to": "PostgreSQL",
+        "label": "ตรวจสอบ Site, Credential และ Group",
+        "arrowId": "c48",
+        "labelId": "c49"
+      },
+      {
+        "kind": "alt-guard",
+        "label": "[ข้อมูลอ้างอิงไม่ถูกต้อง]"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Device Service",
+        "label": "ไม่พบข้อมูลอ้างอิง",
+        "arrowId": "c50",
+        "labelId": "c51"
+      },
+      {
+        "kind": "return",
+        "from": "Device Service",
+        "to": "Backend",
+        "label": "Validation error",
+        "arrowId": "c52",
+        "labelId": "c53"
+      },
+      {
+        "kind": "return",
+        "from": "Backend",
+        "to": "Frontend\n(Devices Page)",
+        "label": "ส่งข้อผิดพลาดการตรวจสอบข้อมูล",
+        "arrowId": "c54",
+        "labelId": "c55"
+      },
+      {
+        "kind": "return",
+        "from": "Frontend\n(Devices Page)",
+        "to": "Admin / Operator",
+        "label": "แสดงข้อผิดพลาด",
+        "arrowId": "c56",
+        "labelId": "c57"
+      },
+      {
+        "kind": "alt-guard",
+        "label": "[ข้อมูลถูกต้อง]"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Device Service",
+        "label": "ข้อมูลอ้างอิงถูกต้อง",
+        "arrowId": "c58",
+        "labelId": "c59"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Service",
+        "to": "PostgreSQL",
+        "label": "Update Device และ Group assignment",
+        "arrowId": "c60",
+        "labelId": "c61"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Device Service",
+        "label": "Updated device",
+        "arrowId": "c62",
+        "labelId": "c63"
+      },
+      {
+        "kind": "return",
+        "from": "Device Service",
+        "to": "Backend",
+        "label": "Device detail",
+        "arrowId": "c64",
+        "labelId": "c65"
+      },
+      {
+        "kind": "return",
+        "from": "Backend",
+        "to": "Frontend\n(Devices Page)",
+        "label": "ส่งข้อมูลอุปกรณ์ล่าสุด",
+        "arrowId": "c66",
+        "labelId": "c67"
+      },
+      {
+        "kind": "return",
+        "from": "Frontend\n(Devices Page)",
+        "to": "Admin / Operator",
+        "label": "แสดงข้อมูลอุปกรณ์ใหม่",
+        "arrowId": "c68",
+        "labelId": "c69"
+      }
+    ]
+  },
+  {
+    "id": "fig-3-11-network-discovery",
+    "sourceImageId": "kix.kqlvdfnklkae",
+    "participants": [
+      "Admin / Operator",
+      "Frontend\n(Network Discovery)",
+      "Backend",
+      "Collection Service",
+      "Network Discovery\nEngine",
+      "Network Devices",
+      "PostgreSQL"
+    ],
+    "actions": [
+      {
+        "kind": "msg",
+        "from": "Admin / Operator",
+        "to": "Frontend\n(Network Discovery)",
+        "label": "ระบุ Scan IP และ Credential Profile",
+        "arrowId": "c1",
+        "labelId": "c2"
+      },
+      {
+        "kind": "msg",
+        "from": "Frontend\n(Network Discovery)",
+        "to": "Backend",
+        "label": "ส่งคำขอเริ่ม Network Discovery",
+        "arrowId": "c3",
+        "labelId": "c4"
+      },
+      {
+        "kind": "msg",
+        "from": "Backend",
+        "to": "Collection Service",
+        "label": "scan_events(payload)",
+        "arrowId": "c5",
+        "labelId": "c6"
+      },
+      {
+        "kind": "msg",
+        "from": "Collection Service",
+        "to": "PostgreSQL",
+        "label": "ตรวจสอบ Credential และสร้าง Discovery Scan",
+        "arrowId": "c7",
+        "labelId": "c8"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Collection Service",
+        "label": "Scan ID",
+        "arrowId": "c9",
+        "labelId": "c10"
+      },
+      {
+        "kind": "return",
+        "from": "Collection Service",
+        "to": "Frontend\n(Network Discovery)",
+        "label": "SSE: start",
+        "arrowId": "c11",
+        "labelId": "c12"
+      },
+      {
+        "kind": "msg",
+        "from": "Collection Service",
+        "to": "Network Discovery\nEngine",
+        "label": "discover_stream(target)",
+        "arrowId": "c13",
+        "labelId": "c14"
+      },
+      {
+        "kind": "msg",
+        "from": "Network Discovery\nEngine",
+        "to": "Network Devices",
+        "label": "ค้นหาอุปกรณ์และความเชื่อมโยง",
+        "arrowId": "c15",
+        "labelId": "c16"
+      },
+      {
+        "kind": "return",
+        "from": "Network Devices",
+        "to": "Network Discovery\nEngine",
+        "label": "Discovery data",
+        "arrowId": "c17",
+        "labelId": "c18"
+      },
+      {
+        "kind": "return",
+        "from": "Network Discovery\nEngine",
+        "to": "Collection Service",
+        "label": "node_discovered events",
+        "arrowId": "c19",
+        "labelId": "c20"
+      },
+      {
+        "kind": "return",
+        "from": "Collection Service",
+        "to": "Frontend\n(Network Discovery)",
+        "label": "SSE: node_discovered",
+        "arrowId": "c21",
+        "labelId": "c22"
+      },
+      {
+        "kind": "loop",
+        "label": "[ทุก IP ในขอบเขตการสแกน]"
+      },
+      {
+        "kind": "msg",
+        "from": "Collection Service",
+        "to": "Network Devices",
+        "label": "Collect device snapshot ผ่าน SNMP",
+        "arrowId": "c23",
+        "labelId": "c24"
+      },
+      {
+        "kind": "return",
+        "from": "Network Devices",
+        "to": "Collection Service",
+        "label": "Device, Interface และ Neighbor data",
+        "arrowId": "c25",
+        "labelId": "c26"
+      },
+      {
+        "kind": "msg",
+        "from": "Collection Service",
+        "to": "PostgreSQL",
+        "label": "บันทึก Device, Interface, Collection Run\nและ LLDP observation",
+        "arrowId": "c27",
+        "labelId": "c28"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Collection Service",
+        "label": "Persisted collection result",
+        "arrowId": "c29",
+        "labelId": "c30"
+      },
+      {
+        "kind": "return",
+        "from": "Collection Service",
+        "to": "Frontend\n(Network Discovery)",
+        "label": "SSE: collection_complete",
+        "arrowId": "c31",
+        "labelId": "c32"
+      },
+      {
+        "kind": "msg",
+        "from": "Collection Service",
+        "to": "Network Discovery\nEngine",
+        "label": "รับ topology และ default route",
+        "arrowId": "c36",
+        "labelId": "c37"
+      },
+      {
+        "kind": "return",
+        "from": "Network Discovery\nEngine",
+        "to": "Collection Service",
+        "label": "Devices และ links",
+        "arrowId": "c38",
+        "labelId": "c39"
+      },
+      {
+        "kind": "msg",
+        "from": "Collection Service",
+        "to": "PostgreSQL",
+        "label": "บันทึก Unmanaged neighbors\nและ default-route evidence",
+        "arrowId": "c40",
+        "labelId": "c41"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Collection Service",
+        "label": "Persisted discovery evidence",
+        "arrowId": "c42",
+        "labelId": "c43"
+      },
+      {
+        "kind": "msg",
+        "from": "Collection Service",
+        "to": "PostgreSQL",
+        "label": "อัปเดตผล Discovery Scan",
+        "arrowId": "c44",
+        "labelId": "c45"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Collection Service",
+        "label": "Completed scan",
+        "arrowId": "c46",
+        "labelId": "c47"
+      },
+      {
+        "kind": "return",
+        "from": "Collection Service",
+        "to": "Frontend\n(Network Discovery)",
+        "label": "SSE: complete",
+        "arrowId": "c48",
+        "labelId": "c49"
+      },
+      {
+        "kind": "msg",
+        "from": "Frontend\n(Network Discovery)",
+        "to": "Backend",
+        "label": "ขอข้อมูล Inventory และ Topology ล่าสุด",
+        "arrowId": "c50",
+        "labelId": "c51"
+      },
+      {
+        "kind": "msg",
+        "from": "Backend",
+        "to": "PostgreSQL",
+        "label": "Query Inventory และ Topology",
+        "arrowId": "c52",
+        "labelId": "c53"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Backend",
+        "label": "Current data",
+        "arrowId": "c54",
+        "labelId": "c55"
+      },
+      {
+        "kind": "return",
+        "from": "Backend",
+        "to": "Frontend\n(Network Discovery)",
+        "label": "Updated devices and topology",
+        "arrowId": "c56",
+        "labelId": "c57"
+      },
+      {
+        "kind": "return",
+        "from": "Frontend\n(Network Discovery)",
+        "to": "Admin / Operator",
+        "label": "แสดงผล Discovery, Inventory และ Topology",
+        "arrowId": "c58",
+        "labelId": "c59"
+      }
+    ]
+  },
+  {
+    "id": "fig-3-12-update-device-status",
+    "sourceImageId": "kix.khbxmmfxx3ew",
+    "participants": [
+      "Admin / Operator",
+      "Frontend\n(Devices Page)",
+      "Backend",
+      "Device Health\nService",
+      "Device via SNMP",
+      "PostgreSQL"
+    ],
+    "actions": [
+      {
+        "kind": "msg",
+        "from": "Admin / Operator",
+        "to": "Frontend\n(Devices Page)",
+        "label": "สั่งตรวจสอบสถานะอุปกรณ์",
+        "arrowId": "c1",
+        "labelId": "c2"
+      },
+      {
+        "kind": "msg",
+        "from": "Frontend\n(Devices Page)",
+        "to": "Backend",
+        "label": "ส่งคำขอตรวจสอบสถานะอุปกรณ์",
+        "arrowId": "c3",
+        "labelId": "c4"
+      },
+      {
+        "kind": "msg",
+        "from": "Backend",
+        "to": "Device Health\nService",
+        "label": "เริ่มตรวจสอบสถานะ",
+        "arrowId": "c5",
+        "labelId": "c6"
+      },
+      {
+        "kind": "alt-guard",
+        "label": "[ตรวจสอบอุปกรณ์เดียว]"
+      },
+      {
+        "kind": "msg",
+        "from": "Backend",
+        "to": "Device Health\nService",
+        "label": "check_device(device_id)",
+        "arrowId": "c7",
+        "labelId": "c8"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Health\nService",
+        "to": "PostgreSQL",
+        "label": "Query Device และ Credential Profile",
+        "arrowId": "c9",
+        "labelId": "c10"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Device Health\nService",
+        "label": "Device and credential profile",
+        "arrowId": "c11",
+        "labelId": "c12"
+      },
+      {
+        "kind": "alt-guard",
+        "label": "[ตรวจสอบหลายอุปกรณ์]"
+      },
+      {
+        "kind": "msg",
+        "from": "Backend",
+        "to": "Device Health\nService",
+        "label": "check_devices(device_ids)",
+        "arrowId": "c13",
+        "labelId": "c14"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Health\nService",
+        "to": "PostgreSQL",
+        "label": "Query active devices",
+        "arrowId": "c15",
+        "labelId": "c16"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Device Health\nService",
+        "label": "Devices and credential profiles",
+        "arrowId": "c17",
+        "labelId": "c18"
+      },
+      {
+        "kind": "loop",
+        "label": "[ทุกอุปกรณ์ที่ต้องตรวจ]"
+      },
+      {
+        "kind": "alt-guard",
+        "label": "[SNMP ตอบกลับ]"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Health\nService",
+        "to": "Device via SNMP",
+        "label": "Probe sysUpTime",
+        "arrowId": "c24",
+        "labelId": "c25"
+      },
+      {
+        "kind": "return",
+        "from": "Device via SNMP",
+        "to": "Device Health\nService",
+        "label": "sysUpTime และ response time",
+        "arrowId": "c26",
+        "labelId": "c27"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Health\nService",
+        "to": "PostgreSQL",
+        "label": "Update reachability = reachable",
+        "arrowId": "c28",
+        "labelId": "c29"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Health\nService",
+        "to": "PostgreSQL",
+        "label": "Update reachability_checked_at\nและ last_seen_at",
+        "arrowId": "c30",
+        "labelId": "c31"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Device Health\nService",
+        "label": "Updated status",
+        "arrowId": "c32",
+        "labelId": "c33"
+      },
+      {
+        "kind": "alt-guard",
+        "label": "[SNMP ไม่ตอบกลับหรือ credential ใช้ไม่ได้]"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Health\nService",
+        "to": "Device via SNMP",
+        "label": "Probe sysUpTime",
+        "arrowId": "c34",
+        "labelId": "c35"
+      },
+      {
+        "kind": "return",
+        "from": "Device via SNMP",
+        "to": "Device Health\nService",
+        "label": "Timeout / Error",
+        "arrowId": "c36",
+        "labelId": "c37"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Health\nService",
+        "to": "PostgreSQL",
+        "label": "Update reachability = unreachable\nหรือ unknown",
+        "arrowId": "c38",
+        "labelId": "c39"
+      },
+      {
+        "kind": "msg",
+        "from": "Device Health\nService",
+        "to": "PostgreSQL",
+        "label": "Update reachability_checked_at",
+        "arrowId": "c40",
+        "labelId": "c41"
+      },
+      {
+        "kind": "return",
+        "from": "PostgreSQL",
+        "to": "Device Health\nService",
+        "label": "Updated status",
+        "arrowId": "c42",
+        "labelId": "c43"
+      },
+      {
+        "kind": "return",
+        "from": "Device Health\nService",
+        "to": "Backend",
+        "label": "Status check result",
+        "arrowId": "c52",
+        "labelId": "c53"
+      },
+      {
+        "kind": "return",
+        "from": "Backend",
+        "to": "Frontend\n(Devices Page)",
+        "label": "ส่งสถานะอุปกรณ์ล่าสุด",
+        "arrowId": "c54",
+        "labelId": "c55"
+      },
+      {
+        "kind": "return",
+        "from": "Frontend\n(Devices Page)",
+        "to": "Admin / Operator",
+        "label": "แสดงสถานะล่าสุดของอุปกรณ์",
+        "arrowId": "c56",
+        "labelId": "c57"
+      }
+    ]
+  }
+]

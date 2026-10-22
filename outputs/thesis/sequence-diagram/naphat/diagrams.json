@@ -1,163 +1,853 @@
 [
   {
-    "id":"fig-3-6-login", "figure":"3.6", "title":"Login Sequence Diagram", "service":"Backend\nAuthentication Service", "actor":"User\nAdmin / Operator / Viewer",
-    "steps":[
-      ["msg",0,1,"กรอก Username / Email\nและ Password แล้วกดเข้าสู่ระบบ"],
-      ["msg",1,2,"POST /api/auth/login\nidentifier + password"],
-      ["self",2,"ตรวจ Origin / CSRF / JSON\nและจำกัดคำขอต่อ IP"],
-      ["alt",[
-        {"guard":"[คำขอได้รับอนุญาต]","steps":[
-          ["msg",2,3,"ค้นหาบัญชีผู้ใช้งาน\nจากตาราง users"],
-          ["return",3,2,"ข้อมูลบัญชีและ Password Hash"],
-          ["self",2,"ตรวจ Password ด้วย Argon2id\nและสถานะบัญชี"],
-          ["alt",[
-            {"guard":"[ข้อมูลถูกต้องและบัญชีใช้งานได้]","steps":[
-              ["self",2,"ตรวจบัญชีซ้ำใน Transaction\nสร้าง Opaque Session Token"],
-              ["msg",2,3,"บันทึก Token Hash และ login_success\nผ่าน Audit Writer แล้ว Commit"],
-              ["return",3,2,"Commit Session และ Audit สำเร็จ"],
-              ["return",2,1,"200 OK + Set-Cookie\nHttpOnly Session Cookie"],
-              ["msg",1,2,"GET /api/auth/me\nพร้อม Session Cookie"],
-              ["msg",2,3,"ตรวจ Session และอ่านผู้ใช้ปัจจุบัน"],
-              ["return",3,2,"ข้อมูลผู้ใช้และ Role"],
-              ["return",2,1,"ข้อมูลผู้ใช้ที่เข้าสู่ระบบ"],
-              ["return",1,0,"แสดงหน้าหลักของระบบ"]
-            ]},
-            {"guard":"[ข้อมูลไม่ถูกต้องหรือบัญชีไม่ใช้งาน]","steps":[
-              ["self",2,"นับความล้มเหลวของ IP\nใน Login Rate Limiter"],
-              ["msg",2,3,"บันทึก login_failed\nผ่าน Audit Writer"],
-              ["return",3,2,"บันทึกเหตุการณ์สำเร็จ"],
-              ["return",2,1,"401 Unauthorized"],
-              ["return",1,0,"แจ้งข้อมูลเข้าสู่ระบบไม่ถูกต้อง"]
-            ]}
-          ]]
-        ]},
-        {"guard":"[คำขอถูกปฏิเสธก่อนตรวจรหัสผ่าน]","steps":[
-          ["return",2,1,"403 / 422 / 429\nตามสาเหตุที่ปฏิเสธ"],
-          ["return",1,0,"แจ้งข้อผิดพลาด\nหรือให้ลองใหม่ภายหลัง"]
-        ]}
-      ]],
-      ["note","หากฐานข้อมูลหรือ Audit ล้มเหลว: ตอบ 503 และไม่ส่ง Session Cookie"]
-    ]
+    "id": "fig-3-6-login",
+    "figure": "3.6",
+    "title": "Login Sequence Diagram",
+    "service": "Authentication Service",
+    "actor": "Viewer\nOperator\nAdmin",
+    "steps": [
+      [
+        "msg",
+        0,
+        1,
+        "กรอก Username / Email\nและ Password แล้วกดเข้าสู่ระบบ"
+      ],
+      [
+        "msg",
+        1,
+        2,
+        "POST /api/auth/login\nidentifier + password"
+      ],
+      [
+        "self",
+        2,
+        "ตรวจ Origin / CSRF / JSON\nและจำกัดคำขอต่อ IP"
+      ],
+      [
+        "alt",
+        [
+          {
+            "guard": "[คำขอได้รับอนุญาต]",
+            "steps": [
+              [
+                "msg",
+                2,
+                3,
+                "เรียก Authentication Service\nตรวจสอบบัญชีและรหัสผ่าน"
+              ],
+              [
+                "msg",
+                3,
+                4,
+                "ค้นหาบัญชีผู้ใช้งาน\nจากตาราง users"
+              ],
+              [
+                "return",
+                4,
+                3,
+                "ข้อมูลบัญชีและ Password Hash"
+              ],
+              [
+                "self",
+                3,
+                "ตรวจ Password ด้วย Argon2id\nและสถานะบัญชี"
+              ],
+              [
+                "alt",
+                [
+                  {
+                    "guard": "[ข้อมูลถูกต้องและบัญชีใช้งานได้]",
+                    "steps": [
+                      [
+                        "self",
+                        3,
+                        "ตรวจบัญชีซ้ำใน Transaction\nสร้าง Opaque Session Token"
+                      ],
+                      [
+                        "msg",
+                        3,
+                        4,
+                        "บันทึก Token Hash และ login_success\nผ่าน Audit Writer แล้ว Commit"
+                      ],
+                      [
+                        "return",
+                        4,
+                        3,
+                        "Commit Session และ Audit สำเร็จ"
+                      ],
+                      [
+                        "return",
+                        3,
+                        2,
+                        "ยืนยันตัวตนสำเร็จ\nส่ง Session Token ให้ Backend"
+                      ],
+                      [
+                        "return",
+                        2,
+                        1,
+                        "200 OK + Set-Cookie\nHttpOnly Session Cookie"
+                      ],
+                      [
+                        "msg",
+                        1,
+                        2,
+                        "GET /api/auth/me\nพร้อม Session Cookie"
+                      ],
+                      [
+                        "msg",
+                        2,
+                        3,
+                        "ตรวจสอบ Session\nและดึงข้อมูลผู้ใช้ปัจจุบัน"
+                      ],
+                      [
+                        "msg",
+                        3,
+                        4,
+                        "อ่าน Session และผู้ใช้งานปัจจุบัน"
+                      ],
+                      [
+                        "return",
+                        4,
+                        3,
+                        "ข้อมูลผู้ใช้และ Role"
+                      ],
+                      [
+                        "return",
+                        3,
+                        2,
+                        "ข้อมูลผู้ใช้ที่เข้าสู่ระบบ"
+                      ],
+                      [
+                        "return",
+                        2,
+                        1,
+                        "ข้อมูลผู้ใช้ที่เข้าสู่ระบบ"
+                      ],
+                      [
+                        "return",
+                        1,
+                        0,
+                        "แสดงหน้าหลักของระบบ"
+                      ]
+                    ]
+                  },
+                  {
+                    "guard": "[ข้อมูลไม่ถูกต้องหรือบัญชีไม่ใช้งาน]",
+                    "steps": [
+                      [
+                        "self",
+                        3,
+                        "นับความล้มเหลวของ IP\nใน Login Rate Limiter"
+                      ],
+                      [
+                        "msg",
+                        3,
+                        4,
+                        "บันทึก login_failed\nผ่าน Audit Writer"
+                      ],
+                      [
+                        "return",
+                        4,
+                        3,
+                        "บันทึกเหตุการณ์สำเร็จ"
+                      ],
+                      [
+                        "return",
+                        3,
+                        2,
+                        "ผลการยืนยันตัวตนไม่สำเร็จ"
+                      ],
+                      [
+                        "return",
+                        2,
+                        1,
+                        "401 Unauthorized"
+                      ],
+                      [
+                        "return",
+                        1,
+                        0,
+                        "แจ้งข้อมูลเข้าสู่ระบบไม่ถูกต้อง"
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          },
+          {
+            "guard": "[คำขอถูกปฏิเสธก่อนตรวจรหัสผ่าน]",
+            "steps": [
+              [
+                "return",
+                2,
+                1,
+                "403 / 422 / 429\nตามสาเหตุที่ปฏิเสธ"
+              ],
+              [
+                "return",
+                1,
+                0,
+                "แจ้งข้อผิดพลาด\nหรือให้ลองใหม่ภายหลัง"
+              ]
+            ]
+          }
+        ]
+      ],
+      [
+        "note",
+        "หากฐานข้อมูลหรือ Audit ล้มเหลว: ตอบ 503 และไม่ส่ง Session Cookie"
+      ]
+    ],
+    "frontend": "Frontend",
+    "separateService": true
   },
   {
-    "id":"fig-3-7-view-dashboard", "figure":"3.7", "title":"View Dashboard Sequence Diagram", "service":"Backend\nDashboard Service", "actor":"User\nAdmin / Operator / Viewer",
-    "steps":[
-      ["msg",0,1,"เปิดหน้า Dashboard"],
-      ["msg",1,2,"ขอข้อมูลสรุปและกิจกรรมล่าสุด\nพร้อม Session Cookie"],
-      ["msg",2,3,"ตรวจ Session และบัญชีผู้ใช้งาน"],
-      ["return",3,2,"ข้อมูลผู้ใช้และ Role ปัจจุบัน"],
-      ["alt",[
-        {"guard":"[Session ถูกต้องและมีสิทธิ์อ่าน]","steps":[
-          ["msg",2,3,"อ่านข้อมูลอุปกรณ์และสถานะ\nเพื่อสรุปภาพรวม"],
-          ["return",3,2,"ข้อมูลสรุปเครือข่าย"],
-          ["msg",2,3,"อ่านกิจกรรมล่าสุดจาก audit_logs\nเฉพาะรายการที่อนุญาต"],
-          ["return",3,2,"กิจกรรมล่าสุดที่เรียงตามเวลา"],
-          ["self",2,"จัดรูปแบบข้อมูลสรุป\nและตัดข้อมูลอ่อนไหว"],
-          ["return",2,1,"ข้อมูลสรุปและ Recent Activity"],
-          ["return",1,0,"แสดง Dashboard\nหรือข้อความเมื่อยังไม่มีข้อมูล"]
-        ]},
-        {"guard":"[Session ไม่ถูกต้องหรือสิทธิ์ไม่เพียงพอ]","steps":[
-          ["return",2,1,"401 Unauthorized / 403 Forbidden"],
-          ["return",1,0,"ให้เข้าสู่ระบบใหม่\nหรือแจ้งว่าไม่มีสิทธิ์"]
-        ]}
-      ]],
-      ["note","Recent Activity แสดงเฉพาะข้อมูลสรุปที่อนุญาต ไม่แสดง Audit เต็มหรือข้อมูลลับ"]
-    ]
+    "id": "fig-3-7-view-dashboard",
+    "figure": "3.7",
+    "title": "View Dashboard Sequence Diagram",
+    "service": "Dashboard Service",
+    "actor": "Viewer\nOperator\nAdmin",
+    "steps": [
+      [
+        "msg",
+        0,
+        1,
+        "เปิดหน้า Dashboard"
+      ],
+      [
+        "msg",
+        1,
+        2,
+        "ขอข้อมูลสรุปและกิจกรรมล่าสุด\nพร้อม Session Cookie"
+      ],
+      [
+        "msg",
+        2,
+        3,
+        "ตรวจ Session และสิทธิ์ในการเข้าถึง Dashboard"
+      ],
+      [
+        "msg",
+        3,
+        4,
+        "ตรวจ Session และบัญชีผู้ใช้งาน"
+      ],
+      [
+        "return",
+        4,
+        3,
+        "ข้อมูลผู้ใช้และ Role ปัจจุบัน"
+      ],
+      [
+        "return",
+        3,
+        2,
+        "ผลการตรวจ Session และสิทธิ์"
+      ],
+      [
+        "alt",
+        [
+          {
+            "guard": "[Session ถูกต้องและมีสิทธิ์อ่าน]",
+            "steps": [
+              [
+                "msg",
+                2,
+                3,
+                "ขอข้อมูล Dashboard\nและกิจกรรมล่าสุดที่อนุญาต"
+              ],
+              [
+                "msg",
+                3,
+                4,
+                "อ่านข้อมูลอุปกรณ์และสถานะ\nเพื่อสรุปภาพรวม"
+              ],
+              [
+                "return",
+                4,
+                3,
+                "ข้อมูลสรุปเครือข่าย"
+              ],
+              [
+                "msg",
+                3,
+                4,
+                "อ่านกิจกรรมล่าสุดจาก audit_logs\nเฉพาะรายการที่อนุญาต"
+              ],
+              [
+                "return",
+                4,
+                3,
+                "กิจกรรมล่าสุดที่เรียงตามเวลา"
+              ],
+              [
+                "self",
+                3,
+                "จัดรูปแบบข้อมูลสรุป\nและตัดข้อมูลอ่อนไหว"
+              ],
+              [
+                "return",
+                3,
+                2,
+                "ข้อมูลสรุปและ Recent Activity"
+              ],
+              [
+                "return",
+                2,
+                1,
+                "ข้อมูลสรุปและ Recent Activity"
+              ],
+              [
+                "return",
+                1,
+                0,
+                "แสดง Dashboard\nหรือข้อความเมื่อยังไม่มีข้อมูล"
+              ]
+            ]
+          },
+          {
+            "guard": "[Session ไม่ถูกต้องหรือสิทธิ์ไม่เพียงพอ]",
+            "steps": [
+              [
+                "return",
+                2,
+                1,
+                "401 Unauthorized / 403 Forbidden"
+              ],
+              [
+                "return",
+                1,
+                0,
+                "ให้เข้าสู่ระบบใหม่\nหรือแจ้งว่าไม่มีสิทธิ์"
+              ]
+            ]
+          }
+        ]
+      ],
+      [
+        "note",
+        "Recent Activity แสดงเฉพาะข้อมูลสรุปที่อนุญาต ไม่แสดง Audit เต็มหรือข้อมูลลับ"
+      ]
+    ],
+    "frontend": "Frontend",
+    "separateService": true
   },
   {
-    "id":"fig-3-12-view-topology", "figure":"3.12", "title":"View Topology Sequence Diagram", "service":"Backend\nTopology Service", "actor":"User\nAdmin / Operator / Viewer",
-    "steps":[
-      ["msg",0,1,"เปิดหน้า Topology\nหรือเลือก View Topology จาก Devices"],
-      ["msg",1,2,"ขอข้อมูลแผนผังเครือข่าย\nพร้อม Session Cookie"],
-      ["msg",2,3,"ตรวจ Session และบัญชีผู้ใช้งาน"],
-      ["return",3,2,"ข้อมูลผู้ใช้และ Role ปัจจุบัน"],
-      ["alt",[
-        {"guard":"[Session ถูกต้องและมีสิทธิ์อ่าน]","steps":[
-          ["msg",2,3,"อ่าน Device, Interface\nและหลักฐาน LLDP ที่จัดเก็บไว้"],
-          ["return",3,2,"ข้อมูลอุปกรณ์และเพื่อนบ้าน"],
-          ["self",2,"จับคู่ข้อมูลอุปกรณ์\nและสร้างความสัมพันธ์ของ Link"],
-          ["return",2,1,"ข้อมูลอุปกรณ์และเส้นเชื่อม"],
-          ["self",1,"สร้าง Node / Link\nและจัดตำแหน่งแผนผัง"],
-          ["return",1,0,"แสดง Physical Topology\nหรือข้อความเมื่อยังไม่มีข้อมูล"]
-        ]},
-        {"guard":"[Session ไม่ถูกต้องหรือสิทธิ์ไม่เพียงพอ]","steps":[
-          ["return",2,1,"401 Unauthorized / 403 Forbidden"],
-          ["return",1,0,"ให้เข้าสู่ระบบใหม่\nหรือแจ้งว่าไม่มีสิทธิ์"]
-        ]}
-      ]],
-      ["note","แสดงแผนผังจากข้อมูลที่จัดเก็บไว้ การเปิดหน้า Topology ไม่ได้สั่ง Discovery ใหม่"]
-    ]
+    "id": "fig-3-12-view-topology",
+    "figure": "3.12",
+    "title": "View Topology Sequence Diagram",
+    "service": "Topology Service",
+    "actor": "Viewer\nOperator\nAdmin",
+    "steps": [
+      [
+        "msg",
+        0,
+        1,
+        "เปิดหน้า Topology\nหรือเลือก View Topology จาก Devices"
+      ],
+      [
+        "msg",
+        1,
+        2,
+        "ขอข้อมูลแผนผังเครือข่าย\nพร้อม Session Cookie"
+      ],
+      [
+        "msg",
+        2,
+        3,
+        "ตรวจ Session และสิทธิ์ในการดู Topology"
+      ],
+      [
+        "msg",
+        3,
+        4,
+        "ตรวจ Session และบัญชีผู้ใช้งาน"
+      ],
+      [
+        "return",
+        4,
+        3,
+        "ข้อมูลผู้ใช้และ Role ปัจจุบัน"
+      ],
+      [
+        "return",
+        3,
+        2,
+        "ผลการตรวจ Session และสิทธิ์"
+      ],
+      [
+        "alt",
+        [
+          {
+            "guard": "[Session ถูกต้องและมีสิทธิ์อ่าน]",
+            "steps": [
+              [
+                "msg",
+                2,
+                3,
+                "ขอข้อมูล Physical Topology\nจากข้อมูลที่จัดเก็บไว้"
+              ],
+              [
+                "msg",
+                3,
+                4,
+                "อ่าน Device, Interface\nและหลักฐาน LLDP ที่จัดเก็บไว้"
+              ],
+              [
+                "return",
+                4,
+                3,
+                "ข้อมูลอุปกรณ์และเพื่อนบ้าน"
+              ],
+              [
+                "self",
+                3,
+                "จับคู่ข้อมูลอุปกรณ์\nและสร้างความสัมพันธ์ของ Link"
+              ],
+              [
+                "return",
+                3,
+                2,
+                "ข้อมูลอุปกรณ์และเส้นเชื่อม"
+              ],
+              [
+                "return",
+                2,
+                1,
+                "ข้อมูลอุปกรณ์และเส้นเชื่อม"
+              ],
+              [
+                "self",
+                1,
+                "สร้าง Node / Link\nและจัดตำแหน่งแผนผัง"
+              ],
+              [
+                "return",
+                1,
+                0,
+                "แสดง Physical Topology\nหรือข้อความเมื่อยังไม่มีข้อมูล"
+              ]
+            ]
+          },
+          {
+            "guard": "[Session ไม่ถูกต้องหรือสิทธิ์ไม่เพียงพอ]",
+            "steps": [
+              [
+                "return",
+                2,
+                1,
+                "401 Unauthorized / 403 Forbidden"
+              ],
+              [
+                "return",
+                1,
+                0,
+                "ให้เข้าสู่ระบบใหม่\nหรือแจ้งว่าไม่มีสิทธิ์"
+              ]
+            ]
+          }
+        ]
+      ],
+      [
+        "note",
+        "แสดงแผนผังจากข้อมูลที่จัดเก็บไว้ การเปิดหน้า Topology ไม่ได้สั่ง Discovery ใหม่"
+      ]
+    ],
+    "frontend": "Frontend",
+    "separateService": true
   },
   {
-    "id":"fig-3-13-user-management", "figure":"3.13", "title":"User Management Sequence Diagram", "service":"Backend\nUser Management Service", "actor":"Admin",
-    "steps":[
-      ["msg",0,1,"เปิดหน้า User Management"],
-      ["msg",1,2,"ขอรายการผู้ใช้งาน\nพร้อม Session Cookie"],
-      ["msg",2,3,"ตรวจ Session และสิทธิ์ user.manage\nแล้วอ่านรายการ users"],
-      ["return",3,2,"รายการผู้ใช้งานที่เปิดเผยได้"],
-      ["return",2,1,"รายการผู้ใช้งานและ Role"],
-      ["return",1,0,"แสดงรายการผู้ใช้งาน"],
-      ["msg",0,1,"เพิ่มบัญชี หรือแก้ไข Role\nหรือปิดใช้งานบัญชี"],
-      ["msg",1,2,"POST /api/admin/users\nหรือ PATCH /api/admin/users/{id}"],
-      ["self",2,"ตรวจ Origin / CSRF / ข้อมูล\nและยืนยันสิทธิ์ Admin"],
-      ["alt",[
-        {"guard":"[ข้อมูลและสิทธิ์ถูกต้อง]","steps":[
-          ["alt",[
-            {"guard":"[เพิ่มบัญชี]","steps":[
-              ["self",2,"Hash Password ด้วย Argon2id"],
-              ["msg",2,3,"ตรวจสิทธิ์ซ้ำใน Transaction\nสร้างผู้ใช้และตรวจข้อมูลซ้ำ"],
-              ["return",3,2,"สร้างบัญชีรอ Commit"]
-            ]},
-            {"guard":"[เปลี่ยน Role หรือสถานะบัญชี]","steps":[
-              ["msg",2,3,"ตรวจสิทธิ์ซ้ำและแก้ไขบัญชี\nป้องกันการเสีย Admin คนสุดท้าย"],
-              ["opt","[Role เปลี่ยนหรือบัญชีถูกปิด]",[
-                ["msg",2,3,"เพิกถอน Session ของบัญชีเป้าหมาย"]
-              ]],
-              ["return",3,2,"แก้ไขข้อมูลรอ Commit"]
-            ]}
-          ]],
-          ["msg",2,3,"บันทึกเหตุการณ์ผ่าน Audit Writer\nและ Commit Transaction"],
-          ["return",3,2,"Commit ข้อมูลและ Audit สำเร็จ"],
-          ["return",2,1,"ผลการจัดการผู้ใช้งาน"],
-          ["return",1,0,"แสดงผลสำเร็จและปรับรายการ"]
-        ]},
-        {"guard":"[ไม่มีสิทธิ์ ข้อมูลผิด ซ้ำ หรือ Admin คนสุดท้าย]","steps":[
-          ["return",2,1,"ปฏิเสธคำขอและไม่บันทึกการเปลี่ยนแปลง"],
-          ["return",1,0,"แสดงข้อความอธิบายข้อผิดพลาด"]
-        ]}
-      ]],
-      ["note","ปิดบัญชีโดยไม่ลบข้อมูลผู้ใช้; หาก Audit ล้มเหลว ต้อง Rollback และไม่ตอบสำเร็จ"]
-    ]
+    "id": "fig-3-13-user-management",
+    "figure": "3.13",
+    "title": "User Management Sequence Diagram",
+    "service": "User Management Service",
+    "actor": "Admin",
+    "steps": [
+      [
+        "msg",
+        0,
+        1,
+        "เปิดหน้า User Management"
+      ],
+      [
+        "msg",
+        1,
+        2,
+        "ขอรายการผู้ใช้งาน\nพร้อม Session Cookie"
+      ],
+      [
+        "msg",
+        2,
+        3,
+        "ตรวจ Session และสิทธิ์ user.manage\nและขอรายการผู้ใช้งาน"
+      ],
+      [
+        "msg",
+        3,
+        4,
+        "อ่านบัญชีผู้ใช้ที่เปิดเผยได้\nหลังตรวจสอบ Session และสิทธิ์"
+      ],
+      [
+        "return",
+        4,
+        3,
+        "รายการผู้ใช้งานที่เปิดเผยได้"
+      ],
+      [
+        "return",
+        3,
+        2,
+        "รายการผู้ใช้งานและ Role"
+      ],
+      [
+        "return",
+        2,
+        1,
+        "รายการผู้ใช้งานและ Role"
+      ],
+      [
+        "return",
+        1,
+        0,
+        "แสดงรายการผู้ใช้งาน"
+      ],
+      [
+        "msg",
+        0,
+        1,
+        "เพิ่มบัญชี หรือแก้ไข Role\nหรือปิดใช้งานบัญชี"
+      ],
+      [
+        "msg",
+        1,
+        2,
+        "POST /api/admin/users\nหรือ PATCH /api/admin/users/{id}"
+      ],
+      [
+        "self",
+        2,
+        "ตรวจ Origin / CSRF / ข้อมูล\nและยืนยันสิทธิ์ Admin"
+      ],
+      [
+        "msg",
+        2,
+        3,
+        "ส่งคำขอจัดการผู้ใช้งาน\nพร้อมข้อมูลและสิทธิ์ที่ตรวจสอบ"
+      ],
+      [
+        "alt",
+        [
+          {
+            "guard": "[ข้อมูลและสิทธิ์ถูกต้อง]",
+            "steps": [
+              [
+                "alt",
+                [
+                  {
+                    "guard": "[เพิ่มบัญชี]",
+                    "steps": [
+                      [
+                        "self",
+                        3,
+                        "Hash Password ด้วย Argon2id"
+                      ],
+                      [
+                        "msg",
+                        3,
+                        4,
+                        "ตรวจสิทธิ์ซ้ำใน Transaction\nสร้างผู้ใช้และตรวจข้อมูลซ้ำ"
+                      ],
+                      [
+                        "return",
+                        4,
+                        3,
+                        "สร้างบัญชีรอ Commit"
+                      ]
+                    ]
+                  },
+                  {
+                    "guard": "[เปลี่ยน Role หรือสถานะบัญชี]",
+                    "steps": [
+                      [
+                        "msg",
+                        3,
+                        4,
+                        "ตรวจสิทธิ์ซ้ำและแก้ไขบัญชี\nป้องกันการเสีย Admin คนสุดท้าย"
+                      ],
+                      [
+                        "opt",
+                        "[Role เปลี่ยนหรือบัญชีถูกปิด]",
+                        [
+                          [
+                            "msg",
+                            3,
+                            4,
+                            "เพิกถอน Session ของบัญชีเป้าหมาย"
+                          ]
+                        ]
+                      ],
+                      [
+                        "return",
+                        4,
+                        3,
+                        "แก้ไขข้อมูลรอ Commit"
+                      ]
+                    ]
+                  }
+                ]
+              ],
+              [
+                "msg",
+                3,
+                4,
+                "บันทึกเหตุการณ์ผ่าน Audit Writer\nและ Commit Transaction"
+              ],
+              [
+                "return",
+                4,
+                3,
+                "Commit ข้อมูลและ Audit สำเร็จ"
+              ],
+              [
+                "return",
+                3,
+                2,
+                "ผลการจัดการผู้ใช้งาน"
+              ],
+              [
+                "return",
+                2,
+                1,
+                "ผลการจัดการผู้ใช้งาน"
+              ],
+              [
+                "return",
+                1,
+                0,
+                "แสดงผลสำเร็จและปรับรายการ"
+              ]
+            ]
+          },
+          {
+            "guard": "[ไม่มีสิทธิ์ ข้อมูลผิด ซ้ำ หรือ Admin คนสุดท้าย]",
+            "steps": [
+              [
+                "return",
+                3,
+                2,
+                "ปฏิเสธคำขอและไม่บันทึกการเปลี่ยนแปลง"
+              ],
+              [
+                "return",
+                2,
+                1,
+                "ปฏิเสธคำขอและไม่บันทึกการเปลี่ยนแปลง"
+              ],
+              [
+                "return",
+                1,
+                0,
+                "แสดงข้อความอธิบายข้อผิดพลาด"
+              ]
+            ]
+          }
+        ]
+      ],
+      [
+        "note",
+        "ปิดบัญชีโดยไม่ลบข้อมูลผู้ใช้; หาก Audit ล้มเหลว ต้อง Rollback และไม่ตอบสำเร็จ"
+      ]
+    ],
+    "frontend": "Frontend",
+    "separateService": true
   },
   {
-    "id":"fig-3-14-audit-history", "figure":"3.14", "title":"Audit History Sequence Diagram", "service":"Backend\nAudit Read Service", "actor":"Admin",
-    "steps":[
-      ["msg",0,1,"เปิดหน้า Audit History\nและกำหนดตัวกรองถ้าต้องการ"],
-      ["msg",1,2,"GET /api/audit-logs\nตัวกรอง + Cursor + Session Cookie"],
-      ["msg",2,3,"ตรวจ Session และบัญชีผู้ใช้งาน"],
-      ["return",3,2,"ข้อมูลผู้ใช้และ Role ปัจจุบัน"],
-      ["self",2,"ตรวจสิทธิ์ audit.read\nและตรวจรูปแบบตัวกรอง"],
-      ["alt",[
-        {"guard":"[เป็น Admin และคำขอถูกต้อง]","steps":[
-          ["msg",2,3,"อ่าน audit_logs ตามตัวกรอง\nเรียงเวลาและ ID จากใหม่ไปเก่า"],
-          ["return",3,2,"รายการเหตุการณ์และข้อมูลผู้เกี่ยวข้อง"],
-          ["self",2,"ตรวจความปลอดภัยของข้อมูล\nจัดรูปแบบรายการและ Next Cursor"],
-          ["return",2,1,"รายการ Audit และ Next Cursor"],
-          ["return",1,0,"แสดงประวัติแบบอ่านอย่างเดียว\nหรือข้อความเมื่อไม่พบรายการ"],
-          ["opt","[ผู้ใช้เลือกดูหน้าถัดไป]",[
-            ["msg",0,1,"เลือกดูรายการถัดไป"],
-            ["msg",1,2,"ขอรายการต่อด้วย Next Cursor"],
-            ["self",2,"ดำเนินการอ่านซ้ำ\nโดยตรวจ Session และสิทธิ์ทุกคำขอ"],
-            ["return",2,1,"รายการหน้าถัดไปและ Next Cursor"],
-            ["return",1,0,"แสดงรายการหน้าถัดไป"]
-          ]]
-        ]},
-        {"guard":"[Session สิทธิ์ หรือตัวกรองไม่ถูกต้อง]","steps":[
-          ["return",2,1,"401 / 403 / 422\nตามสาเหตุที่ปฏิเสธ"],
-          ["return",1,0,"แจ้งข้อผิดพลาด\nโดยไม่เปิดเผยประวัติ"]
-        ]}
-      ]],
-      ["note","ไม่แก้ไขหรือลบ Audit จากหน้านี้ และไม่บันทึก Audit ใหม่จากการอ่านที่สำเร็จ"]
-    ]
+    "id": "fig-3-14-audit-history",
+    "figure": "3.14",
+    "title": "Audit History Sequence Diagram",
+    "service": "Audit Read Service",
+    "actor": "Admin",
+    "steps": [
+      [
+        "msg",
+        0,
+        1,
+        "เปิดหน้า Audit History\nและกำหนดตัวกรองถ้าต้องการ"
+      ],
+      [
+        "msg",
+        1,
+        2,
+        "GET /api/audit-logs\nตัวกรอง + Cursor + Session Cookie"
+      ],
+      [
+        "msg",
+        2,
+        3,
+        "ตรวจ Session และบัญชีผู้ใช้งาน"
+      ],
+      [
+        "msg",
+        3,
+        4,
+        "อ่าน Session และบัญชีผู้ใช้งาน"
+      ],
+      [
+        "return",
+        4,
+        3,
+        "ข้อมูลผู้ใช้และ Role ปัจจุบัน"
+      ],
+      [
+        "return",
+        3,
+        2,
+        "ข้อมูลผู้ใช้และ Role ปัจจุบัน"
+      ],
+      [
+        "self",
+        2,
+        "ตรวจสิทธิ์ audit.read\nและตรวจรูปแบบตัวกรอง"
+      ],
+      [
+        "alt",
+        [
+          {
+            "guard": "[เป็น Admin และคำขอถูกต้อง]",
+            "steps": [
+              [
+                "msg",
+                2,
+                3,
+                "ขอรายการ Audit ตามตัวกรอง\nพร้อม Cursor ที่ตรวจสอบแล้ว"
+              ],
+              [
+                "msg",
+                3,
+                4,
+                "อ่าน audit_logs ตามตัวกรอง\nเรียงเวลาและ ID จากใหม่ไปเก่า"
+              ],
+              [
+                "return",
+                4,
+                3,
+                "รายการเหตุการณ์และข้อมูลผู้เกี่ยวข้อง"
+              ],
+              [
+                "self",
+                3,
+                "ตรวจความปลอดภัยของข้อมูล\nจัดรูปแบบรายการและ Next Cursor"
+              ],
+              [
+                "return",
+                3,
+                2,
+                "รายการ Audit และ Next Cursor"
+              ],
+              [
+                "return",
+                2,
+                1,
+                "รายการ Audit และ Next Cursor"
+              ],
+              [
+                "return",
+                1,
+                0,
+                "แสดงประวัติแบบอ่านอย่างเดียว\nหรือข้อความเมื่อไม่พบรายการ"
+              ],
+              [
+                "opt",
+                "[ผู้ใช้เลือกดูหน้าถัดไป]",
+                [
+                  [
+                    "msg",
+                    0,
+                    1,
+                    "เลือกดูรายการถัดไป"
+                  ],
+                  [
+                    "msg",
+                    1,
+                    2,
+                    "ขอรายการต่อด้วย Next Cursor"
+                  ],
+                  [
+                    "self",
+                    2,
+                    "ตรวจ Session, สิทธิ์ audit.read\nและรูปแบบ Cursor อีกครั้ง"
+                  ],
+                  [
+                    "msg",
+                    2,
+                    3,
+                    "ขอข้อมูล Audit หน้าถัดไป\nด้วย Next Cursor ที่ตรวจสอบแล้ว"
+                  ],
+                  [
+                    "msg",
+                    3,
+                    4,
+                    "อ่าน audit_logs หน้าถัดไป\nเรียงเวลาและ ID"
+                  ],
+                  [
+                    "return",
+                    4,
+                    3,
+                    "รายการเหตุการณ์หน้าถัดไป"
+                  ],
+                  [
+                    "self",
+                    3,
+                    "ตรวจข้อมูลและจัด Next Cursor ใหม่"
+                  ],
+                  [
+                    "return",
+                    3,
+                    2,
+                    "รายการหน้าถัดไปและ Next Cursor"
+                  ],
+                  [
+                    "return",
+                    2,
+                    1,
+                    "รายการหน้าถัดไปและ Next Cursor"
+                  ],
+                  [
+                    "return",
+                    1,
+                    0,
+                    "แสดงรายการหน้าถัดไป"
+                  ]
+                ]
+              ]
+            ]
+          },
+          {
+            "guard": "[Session สิทธิ์ หรือตัวกรองไม่ถูกต้อง]",
+            "steps": [
+              [
+                "return",
+                2,
+                1,
+                "401 / 403 / 422\nตามสาเหตุที่ปฏิเสธ"
+              ],
+              [
+                "return",
+                1,
+                0,
+                "แจ้งข้อผิดพลาด\nโดยไม่เปิดเผยประวัติ"
+              ]
+            ]
+          }
+        ]
+      ],
+      [
+        "note",
+        "ไม่แก้ไขหรือลบ Audit จากหน้านี้ และไม่บันทึก Audit ใหม่จากการอ่านที่สำเร็จ"
+      ]
+    ],
+    "frontend": "Frontend",
+    "separateService": true
   }
 ]

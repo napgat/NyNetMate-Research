@@ -1,0 +1,47 @@
+[
+  {
+    "id": "fig-3-8-device-inventory",
+    "width": 1815,
+    "height": 946,
+    "messageCount": 8,
+    "errors": [],
+    "cells": 35,
+    "verifiedMessageLabels": 8
+  },
+  {
+    "id": "fig-3-9-view-detail",
+    "width": 1815,
+    "height": 1296,
+    "messageCount": 11,
+    "errors": [],
+    "cells": 46,
+    "verifiedMessageLabels": 11
+  },
+  {
+    "id": "fig-3-10-add-edit-device",
+    "width": 2585,
+    "height": 3092,
+    "messageCount": 32,
+    "errors": [],
+    "cells": 108,
+    "verifiedMessageLabels": 32
+  },
+  {
+    "id": "fig-3-11-network-discovery",
+    "width": 2585,
+    "height": 2498,
+    "messageCount": 28,
+    "errors": [],
+    "cells": 88,
+    "verifiedMessageLabels": 28
+  },
+  {
+    "id": "fig-3-12-update-device-status",
+    "width": 2200,
+    "height": 2262,
+    "messageCount": 22,
+    "errors": [],
+    "cells": 82,
+    "verifiedMessageLabels": 22
+  }
+]

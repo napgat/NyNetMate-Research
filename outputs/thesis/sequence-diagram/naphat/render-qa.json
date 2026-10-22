@@ -1,42 +1,42 @@
 [
   {
     "id": "fig-3-6-login",
-    "width": 1430,
-    "height": 1960,
-    "messageCount": 22,
+    "width": 1640,
+    "height": 2280,
+    "messageCount": 27,
     "errors": [],
-    "cells": 73
+    "cells": 86
   },
   {
     "id": "fig-3-7-view-dashboard",
-    "width": 1430,
-    "height": 1268,
-    "messageCount": 13,
+    "width": 1640,
+    "height": 1524,
+    "messageCount": 17,
     "errors": [],
-    "cells": 49
+    "cells": 60
   },
   {
     "id": "fig-3-12-view-topology",
-    "width": 1430,
-    "height": 1208,
-    "messageCount": 12,
+    "width": 1640,
+    "height": 1464,
+    "messageCount": 16,
     "errors": [],
-    "cells": 46
+    "cells": 57
   },
   {
     "id": "fig-3-13-user-management",
-    "width": 1430,
-    "height": 1946,
-    "messageCount": 21,
+    "width": 1640,
+    "height": 2266,
+    "messageCount": 26,
     "errors": [],
-    "cells": 74
+    "cells": 87
   },
   {
     "id": "fig-3-14-audit-history",
-    "width": 1430,
-    "height": 1590,
-    "messageCount": 17,
+    "width": 1640,
+    "height": 2170,
+    "messageCount": 26,
     "errors": [],
-    "cells": 59
+    "cells": 81
   }
 ]

@@ -11,13 +11,14 @@
 3. Device Inventory
 4. Device Details
 5. Add Device
-6. Network Discovery
-7. Topology
-8. User Management
-9. Create User
-10. Edit User
-11. Audit History
-12. Audit Event Details
+6. Edit Device — เปิดจาก Actions ของ Inventory; Admin/Operator แก้ข้อมูลประกอบและ Management State; Reachability อ่านอย่างเดียว
+7. Network Discovery
+8. Topology
+9. User Management
+10. Create User
+11. Edit User
+12. Audit History
+13. Audit Event Details
 
 ## การใช้งาน
 
@@ -38,7 +39,7 @@
 - สิทธิ์จัดการ Devices/Discovery และการจัดการ Credential Profile ยังต้องตรวจการบังคับใช้ให้ตรงกับนโยบายก่อนส่งมอบระบบจริง ภาพนี้ไม่ใช่หลักฐานว่าปุ่มหรือ API ได้รับการป้องกันครบ
 - Topology เป็นตัวอย่างรูปแบบการจัดวาง แสดงอุปกรณ์และเส้นเชื่อมสมมติ ไม่ยืนยันว่า Endpoint ทุกชนิดค้นหาได้จริงผ่าน Discovery
 - ใช้ IP ตัวอย่าง `192.0.2.x` และอีเมล `example.test` ไม่มี Password, Token หรือข้อมูลเครือข่ายจริงในไฟล์
-- ไม่แก้ Google Docs ไม่แก้ Source Code และไม่รัน Discovery หรือ SNMP ในงานนี้
+- รอบปรับ Edit Device วันที่ 16 ตุลาคม 2569 แก้เฉพาะแบบ Wireframe และคำอธิบายในรายงาน Google Docs ไม่เปลี่ยน Source Code แอปพลิเคชันและไม่รัน Discovery หรือ SNMP
 
 ## ไฟล์สำหรับปรับแบบต่อ
 

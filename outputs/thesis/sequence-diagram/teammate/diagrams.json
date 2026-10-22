@@ -1,0 +1,195 @@
+[
+  {
+    "id": "fig-3-8-device-inventory",
+    "figure": "3.8",
+    "title": "Device Inventory Sequence Diagram",
+    "sourceImageId": "kix.8iufvnl378nm",
+    "actor": "Admin / Operator / Viewer",
+    "participants": ["Frontend\n(Devices Page)", "Backend", "Device Inventory\nService", "PostgreSQL"],
+    "steps": [
+      ["note", "ทั้ง 3 บทบาทสามารถดูรายการอุปกรณ์ได้"],
+      ["msg", 0, 1, "เปิดหน้า Device Inventory"],
+      ["msg", 1, 2, "ส่งคำขอรายการอุปกรณ์"],
+      ["msg", 2, 3, "ค้นหารายการอุปกรณ์ตามเงื่อนไข"],
+      ["msg", 3, 4, "Query Device Inventory"],
+      ["return", 4, 3, "Device list"],
+      ["return", 3, 2, "Device list"],
+      ["return", 2, 1, "ส่งรายการอุปกรณ์"],
+      ["return", 1, 0, "แสดงรายการอุปกรณ์"]
+    ]
+  },
+  {
+    "id": "fig-3-9-view-detail",
+    "figure": "3.9",
+    "title": "View Detail Sequence Diagram",
+    "sourceImageId": "kix.lmv8wc8uvd5s",
+    "actor": "Admin / Operator / Viewer",
+    "participants": ["Frontend\n(Devices Page)", "Backend", "Device Inventory\nService", "PostgreSQL"],
+    "steps": [
+      ["note", "ทั้ง 3 บทบาทสามารถดูข้อมูลอุปกรณ์ได้"],
+      ["msg", 0, 1, "เลือกอุปกรณ์จาก Device Inventory"],
+      ["msg", 1, 2, "ส่งคำขอรายละเอียดอุปกรณ์"],
+      ["msg", 2, 3, "get_by_id(device_id)"],
+      ["msg", 3, 4, "Query Device by ID"],
+      ["return", 4, 3, "Device, interfaces, groups and status"],
+      ["alt", [
+        {"guard": "[พบอุปกรณ์]", "steps": [
+          ["return", 3, 2, "Device detail"],
+          ["return", 2, 1, "ส่งรายละเอียดอุปกรณ์"],
+          ["return", 1, 0, "แสดงรายละเอียดอุปกรณ์"]
+        ]},
+        {"guard": "[ไม่พบอุปกรณ์]", "steps": [
+          ["return", 3, 2, "None"],
+          ["return", 2, 1, "แจ้งว่าไม่พบอุปกรณ์"],
+          ["return", 1, 0, "แสดงข้อความไม่พบอุปกรณ์"]
+        ]}
+      ], [0, 3]]
+    ]
+  },
+  {
+    "id": "fig-3-10-add-edit-device",
+    "figure": "3.10",
+    "title": "Add/Edit Device Sequence Diagram",
+    "sourceImageId": "kix.aap147gsynyv",
+    "actor": "Admin / Operator",
+    "participants": ["Frontend\n(Devices Page)", "Backend", "Device Service", "Collection Service", "Device via SNMP", "PostgreSQL"],
+    "steps": [
+      ["msg", 0, 1, "กรอกและบันทึกข้อมูลอุปกรณ์"],
+      ["alt", [
+        {"guard": "[เพิ่มอุปกรณ์]", "steps": [
+          ["msg", 1, 2, "ส่งคำขอเพิ่มอุปกรณ์"],
+          ["msg", 2, 3, "ตรวจสอบ Management IP ซ้ำ"],
+          ["alt", [
+            {"guard": "[IP ซ้ำ]", "steps": [
+              ["msg", 3, 6, "Query Device by management_ip"],
+              ["return", 6, 3, "Existing device"],
+              ["return", 3, 2, "Duplicate device"],
+              ["return", 2, 1, "แจ้งว่าอุปกรณ์มีอยู่แล้ว"],
+              ["return", 1, 0, "แจ้งว่าอุปกรณ์มีอยู่แล้ว"]
+            ]},
+            {"guard": "[IP ไม่ซ้ำ]", "steps": [
+              ["msg", 3, 6, "Query Device by management_ip"],
+              ["return", 6, 3, "No existing device"],
+              ["msg", 3, 4, "collect_target(..., manual_enrollment)"],
+              ["msg", 4, 5, "เก็บ Device และ Interface snapshot"],
+              ["return", 5, 4, "Snapshot"],
+              ["msg", 4, 6, "บันทึก Device, Interface และ Collection Run"],
+              ["return", 6, 4, "Persisted device"],
+              ["return", 4, 3, "Device ID"],
+              ["return", 3, 2, "Device detail"],
+              ["return", 2, 1, "ส่งข้อมูลอุปกรณ์ที่เพิ่มแล้ว"],
+              ["return", 1, 0, "แสดงอุปกรณ์ที่เพิ่มแล้ว"]
+            ]}
+          ], [0, 6]]
+        ]},
+        {"guard": "[แก้ไขอุปกรณ์]", "steps": [
+          ["msg", 1, 2, "ส่งข้อมูลที่แก้ไข"],
+          ["msg", 2, 3, "update(device_id, payload)"],
+          ["msg", 3, 6, "ตรวจสอบ Site, Credential และ Group"],
+          ["alt", [
+            {"guard": "[ข้อมูลอ้างอิงไม่ถูกต้อง]", "steps": [
+              ["return", 6, 3, "ไม่พบข้อมูลอ้างอิง"],
+              ["return", 3, 2, "Validation error"],
+              ["return", 2, 1, "ส่งข้อผิดพลาดการตรวจสอบข้อมูล"],
+              ["return", 1, 0, "แสดงข้อผิดพลาด"]
+            ]},
+            {"guard": "[ข้อมูลถูกต้อง]", "steps": [
+              ["return", 6, 3, "ข้อมูลอ้างอิงถูกต้อง"],
+              ["msg", 3, 6, "Update Device และ Group assignment"],
+              ["return", 6, 3, "Updated device"],
+              ["return", 3, 2, "Device detail"],
+              ["return", 2, 1, "ส่งข้อมูลอุปกรณ์ล่าสุด"],
+              ["return", 1, 0, "แสดงข้อมูลอุปกรณ์ใหม่"]
+            ]}
+          ], [0, 6]]
+        ]}
+      ], [0, 6]]
+    ]
+  },
+  {
+    "id": "fig-3-11-network-discovery",
+    "figure": "3.11",
+    "title": "Network Discovery Sequence Diagram",
+    "sourceImageId": "kix.kqlvdfnklkae",
+    "actor": "Admin / Operator",
+    "participants": ["Frontend\n(Network Discovery)", "Backend", "Collection Service", "Network Discovery\nEngine", "Network Devices", "PostgreSQL"],
+    "steps": [
+      ["msg", 0, 1, "ระบุ Scan IP และ Credential Profile"],
+      ["msg", 1, 2, "ส่งคำขอเริ่ม Network Discovery"],
+      ["msg", 2, 3, "scan_events(payload)"],
+      ["msg", 3, 6, "ตรวจสอบ Credential และสร้าง Discovery Scan"],
+      ["return", 6, 3, "Scan ID"],
+      ["return", 3, 1, "SSE: start"],
+      ["msg", 3, 4, "discover_stream(target)"],
+      ["msg", 4, 5, "ค้นหาอุปกรณ์และความเชื่อมโยง"],
+      ["return", 5, 4, "Discovery data"],
+      ["return", 4, 3, "node_discovered events"],
+      ["return", 3, 1, "SSE: node_discovered"],
+      ["loop", "[ทุก IP ในขอบเขตการสแกน]", [
+        ["msg", 3, 5, "Collect device snapshot ผ่าน SNMP"],
+        ["return", 5, 3, "Device, Interface และ Neighbor data"],
+        ["msg", 3, 6, "บันทึก Device, Interface, Collection Run\nและ LLDP observation"],
+        ["return", 6, 3, "Persisted collection result"],
+        ["return", 3, 1, "SSE: collection_complete"]
+      ], [1, 6]],
+      ["msg", 3, 4, "รับ topology และ default route"],
+      ["return", 4, 3, "Devices และ links"],
+      ["msg", 3, 6, "บันทึก Unmanaged neighbors\nและ default-route evidence"],
+      ["return", 6, 3, "Persisted discovery evidence"],
+      ["msg", 3, 6, "อัปเดตผล Discovery Scan"],
+      ["return", 6, 3, "Completed scan"],
+      ["return", 3, 1, "SSE: complete"],
+      ["msg", 1, 2, "ขอข้อมูล Inventory และ Topology ล่าสุด"],
+      ["msg", 2, 6, "Query Inventory และ Topology"],
+      ["return", 6, 2, "Current data"],
+      ["return", 2, 1, "Updated devices and topology"],
+      ["return", 1, 0, "แสดงผล Discovery, Inventory และ Topology"]
+    ]
+  },
+  {
+    "id": "fig-3-12-update-device-status",
+    "figure": "3.12",
+    "title": "Update Device Status Sequence Diagram",
+    "sourceImageId": "kix.khbxmmfxx3ew",
+    "actor": "Admin / Operator",
+    "participants": ["Frontend\n(Devices Page)", "Backend", "Device Health\nService", "Device via SNMP", "PostgreSQL"],
+    "steps": [
+      ["msg", 0, 1, "สั่งตรวจสอบสถานะอุปกรณ์"],
+      ["msg", 1, 2, "ส่งคำขอตรวจสอบสถานะอุปกรณ์"],
+      ["msg", 2, 3, "เริ่มตรวจสอบสถานะ"],
+      ["alt", [
+        {"guard": "[ตรวจสอบอุปกรณ์เดียว]", "steps": [
+          ["msg", 2, 3, "check_device(device_id)"],
+          ["msg", 3, 5, "Query Device และ Credential Profile"],
+          ["return", 5, 3, "Device and credential profile"]
+        ]},
+        {"guard": "[ตรวจสอบหลายอุปกรณ์]", "steps": [
+          ["msg", 2, 3, "check_devices(device_ids)"],
+          ["msg", 3, 5, "Query active devices"],
+          ["return", 5, 3, "Devices and credential profiles"]
+        ]}
+      ], [2, 5]],
+      ["loop", "[ทุกอุปกรณ์ที่ต้องตรวจ]", [
+        ["alt", [
+          {"guard": "[SNMP ตอบกลับ]", "steps": [
+            ["msg", 3, 4, "Probe sysUpTime"],
+            ["return", 4, 3, "sysUpTime และ response time"],
+            ["msg", 3, 5, "Update reachability = reachable"],
+            ["msg", 3, 5, "Update reachability_checked_at\nและ last_seen_at"],
+            ["return", 5, 3, "Updated status"]
+          ]},
+          {"guard": "[SNMP ไม่ตอบกลับหรือ credential ใช้ไม่ได้]", "steps": [
+            ["msg", 3, 4, "Probe sysUpTime"],
+            ["return", 4, 3, "Timeout / Error"],
+            ["msg", 3, 5, "Update reachability = unreachable\nหรือ unknown"],
+            ["msg", 3, 5, "Update reachability_checked_at"],
+            ["return", 5, 3, "Updated status"]
+          ]}
+        ], [3, 5]]
+      ], [3, 5]],
+      ["return", 3, 2, "Status check result"],
+      ["return", 2, 1, "ส่งสถานะอุปกรณ์ล่าสุด"],
+      ["return", 1, 0, "แสดงสถานะล่าสุดของอุปกรณ์"]
+    ]
+  }
+]

@@ -9,12 +9,13 @@ const imageDir = path.join(packageDir, 'images');
 const editableDir = path.join(packageDir, 'editable');
 const images = [...report.matchAll(/!\[([^\]]+)\]\(([^)]+)\)/g)].map((match) => ({
   label: match[1],
-  source: match[2],
+  source: match[2].includes('/outputs/thesis/ui-design/') ? path.join(root, match[2].split('/outputs/thesis/ui-design/')[1]) : path.resolve(root, match[2]),
+  originalSource: match[2],
   filename: path.basename(match[2]),
 }));
 const errors = [];
 const captions = [...report.matchAll(/^\*รูป: .+\*$/gm)].length;
-if (images.length !== 14) errors.push(`Expected 14 images, found ${images.length}`);
+if (images.length !== 15) errors.push(`Expected 15 images, found ${images.length}`);
 if (captions !== images.length) errors.push(`Caption count ${captions} does not match image count`);
 if (new Set(images.map((item) => item.filename)).size !== images.length) {
   errors.push('Duplicate image filenames in portable package');
@@ -66,7 +67,7 @@ fs.mkdirSync(editableDir, { recursive: true });
 let portableReport = report;
 for (const item of images) {
   fs.copyFileSync(item.source, path.join(imageDir, item.filename));
-  portableReport = portableReport.split(item.source).join(`images/${item.filename}`);
+  portableReport = portableReport.split(item.originalSource).join(`images/${item.filename}`);
 }
 // Mechanical conversion only: report content remains identical; image targets become portable.
 fs.writeFileSync(path.join(packageDir, 'chapter-3-8-ui-design.md'), portableReport);

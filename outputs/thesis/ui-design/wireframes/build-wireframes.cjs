@@ -53,9 +53,9 @@ function grid(x,y,widths,headers,rows,rowHeight=58) {
   rows.forEach((row,r)=>{let xx=x;row.forEach((v,i)=>{cell(v,xx,y+42+r*rowHeight,widths[i],rowHeight,'fontSize=14;spacing=8;');xx+=widths[i];});});
 }
 const devices = [
-  ['LAB-R1','192.0.2.10','Router','Active','Reachable','Details / Check'],
-  ['LAB-SW1','192.0.2.20','Switch','Maintenance','Unknown','Details / Check'],
-  ['LAB-SW2','192.0.2.30','Switch','Active','Unreachable','Details / Check'],
+  ['LAB-R1','192.0.2.10','Router','Active','Reachable','Details / Check / Edit'],
+  ['LAB-SW1','192.0.2.20','Switch','Maintenance','Unknown','Details / Check / Edit'],
+  ['LAB-SW2','192.0.2.30','Switch','Active','Unreachable','Details / Check / Edit'],
 ];
 function deviceSkeleton() {
   shell('Devices','Device inventory','หน้าต่างที่เปิดทับรายการอุปกรณ์ — รายการพื้นหลังแสดงเป็นพื้นที่โครงร่าง');
@@ -118,7 +118,8 @@ button('View Topology',828,304,167);
 button('Refresh',1010,304,132);
 grid(276,378,[155,172,115,168,165,241],['Hostname','Management IP','Type','Management','Reachability','Actions'],devices,64);
 text('3 example devices',276,639,410,26,'fontSize=14;');
-text('เลือก Details เพื่อเปิดแผงรายละเอียด หรือ Check เพื่อตรวจ SNMP',276,708,1016,48,'fontSize=14;fontColor=#666666;');
+text('Details: ดูรายละเอียด · Check: ตรวจ SNMP · Edit: แก้ข้อมูลทะเบียนและ Management State',276,698,1016,30,'fontSize=14;fontColor=#555555;');
+text('Admin / Operator: Check และ Edit · Viewer: ดูรายละเอียด · Refresh: โหลดรายการที่จัดเก็บไว้ใหม่',276,738,1016,30,'fontSize=14;fontColor=#555555;');
 finish();
 
 begin('wf-04-device-details','Device Details / แผงรายละเอียดอุปกรณ์','แผงรายละเอียดเปิดจาก Devices หรือ Topology · ไม่เปลี่ยนหน้าจอเป็นระบบใหม่');
@@ -148,6 +149,24 @@ field('Notes (optional)',add.l,529,572,'[ หมายเหตุของอ�
 text('[ บริเวณข้อความแจ้งข้อผิดพลาด ]',add.l,617,572,27,'fontSize=14;fontColor=#666666;');
 button('Cancel',add.l+266,693,132);
 button('Add device',add.l+417,693,155,true);
+finish();
+
+begin('wf-13-edit-device','Edit Device / แก้ไขข้อมูลทะเบียนอุปกรณ์','Admin และ Operator เท่านั้น · Reachability เป็นผลตรวจ SNMP แบบอ่านอย่างเดียว · บันทึกข้อมูลภายใน MyNetMate');
+deviceSkeleton();
+const deviceEdit=modal('Edit device — LAB-R1',418,181,700,593);
+text('Management IP (read-only)',deviceEdit.l,268,306,23,'fontSize=14;');
+cell('192.0.2.10',deviceEdit.l,296,306,39,'fillColor=#eeeeee;fontColor=#555555;');
+text('Reachability (read-only)',deviceEdit.l+326,268,326,23,'fontSize=14;');
+cell('Reachable · ผลตรวจล่าสุด',deviceEdit.l+326,296,326,39,'fillColor=#eeeeee;fontColor=#555555;');
+field('Site',deviceEdit.l,350,306,'LAB-SITE  v');
+field('Credential Profile',deviceEdit.l+326,350,326,'LAB-PROFILE  v');
+field('Device Group',deviceEdit.l,440,306,'LAB-GROUP  v');
+field('Management State',deviceEdit.l+326,440,326,'Maintenance  v');
+text('ค่าที่เลือกได้: Active / Unmanaged / Maintenance / Retired',deviceEdit.l,524,652,25,'fontSize=13;fontColor=#555555;');
+field('Notes',deviceEdit.l,566,652,'ตรวจบำรุงรักษาอุปกรณ์ในห้องปฏิบัติการ');
+text('[ พื้นที่แจ้งผลตรวจสอบข้อมูลหรือข้อผิดพลาด ]',deviceEdit.l,654,652,28,'fontSize=14;fontColor=#666666;');
+button('Cancel',deviceEdit.l+312,704,140);
+button('Save changes',deviceEdit.l+472,704,180,true);
 finish();
 
 begin('wf-06-network-discovery','Network Discovery / ค้นหาอุปกรณ์','ใช้เฉพาะ Lab ที่ได้รับอนุญาต · การสร้าง Credential Profile แยกจากการเลือก Profile มาใช้งาน');
@@ -255,7 +274,9 @@ const mxFile = s => `<mxfile host="app.diagrams.net" type="device">${s.map(wrap)
 (async()=>{
   fs.mkdirSync(OUT,{recursive:true});
   fs.writeFileSync(path.join(OUT,'mynetmate-ui-wireframes.drawio'),mxFile(screens));
-  const browser = await chromium.launch({headless:true});
+  let browser;
+  try { browser = await chromium.launch({headless:true}); }
+  catch { browser = await chromium.launch({headless:true,channel:'msedge'}); }
   const qa=[];
   try {
     const page=await browser.newPage({deviceScaleFactor:2});
@@ -293,7 +314,7 @@ const mxFile = s => `<mxfile host="app.diagrams.net" type="device">${s.map(wrap)
     }
     const tiles=screens.map(s=>`<div class="tile"><h2>${esc(s.title)}</h2><img src="data:image/png;base64,${fs.readFileSync(path.join(OUT,s.id+'.png')).toString('base64')}"/></div>`).join('');
     await page.setViewportSize({width:1560,height:1600});
-    await page.setContent(`<html><head><style>body{margin:0;padding:28px;font-family:Tahoma;background:#ffffff;color:#252525}h1{font-size:26px;margin:0 0 8px}p{font-size:15px;margin:0 0 22px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.tile{border:1px solid #cccccc;padding:10px}h2{font-size:14px;font-weight:400;margin:0 0 8px}.tile img{width:100%;display:block}</style></head><body><h1>MyNetMate · Editable UI Wireframes</h1><p>12 screens · Network Management · low-fidelity / sample data · Dashboard is proposed</p><div class="grid">${tiles}</div></body></html>`);
+    await page.setContent(`<html><head><style>body{margin:0;padding:28px;font-family:Tahoma;background:#ffffff;color:#252525}h1{font-size:26px;margin:0 0 8px}p{font-size:15px;margin:0 0 22px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.tile{border:1px solid #cccccc;padding:10px}h2{font-size:14px;font-weight:400;margin:0 0 8px}.tile img{width:100%;display:block}</style></head><body><h1>MyNetMate · Editable UI Wireframes</h1><p>${screens.length} screens · Network Management · low-fidelity / sample data · Dashboard is proposed</p><div class="grid">${tiles}</div></body></html>`);
     await page.screenshot({path:path.join(OUT,'wireframes-overview.png'),fullPage:true});
   } finally { await browser.close(); }
   fs.writeFileSync(path.join(OUT,'render-qa.json'),JSON.stringify(qa,null,2));

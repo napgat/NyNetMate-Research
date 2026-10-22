@@ -22,8 +22,8 @@
     "title": "Device Inventory / รายการอุปกรณ์",
     "width": 1360,
     "height": 900,
-    "cells": 59,
-    "labels": 54,
+    "cells": 60,
+    "labels": 55,
     "errors": []
   },
   {
@@ -42,6 +42,15 @@
     "height": 900,
     "cells": 46,
     "labels": 31,
+    "errors": []
+  },
+  {
+    "id": "wf-13-edit-device",
+    "title": "Edit Device / แก้ไขข้อมูลทะเบียนอุปกรณ์",
+    "width": 1360,
+    "height": 900,
+    "cells": 51,
+    "labels": 36,
     "errors": []
   },
   {

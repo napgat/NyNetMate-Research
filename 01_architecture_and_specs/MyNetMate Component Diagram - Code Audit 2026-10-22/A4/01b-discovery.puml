@@ -1,0 +1,37 @@
+@startuml
+title Discovery and SNMP collection\nbackend main @ 166e2ee
+top to bottom direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 18
+skinparam titleFontSize 19
+skinparam legendFontSize 18
+skinparam nodesep 20
+skinparam ranksep 24
+skinparam padding 8
+skinparam componentBackgroundColor white
+skinparam componentBorderColor #222222
+component "Discovery and SNMP collection" as Assembly {
+ component "collection :\nNetworkCollection" as Collection {
+  portout " " as R_N03
+  portout " " as R_N04
+ }
+ component "collector :\nInventory\nCollection" as Collector {
+  portout " " as R_N05
+  portin " " as P_N03
+ }
+ component "oxian :\nOxianPython" as Oxian {
+  portin " " as P_N04
+  portin " " as P_N05
+ }
+ R_N03 -(0- P_N03 : N03: \nIInventory\nCollection
+ R_N04 -(0- P_N04 : N04: \nIOxianDiscovery
+ R_N05 -(0- P_N05 : N05: \nISnmpClient
+}
+legend bottom left
+ Socket: required. Ball: provided.
+ Square: port. See CONTRACTS.md.
+endlegend
+@enduml
+

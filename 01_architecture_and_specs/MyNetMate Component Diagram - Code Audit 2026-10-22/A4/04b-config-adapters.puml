@@ -1,0 +1,44 @@
+@startuml
+title Rendering, diff and device I/O\nbackend main @ 166e2ee
+left to right direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 18
+skinparam titleFontSize 19
+skinparam legendFontSize 18
+skinparam nodesep 20
+skinparam ranksep 24
+skinparam padding 8
+skinparam componentBackgroundColor white
+skinparam componentBorderColor #222222
+component "Rendering, diff and device I/O" as Assembly {
+ component "versions :\nConfigVersion\nModule" as Versions {
+  portout " " as R_C07
+ }
+ component "planning :\nConfigPlanning\nModule" as Planning {
+  portout " " as R_C04
+  portout " " as R_C05
+  portout " " as R_C06
+ }
+ component "render :\nTemplateRender\nModule" as Render {
+  portin " " as P_C04
+ }
+ component "diff :\nRemediationModule" as Diff {
+  portin " " as P_C05
+ }
+ component "ssh :\nNetmikoAdapter" as SSH {
+  portin " " as P_C06
+  portin " " as P_C07
+ }
+ R_C04 -(0- P_C04 : C04: \nIConfigRendering
+ R_C05 -(0- P_C05 : C05: \nIRemediation\nPlanning
+ R_C06 -(0- P_C06 : C06: \nIRunningConfigRead
+ R_C07 -(0- P_C07 : C07: \nIConfigDeployIO
+}
+legend bottom left
+ Socket: required. Ball: provided.
+ Square: port. See CONTRACTS.md.
+endlegend
+@enduml
+

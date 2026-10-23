@@ -1,981 +1,319 @@
-**UML Component Diagram**
-	ใช้สำหรับอธิบาย “โครงสร้างระดับสถาปัตยกรรม” ของระบบ ว่าระบบประกอบด้วยโมดูลอะไรบ้าง แต่ละโมดูลรับผิดชอบอะไร และเชื่อมต่อ/พึ่งพากันอย่างไร โดยเน้นภาพรวมมากกว่ารายละเอียดภายในของ class หรือ method [GeeksforGeeks](https://www.geeksforgeeks.org/software-engineering/component-based-diagram/)
+# UML Component Diagram
 
-## สาระสำคัญที่ควรรู้เวลาเขียน UML Component Diagram
+> แหล่งอ้างอิงหลัก: [UML Component Diagrams — UML-Diagrams.org](https://www.uml-diagrams.org/component-diagrams.html) และหน้ารายละเอียดที่เชื่อมโยงจากบทความ
+> ผู้เขียนแหล่งอ้างอิงและภาพ: Kirill Fakhroutdinov, UML-Diagrams.org
+> วันที่ตรวจสอบและปรับโน้ต: 22 ตุลาคม 2569 (2026-10-22)
 
-สิ่งแรกคือให้คิดว่า 
-	**Component = ส่วนประกอบหรือโมดูลของระบบที่สามารถแยกความรับผิดชอบออกจากกันได้** เช่น `User Interface`, `Authentication Service`, `Order Service`, `Payment Service` หรือ `Database Access` 
-	โดย Component อาจเป็น class หลายตัวรวมกัน เป็น subsystem หรือ service ก็ได้ จุดประสงค์คือทำให้ระบบมีความเป็น modular และสามารถพัฒนา/แก้ไขแต่ละส่วนได้ค่อนข้างอิสระ [GeeksforGeeks](https://www.geeksforgeeks.org/software-engineering/component-based-diagram/)
+Component Diagram ใช้อธิบายโครงสร้างของระบบผ่าน Component, Interface, Port และความสัมพันธ์ระหว่างส่วนต่าง ๆ 
+เพื่อ ช่วยให้เห็น
+- ขอบเขตความรับผิดชอบ 
+- บริการที่แต่ละส่วนให้
+- ความต้องการ 
+- วิธีประกอบส่วนเหล่านั้นเข้าด้วยกัน
 
-ตัวอย่างแนวคิด:
+โน้ตนี้เรียบเรียงคำอธิบายภาษาไทยและแนวทางอ่านภาพขึ้นใหม่ ภาพประกอบเป็นภาพต้นฉบับจาก UML-Diagrams.org เก็บสำเนาไว้ใน `Img/UML-Component-Diagram/` พร้อมลิงก์ที่มาใต้ภาพ
+## 1. ภาพรวมของ Component Diagram
 
-![[Pasted image 20260809194152.png]]
-```
-┌──────────────────────┐
-│ <<component>>        │
-│ Order Service        │
-└──────────────────────┘
-```
+![องค์ประกอบหลักของ UML Component Diagram พร้อมคำกำกับ](../../Img/UML-Component-Diagram/component-diagram-overview.png)
 
-อย่าเขียนทุก class เป็น Component เพราะ Component Diagram ไม่ได้มีเป้าหมายเพื่อแสดงรายละเอียดระดับ class หากต้องการดู attribute, method หรือความสัมพันธ์ของ class ควรใช้ **Class Diagram** แทน
+*รูปที่ 1 ภาพรวม Component, Part, Provided/Required Interface, Port, Assembly Connector, Delegation Connector และ Dependency — ที่มา: [UML Component Diagrams](https://www.uml-diagrams.org/component-diagrams.html), ภาพโดย Kirill Fakhroutdinov / UML-Diagrams.org*
 
----
+ให้อ่านภาพโดยเริ่มจากกรอบ `WebStore`, `Warehouses` และ `Accounting` แล้วพิจารณาว่าแต่ละกรอบมีส่วนใดอยู่ภายใน ให้บริการอะไรออกมา และต้องใช้บริการใดจากกรอบอื่น คำกำกับสีแดงช่วยระบุว่าสัญลักษณ์แต่ละตำแหน่งหมายถึงอะไร
 
-## 1. Component ระบบมี “ส่วนหลัก” อะไรบ้าง
+Component Diagram **เป็นมุมมองเชิงโครงสร้าง เส้น Dependency บอกการพึ่งพา ส่วน Connector บอกการเชื่อมส่วนต่าง ๆ ในบริบทของโครงสร้างนั้น** หากต้องการอธิบายว่าข้อความใดเกิดก่อนหรือหลัง ควรใช้ Sequence Diagram ประกอบ
 
-ก่อนวาด ให้แตกระบบออกเป็นหน้าที่หลัก เช่น สมมติทำระบบ E-Commerce:
+## 2. Component คืออะไร
 
-```
-E-Commerce System
-│
-├── Web UI
-├── Authentication Service
-├── Product Service
-├── Order Service
-├── Payment Service
-└── Database
-```
+Component คือส่วนที่เป็น**โมดูลของระบบ** มีขอบเขตห่อหุ้มรายละเอียดภายใน และมีสัญญาการให้หรือใช้บริการที่ระบุผ่าน Interface การแทนที่ Component ต้องพิจารณาความสอดคล้องกับสัญญาทั้งด้านโครงสร้างและพฤติกรรม
 
-จากนั้นจึงเปลี่ยนแต่ละส่วนให้เป็น Component
+ตัวอย่างชื่อที่สื่อความรับผิดชอบ ได้แก่ `Authentication`, `Shopping Cart` และ `Inventory` ส่วนหนึ่งอาจประกอบด้วยหลาย Class หรือหลายส่วนย่อย การเป็น Component จึงไม่ได้กำหนดว่าต้องเป็น Microservice หรือต้องแยก Process เสมอไป
+### สัญลักษณ์และขอบเขต
 
-```
-┌─────────────────────┐
-│ <<component>>       │
-│ Web UI              │
-└─────────────────────┘
+- ใช้กรอบสี่เหลี่ยมพร้อมคำว่า `«component»` หรือไอคอน Component ที่มุมขวาบน เมื่อมีไอคอนแล้วสามารถละคำว่า `«component»` ได้
+- Component ขนาดใหญ่สามารถมี Parts และ Connectors ภายในเพื่อแสดงการประกอบระบบ
+- `«subsystem»` ใช้กับ Component ที่แทนส่วนย่อยขนาดใหญ่ของระบบ เช่น WebStore ในภาพ
+- Package ใช้จัดกลุ่มองค์ประกอบของแบบจำลอง การวาดกรอบ Package ครอบส่วนย่อยจึงไม่ได้แสดงความหมายเท่ากับ Component ที่มี Port และโครงสร้างภายใน
 
-┌─────────────────────┐
-│ <<component>>       │
-│ Order Service       │
-└─────────────────────┘
+คำว่า `Service` ในชื่อ เช่น `Authentication Service` เป็นการตั้งชื่อ ส่วนการใส่ `«Service»` เป็น Stereotype มีความหมายเฉพาะในแบบจำลอง จึงควรเลือกใช้โดยตั้งใจ
 
-┌─────────────────────┐
-│ <<component>>       │
-│ Payment Service     │
-└─────────────────────┘
-```
+อ่านเพิ่มเติม: [Component](https://www.uml-diagrams.org/component.html)
+### Part กับ Component Type
 
-หลักคิดที่ใช้ได้ง่ายมากคือถามว่า:
+ในภาพพบชื่ออย่าง `:SearchEngine` และ `:Authentication` ซึ่งแสดงบทบาทของส่วนภายในที่มีชนิดเป็น Component นั้น รูปแบบทั่วไปคือ `partName : ComponentType` และสามารถละชื่อ Part ได้
 
-> **“ถ้าฉันแยกระบบนี้ออกเป็นโมดูลใหญ่ ๆ แต่ละโมดูลรับผิดชอบเรื่องอะไร?”**
+จุดนี้ช่วยแยก “ชนิดของส่วนประกอบ” ออกจาก “ส่วนที่นำมาประกอบอยู่ใน Component ใหญ่” ตัวอย่างเช่นชนิดเดียวกันอาจถูกใช้เป็นหลาย Parts ได้
 
-คำตอบเหล่านั้นมักจะกลายเป็น Component
+อ่านเพิ่มเติม: [Part](https://www.uml-diagrams.org/composite-structure-diagrams/part.html?context=components)
 
----
+## 3. Interface: บริการที่ให้และบริการที่ต้องการ
 
-## 2. Interface  Component ให้บริการอะไรแก่ Component อื่น
+Interface คือสัญญาของบริการ เช่น การดำเนินการที่เรียกได้ ข้อมูลที่เกี่ยวข้อง และข้อกำหนดพฤติกรรมที่ผู้ให้และผู้ใช้บริการต้องสอดคล้องกัน
 
-Component ไม่ควรเชื่อมกันแบบมั่ว ๆ แต่ควรระบุว่า “เชื่อมผ่านอะไร”
+| ประเภท             | ความหมาย                                       | สัญลักษณ์แบบย่อ       |
+| ------------------ | ---------------------------------------------- | --------------------- |
+| Provided Interface | บริการที่ Component มีให้ผู้อื่นใช้            | วงกลมหรือ Lollipop    |
+| Required Interface | บริการที่ Component ต้องใช้เพื่อทำหน้าที่ของตน | ครึ่งวงกลมหรือ Socket |
 
-UML แบ่ง interface ที่สำคัญเป็น 2 แบบคือ
+### Provided Interface
 
-- **Provided Interface** → สิ่งที่ Component “ให้บริการ”
-- **Required Interface** → สิ่งที่ Component “ต้องการจาก Component อื่น”
+![ตัวอย่าง Provided Interface แบบ Lollipop](../../Img/UML-Component-Diagram/component-provided-interface.png)
 
-บทความใช้สัญลักษณ์ 
-	**วงกลมแบบ lollipop** สำหรับ Provided Interface 
-	**ครึ่งวงกลมแบบ socket** สำหรับ Required Interface [GeeksforGeeks](https://www.geeksforgeeks.org/software-engineering/component-based-diagram/)
+*รูปที่ 2 Weather Services ให้บริการ Weather Forecast — ที่มา: [Component — Provided Interface](https://www.uml-diagrams.org/component.html#provided-interface), ภาพโดย Kirill Fakhroutdinov / UML-Diagrams.org*
 
-เช่น `Payment Service` ให้บริการ
+วงกลมที่เชื่อมกับ Component ระบุบริการที่ Component นั้นให้แก่ภายนอก การเขียนชื่อ Interface กำกับทำให้ผู้อ่านทราบว่าบริการคืออะไร
 
-```
-Payment API
-```
+### Required Interface
 
-ขณะที่ `Order Service` ต้องใช้ Payment API
+![ตัวอย่าง Required Interface แบบ Socket](../../Img/UML-Component-Diagram/component-required-interface.png)
 
-แนวคิดคือ:
+*รูปที่ 3 User Services ต้องการ IOrderServices — ที่มา: [Component — Required Interface](https://www.uml-diagrams.org/component.html#required-interface), ภาพโดย Kirill Fakhroutdinov / UML-Diagrams.org*
 
-```
-Order Service
-     │
-     │ requires
-     ▼
- Payment API
-     ▲
-     │ provides
-Payment Service
-```
+Socket ระบุความต้องการบริการ การมี Required Interface ยังไม่ได้ระบุเองว่า Component ใดเป็นผู้ให้บริการ ต้องดูความสัมพันธ์ที่เชื่อมอยู่ด้วย
 
-ดังนั้น Interface เปรียบเสมือน **Contract ระหว่าง Component**
-ตัวอย่างในระบบจริงอาจเป็น:
+### การตั้งชื่อ Interface
 
-```
-REST API
-GraphQL API
-gRPC
-Payment API
-Authentication API
-Repository Interface
-```
-![[Pasted image 20260809194340.png]]
----
+ควรใช้ชื่อที่บอกสัญญาบริการ เช่น `IOrderServices`, `Product Search` หรือ `Search Inventory` แล้วจึงกำกับเทคโนโลยีที่ใช้ติดต่อเมื่อจำเป็น ตัวอย่างเช่น `Device Inventory API — HTTPS/JSON`
 
-## 3. Relationship / Dependency  ใครพึ่งพาใคร
+REST หรือ gRPC อธิบายแนวทางหรือเทคโนโลยีการติดต่อ แต่เพียงชื่อเทคโนโลยียังไม่บอกว่าระบบให้บริการอะไร ทั้งนี้ UML ไม่ได้บังคับให้ชื่อ Interface ขึ้นต้นด้วยตัวอักษร I
 
-เส้นใน Component Diagram มีความหมาย จึงไม่ควรวาดทุกอย่างเป็นเส้นธรรมดา
+ถ้าต้องแสดงรายละเอียดของ Interface สามารถใช้กรอบ `«interface»` พร้อมรายการ Operations แทนสัญลักษณ์แบบย่อได้ โดยผู้ให้บริการสัมพันธ์กับ Interface ผ่าน Interface Realization และผู้ใช้บริการสัมพันธ์ผ่าน Usage
 
-รูปแบบที่สำคัญคือ **Dependency**
+อ่านเพิ่มเติม: [Component](https://www.uml-diagrams.org/component.html) และ [Interface](https://www.uml-diagrams.org/interface.html)
 
-```
-A ---------> B
+## 4. Port: จุดติดต่อบนขอบ Component
+
+Port เป็นจุดติดต่อที่มีชื่อและชนิดได้ แสดงด้วยสี่เหลี่ยมเล็กบนขอบ Component หรือส่วนย่อย ใช้กำหนดว่าการติดต่อระหว่างภายนอกกับภายในเกิดผ่านจุดใด
+
+Port หนึ่งอาจมีทั้ง Provided และ Required Interfaces ได้ จึงไม่ควรถือว่าทุก Port ให้บริการได้อย่างเดียวหรือร้องขอบริการได้อย่างเดียว
+
+**UML Port ไม่ใช่หมายเลข TCP/UDP Port** เช่น 22, 161 หรือ 443 และไม่ได้เท่ากับ REST Endpoint หนึ่งรายการโดยอัตโนมัติ การจับคู่กับรายละเอียดเครือข่ายขึ้นอยู่กับระดับแบบจำลองที่เลือก
+
+ไม่จำเป็นต้องใส่ Port ทุกครั้งที่กล่าวถึง Interface แต่เมื่ออธิบาย Delegation หรือการประกอบ Parts ภายใน การแสดง Port ช่วยทำให้จุดเชื่อมชัดเจนขึ้น
+
+อ่านเพิ่มเติม: [Port](https://www.uml-diagrams.org/port.html?context=components)
+
+## 5. Relationship และ Connector: เลือกเส้นให้ตรงความหมาย
+
+### 5.1 Dependency และ Usage
+
+Dependency แสดงว่าองค์ประกอบหนึ่งต้องพึ่งพาอีกองค์ประกอบในการระบุความหมายหรือการนำไปสร้างระบบ ใช้เส้นประพร้อมหัวลูกศรเปิด ชี้จาก Client ซึ่งเป็นผู้พึ่งพาไปยัง Supplier ซึ่งเป็นสิ่งที่ถูกพึ่งพา
+
+Usage เป็น Dependency ที่เจาะจงว่าผู้พึ่งพาต้องใช้ Supplier เพื่อให้การทำงานหรือการนำไปสร้างระบบสมบูรณ์ แสดงด้วยคำว่า `«use»` กำกับเส้น
+
+ตัวอย่างต่อไปนี้เป็นข้อความช่วยอ่านทิศทาง:
+
+```text
+Order Service - - - > Payment Service
+       Client              Supplier
+
+Order Service - - - > IPayment : «use»
 ```
 
-หมายความว่า
+ลูกศร Dependency ไม่ได้กำหนดลำดับเวลา และไม่ใช่ลูกศรแสดงเส้นทาง Request/Response ทั้งหมด การส่งผลลัพธ์กลับจึงไม่ใช่เหตุให้เพิ่ม Dependency ย้อนกลับโดยอัตโนมัติ
 
-> A ต้องพึ่งพาหรือใช้งาน B
+อ่านเพิ่มเติม: [Dependency และ Usage](https://www.uml-diagrams.org/dependency.html)
 
-ใน UML โดยทั่วไป dependency แสดงด้วย **เส้นประพร้อมลูกศร** [GeeksforGeeks](https://www.geeksforgeeks.org/software-engineering/component-based-diagram/)
+### 5.2 Assembly Connector
 
-ตัวอย่าง:
+Assembly Connector เชื่อม Parts หรือ Ports ของ Parts ภายในบริบทของโครงสร้างเดียวกัน เพื่อประกอบส่วนที่ให้บริการเข้ากับส่วนที่ใช้บริการนั้น
 
-```
-Order Service -----> Payment Service
-```
+![ตัวอย่าง Assembly Connector ระหว่าง Authentication และ Customers](../../Img/UML-Component-Diagram/assembly-connector-simple-port.png)
 
-แปลว่า:
+*รูปที่ 4 การประกอบ Authentication และ Customers ผ่าน ICustomers ภายใน Web Store — ที่มา: [Connector — Assembly Connector](https://www.uml-diagrams.org/composite-structure-diagrams/connector.html), ภาพโดย Kirill Fakhroutdinov / UML-Diagrams.org*
 
-> Order Service ต้องใช้ Payment Service
+ในภาพ `Authentication` ต้องการ `ICustomers` และ `Customers` เป็นผู้ให้บริการ จึงเชื่อม Required/Provided Interface ที่เข้ากันได้ด้วย Ball-and-socket
 
-อีกตัวอย่าง:
+การแสดงแบบ Ball-and-socket ใช้กับ Simple Ports ที่ให้หรือต้องการ Interface เดียว เมื่อ Port มีหลาย Interfaces ควรเลือกสัญลักษณ์ที่แสดงจุดเชื่อมโดยตรงและรายละเอียดให้ชัด แทนการใช้ Ball-and-socket โดยไม่อธิบาย
 
-```
-Web UI
-  |
-  v
-Authentication Service
+Assembly Connector ไม่ใช่ลูกศร Dependency และไม่จำเป็นต้องมีหัวลูกศรบอกลำดับเรียกใช้งาน
 
-Web UI
-  |
-  v
-Product Service
+### 5.3 Delegation Connector
 
-Web UI
-  |
-  v
-Order Service
+Delegation Connector เชื่อม Port บนขอบของ Component ใหญ่กับ Part หรือ Port ของ Part ภายใน เพื่อส่งต่อการติดต่อให้ส่วนที่รับผิดชอบทำงานจริง ใช้อธิบายการแบ่งโครงสร้างเป็นชั้น ๆ
 
-Order Service
-  |
-  v
-Payment Service
-```
+**กรณีส่งต่อบริการที่ Component ใหญ่ให้แก่ภายนอก**
 
-เมื่อดู diagram แล้วเราจึงเห็น architecture ของระบบทันที
-![[Pasted image 20260809194546.png]]
+![Delegation ของ Provided Interface ไปยัง SearchEngine ภายใน](../../Img/UML-Component-Diagram/delegation-connector-provided.png)
 
-#### Association & Assembly Connector
+*รูปที่ 5 Web Store เปิดให้ใช้ ISearch และส่งต่อไปยัง SearchEngine ภายใน — ที่มา: [Connector — Delegation Connector](https://www.uml-diagrams.org/composite-structure-diagrams/connector.html), ภาพโดย Kirill Fakhroutdinov / UML-Diagrams.org*
 
-**Association** และ **Assembly Connector** ใช้แสดงการเชื่อมต่อระหว่าง Components แต่มีความหมายต่างกัน
+**กรณีส่วนภายในต้องใช้บริการจากภายนอก**
 
-#### 1. Association
+![Delegation ของ Required Interface จาก Authentication ไปยังขอบ Web Store](../../Img/UML-Component-Diagram/delegation-connector-required.png)
 
-**Association** คือความสัมพันธ์โดยตรงระหว่าง Component ใช้ **เส้นทึบ (Solid Line)** เชื่อม Component เข้าด้วยกัน
+*รูปที่ 6 Authentication ต้องการ ICustomers และเชื่อมความต้องการนั้นออกผ่าน Port ของ Web Store — ที่มา: [Connector — Delegation Connector](https://www.uml-diagrams.org/composite-structure-diagrams/connector.html), ภาพโดย Kirill Fakhroutdinov / UML-Diagrams.org*
 
-```
-┌─────────────┐             ┌─────────────┐
-│   Order     │─────────────│   Product   │
-│ Component   │             │ Component   │
-└─────────────┘             └─────────────┘
-```
+ให้ตรวจปลายเส้นทั้งสองด้านว่าเชื่อมขอบเขตภายนอกกับส่วนภายในของ Component เดียวกันหรือไม่ การเรียกบริการของอีกระบบหนึ่งเฉย ๆ ยังไม่ทำให้เส้นนั้นเป็น Delegation และการเขียนคำว่า `delegate` บนลูกศรทั่วไปก็ไม่เปลี่ยนชนิดความสัมพันธ์
 
-หมายความว่า `Order` และ `Product` มีความสัมพันธ์หรือมีการติดต่อกัน
+### 5.4 Association ต่างจาก Connector อย่างไร
 
-ตัวอย่างเช่น:
+Association อธิบายความสัมพันธ์ระหว่าง Instances ของ Classifiers ส่วน Connector ระบุการเชื่อม Instances ที่ทำหน้าที่เป็น Parts ในโครงสร้างที่กำลังแสดง
 
-> `Order Component` ติดต่อกับ `Product Component` เพื่อเข้าถึงข้อมูลสินค้าที่ใช้ในการสร้างคำสั่งซื้อ
+ทั้งสองอาจใช้เส้นทึบที่ดูคล้ายกัน จึงต้องอ่านชนิดองค์ประกอบและบริบทประกอบ ไม่ควรใช้เส้นทึบทุกเส้นแทนข้อความกว้าง ๆ ว่า “สอง Component ติดต่อกัน” แล้วสรุปว่าเป็น Association เสมอไป
 
-Association เหมาะสำหรับการแสดง **ความสัมพันธ์ในภาพรวม** โดยไม่จำเป็นต้องระบุรายละเอียดว่า Component ต้องการหรือให้ Interface อะไร
+| สิ่งที่ต้องการสื่อ | ความสัมพันธ์ที่ควรพิจารณา |
+|---|---|
+| A พึ่งพา B ในแบบจำลอง | Dependency |
+| A ต้องใช้ B เพื่อทำงานหรือสร้างระบบ | Usage `«use»` |
+| ประกอบ Parts ที่ให้และใช้บริการร่วมกัน | Assembly Connector |
+| เชื่อม Port ของ Component ใหญ่กับส่วนภายใน | Delegation Connector |
+| ความสัมพันธ์ระหว่าง Instances ของ Classifiers | Association |
 
----
-#### 2. Assembly Connector
+อ่านเพิ่มเติม: [Connector](https://www.uml-diagrams.org/composite-structure-diagrams/connector.html)
 
-**Assembly Connector** มีความเฉพาะเจาะจงกว่า Association เพราะใช้เชื่อม
+## 6. Black-box และ White-box View
 
-> **Required Interface ของ Component หนึ่ง → Provided Interface ของอีก Component หนึ่ง**
-
-แนวคิดคือ
-
-```
-Component A
-Requires Interface
-       ↓
-      ( )
-       │
-       ○
-       ↑
-Provides Interface
-Component B
-```
-
-โดยทั่วไป:
-
-- `○` = **Provided Interface** — บริการที่ Component มีให้
-- `⊂` หรือ socket = **Required Interface** — บริการที่ Component ต้องการใช้
-
-ตัวอย่าง:
-
-```
-┌────────────────┐          ┌─────────────────┐
-│ Order          │          │ Payment         │
-│ Component      │───⊂──○───│ Component       │
-└────────────────┘          └─────────────────┘
-       Requires                  Provides
-      Payment API               Payment API
-```
-
-หมายความว่า:
-
-> `Order Component` ต้องการใช้ `Payment API` และ `Payment Component` เป็นผู้ให้บริการ `Payment API`
-
-หรือมองในเชิง Software Architecture:
-
-```
-Order Component
-      │
-      │ requires
-      ▼
-  Payment API
-      ▲
-      │ provides
-Payment Component
-```
-
-ดังนั้น Assembly Connector จะแสดง **interface contract** ระหว่าง Component ชัดกว่า Association
-
----
-
-### Association vs Assembly Connector
-
-|Relationship|สัญลักษณ์|ใช้เมื่อ|
+| มุมมอง | สิ่งที่แสดง | คำถามที่ช่วยตอบ |
 |---|---|---|
-|**Association**|เส้นทึบ `────`|ต้องการบอกว่า Components มีความสัมพันธ์กัน|
-|**Assembly Connector**|Required ↔ Provided Interface|ต้องการบอกว่า Component หนึ่งใช้ Interface ที่อีก Component ให้บริการ|
+| Black-box / External View | Component และสัญญาที่มองเห็นจากภายนอก เช่น Provided/Required Interfaces และ Ports | ส่วนนี้ให้บริการอะไร และต้องใช้บริการอะไร |
+| White-box / Internal View | Parts, Connectors หรือ Classifiers ที่ทำให้พฤติกรรมภายนอกเกิดขึ้นจริง | ภายในแบ่งงานและเชื่อมต่อกันอย่างไร |
 
-จำง่าย ๆ:
+ทั้งสองมุมมองใช้อธิบาย Component เดียวกันในระดับรายละเอียดต่างกัน ตัวอย่างเช่น Black-box ของ `WebStore` แสดงบริการ `Product Search` ส่วน White-box เปิดให้เห็น `SearchEngine` และเส้น Delegation ที่รับผิดชอบบริการนั้น
 
-> **Association = “A เกี่ยวข้องกับ B”**  
-> **Assembly Connector = “A ต้องการบริการที่ B มีให้”**
+เมื่อต้องวาดภาพรวมของระบบใหญ่ ควรกำหนดระดับรายละเอียดให้สม่ำเสมอ แล้วเปิดรายละเอียดภายในเฉพาะส่วนที่ต้องอธิบาย แทนการนำทุก Class ทุกไฟล์ และทุก Server มาไว้ในภาพเดียวกัน
 
-ตัวอย่างใน `OnlineStore`:
+อ่านเพิ่มเติม: [Component — External View](https://www.uml-diagrams.org/component.html) และ [Component Realization — Internal View](https://www.uml-diagrams.org/component-realization.html)
 
-```
-Customer ───────── Order
-                     │
-                     │ requires
-                     ▼
-                 Product API
-                     ▲
-                     │ provides
-                  Product
-```
-
-ดังนั้นถ้าต้องการวาด Component Diagram ในระดับ Architecture ให้ชัดเจน การใช้ **Assembly Connector** จะให้ข้อมูลมากกว่าเส้น Association ธรรมดา เพราะทำให้เห็นทั้ง **Dependency และ Interface ที่ใช้เชื่อม Component** ในเวลาเดียวกัน
-
----
-
-## 4. Ports  จุดเชื่อมต่อเฉพาะของ Component
-
-ถ้าต้องการอธิบายละเอียดขึ้น สามารถใช้ **Port**
-
-Port แสดงเป็นสี่เหลี่ยมเล็ก ๆ บนขอบ Component และใช้บอกว่า Component ติดต่อกับภายนอกผ่าน “จุดไหน” [GeeksforGeeks](https://www.geeksforgeeks.org/software-engineering/component-based-diagram/)
-
-เช่น Service หนึ่งตัวอาจมี
-
-```
-Payment Service
-│
-├── REST Port
-├── Event Port
-└── Database Port
-```
-
-แนวคิดคือ:
-
-```
-              REST API
-                 │
-        ┌────────□─────────┐
-        │ Payment Service  │
-        │                  │
-        └────────□─────────┘
-                 │
-             Database
-```
-
-Port เหมาะเมื่อ Architecture เริ่มซับซ้อน แต่ถ้าเป็น diagram ระดับพื้นฐาน **ไม่จำเป็นต้องใส่ Port ทุกครั้ง**
-![[Pasted image 20260809194707.png]]
----
-## 5. Artifact  ไฟล์หรือสิ่งที่ถูกสร้างขึ้นจริง
-
-Artifact ต่างจาก Component ตรงที่ Component เป็นแนวคิดเชิง logical ส่วน Artifact คือสิ่งที่เป็นไฟล์หรือของที่ deploy ได้จริง เช่น
-
-```
-payment-service.jar
-frontend.bundle.js
-config.yaml
-database.sql
-Docker image
-```
-
-UML มักเขียนว่า
-
-```
-<<artifact>>
-payment-service.jar
-```
-
-บทความอธิบายว่า Artifact ใช้แสดงไฟล์หรือข้อมูลทางกายภาพที่เกี่ยวข้องกับ Component [GeeksforGeeks](https://www.geeksforgeeks.org/software-engineering/component-based-diagram/)
-
-จำง่าย ๆ ว่า:
-
-```
-Component
-   ↓ implemented/deployed as
-Artifact
-```
-
-เช่น
-
-```
-Payment Service
-      ↓
-payment-service.jar
-```
-![[Pasted image 20260809194816.png]]
----
-
-## 6. Node  Component ทำงาน “ที่ไหน”
-
-Node คือ environment ที่ Component ถูกนำไปรัน เช่น
-
-```
-Server
-VM
-Container
-Mobile Device
-Cloud Instance
-Kubernetes Node
-```
-
-บทความอธิบายว่า Node ใช้แทน physical หรือ virtual execution environment ของระบบ [GeeksforGeeks](https://www.geeksforgeeks.org/software-engineering/component-based-diagram/)
-ตัวอย่าง:
-
-```
-┌───────────────────────────┐
-│ Web Server                │
-│                           │
-│   <<component>>           │
-│   Web Application         │
-└───────────────────────────┘
-
-            │
-            ▼
-
-┌───────────────────────────┐
-│ Application Server        │
-│                           │
-│   <<component>>           │
-│   Order Service           │
-│                           │
-│   <<component>>           │
-│   Payment Service         │
-└───────────────────────────┘
-```
-
-อย่างไรก็ตาม ถ้าเน้นเรื่อง “Component อยู่บน Server ไหน” มาก ๆ จริง ๆ จะเริ่มเข้าเขตของ **Deployment Diagram**
-![[Pasted image 20260809194844.png]]
-
----
-
-# (Best practices)วิธีคิดก่อนเขียน Component Diagram
-
-แทนที่จะเริ่มจากการวาดกล่อง แนะนำให้ตอบคำถามตามลำดับนี้:
-
-```
-1. ระบบของเราคืออะไร?
-        ↓
-2. ระบบแบ่งออกเป็นโมดูลอะไร?
-        ↓
-3. แต่ละโมดูลรับผิดชอบอะไร?
-        ↓
-4. แต่ละโมดูลให้ Interface อะไร?
-        ↓
-5. แต่ละโมดูลต้องใช้ Interface อะไร?
-        ↓
-6. Component ไหนพึ่งพา Component ไหน?
-        ↓
-7. มี External System อะไรบ้าง?
-```
-
-ตัวอย่างสมมติเป็น **Online Learning System**
-
-```
-Student Web
-Teacher Web
-Authentication Service
-Course Service
-Assignment Service
-Notification Service
-Database
-```
-
-จากนั้นหา dependency:
-
-```
-Student Web
-    ↓
-Authentication Service
-
-Student Web
-    ↓
-Course Service
-    ↓
-Assignment Service
-
-Assignment Service
-    ↓
-Notification Service
-
-Course Service
-    ↓
-Database
-
-Assignment Service
-    ↓
-Database
-```
-
-เมื่อจัดเป็น Component Diagram ก็จะได้ภาพประมาณนี้:
-
-```
-                ┌─────────────────┐
-                │ <<component>>   │
-                │ Student Web     │
-                └────────┬────────┘
-                         │
-             ┌───────────┼───────────┐
-             ▼                       ▼
-┌────────────────────┐    ┌────────────────────┐
-│ <<component>>      │    │ <<component>>      │
-│ Authentication    │    │ Course Service     │
-└────────────────────┘    └─────────┬──────────┘
-                                    │
-                                    ▼
-                          ┌────────────────────┐
-                          │ <<component>>      │
-                          │ Assignment Service │
-                          └─────────┬──────────┘
-                                    │
-                                    ▼
-                          ┌────────────────────┐
-                          │ <<component>>      │
-                          │ Notification       │
-                          │ Service            │
-                          └────────────────────┘
-```
-
-ตรงนี้คือแก่นของ Component Diagram:
-
-> **ไม่ได้สนใจว่า `AssignmentService` มี method อะไร แต่สนใจว่า `Assignment Service` อยู่ตรงไหนของระบบ และต้องคุยกับใคร**
-
----
-
-# กฎสำคัญในการวาด
-
-บทความแนะนำแนวทางสำคัญหลายอย่าง ได้แก่ **เข้าใจ requirement ก่อนวาด, ทำ diagram ให้ง่าย, ตั้งชื่อให้สม่ำเสมอ และระบุ interface ให้ชัดเจน** [GeeksforGeeks](https://www.geeksforgeeks.org/software-engineering/component-based-diagram/)
-
-ผมสรุปให้เป็นกฎใช้งานจริงได้ว่า:
-
-| หลักการ                     | ความหมาย                                                     |
-| --------------------------- | ------------------------------------------------------------ |
-| **High-level**              | อย่าใส่รายละเอียด class/method มากเกินไป                     |
-| **Clear Responsibility**    | 1 Component ควรมีหน้าที่ชัด                                  |
-| **Clear Dependency**        | ต้องมองออกว่าใครใช้ใคร                                       |
-| **Clear Interface**         | ถ้าสำคัญ ควรแสดงว่าติดต่อกันผ่านอะไร                         |
-| **Consistent Naming**       | เช่นใช้ `Order Service`, `Payment Service` ให้รูปแบบเดียวกัน |
-| **Avoid Spaghetti Diagram** | อย่าให้ทุก Component ต่อหากันหมด                             |
-| **Show External Systems**   | API, Payment Gateway, Email Service ฯลฯ ควรแยกให้เห็น        |
-| **Keep it Simple**          | Diagram มีไว้สื่อสาร ไม่ใช่แสดงทุกอย่างในระบบ                |
-
----
-
-## แยกให้ออกระหว่าง UML ที่มักสับสนกัน
-
-สิ่งนี้สำคัญมากเวลาเรียน UML:
-
-```
-Use Case Diagram
-        ↓
-"ใครทำอะไรกับระบบ?"
-
-Class Diagram
-        ↓
-"ระบบมี Class / Attribute / Method อะไร?"
-
-Sequence Diagram
-        ↓
-"ตอนทำงานหนึ่งเรื่อง Message วิ่งตามลำดับอย่างไร?"
-
-Component Diagram
-        ↓
-"ระบบแบ่งเป็นโมดูลอะไร และโมดูลเหล่านั้นเชื่อมกันอย่างไร?"
-
-Deployment Diagram
-        ↓
-"Software เหล่านั้นถูก Deploy อยู่ที่ไหน?"
-```
-
-ดังนั้นจำสั้น ๆ ได้ว่า:
-
-> **Component Diagram = Software Architecture View**
-
-หรือถ้าเอาไปเขียนใน Obsidian ผมแนะนำให้จำสูตรความคิดนี้:
-
-```
-Component Diagram
-= Components
-+ Responsibilities
-+ Interfaces
-+ Dependencies
-+ External Systems
-```
-
-และเป้าหมายสำคัญที่สุดคือ
-
-> **ดู Diagram แล้วสามารถตอบได้ว่า “ระบบแบ่งออกเป็นส่วนอะไร และแต่ละส่วนทำงานร่วมกันอย่างไร”**
-
-นี่คือสาระสำคัญที่สุดของบทความ GeeksforGeeks และเป็นหลักที่ควรใช้เวลาคุณลงมือเขียน UML Component Diagram จริง ๆ [GeeksforGeeks](https://www.geeksforgeeks.org/software-engineering/component-based-diagram/)
-
-## Example of Component Based Diagram
-### 1. OnlineStore Component
-
-`OnlineStore` คือ **Component หลักหรือขอบเขตของระบบร้านค้าออนไลน์** ภายในประกอบด้วย Component ย่อยสำคัญ ได้แก่ `Order`, `Customer` และ `Product`
-
-พูดง่าย ๆ คือ OnlineStore เป็น “ระบบใหญ่” ที่ครอบ component หลักของร้านค้าไว้
-
-```
-OnlineStore
-├── Order
-├── Customer
-└── Product
-```
-
----
-
-### 2. Order Component
-
-`Order` มีหน้าที่จัดการเรื่องที่เกี่ยวข้องกับ **คำสั่งซื้อ** เช่น การสร้างรายการสั่งซื้อ การตรวจสอบสินค้าในคำสั่งซื้อ หรือการผูกคำสั่งซื้อกับลูกค้า
-
-มันเชื่อมกับ `Product` เพื่อดึงข้อมูลสินค้า เช่น ราคา ชื่อสินค้า หรือสินค้าที่มีอยู่ และเชื่อมกับ `Customer` เพื่อระบุว่า order นี้เป็นของลูกค้าคนไหน
-
-แนวคิดประมาณนี้:
-
-```
-Customer
-   │
-   ▼
- Order ──────► Product
-```
-
-เช่น ลูกค้า A สั่งสินค้า X ดังนั้น `Order` ต้องรู้ทั้งข้อมูลของ `Customer A` และข้อมูลของ `Product X`
-
-ข้อความที่ว่า **Uses delegate connectors** หมายถึง บางคำขอที่เข้ามายัง Component หนึ่งอาจไม่ได้ถูกประมวลผลตรงนั้น แต่ถูก **ส่งต่อ (delegate)** ไปยัง Component ภายในหรือระบบอื่นที่รับผิดชอบจริง
-
----
-
-### 3. Customer Component
-
-`Customer` มีหน้าที่จัดการ **ข้อมูลและกิจกรรมของลูกค้า** เช่น ข้อมูลส่วนตัว ข้อมูลลูกค้า หรือความสัมพันธ์ระหว่างลูกค้ากับ order
-
-มันเชื่อมกับ `Order` เพราะลูกค้าหนึ่งคนสามารถมีคำสั่งซื้อได้
-
-```
-Customer ──────► Order
-```
-
-นอกจากนี้ `Customer` ยังเชื่อมกับ `Account` ซึ่งอยู่นอกระบบ OnlineStore
-
-```
-OnlineStore
-┌──────────────────────────────┐
-│                              │
-│ Customer ───────────────┐    │
-│                         │    │
-└─────────────────────────│────┘
-                          ▼
-                       Account
-```
-
-แนวคิดคือ `Customer` อาจต้องการข้อมูลบัญชี เช่น username, account status หรือข้อมูล authentication แต่ OnlineStore ไม่ได้จัดการ Account เอง จึงส่งต่อไปให้ `Account Component`
-
----
-
-### 4. Product Component
-
-`Product` รับผิดชอบ **ข้อมูลสินค้า** เช่น
-
-- ชื่อสินค้า
-- ราคา
-- รายละเอียดสินค้า
-- จำนวนสินค้า
-- รหัสสินค้า
-
-มันเชื่อมกับ `Order` เพราะเวลาสร้าง Order ระบบต้องรู้ว่าสั่งสินค้าอะไร
-
-```
-Order ──────► Product
-```
-
-เช่น:
-
-```
-Order #001
-├── Product A
-├── Product B
-└── Product C
-```
-
-ดังนั้น Order ไม่ควรเก็บรายละเอียดสินค้าเองทั้งหมด แต่ไปอ้างอิง `Product Component`
-
----
-
-### 5. Account Component
-
-`Account` เป็น Component ที่ **อยู่นอกขอบเขต OnlineStore**
-
-นี่เป็นจุดที่สำคัญในการอ่าน Component Diagram
-
-```
-┌──────────── OnlineStore ────────────┐
-│                                     │
-│ Customer                            │
-│ Order                               │
-│ Product                             │
-│                                     │
-└─────────────────────────────────────┘
-
-                    Account
-               (External Component)
-```
-
-หมายความว่า OnlineStore อาศัยบริการจากระบบภายนอกบางอย่าง
-
-`Customer` ติดต่อ `Account` ผ่าน delegate relationship เพื่อให้ Account จัดการเรื่องที่เกี่ยวกับบัญชี
-
-ตัวอย่างเช่น:
-
-```
-Customer
-   │
-   │ request account information
-   ▼
-Account
-   │
-   └── Username
-   └── Account Status
-   └── Authentication
-```
-
-ดังนั้นแนวคิดคือ
-
-> `Customer` จัดการเรื่อง “ลูกค้า” ส่วน `Account` จัดการเรื่อง “บัญชีผู้ใช้”
-
-สองอย่างนี้เกี่ยวข้องกัน แต่ไม่จำเป็นต้องเป็น Component เดียวกัน
-
----
-
-## Delegate Connector คืออะไร?
-
-ส่วนนี้น่าจะเป็นจุดที่ควรทำความเข้าใจเพิ่ม
-
-**Delegation Connector** ใช้แสดงว่า การเรียกใช้งานที่เข้ามาทาง interface/port ของ Component ใหญ่ ถูก **ส่งต่อไปยัง Component ภายในที่รับผิดชอบจริง**
-
-คิดเหมือนกับ receptionist
-
-```
-Request
-   │
-   ▼
-OnlineStore
-   │
-   │ delegate
-   ▼
-Customer
-```
-
-ผู้ใช้งานภายนอกอาจเห็นเพียง `OnlineStore` แต่ภายใน OnlineStore ส่งงานให้ `Customer`
-
-เช่น
-
-```
-getCustomerAccount()
-        │
-        ▼
-OnlineStore
-        │
-        │ delegate
-        ▼
-Customer
-        │
-        ▼
-Account
-```
-
-ดังนั้นคำว่า **delegate ไม่ได้หมายถึง dependency ธรรมดา** แต่เน้นการ “ส่งต่อ responsibility / request” จาก interface หนึ่งไปยังอีกส่วนหนึ่งของระบบ
-
----
-
-## ภาพรวมของตัวอย่างนี้
-
-ถ้าสรุป Component Diagram ที่บทความกำลังอธิบาย จะได้ประมาณนี้:
+## 7. Component Realization, Artifact และ Manifestation
 
+### 7.1 Component Realization
 
-![[Pasted image 20260809195120.png]]
-สิ่งที่ diagram นี้ต้องการสื่อไม่ใช่ algorithm ของการซื้อสินค้า แต่ต้องการให้เห็นว่า
+Component Realization แสดง Classifiers ที่ทำให้สัญญาของ Component เกิดขึ้นจริง ใช้เส้นประพร้อมหัวสามเหลี่ยมโปร่ง ชี้จาก Classifiers ที่ทำงานจริงไปยัง Component ที่ถูกรองรับ
 
-> **OnlineStore แบ่งออกเป็น Component อะไร และแต่ละ Component ต้องติดต่อกับใคร**
+![Component UserService ที่มี UserServlet และ UserDAO เป็น Realizing Classifiers](../../Img/UML-Component-Diagram/component-realization.png)
 
----
+*รูปที่ 7 UserServlet และ UserDAO ทำให้พฤติกรรมของ UserService เกิดขึ้นจริง — ที่มา: [Component Realization](https://www.uml-diagrams.org/component-realization.html), ภาพโดย Kirill Fakhroutdinov / UML-Diagrams.org*
 
-## Tools สำหรับสร้าง Component Diagram
+ตัวอย่างนี้ช่วยเชื่อมระดับ Component เข้ากับ Class Design โดยยังคงแยกสัญญาของ Component ออกจากรายละเอียดของแต่ละ Class
 
-ส่วนหลังของข้อความเป็นเพียงการแนะนำโปรแกรมที่สามารถใช้วาด UML Component Diagram ได้
+### 7.2 Artifact และ Manifestation
 
-| Tool                                | อธิบาย                                                                  |
-| ----------------------------------- | ----------------------------------------------------------------------- |
-| **Lucidchart**                      | เครื่องมือออนไลน์สำหรับวาด diagram ใช้ง่ายและทำงานร่วมกันได้            |
-| **Microsoft Visio**                 | โปรแกรมของ Microsoft สำหรับวาด diagram หลากหลายชนิด รวม UML             |
-| **Visual Paradigm**                 | เครื่องมือที่เน้น UML และ Software Design โดยเฉพาะ                      |
-| **Enterprise Architect**            | เครื่องมือ UML/Software Architecture ระดับมืออาชีพ เหมาะกับระบบขนาดใหญ่ |
-| **IBM Rational Software Architect** | IDE และ Modeling Tool สำหรับออกแบบ architecture และ UML                 |
+Artifact คือสิ่งที่ใช้หรือผลิตขึ้นในกระบวนการพัฒนา ติดตั้ง หรือใช้งานระบบ เช่น Source File, Script, Library และไฟล์ Archive ไม่ได้จำกัดเฉพาะไฟล์ที่ Execute ได้
 
-สำหรับการเรียน ผมมองว่า **ไม่จำเป็นต้องใช้เครื่องมือใหญ่เหล่านี้ทั้งหมด** สิ่งสำคัญกว่าคือเข้าใจความหมายของ diagram
+Manifestation แสดงการทำให้องค์ประกอบในแบบจำลองปรากฏเป็นสิ่งที่เป็นรูปธรรมผ่าน Artifact ใช้เส้นประพร้อมหัวลูกศรเปิดและคำว่า `«manifest»` ชี้ **จาก Artifact ไปยังองค์ประกอบที่ Artifact นั้นทำให้เกิดขึ้น** เช่น Component
 
-ถ้าคุณใช้ **Obsidian** อยู่แล้ว อีกทางเลือกที่สะดวกมากคือเขียนด้วย PlantUML เช่น:
+![Artifact user-service.jar ที่แสดง Manifestation ของ UserService](../../Img/UML-Component-Diagram/deployment-manifest.png)
 
-```
-@startuml
-
-package "OnlineStore" {
-    component Order
-    component Customer
-    component Product
-
-    Order --> Customer
-    Order --> Product
-}
-
-component Account
-
-Customer --> Account : delegate
-
-@enduml
-```
-
-จะเหมาะกับการจดโน้ตเรียนมาก เพราะสามารถเก็บ **UML + คำอธิบาย + source code** ไว้ใน note เดียวกันได้ และแก้ diagram ได้ด้วย text แทนการลากกล่องด้วยเมาส์
-
-### **Applications of Component-Based Diagrams** 
- คือ UML Component Diagram ไม่ได้มีไว้แค่ “วาดโครงสร้างระบบ” แต่ใช้ช่วยตั้งแต่ช่วงออกแบบ พัฒนา ไปจนถึงดูแลระบบหลังใช้งาน
-
-### 1. System Design and Architecture
-
-ใช้ช่วยในการ **ออกแบบโครงสร้างและสถาปัตยกรรมของระบบ**
-
-ทำให้ Software Architect เห็นว่า:
-
-- ระบบประกอบด้วย Component อะไรบ้าง
-- แต่ละ Component ติดต่อกันอย่างไร
-- Component ไหนพึ่งพา Component ไหน
-- ส่วนไหนเป็น internal / external system
-
-เช่น:
-
-```
-Web UI
-  ↓
-Order Service
-  ↓
-Payment Service
-  ↓
-Payment Gateway
-```
-
-เมื่อดู Diagram ก็จะเข้าใจ architecture โดยไม่ต้องเปิดดู source code ทั้งหมด
-
----
-### 2. Requirements Analysis
-
-ใช้ช่วยในการ **วิเคราะห์ Requirement**
-
-ทั้งผู้พัฒนาและ stakeholder สามารถดูว่า requirement ต่าง ๆ ควรถูกจัดการโดย Component ใด
-
-เช่น Requirement:
-
-```
-"ลูกค้าต้องสามารถชำระเงินออนไลน์ได้"
-```
-
-อาจนำไปสู่ Component:
+*รูปที่ 8 user-service.jar มีความสัมพันธ์ Manifestation ไปยัง UserService และมีความสัมพันธ์อีกแบบไปยัง Skeleton ที่สร้างด้วยเครื่องมือ — ที่มา: [Deployment Diagrams — Manifestation](https://www.uml-diagrams.org/deployment-diagrams.html#manifestation), ภาพโดย Kirill Fakhroutdinov / UML-Diagrams.org*
 
-```
-Customer
-   ↓
-Order
-   ↓
-Payment
-```
-
-จึงช่วยเชื่อมแนวคิดจาก
-
-```
-Requirement
-    ↓
-System Function
-    ↓
-Component
-```
+| ประเด็น | ความสัมพันธ์ | ทิศทางในตัวอย่าง |
+|---|---|---|
+| Classifiers ใดทำให้สัญญาของ Component เกิดขึ้นจริง | Component Realization | UserServlet/UserDAO → UserService |
+| Artifact ใดทำให้ Component ปรากฏเป็นสิ่งที่เป็นรูปธรรม | Manifestation `«manifest»` | user-service.jar → UserService |
+| Artifact ถูกติดตั้งที่ใด | Deployment | อธิบายใน Deployment Diagram ร่วมกับ Deployment Target |
 
-นอกจากนี้ยังช่วยพิจารณา **Non-functional Requirements** เช่น Security, Scalability หรือ Availability ว่าควรจัดการที่ส่วนใดของ architecture
+ใน UML 2.x ให้แสดงการ Deploy ผ่าน Artifact ไปยัง Node หรือ Deployment Target ส่วน Component เชื่อมกับ Artifact ผ่าน Manifestation หากเน้นคำถามว่า Software ทำงานอยู่บน Server หรือ Environment ใด ควรใช้ Deployment Diagram ประกอบ
 
----
+อ่านเพิ่มเติม: [Artifact](https://www.uml-diagrams.org/artifact.html) และ [Manifestation / Deployment](https://www.uml-diagrams.org/deployment-diagrams.html#manifestation)
 
-### 3. System Documentation
+## 8. อ่านตัวอย่าง Online Shopping จาก UML-Diagrams.org
 
-ใช้เป็น **เอกสารอ้างอิงของระบบ**
+![ตัวอย่าง Online Shopping Component Diagram จาก UML-Diagrams.org](../../Img/UML-Component-Diagram/component-example-retail-website.png)
 
-Component Diagram สามารถบันทึกว่า architecture ถูกออกแบบอย่างไร เช่น:
+*รูปที่ 9 White-box View ของ WebStore, Warehouses และ Accounting — ที่มา: [Online Shopping UML Component Diagram Example](https://www.uml-diagrams.org/examples/online-shopping-uml-component-diagram-example.html), ภาพโดย Kirill Fakhroutdinov / UML-Diagrams.org*
 
-```
-Frontend
-   ↓
-API Gateway
-   ↓
-Authentication Service
-   ↓
-Database
-```
-
-เมื่อมี developer ใหม่เข้าทีม เขาไม่จำเป็นต้องเริ่มต้นจากการอ่าน code หลายพันบรรทัด แต่สามารถดู Component Diagram เพื่อเข้าใจภาพรวมก่อน
+ภาพนี้ใช้ตัวอย่างจากแหล่งอ้างอิงโดยตรง สามารถอ่านตามลำดับต่อไปนี้:
 
-ดังนั้นมันทำหน้าที่คล้าย:
+1. **ดูขอบเขต:** มีสาม Subsystems ได้แก่ WebStore, Warehouses และ Accounting แต่ละกรอบมี Parts ภายใน
+2. **ดูบริการด้านนอก:** WebStore เปิดบริการ Product Search, Online Shopping และ UserSession
+3. **ตาม Delegation เข้าไป:** Product Search เชื่อมผ่าน Port ของ WebStore ไปยัง SearchEngine ส่วนบริการ Manage Orders ของ Accounting เชื่อมเข้าหา Orders ภายใน
+4. **ดูความต้องการข้าม Subsystem:** SearchEngine ต้องการ Search Inventory จาก Warehouses และ Shopping Cart ต้องการ Manage Orders จาก Accounting
+5. **ดู Assembly ภายใน:** Shopping Cart ใช้ UserSession จาก Authentication และ Orders ใช้ Manage Customers จาก Customers
+6. **แยกเส้นข้ามกรอบกับเส้นภายใน:** เส้นประระหว่าง Interfaces ของ Subsystems แสดงการพึ่งพา ส่วนเส้นระหว่าง Port ที่ขอบกับ Part ภายในแสดง Delegation
 
-> **แผนที่ของ Software Architecture**
+การอ่านภาพนี้เป็นการอธิบายโครงสร้างและสัญญาที่แสดงอยู่ รายละเอียดอย่างชื่อ Endpoint, HTTP Method, Database Schema และลำดับ Login/Checkout ต้องมีแบบจำลองหรือคำอธิบายเพิ่มเติม
 
----
+## 9. วิธีนำไปใช้วาดระบบของตนเอง
 
-### 4. Software Development
+เริ่มจากกำหนดวัตถุประสงค์ของภาพและขอบเขตระบบ จากนั้นระบุ Component แต่ละตัวพร้อมหน้าที่ บริการที่ให้ และบริการที่ต้องใช้ ก่อนเลือกชนิดเส้นเชื่อม
 
-ช่วย developer กำหนด **ขอบเขตความรับผิดชอบของแต่ละส่วน**
+1. เลือกว่าภาพจะเน้น Black-box, White-box หรือการเชื่อมหลาย Subsystems
+2. ตั้งชื่อ Component ตามหน้าที่ และกำหนดระดับรายละเอียดให้สอดคล้องกัน
+3. ระบุ Provided/Required Interfaces โดยตั้งชื่อบริการให้ชัด
+4. เพิ่ม Ports และ Parts เมื่อจำเป็นต้องอธิบายการประกอบหรือ Delegation
+5. เลือก Dependency, Usage, Assembly หรือ Delegation ตามความสัมพันธ์จริง
+6. ถ้าต้องเชื่อมกับ Class หรือไฟล์ที่นำไปใช้งาน ให้เพิ่ม Realization หรือ Manifestation ตามความหมาย
+7. ระบุว่าภาพเป็นแบบออกแบบหรือภาพจากระบบที่พัฒนาแล้ว พร้อมวันที่และหลักฐานที่เกี่ยวข้อง
 
-ตัวอย่าง:
+### จุดที่ควรตรวจทาน
 
-```
-Order Service
-- createOrder()
-- cancelOrder()
-- getOrder()
-
-Payment Service
-- processPayment()
-- refundPayment()
-```
+- Interface ที่เชื่อมกันมีสัญญาที่เข้ากันได้ ไม่ใช่เพียงชื่อคล้ายกัน
+- Dependency ชี้จากผู้พึ่งพาไปยังสิ่งที่ถูกพึ่งพา
+- Delegation เชื่อมขอบเขตกับส่วนภายใน โดยแยกจากการเรียกบริการภายนอก
+- แยก Component, Package, Part, Classifier, Artifact และ Node ตามระดับที่ต้องการสื่อ
+- ภาพไม่ได้ทำให้เข้าใจว่า Component ทุกตัวคือ Microservice หรือ Server คนละเครื่อง
+- ภาพมีชื่อ คำอธิบายสัญลักษณ์ และแหล่งอ้างอิงที่ตามกลับได้
 
-Developer จึงรู้ว่า function ไหนควรอยู่ใน Component ไหน
+สำหรับการใช้ PlantUML ใน Vault ให้ใช้ Code Block ชนิด `plantuml` และเลือกสัญลักษณ์ให้สอดคล้องกับความสัมพันธ์ที่ต้องการแสดง การติดป้ายข้อความบนเส้นเพียงอย่างเดียวไม่ได้ทำให้เส้นนั้นมีความหมายเป็น Connector ชนิดที่ระบุ ดูวิธีตั้งค่าที่ [Obsidian Extensions Guide](../../OBSIDIAN_EXTENSIONS.md#37-plantuml)
 
-สิ่งนี้ช่วยลดปัญหา เช่น
+## 10. เอกสารอ้างอิงและเครดิตภาพ
 
-```
-Order Service
-├── Order logic
-├── Payment logic
-├── User authentication
-├── Email sending
-└── Inventory management
-```
+แหล่งหลักของโน้ตคือหน้า Component Diagrams และหน้ารายละเอียดในชุดเดียวกันของ UML-Diagrams.org ซึ่งระบุว่าครอบคลุม UML ถึงรุ่น 2.5 ส่วนมาตรฐาน OMG UML 2.5.1 ใช้ตรวจความหมายเพิ่มเติม
 
-ซึ่งจะกลายเป็น Component ที่รับผิดชอบมากเกินไป
+1. Kirill Fakhroutdinov. [UML Component Diagrams](https://www.uml-diagrams.org/component-diagrams.html).
+2. Kirill Fakhroutdinov. [Component](https://www.uml-diagrams.org/component.html).
+3. Kirill Fakhroutdinov. [Part](https://www.uml-diagrams.org/composite-structure-diagrams/part.html?context=components).
+4. Kirill Fakhroutdinov. [Port](https://www.uml-diagrams.org/port.html?context=components).
+5. Kirill Fakhroutdinov. [Connector: Assembly and Delegation](https://www.uml-diagrams.org/composite-structure-diagrams/connector.html).
+6. Kirill Fakhroutdinov. [Dependency and Usage](https://www.uml-diagrams.org/dependency.html).
+7. Kirill Fakhroutdinov. [Component Realization](https://www.uml-diagrams.org/component-realization.html).
+8. Kirill Fakhroutdinov. [Artifact](https://www.uml-diagrams.org/artifact.html).
+9. Kirill Fakhroutdinov. [Deployment Diagrams: Manifestation](https://www.uml-diagrams.org/deployment-diagrams.html#manifestation).
+10. Kirill Fakhroutdinov. [Online Shopping UML Component Diagram Example](https://www.uml-diagrams.org/examples/online-shopping-uml-component-diagram-example.html).
+11. Object Management Group. [Unified Modeling Language, Version 2.5.1](https://www.omg.org/spec/UML/2.5.1) และ [Normative UML Metamodel](https://www.omg.org/spec/UML/20161101/UML.xmi).
 
-Component Diagram ช่วยให้แบ่งออกเป็น:
+ตรวจสอบแหล่งอ้างอิงและดาวน์โหลดภาพเมื่อ 22 ตุลาคม 2569 ภาพทั้ง 9 ภาพเป็นของ UML-Diagrams.org / Kirill Fakhroutdinov และเก็บโดยไม่ดัดแปลง รายการไฟล์และ URL ต้นฉบับอยู่ใน [เครดิตภาพประกอบ](../../Img/UML-Component-Diagram/README.md)
 
-```
-Order Service
-Payment Service
-Auth Service
-Notification Service
-Inventory Service
-```
 
-จึงสนับสนุนแนวคิด **Separation of Concerns**
 
----
+--
+**Component คือหน่วยซอฟต์แวร์ที่แบ่งความรับผิดชอบชัดเจน มีรายละเอียดภายใน และเปิดบริการบางอย่างให้ส่วนอื่นใช้ผ่าน Interface** 
+ในโค้ดอาจประกอบด้วยหลาย Class และหลายไฟล์ เช่น โมดูล Device Inventory ไม่จำเป็นต้องแยกเป็น Server หรือ Microservice แนวคิดนี้ตรงกับ [ข้อกำหนด Component ของ OMG](https://www.omg.org/spec/UML/2.2/Superstructure/PDF/)
 
-### 5. Code Generation and Implementation
+ตัวอย่างสมมติใน MyNetMate: Dashboard ต้องขอรายการอุปกรณ์จาก Device Inventory
 
-UML บางเครื่องมือสามารถนำ model ไปช่วยสร้าง code เริ่มต้นได้
+| สิ่งที่วาด                                    | ในงานเขียนโปรแกรมหมายถึงอะไร                                              |
+| --------------------------------------------- | ------------------------------------------------------------------------- |
+| Component `Device Inventory`                  | ชุดโค้ดที่รับผิดชอบจัดการและให้ข้อมูลอุปกรณ์                              |
+| Provided Interface — วงกลม                    | สัญญาบริการที่ Inventory มีให้ เช่น `list_devices()` ซึ่งคืนรายการอุปกรณ์ |
+| Required Interface — ครึ่งวงกลม               | Dashboard ต้องการบริการอ่านรายการอุปกรณ์จากส่วนอื่น                       |
+| Assembly Connector — การต่อวงกลมกับครึ่งวงกลม | เชื่อมผู้ใช้บริการเข้ากับผู้ให้บริการที่มีสัญญาตรงกัน                     |
 
-ตัวอย่างจาก Component:
+ตัวอย่างโค้ดแบบย่อ เพื่อให้เห็นการเชื่อมจริง:
 
-```
-Order Service
-Payment Service
-Customer Service
 ```
+class DeviceInventory:
+    def list_devices(self):
+        return ["Router-1", "Switch-1"]
 
-เครื่องมือ Modeling บางชนิดอาจช่วยสร้างโครงสร้าง project หรือ interface เบื้องต้น เช่น
 
-```
-OrderService
-PaymentService
-CustomerService
-```
+class Dashboard:
+    def __init__(self, inventory):
+        self.inventory = inventory
 
-อย่างไรก็ตามควรเข้าใจว่า Component Diagram ไม่ได้หมายความว่าจะสามารถ generate application ที่สมบูรณ์ได้ทันที
+    def device_count(self):
+        return len(self.inventory.list_devices())
 
-มันทำหน้าที่เป็น **Blueprint** หรือ foundation สำหรับ implementation มากกว่า
 
+dashboard = Dashboard(DeviceInventory())
 ```
-UML Model
-    ↓
-Architecture
-    ↓
-Code Structure
-    ↓
-Implementation
-```
-
----
 
-### 6. System Maintenance and Evolution
+ในตัวอย่างนี้:
 
-ข้อดีสำคัญอีกอย่างคือช่วยตอน **แก้ไขและพัฒนาระบบในอนาคต**
+- `DeviceInventory.list_devices()` คือ Operation ของบริการที่ Inventory **ให้**
+- `Dashboard` เรียก `self.inventory.list_devices()` แสดงว่ามัน **ต้องการใช้** บริการนั้น
+- `Dashboard(DeviceInventory())` คือจุดที่นำผู้ให้บริการจริงมาเชื่อมกับผู้ใช้บริการ
 
-สมมติระบบเดิมมี:
-
-```
-Order
-  ↓
-Payment
-```
-
-วันหนึ่งต้องเพิ่มระบบ Refund:
-
-```
-Order
-  ↓
-Payment
-  ↓
-Refund Service
-```
+Class สองตัวนี้เป็นตัวแทนอย่างย่อของ Component ในระบบใหญ่แต่ละ Component อาจมีหลาย Class ร่วมกันทำงาน และ Interface ก็อาจมีหลาย Operations ไม่ได้จำกัดว่าหนึ่งวงกลมต้องเท่ากับหนึ่ง Function
 
-จาก Component Diagram เราสามารถวิเคราะห์ก่อนว่า:
+ถ้าอยู่คนละระบบ การเชื่อมอาจเกิดผ่าน API แทน เช่น Dashboard ส่ง `GET /devices` และ Backend คืนรายการอุปกรณ์ ดังนั้น Interface ใน UML ไม่จำเป็นต้องเป็นคำสั่ง `interface` ของภาษา Java หรือ TypeScript เสมอไป
 
-- ต้องเพิ่ม Component ใด
-- Component ใหม่จะเชื่อมกับใคร
-- ส่วนไหนได้รับผลกระทบ
-- มี dependency ใหม่เกิดขึ้นหรือไม่
+ส่วนคำว่า **“เส้นเรียก” ต้องดูว่าอาจารย์หมายถึงเส้นชนิดไหน**:
 
-ดังนั้นช่วยทำ **Impact Analysis** ได้ง่ายขึ้น
+- เส้นประ Dependency ชี้จาก Dashboard ไป Inventory บอกว่า Dashboard **พึ่งพา** Inventory เช่น มีการอ้างอิงหรือเรียกใช้โค้ดของมัน
+- เส้น Assembly บอกว่า **ประกอบผู้ต้องการบริการกับผู้ให้บริการเข้าด้วยกัน**
+- ถ้าจะอธิบายว่าเรียกเมื่อไร ส่งข้อมูลอะไร และตอบกลับอย่างไร ให้แสดงใน Sequence Diagram
 
----
+ประโยคที่ใช้ตอบปากเปล่าได้คือ:
 
+> “Component เป็นขอบเขตของชุดโค้ดที่รับผิดชอบงานหนึ่งครับ ส่วนวงกลมคือบริการที่ชุดโค้ดนั้นเปิดให้ใช้ ครึ่งวงกลมคือบริการที่มันต้องเรียกจากส่วนอื่น และเส้นเชื่อมแสดงว่าเราเชื่อมผู้เรียกกับผู้ให้บริการอย่างไร เช่น Dashboard ใช้บริการอ่านรายการอุปกรณ์จาก Device Inventory ครับ”

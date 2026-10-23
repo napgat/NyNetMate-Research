@@ -1,0 +1,32 @@
+@startuml
+title Network web contracts\nwebsite 28ac37b / backend 166e2ee
+left to right direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 18
+skinparam titleFontSize 19
+skinparam legendFontSize 18
+skinparam nodesep 20
+skinparam ranksep 24
+skinparam padding 8
+skinparam componentBackgroundColor white
+skinparam componentBorderColor #222222
+component "Network web contracts" as Assembly {
+ component "web :\nNetworkWebClient" as NW {
+  portout " " as R_W01
+  portout " " as R_W02
+ }
+ component "api :\nNetworkHttp\nBoundary" as NA {
+  portin " " as P_W01
+  portin " " as P_W02
+ }
+ R_W01 -(0- P_W01 : W01: \nIDeviceInventory\nHttp
+ R_W02 -(0- P_W02 : W02: \nIDiscoveryEvent\nStream
+}
+legend bottom left
+ Socket: required. Ball: provided.
+ Square: port. See CONTRACTS.md.
+endlegend
+@enduml
+

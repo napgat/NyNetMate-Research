@@ -1,0 +1,32 @@
+@startuml
+title Device enrollment\nbackend main @ 166e2ee
+left to right direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 18
+skinparam titleFontSize 19
+skinparam legendFontSize 18
+skinparam nodesep 20
+skinparam ranksep 24
+skinparam padding 8
+skinparam componentBackgroundColor white
+skinparam componentBorderColor #222222
+component "Device enrollment" as Assembly {
+ component "devices :\nDeviceManagement" as Devices {
+  portout " " as R_N01
+  portout " " as P_N02
+ }
+ component "collection :\nNetworkCollection" as Collection {
+  portin " " as R_N02
+  portin " " as P_N01
+ }
+ R_N01 -(0- P_N01 : N01: \nITargetCollection
+ R_N02 -(0- P_N02 : N02: \nISnapshot\nApplication
+}
+legend bottom left
+ Socket: required. Ball: provided.
+ Square: port. See CONTRACTS.md.
+endlegend
+@enduml
+

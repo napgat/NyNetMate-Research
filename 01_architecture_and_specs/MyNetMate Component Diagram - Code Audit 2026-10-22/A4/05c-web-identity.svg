@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="DESCRIPTION" style="width:701px;height:606px;background:#FFFFFF;" width="160mm" height="138.32mm" viewBox="0 0 701 606" zoomAndPan="magnify" preserveAspectRatio="none" contentStyleType="text/css">
+  <?plantuml 1.2026.9?>
+  <defs />
+  <g font-family="sans-serif" lengthAdjust="spacing">
+    <g class="title" data-source-line="1">
+      <text x="201.842" y="37.724" fill="#000" font-size="19" textLength="290.316" font-weight="700">Identity and audit web contracts</text>
+      <text x="185.407" y="61.622" fill="#000" font-size="19" textLength="323.186" font-weight="700">website 3e4d85c / backend b862c60</text>
+    </g>
+    <!--cluster Assembly-->
+    <g class="cluster" data-qualified-name="Assembly" id="ent0001" data-source-line="14">
+      <rect x="7" y="91.797" width="680" height="404" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="667" y="96.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="665" y="98.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="665" y="102.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="209.482" y="131.482" fill="#000" font-size="18" textLength="275.036" font-weight="700">Identity and audit web contracts</text>
+    </g>
+    <!--cluster AW-->
+    <g class="cluster" data-qualified-name="Assembly.AW" id="ent0002" data-source-line="15">
+      <rect x="23" y="272.797" width="217" height="140" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="220" y="277.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="218" y="279.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="218" y="283.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="108.499" y="312.482" fill="#000" font-size="18" textLength="46.002" font-weight="700">web :</text>
+      <text x="57.509" y="335.123" fill="#000" font-size="18" textLength="147.981" font-weight="700">IdentityAuditWeb</text>
+      <text x="106.5" y="357.764" fill="#000" font-size="18" textLength="50.001" font-weight="700">Client</text>
+    </g>
+    <!--cluster AA-->
+    <g class="cluster" data-qualified-name="Assembly.AA" id="ent0006" data-source-line="20">
+      <rect x="443" y="272.797" width="228" height="140" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="651" y="277.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="649" y="279.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="649" y="283.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="538.499" y="312.482" fill="#000" font-size="18" textLength="37.002" font-weight="700">api :</text>
+      <text x="484.016" y="335.123" fill="#000" font-size="18" textLength="145.969" font-weight="700">IdentityAuditHttp</text>
+      <text x="514.997" y="357.764" fill="#000" font-size="18" textLength="84.006" font-weight="700">Boundary</text>
+    </g>
+    <g class="entity" data-qualified-name="Assembly.AW.R_W08" id="ent0003" data-source-line="16">
+      <text x="237.5" y="427.482" fill="#000" font-size="18"> </text>
+      <rect x="234" y="388.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.AW.R_W09" id="ent0004" data-source-line="17">
+      <text x="237.5" y="312.842" fill="#000" font-size="18"> </text>
+      <rect x="234" y="336.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.AW.R_W10" id="ent0005" data-source-line="18">
+      <text x="237.5" y="260.842" fill="#000" font-size="18"> </text>
+      <rect x="234" y="284.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.AA.P_W08" id="ent0007" data-source-line="21">
+      <text x="440.5" y="427.482" fill="#000" font-size="18"> </text>
+      <rect x="437" y="388.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.AA.P_W09" id="ent0008" data-source-line="22">
+      <text x="440.5" y="312.842" fill="#000" font-size="18"> </text>
+      <rect x="437" y="336.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.AA.P_W10" id="ent0009" data-source-line="23">
+      <text x="440.5" y="260.842" fill="#000" font-size="18"> </text>
+      <rect x="437" y="284.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_W08 to P_W08-->
+    <g class="link" data-entity-1="ent0003" data-entity-2="ent0007" id="lnk10" data-source-line="25" data-link-type="association">
+      <path d="M241.5,401.077 C242.75,412.147 247.1,434.897 262,444.797 C320.85,483.917 362.15,483.917 421,444.797 C435.9,434.897 440.25,412.147 441.5,401.077" style="stroke:#181818;stroke-width:1;" fill="none" id="R_W08-P_W08" />
+      <text x="318.019" y="402.482" fill="#000" font-size="18" textLength="42.012">W08:</text>
+      <text x="290.5" y="425.123" fill="#000" font-size="18" textLength="102.05">ISessionHttp</text>
+      <path d="M334.429,467.066 A10,10 0 0 0 334.429 481.208" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="341.5" cy="474.137" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_W09 to P_W09-->
+    <g class="link" data-entity-1="ent0004" data-entity-2="ent0008" id="lnk11" data-source-line="26" data-link-type="association">
+      <path d="M246.38,342.797 C274.97,342.797 408.94,342.797 436.89,342.797" style="stroke:#181818;stroke-width:1;" fill="none" id="R_W09-P_W09" />
+      <text x="318.012" y="300.482" fill="#000" font-size="18" textLength="42.012">W09:</text>
+      <text x="278" y="323.123" fill="#000" font-size="18" textLength="127.037">IUserAdminHttp</text>
+      <path d="M334.804,335.726 A10,10 0 0 0 334.804 349.868" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="341.875" cy="342.797" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_W10 to P_W10-->
+    <g class="link" data-entity-1="ent0005" data-entity-2="ent0009" id="lnk12" data-source-line="27" data-link-type="association">
+      <path d="M243.27,284.607 C246.3,277.377 252.41,265.787 262,260.797 C324.68,228.167 358.32,228.167 421,260.797 C430.59,265.787 436.7,277.377 439.73,284.607" style="stroke:#181818;stroke-width:1;" fill="none" id="R_W10-P_W10" />
+      <text x="318.029" y="194.482" fill="#000" font-size="18" textLength="42.012">W10:</text>
+      <text x="280.5" y="217.123" fill="#000" font-size="18" textLength="122.071">IAuditReadHttp</text>
+      <path d="M334.429,229.253 A10,10 0 0 0 334.429 243.395" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="341.5" cy="236.324" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="legend" data-source-line="29">
+      <rect x="12" y="515.797" width="319.098" height="71.281" fill="#DDD" style="stroke:#000;stroke-width:1;" rx="7.5" ry="7.5" />
+      <text x="25" y="547.482" fill="#000" font-size="18" textLength="255.138">Socket: required. Ball: provided.</text>
+      <text x="25" y="570.123" fill="#000" font-size="18" textLength="293.098">Square: port. See CONTRACTS.md.</text>
+    </g>
+    <?plantuml-src XPF1Rjim38RlVWgYk-pIp4cxmlRD2J2ibww8E-GIO90jEX4YIwv4BqY7lljekKrSpC1yCAoV7_cJiaIADCAzH4EAJY2C1D59HN344Yfho8cA_DRmqYj2kC5RcNoju0kKeZeWusLojwZkuaXZJK0MdDhj2QHoM96o9l87PLhXHCFbcjOQTYhenAPTenUZgDyBQO_AxA0MskCe8h4MdQPltCs3Q10AONo1JjNJJA5U4ER9A4Zza9TGEWfftF4Gqsd6IlJOmY8UYKwOGn1lHs8hfEmxJwQcNV96xPpjZ5nPRHqSzxoHaw1r4jq0VLg49pe7uUf_F-aAX8VSUsnAVO8_4OnoUp3RclSIUP-zmN9hLbgnDAHk-YHehIFRSGu4TVrh4oVJSZefp-C8NZ-OYrRzO_wTgDsQPRyhmfq6__pihynxmSUH_KSrdLBVp4FJSFqvlXuAG0Rype2RAD1xFfQz_y2b5ouDN1gudnvTBXjr8UVncUHF9kTn8CCyQnGoaA_HSAIWj4IsFs0rHL1OlYoKWSFdZc-6dC5IQ9r1w-nl9NdDo7Cd76PXfXaKYB3wyV2qpbTFnQnXW6iEbVy2?>
+  </g>
+</svg>

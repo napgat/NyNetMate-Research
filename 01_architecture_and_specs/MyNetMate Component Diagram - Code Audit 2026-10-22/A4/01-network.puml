@@ -1,0 +1,47 @@
+@startuml
+title Network management\nbackend main @ 166e2ee
+top to bottom direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 18
+skinparam titleFontSize 19
+skinparam nodesep 24
+skinparam ranksep 30
+skinparam padding 8
+skinparam componentBackgroundColor white
+skinparam componentBorderColor #222222
+skinparam noteBackgroundColor #FAFAFA
+component "Network management" as Assembly {
+ component "devices :\nDeviceManagement" as Devices {
+  portout " " as R_N01
+  portout " " as P_N02
+  note "service.py" as Impl_Devices
+ }
+ component "collection :\nNetworkCollection" as Collection {
+  portin " " as R_N02
+  portout " " as R_N03
+  portout " " as R_N04
+  portin " " as P_N01
+ }
+ component "collector :\nInventory\nCollection" as Collector {
+  portout " " as R_N05
+  portin " " as P_N03
+  note "collector.py" as Impl_Collector
+ }
+ component "oxian :\nOxianPython" as Oxian {
+  portin " " as P_N04
+  portin " " as P_N05
+ }
+ R_N01 -(0- P_N01 : N01: \nITargetCollection
+ R_N02 -(0- P_N02 : N02: \nISnapshot\nApplication
+ R_N03 -(0- P_N03 : N03: \nIInventory\nCollection
+ R_N04 -(0- P_N04 : N04: \nIOxianDiscovery
+ R_N05 -(0- P_N05 : N05: \nISnmpClient
+}
+legend bottom left
+ Socket = required; ball = provided.
+ Square = port; contract IDs: CONTRACTS.md
+endlegend
+@enduml
+

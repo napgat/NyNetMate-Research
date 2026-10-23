@@ -1,0 +1,41 @@
+@startuml
+title Configuration web contracts\nwebsite ad95634 / backend 166e2ee
+left to right direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 18
+skinparam titleFontSize 19
+skinparam legendFontSize 18
+skinparam nodesep 20
+skinparam ranksep 24
+skinparam padding 8
+skinparam componentBackgroundColor white
+skinparam componentBorderColor #222222
+component "Configuration web contracts" as Assembly {
+ component "web :\nConfigurationWeb\nClient" as CW {
+  portout " " as R_W03
+  portout " " as R_W04
+  portout " " as R_W05
+  portout " " as R_W06
+  portout " " as R_W07
+ }
+ component "api :\nConfigurationHttp\nBoundary" as CA {
+  portin " " as P_W03
+  portin " " as P_W04
+  portin " " as P_W05
+  portin " " as P_W06
+  portin " " as P_W07
+ }
+ R_W03 -(0- P_W03 : W03: \nIConfigPreviewHttp
+ R_W04 -(0- P_W04 : W04: \nIConfigVersionHttp
+ R_W05 -(0- P_W05 : W05: \nIConfigDriftHttp
+ R_W06 -(0- P_W06 : W06: \nIInteractiveSshWeb\nSocket
+ R_W07 -(0- P_W07 : W07: \nIDeviceDetailHttp
+}
+legend bottom left
+ Socket: required. Ball: provided.
+ Square: port. See CONTRACTS.md.
+endlegend
+@enduml
+

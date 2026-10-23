@@ -1,0 +1,73 @@
+@startuml
+title MyNetMate - Web client / server interface contracts\nThree INDEPENDENT revision pairs | URL-contract trace, not a merged system or E2E test
+left to right direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 13
+skinparam nodesep 35
+skinparam ranksep 55
+skinparam padding 10
+skinparam componentBackgroundColor #F7FBFF
+skinparam componentBorderColor #315A78
+skinparam noteBackgroundColor #FFFBEA
+component "Network pair: website main 28ac37b / backend main 166e2ee" as NetworkPair {
+ component "web : NetworkWebClient" as NW {
+  portout " " as R_W01
+  portout " " as R_W02
+ }
+ component "api : NetworkHttpBoundary" as NA {
+  portin " " as P_W01
+  portin " " as P_W02
+ }
+ R_W01 -(0- P_W01 : W01: IDeviceInventoryHttp
+ R_W02 -(0- P_W02 : W02: IDiscoveryEventStream
+}
+component "Configuration pair: website config-ui ad95634 / backend main 166e2ee" as ConfigPair {
+ component "web : ConfigurationWebClient" as CW {
+  portout " " as R_W03
+  portout " " as R_W04
+  portout " " as R_W05
+  portout " " as R_W06
+  portout " " as R_W07
+ }
+ component "api : ConfigurationHttpBoundary" as CA {
+  portin " " as P_W03
+  portin " " as P_W04
+  portin " " as P_W05
+  portin " " as P_W06
+  portin " " as P_W07
+ }
+ R_W03 -(0- P_W03 : W03: IConfigPreviewHttp
+ R_W04 -(0- P_W04 : W04: IConfigVersionHttp
+ R_W05 -(0- P_W05 : W05: IConfigDriftHttp
+ R_W06 -(0- P_W06 : W06: IInteractiveSshWebSocket
+ R_W07 -(0- P_W07 : W07: IDeviceDetailHttp
+}
+component "Identity pair: website auth-audit-ui 3e4d85c / backend audit-writer b862c60" as AuthPair {
+ component "web : IdentityAuditWebClient" as AW {
+  portout " " as R_W08
+  portout " " as R_W09
+  portout " " as R_W10
+ }
+ component "api : IdentityAuditHttpBoundary" as AA {
+  portin " " as P_W08
+  portin " " as P_W09
+  portin " " as P_W10
+ }
+ R_W08 -(0- P_W08 : W08: ISessionHttp
+ R_W09 -(0- P_W09 : W09: IUserAdminHttp
+ R_W10 -(0- P_W10 : W10: IAuditReadHttp
+}
+legend bottom left
+ Square = UML Port (name suppressed). Socket = required; ball = provided.
+ Each assembly joins two simple ports for ONE named interface.
+ role : ComponentType denotes a part; types are logical software-module abstractions.
+ Contract IDs map to operations and immutable source evidence in README / CONTRACTS.md.
+ Each frame is a separate client/server contract mapping under the configured API base URL.
+ All contracts have source call sites; matching paths alone do not prove runtime interoperability.
+ The Configuration HTTP boundary includes config routers and the devices detail / SSH endpoints.
+ No binding joins the three frames. No CIS UI or Dashboard data service is invented.
+endlegend
+@enduml
+

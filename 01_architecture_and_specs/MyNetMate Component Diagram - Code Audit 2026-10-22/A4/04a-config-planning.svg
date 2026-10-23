@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="DESCRIPTION" style="width:391px;height:1019px;background:#FFFFFF;" width="88.25mm" height="230mm" viewBox="0 0 391 1019" zoomAndPan="magnify" preserveAspectRatio="none" contentStyleType="text/css">
+  <?plantuml 1.2026.9?>
+  <defs />
+  <g font-family="sans-serif" lengthAdjust="spacing">
+    <g class="title" data-source-line="1">
+      <text x="66.38" y="37.724" fill="#000" font-size="19" textLength="251.24" font-weight="700">Versions, drift and planning</text>
+      <text x="77.119" y="61.622" fill="#000" font-size="19" textLength="229.763" font-weight="700">backend main @ 166e2ee</text>
+    </g>
+    <!--cluster Assembly-->
+    <g class="cluster" data-qualified-name="Assembly" id="ent0001" data-source-line="14">
+      <rect x="7" y="91.797" width="370" height="817" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="357" y="96.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="355" y="98.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="355" y="102.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="72.992" y="131.482" fill="#000" font-size="18" textLength="238.017" font-weight="700">Versions, drift and planning</text>
+    </g>
+    <!--cluster Versions-->
+    <g class="cluster" data-qualified-name="Assembly.Versions" id="ent0002" data-source-line="15">
+      <rect x="209" y="393.797" width="152" height="241" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="341" y="398.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="339" y="400.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="339" y="404.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="242.483" y="433.482" fill="#000" font-size="18" textLength="85.034" font-weight="700">versions :</text>
+      <text x="223.499" y="456.123" fill="#000" font-size="18" textLength="123.003" font-weight="700">ConfigVersion</text>
+      <text x="253.504" y="478.764" fill="#000" font-size="18" textLength="62.991" font-weight="700">Module</text>
+    </g>
+    <!--cluster Drift-->
+    <g class="cluster" data-qualified-name="Assembly.Drift" id="ent0005" data-source-line="19">
+      <rect x="68" y="148.797" width="202" height="102" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="250" y="153.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="248" y="155.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="248" y="159.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="146.008" y="188.482" fill="#000" font-size="18" textLength="45.984" font-weight="700">drift :</text>
+      <text x="90.518" y="211.123" fill="#000" font-size="18" textLength="156.964" font-weight="700">ConfigDriftModule</text>
+    </g>
+    <!--cluster Planning-->
+    <g class="cluster" data-qualified-name="Assembly.Planning" id="ent0008" data-source-line="23">
+      <rect x="30" y="755.797" width="171" height="137" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="181" y="760.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="179" y="762.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="179" y="766.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="72.508" y="795.482" fill="#000" font-size="18" textLength="85.983" font-weight="700">planning :</text>
+      <text x="49.011" y="818.123" fill="#000" font-size="18" textLength="132.979" font-weight="700">ConfigPlanning</text>
+      <text x="84.004" y="840.764" fill="#000" font-size="18" textLength="62.991" font-weight="700">Module</text>
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Versions.R_C01" id="ent0003" data-source-line="16">
+      <text x="224.5" y="667.482" fill="#000" font-size="18"> </text>
+      <rect x="221" y="628.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Versions.P_C03" id="ent0004" data-source-line="17">
+      <text x="224.5" y="363.842" fill="#000" font-size="18"> </text>
+      <rect x="221" y="387.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Drift.R_C02" id="ent0006" data-source-line="20">
+      <text x="83.5" y="283.482" fill="#000" font-size="18"> </text>
+      <rect x="80" y="244.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Drift.R_C03" id="ent0007" data-source-line="21">
+      <text x="157.5" y="283.482" fill="#000" font-size="18"> </text>
+      <rect x="154" y="244.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Planning.P_C01" id="ent0009" data-source-line="24">
+      <text x="180.5" y="725.842" fill="#000" font-size="18"> </text>
+      <rect x="177" y="749.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Planning.P_C02" id="ent0010" data-source-line="25">
+      <text x="125.5" y="725.842" fill="#000" font-size="18"> </text>
+      <rect x="122" y="749.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_C01 to P_C01-->
+    <g class="link" data-entity-1="ent0003" data-entity-2="ent0009" id="lnk11" data-source-line="27" data-link-type="association">
+      <path d="M225.11,640.907 C217.9,660.397 192.21,729.887 184.93,749.567" style="stroke:#181818;stroke-width:1;" fill="none" id="R_C01-P_C01" />
+      <text x="276.034" y="691.482" fill="#000" font-size="18" textLength="38.021">C01:</text>
+      <text x="234" y="714.123" fill="#000" font-size="18" textLength="127.09">IConfigPlanning</text>
+      <path d="M214.131,690.986 A10,10 0 0 0 200.866 686.081" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="205.046" cy="695.166" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_C02 to P_C02-->
+    <g class="link" data-entity-1="ent0006" data-entity-2="ent0010" id="lnk12" data-source-line="28" data-link-type="association">
+      <path d="M83.18,256.997 C73.61,275.147 43,337.517 43,392.797 C43,392.797 43,392.797 43,635.797 C43,690.127 102.4,736.777 121.89,750.627" style="stroke:#181818;stroke-width:1;" fill="none" id="R_C02-P_C02" />
+      <text x="82.515" y="446.482" fill="#000" font-size="18" textLength="38.021">C02:</text>
+      <text x="59" y="469.123" fill="#000" font-size="18" textLength="90.053">ILiveConfig</text>
+      <text x="68.998" y="491.764" fill="#000" font-size="18" textLength="70.058">Planning</text>
+      <path d="M50.071,416.101 A10,10 0 0 0 35.929 416.101" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="43" cy="423.172" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_C03 to P_C03-->
+    <g class="link" data-entity-1="ent0007" data-entity-2="ent0004" id="lnk13" data-source-line="29" data-link-type="association">
+      <path d="M162.38,256.817 C172.78,278.697 214.1,365.637 224.57,387.687" style="stroke:#181818;stroke-width:1;" fill="none" id="R_C03-P_C03" />
+      <text x="267.018" y="307.482" fill="#000" font-size="18" textLength="38.021">C03:</text>
+      <text x="231" y="330.123" fill="#000" font-size="18" textLength="115.058">IRecordConfig</text>
+      <text x="258.013" y="352.764" fill="#000" font-size="18" textLength="61.031">Version</text>
+      <path d="M196.8,312.766 A10,10 0 0 0 184.027 318.837" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="193.449" cy="322.188" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="legend" data-source-line="31">
+      <rect x="12" y="928.797" width="319.098" height="71.281" fill="#DDD" style="stroke:#000;stroke-width:1;" rx="7.5" ry="7.5" />
+      <text x="25" y="960.482" fill="#000" font-size="18" textLength="255.138">Socket: required. Ball: provided.</text>
+      <text x="25" y="983.123" fill="#000" font-size="18" textLength="293.098">Square: port. See CONTRACTS.md.</text>
+    </g>
+    <?plantuml-src VLFVRzCm47xFNt4QBpomgdNHDFB45eI416Dg9fuY8RU-T5QTkynsEWsq_ntNILfN1F9WoT-F--vYssjl47wWTPh9lGDbTUr1aeBMI29DsuhMShF3W3HI4to4nTKL2iJCSmkUOStUSmDAMzpuK2HpEqsjjBA13JSj4v8l_Kj8wHeZ4jOzIiNF8G5gQHmcZC9QTiP_Pl9tia4e9RaIGsVJcbB_GbXS9wG_J7MYFYIKmMsOPTf6hD1X2sAUW5RIBeBl4x2LIXqwlvwQzZRyhwtbZbJ1XYqyFsgFaqAs2cqlUYFYbnr9kFZVgLo0T73Z73PhymA_CqXy-y47UKK5KwstGwMAlh7g34RpMFrWXfQjvovu8NAhdyLyCS3Xp0VqFg3B35xFmlhMZacV3jia9Ux_5I6cuRyong5FCVV7ovbaZU0nxhprwO5438i3m-NR-MKlXHp2caD5Nyu3UwauIKMKYYZzglVOooiwDonFXcKqBADXXPjm1KRBS2BPQzPVql5f6Qnz1YM7L-XpiFZKXRUcPd0hZScXjRpNAko3vAcJ5lCuvGnAH2Y-tpsiReg7SjO4GQZPL_u3?>
+  </g>
+</svg>

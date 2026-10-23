@@ -31,7 +31,7 @@
 
 | สิ่งที่แสดงบนหน้า | แหล่งข้อมูล/เจ้าของที่ควรอ้างอิง | สถานะของข้อตกลง |
 | --- | --- | --- |
-| จำนวนอุปกรณ์และสถานะล่าสุด | Device Inventory; ดู [เอกสารของ Device Inventory](../../02_Device%20Inventory%20Management%28Tee%29/README%201.md) และ Contract/โค้ดที่ทีมยืนยัน | **รอยืนยัน Contract ฉบับที่จะรวมใช้งาน** โดยเฉพาะความหมายของสถานะและเวลาตรวจล่าสุด |
+| จำนวนอุปกรณ์และสถานะล่าสุด | Device Inventory; ใช้ [Device/API Contract ที่เทียบโค้ด 2026-10-22](04_API%20Contracts.md) พร้อม Source code ที่ลิงก์ไว้ | ตรวจ Field/Enum/เวลาแล้ว; ผู้ใช้ยืนยันเกณฑ์อายุ 900 วินาทีและแบบ URL ตัวกรองแล้ว ส่วน Aggregation/การรับ URL หน้าเว็บยังต้องพัฒนาและทดสอบ |
 | จำนวน Config ที่บันทึก | ฟีเจอร์ Configuration Management/Version Control ตาม Owner ที่ทีมกำหนด | **รอยืนยัน** ว่านับ Config ชนิดใดและจากข้อมูลชุดใด; ห้ามแสดงตัวเลขที่ไม่มีนิยาม |
 | จำนวนผลตรวจ Critical | Security & Validation; ดู [MVP ของ Security](../../09_Security%20%26%20Validation%28King%29/01_MVP%20Feature.md) | **รอยืนยัน** ว่านับ Finding หรืออุปกรณ์ ใช้ผลตรวจล่าสุดอย่างไร และจัดการ Override อย่างไร |
 | กิจกรรมล่าสุด | Audit Trail; ดู [Integration Contract Matrix](../../11_Audit%20Trail%28Naphat%29/06_Integration%20Contract%20Matrix.md) และ Auth Permission Catalog | มีข้อตกลงเรื่อง Positive Allowlist, สิทธิ์ และ Redaction แล้ว; Dashboard อ่านอย่างเดียว |
@@ -55,10 +55,12 @@ Dashboard ทำหน้าที่ **อ่านและสรุปข้�
 
 ## 5. สิ่งที่ยังต้องยืนยันก่อนล็อก UI และ API
 
-1. Device Inventory: สถานะใดนับเป็น “ติดต่อไม่ได้”, Maintenance แยกจากการนับอย่างไร และใช้เวลาใดเป็น “ตรวจล่าสุด”
+1. Device Inventory: Field/Enum/เวลาตรวจเทียบโค้ดแล้ว และเกณฑ์ 15 นาทีพร้อมแบบ URL ยืนยันโดยผู้ใช้แล้ว; งานต่อคือพัฒนาและทดสอบการเชื่อมตาม Contract ไม่ต้องถามค่าเกณฑ์ซ้ำ
 2. Configuration: “จำนวน Config” หมายถึงจำนวนเอกสาร, เวอร์ชัน, งานที่สร้าง หรืออย่างอื่น
 3. Security: จำนวน Critical มาจากผลตรวจล่าสุดชุดใด และ Override มีผลต่อจำนวนที่แสดงหรือไม่
 4. Settings/System: แหล่งจริงของ Offline Mode และเกณฑ์แสดง Backend/Database ว่าพร้อมใช้งาน
 5. UI: ทดสอบภาพร่างกับผู้ใช้หรืออาจารย์ว่ามองเห็น “สิ่งที่ต้องตรวจ” และเข้าใจเวลา/กรณีไม่มีข้อมูลได้จริง
 
-เมื่อข้อ 1–4 ชัดเจน จึงแก้ [API Contracts](04_API%20Contracts.md) และ [Acceptance Tests](05_Acceptance%20Tests%20และ%20Success%20Metrics.md) ให้ตรงกับหน้าจอ โดยไม่ยึดค่า `online/offline` หรือ `site_id` ในตัวอย่างเก่าหากไม่ตรงกับ Contract ที่ทีมเลือกใช้
+อัปเดต [API Contracts](04_API%20Contracts.md) และ [Acceptance Tests](05_Acceptance%20Tests%20และ%20Success%20Metrics.md) ส่วน Device แล้วเมื่อ 2026-10-22; ใช้ `reachability` และ `management_state` แทนคีย์ `online/offline` เก่า ส่วนตัวกรอง Site/Group ยังไม่อยู่ใน D&M P1 รอบแรก แม้ Inventory มี Field/API รองรับ
+
+**ที่มาของค่า 15 นาที:** เป็นมติการออกแบบของผู้ใช้เมื่อ 2026-10-22 สำหรับ MyNetMate P1 ไม่ใช่ค่าที่อ้างว่าบังคับตาม Zabbix/Grafana หรือมาตรฐานเครือข่าย และไม่ทำให้เกิดการตั้งรอบตรวจอุปกรณ์อัตโนมัติ

@@ -1,0 +1,53 @@
+@startuml
+title MyNetMate - CIS validation component assembly\nbackend feature/08-cis-security-validation @ 0f65dd8 | NOT connected to main deployment
+left to right direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 13
+skinparam nodesep 35
+skinparam ranksep 55
+skinparam padding 10
+skinparam componentBackgroundColor #F7FBFF
+skinparam componentBorderColor #315A78
+skinparam noteBackgroundColor #FFFBEA
+component "CIS Validation (branch-local internal structure)" as CISSystem {
+ component "http : SecurityHttpBoundary" as HTTP {
+  portout " " as R_S01
+  portout " " as R_S02
+  portout " " as R_S03
+ }
+ component "security : SecurityValidation" as Security {
+  portout " " as R_S04
+  portout " " as R_S05
+  portin " " as P_S01
+ }
+ component "engine : RuleEngineModule" as Engine {
+  portin " " as P_S04
+ }
+ component "actor : HeaderIdentityModule" as Actor {
+  portin " " as P_S02
+ }
+ component "audit : LogAuditModule" as Audit {
+  portin " " as P_S05
+ }
+ component "database : DatabaseRuntime" as Database {
+  portin " " as P_S03
+ }
+ R_S01 -(0- P_S01 : S01: ISecurityOperations
+ R_S02 -(0- P_S02 : S02: IActorRoleDependency
+ R_S03 -(0- P_S03 : S03: IRequestSessionDependency
+ R_S04 -(0- P_S04 : S04: IConfigRuleEvaluation
+ R_S05 -(0- P_S05 : S05: IBranchAuditRecord
+}
+legend bottom left
+ Square = UML Port (name suppressed). Socket = required; ball = provided.
+ Each assembly joins two simple ports for ONE named interface.
+ role : ComponentType denotes a part; types are logical software-module abstractions.
+ Contract IDs map to operations and immutable source evidence in README / CONTRACTS.md.
+ Header identity is an unverified development bridge, not session-backed authentication.
+ LogAuditModule does not write shared AuditLog rows; no shared Audit Writer binding is asserted.
+ db is passed from the HTTP boundary to SecurityValidation as an operation parameter.
+ No connection to main's deployment or a CIS frontend is present in the inspected revisions.
+endlegend
+@enduml

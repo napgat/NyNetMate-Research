@@ -1,0 +1,1128 @@
+{
+  "modelVersion": 2,
+  "auditDate": "2026-10-22",
+  "refs": {
+    "main": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+    "auth": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+    "cis": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+    "webNetwork": "28ac37ba3d878cdbd0bdc6209cfca95bfb5c964e",
+    "webConfig": "ad95634ca7c10f22591c4b8a7e8267da388d74ed",
+    "webAuth": "3e4d85cbc94bcaab6fd6f4e1d9cd41ce56659251",
+    "oxian": "59ee94f6f6bd59dfc18020929dad894f58ab5b62"
+  },
+  "models": [
+    {
+      "file": "01-components-across-branches",
+      "title": "MyNetMate - Network Management components",
+      "subtitle": "backend main @ 166e2ee | selected internal contracts | no cross-branch assembly",
+      "groups": [
+        {
+          "id": "NetworkSystem",
+          "name": "Network Management",
+          "nodes": [
+            {
+              "id": "Devices",
+              "role": "devices",
+              "type": "DeviceManagement"
+            },
+            {
+              "id": "Collection",
+              "role": "collection",
+              "type": "NetworkCollection"
+            },
+            {
+              "id": "Collector",
+              "role": "collector",
+              "type": "InventoryCollection"
+            },
+            {
+              "id": "Oxian",
+              "role": "oxian",
+              "type": "OxianPython"
+            }
+          ],
+          "contracts": [
+            {
+              "id": "N01",
+              "from": "Devices",
+              "to": "Collection",
+              "name": "ITargetCollection",
+              "operations": [
+                "collect_target(db, target, credential_id, environment, timeout, ...)"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/devices/service.py",
+                  "pattern": "await collection_service.collect_target("
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/network_device_discovery/service.py",
+                  "pattern": "async def collect_target("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "N02",
+              "from": "Collection",
+              "to": "Devices",
+              "name": "ISnapshotApplication",
+              "operations": [
+                "apply_snapshot(db, snapshot, credential_id, source, assignments, groups, require_new)"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/network_device_discovery/service.py",
+                  "pattern": "await device_service.apply_snapshot("
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/devices/service.py",
+                  "pattern": "async def apply_snapshot("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "N03",
+              "from": "Collection",
+              "to": "Collector",
+              "name": "IInventoryCollection",
+              "operations": [
+                "collect(target, community, port, timeout) -> Snapshot"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/network_device_discovery/service.py",
+                  "pattern": "await collector.collect("
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/devices/collector.py",
+                  "pattern": "async def collect("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "N04",
+              "from": "Collection",
+              "to": "Oxian",
+              "name": "IOxianDiscovery",
+              "operations": [
+                "discover(...)",
+                "discover_stream(...)"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/network_device_discovery/service.py",
+                  "pattern": "from oxian_py import discover, discover_stream"
+                },
+                {
+                  "repo": "oxian",
+                  "ref": "59ee94f6f6bd59dfc18020929dad894f58ab5b62",
+                  "path": "oxian_py/__init__.py",
+                  "pattern": "discover_stream"
+                }
+              ],
+              "notes": "Oxian version is the uv.lock revision, inspected in a separate bare repository."
+            },
+            {
+              "id": "N05",
+              "from": "Collector",
+              "to": "Oxian",
+              "name": "ISnmpClient",
+              "operations": [
+                "SnmpClient lifecycle",
+                "get(oid), walk_column(oid), walk_lldp_column(oid)"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/devices/collector.py",
+                  "pattern": "from oxian_py.snmp.client import SnmpClient"
+                },
+                {
+                  "repo": "oxian",
+                  "ref": "59ee94f6f6bd59dfc18020929dad894f58ab5b62",
+                  "path": "oxian_py/snmp/client.py",
+                  "pattern": "class SnmpClient"
+                }
+              ],
+              "notes": "StrictSnmpClient extends SnmpClient; local walk override is not attributed to the library."
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Both directions between Devices and Collection are real service contracts, not request/response arrows.",
+        "HTTP routes, SQLAlchemy sessions and health/topology internals are deliberately omitted.",
+        "Discovery is permitted only in an isolated lab; this work performed no network or device I/O."
+      ]
+    },
+    {
+      "file": "02-auth-audit-binding",
+      "title": "MyNetMate - Authentication / Audit component assembly",
+      "subtitle": "backend feature/11-audit-writer @ b862c60 | application-owned contracts",
+      "groups": [
+        {
+          "id": "AuthSystem",
+          "name": "Authentication / Audit (selected internal structure)",
+          "nodes": [
+            {
+              "id": "Auth",
+              "role": "auth",
+              "type": "AuthenticationService"
+            },
+            {
+              "id": "Bootstrap",
+              "role": "bootstrap",
+              "type": "UserProvisioning"
+            },
+            {
+              "id": "Adapter",
+              "role": "adapter",
+              "type": "AuthAuditAdapterModule"
+            },
+            {
+              "id": "Writer",
+              "role": "writer",
+              "type": "AuditAppendModule"
+            },
+            {
+              "id": "Reader",
+              "role": "reader",
+              "type": "AuditReadModule"
+            },
+            {
+              "id": "Database",
+              "role": "database",
+              "type": "DatabaseRuntime"
+            }
+          ],
+          "contracts": [
+            {
+              "id": "A01",
+              "from": "Auth",
+              "to": "Adapter",
+              "name": "IRecordAuthEvent",
+              "operations": [
+                "record_auth_event(action, resource_type, resource_id, actor_id)"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/authentication/service.py",
+                  "pattern": "AuthAuditAdapter(db, self._writer).record_auth_event("
+                },
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/authentication/audit_adapter.py",
+                  "pattern": "async def record_auth_event("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "A02",
+              "from": "Bootstrap",
+              "to": "Adapter",
+              "name": "IRecordAuthEvent",
+              "operations": [
+                "record_auth_event(action, resource_type, resource_id, actor_id)"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/authentication/provisioning.py",
+                  "pattern": "AuthAuditAdapter(db, self._writer).record_auth_event("
+                },
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/authentication/audit_adapter.py",
+                  "pattern": "async def record_auth_event("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "A03",
+              "from": "Adapter",
+              "to": "Writer",
+              "name": "AuditWriter",
+              "operations": [
+                "async __call__(*, db, action, resource_type, result, user_id, resource_id, safe_error_category, description)"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/authentication/audit_adapter.py",
+                  "pattern": "class AuditWriter(Protocol):"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/authentication/runtime.py",
+                  "pattern": "audit_writer=record_audit_event"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/audit_trail/writer.py",
+                  "pattern": "async def record_audit_event("
+                }
+              ],
+              "notes": "This interface is a real Python Protocol; runtime.py injects its implementation."
+            },
+            {
+              "id": "A04",
+              "from": "Auth",
+              "to": "Database",
+              "name": "IAsyncSessionFactory",
+              "operations": [
+                "async_session_factory() -> AsyncSession"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/authentication/runtime.py",
+                  "pattern": "session_factory=async_session_factory"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/core/database.py",
+                  "pattern": "async_session_factory = async_sessionmaker("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "A05",
+              "from": "Bootstrap",
+              "to": "Database",
+              "name": "IAsyncSessionFactory",
+              "operations": [
+                "async_session_factory() -> AsyncSession"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/authentication/provisioning.py",
+                  "pattern": "session_factory=async_session_factory"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/core/database.py",
+                  "pattern": "async_session_factory = async_sessionmaker("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "A06",
+              "from": "Reader",
+              "to": "Database",
+              "name": "IAsyncSessionFactory",
+              "operations": [
+                "async_session_factory() -> AsyncSession"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/audit_trail/router.py",
+                  "pattern": "session_factory="
+                },
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/audit_trail/reader.py",
+                  "pattern": "async with self._sessions() as db:"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/core/database.py",
+                  "pattern": "async_session_factory = async_sessionmaker("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "A07",
+              "from": "Reader",
+              "to": "Auth",
+              "name": "IAuthorize",
+              "operations": [
+                "authorize(cookie_token, permission_key) -> PublicUser"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/audit_trail/router.py",
+                  "pattern": "authorizer="
+                },
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/audit_trail/reader.py",
+                  "pattern": "await self._authorizer(cookie_token, \"audit.read\")"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/authentication/service.py",
+                  "pattern": "async def authorize("
+                }
+              ],
+              "notes": ""
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Writer receives the caller-owned db session in AuditWriter; it does NOT call a session factory.",
+        "The writer adds and flushes an AuditLog; the caller owns commit / rollback.",
+        "HTTP routers and permission-boundary internals are omitted; see the separate web-contract view."
+      ]
+    },
+    {
+      "file": "03-cis-branch-boundaries",
+      "title": "MyNetMate - CIS validation component assembly",
+      "subtitle": "backend feature/08-cis-security-validation @ 0f65dd8 | NOT connected to main deployment",
+      "groups": [
+        {
+          "id": "CISSystem",
+          "name": "CIS Validation (branch-local internal structure)",
+          "nodes": [
+            {
+              "id": "HTTP",
+              "role": "http",
+              "type": "SecurityHttpBoundary"
+            },
+            {
+              "id": "Security",
+              "role": "security",
+              "type": "SecurityValidation"
+            },
+            {
+              "id": "Engine",
+              "role": "engine",
+              "type": "RuleEngineModule"
+            },
+            {
+              "id": "Actor",
+              "role": "actor",
+              "type": "HeaderIdentityModule"
+            },
+            {
+              "id": "Audit",
+              "role": "audit",
+              "type": "LogAuditModule"
+            },
+            {
+              "id": "Database",
+              "role": "database",
+              "type": "DatabaseRuntime"
+            }
+          ],
+          "contracts": [
+            {
+              "id": "S01",
+              "from": "HTTP",
+              "to": "Security",
+              "name": "ISecurityOperations",
+              "operations": [
+                "scan(db, payload, actor)",
+                "get_scan, override, list_rules, create_rule, update_rule, deactivate_rule"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+                  "path": "app/features/cis_security_validation/router.py",
+                  "pattern": "await security_service.scan(db, payload, actor)"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+                  "path": "app/features/cis_security_validation/service.py",
+                  "pattern": "async def scan("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "S02",
+              "from": "HTTP",
+              "to": "Actor",
+              "name": "IActorRoleDependency",
+              "operations": [
+                "get_current_actor()",
+                "AnyRole, OperatorOrAdmin, AdminOnly dependencies"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+                  "path": "app/features/cis_security_validation/router.py",
+                  "pattern": "Depends(OperatorOrAdmin)"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+                  "path": "app/core/actor.py",
+                  "pattern": "def require_roles("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "S03",
+              "from": "HTTP",
+              "to": "Database",
+              "name": "IRequestSessionDependency",
+              "operations": [
+                "get_db() yields AsyncSession (FastAPI Depends)"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+                  "path": "app/features/cis_security_validation/router.py",
+                  "pattern": "DbSession = Annotated[AsyncSession, Depends(get_db)]"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+                  "path": "app/core/database.py",
+                  "pattern": "async def get_db("
+                }
+              ],
+              "notes": "The HTTP dependency boundary obtains db and passes it to service methods; the service does not call get_db."
+            },
+            {
+              "id": "S04",
+              "from": "Security",
+              "to": "Engine",
+              "name": "IConfigRuleEvaluation",
+              "operations": [
+                "evaluate_config(target_config, rules, vendor)"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+                  "path": "app/features/cis_security_validation/service.py",
+                  "pattern": "evaluate_config(payload.target_config, rules, vendor)"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+                  "path": "app/features/cis_security_validation/rule_engine.py",
+                  "pattern": "def evaluate_config("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "S05",
+              "from": "Security",
+              "to": "Audit",
+              "name": "IBranchAuditRecord",
+              "operations": [
+                "record_audit_event(db, action, resource_type, result, ...)"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+                  "path": "app/features/cis_security_validation/service.py",
+                  "pattern": "await audit.record_audit_event("
+                },
+                {
+                  "repo": "backend",
+                  "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+                  "path": "app/core/audit.py",
+                  "pattern": "logger.info("
+                }
+              ],
+              "notes": "Not the AuditWriter Protocol: branch signature / behavior differ, and only an application log is written."
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Header identity is an unverified development bridge, not session-backed authentication.",
+        "LogAuditModule does not write shared AuditLog rows; no shared Audit Writer binding is asserted.",
+        "db is passed from the HTTP boundary to SecurityValidation as an operation parameter.",
+        "No connection to main's deployment or a CIS frontend is present in the inspected revisions."
+      ]
+    },
+    {
+      "file": "04-configuration-main",
+      "title": "MyNetMate - Configuration component assembly",
+      "subtitle": "backend main @ 166e2ee | source-backed module boundaries | no device commands executed",
+      "groups": [
+        {
+          "id": "ConfigSystem",
+          "name": "Configuration Management (selected internal structure)",
+          "nodes": [
+            {
+              "id": "Versions",
+              "role": "versions",
+              "type": "ConfigVersionModule"
+            },
+            {
+              "id": "Drift",
+              "role": "drift",
+              "type": "ConfigDriftModule"
+            },
+            {
+              "id": "Planning",
+              "role": "planning",
+              "type": "ConfigPlanningModule"
+            },
+            {
+              "id": "Render",
+              "role": "render",
+              "type": "TemplateRenderModule"
+            },
+            {
+              "id": "Diff",
+              "role": "diff",
+              "type": "RemediationModule"
+            },
+            {
+              "id": "SSH",
+              "role": "ssh",
+              "type": "NetmikoAdapter"
+            }
+          ],
+          "contracts": [
+            {
+              "id": "C01",
+              "from": "Versions",
+              "to": "Planning",
+              "name": "IConfigPlanning",
+              "operations": [
+                "build_plan(db, request)",
+                "resolve_connection(db, device_id)",
+                "parameters_from_config(...)"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_version_control/service.py",
+                  "pattern": "await build_plan(db, payload)"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_generation/service.py",
+                  "pattern": "async def build_plan("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "C02",
+              "from": "Drift",
+              "to": "Planning",
+              "name": "ILiveConfigPlanning",
+              "operations": [
+                "build_plan(db, request)",
+                "resolve_connection, capture_live_config, parameters_from_config"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_version_control/drift.py",
+                  "pattern": "await build_plan(db, ConfigGenerationRequest("
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_generation/service.py",
+                  "pattern": "async def capture_live_config("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "C03",
+              "from": "Drift",
+              "to": "Versions",
+              "name": "IRecordConfigVersion",
+              "operations": [
+                "record_version(db, device_id, content, message)"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_version_control/drift.py",
+                  "pattern": "await config_version_service.record_version("
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_version_control/service.py",
+                  "pattern": "async def record_version("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "C04",
+              "from": "Planning",
+              "to": "Render",
+              "name": "IConfigRendering",
+              "operations": [
+                "render_config(device_type, parameters) -> str"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_generation/service.py",
+                  "pattern": "render_config("
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_generation/render.py",
+                  "pattern": "def render_config("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "C05",
+              "from": "Planning",
+              "to": "Diff",
+              "name": "IRemediationPlanning",
+              "operations": [
+                "compute_remediation_plan(...)",
+                "compute_full_push_plan(...)",
+                "managed_match_rules(...)"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_generation/service.py",
+                  "pattern": "compute_remediation_plan("
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_generation/remediation.py",
+                  "pattern": "def compute_remediation_plan("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "C06",
+              "from": "Planning",
+              "to": "SSH",
+              "name": "IRunningConfigRead",
+              "operations": [
+                "capture_running_config(host, device_type, username, password, secret)"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_generation/service.py",
+                  "pattern": "netmiko_ops.capture_running_config"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_generation/netmiko_ops.py",
+                  "pattern": "def capture_running_config("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "C07",
+              "from": "Versions",
+              "to": "SSH",
+              "name": "IConfigDeployIO",
+              "operations": [
+                "push_config(...)",
+                "capture_running_config(...) for post-deploy verification"
+              ],
+              "evidence": [
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_version_control/service.py",
+                  "pattern": "netmiko_ops.push_config"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_generation/netmiko_ops.py",
+                  "pattern": "def push_config("
+                }
+              ],
+              "notes": ""
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Render uses Jinja2; Remediation uses hier_config; SSH adapter uses Netmiko. They are NOT one component.",
+        "db sessions are operation parameters; factory / ORM plumbing is omitted, not inferred.",
+        "Main contains SSH push paths but no binding to the CIS gate in the inspected CIS branch.",
+        "This is a code structure view, not a deployment approval, hardware-support claim or execution trace."
+      ]
+    },
+    {
+      "file": "05-web-contract-pairs",
+      "title": "MyNetMate - Web client / server interface contracts",
+      "subtitle": "Three INDEPENDENT revision pairs | URL-contract trace, not a merged system or E2E test",
+      "groups": [
+        {
+          "id": "NetworkPair",
+          "name": "Network pair: website main 28ac37b / backend main 166e2ee",
+          "nodes": [
+            {
+              "id": "NW",
+              "role": "web",
+              "type": "NetworkWebClient"
+            },
+            {
+              "id": "NA",
+              "role": "api",
+              "type": "NetworkHttpBoundary"
+            }
+          ],
+          "contracts": [
+            {
+              "id": "W01",
+              "from": "NW",
+              "to": "NA",
+              "name": "IDeviceInventoryHttp",
+              "operations": [
+                "/api/v1/devices (inventory, detail, topology, status)"
+              ],
+              "evidence": [
+                {
+                  "repo": "website",
+                  "ref": "28ac37ba3d878cdbd0bdc6209cfca95bfb5c964e",
+                  "path": "src/features/devices/DeviceInventoryPage.tsx",
+                  "pattern": "listDevicesApiV1DevicesGetOptions"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/devices/router.py",
+                  "pattern": "prefix='/devices'"
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "W02",
+              "from": "NW",
+              "to": "NA",
+              "name": "IDiscoveryEventStream",
+              "operations": [
+                "GET /api/v1/network-discovery/scan/stream (SSE)"
+              ],
+              "evidence": [
+                {
+                  "repo": "website",
+                  "ref": "28ac37ba3d878cdbd0bdc6209cfca95bfb5c964e",
+                  "path": "src/features/topology/hooks/useNetworkScan.ts",
+                  "pattern": "new EventSource(streamUrl)"
+                },
+                {
+                  "repo": "website",
+                  "ref": "28ac37ba3d878cdbd0bdc6209cfca95bfb5c964e",
+                  "path": "src/shared/config.ts",
+                  "pattern": "/api/v1/network-discovery/scan/stream"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/network_device_discovery/router.py",
+                  "pattern": "/scan/stream"
+                }
+              ],
+              "notes": ""
+            }
+          ]
+        },
+        {
+          "id": "ConfigPair",
+          "name": "Configuration pair: website config-ui ad95634 / backend main 166e2ee",
+          "nodes": [
+            {
+              "id": "CW",
+              "role": "web",
+              "type": "ConfigurationWebClient"
+            },
+            {
+              "id": "CA",
+              "role": "api",
+              "type": "ConfigurationHttpBoundary"
+            }
+          ],
+          "contracts": [
+            {
+              "id": "W03",
+              "from": "CW",
+              "to": "CA",
+              "name": "IConfigPreviewHttp",
+              "operations": [
+                "GET /api/v1/configs/{device_id}/current",
+                "POST /api/v1/configs/generate"
+              ],
+              "evidence": [
+                {
+                  "repo": "website",
+                  "ref": "ad95634ca7c10f22591c4b8a7e8267da388d74ed",
+                  "path": "src/features/config/ConfigEditorPage.tsx",
+                  "pattern": "generateApiV1ConfigsGeneratePostMutation"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_generation/router.py",
+                  "pattern": "\"/generate\""
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "W04",
+              "from": "CW",
+              "to": "CA",
+              "name": "IConfigVersionHttp",
+              "operations": [
+                "POST /api/v1/config-versions",
+                "GET versions and version parameters"
+              ],
+              "evidence": [
+                {
+                  "repo": "website",
+                  "ref": "ad95634ca7c10f22591c4b8a7e8267da388d74ed",
+                  "path": "src/features/config/ConfigEditorPage.tsx",
+                  "pattern": "createConfigVersionApiV1ConfigVersionsPostMutation"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_version_control/router.py",
+                  "pattern": "async def create_config_version("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "W05",
+              "from": "CW",
+              "to": "CA",
+              "name": "IConfigDriftHttp",
+              "operations": [
+                "GET /api/v1/config-drift",
+                "POST device check / accept"
+              ],
+              "evidence": [
+                {
+                  "repo": "website",
+                  "ref": "ad95634ca7c10f22591c4b8a7e8267da388d74ed",
+                  "path": "src/features/config/components/DriftPanel.tsx",
+                  "pattern": "checkDeviceApiV1ConfigDriftDeviceIdCheckPostMutation"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/config_version_control/router.py",
+                  "pattern": "async def check_device("
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "W06",
+              "from": "CW",
+              "to": "CA",
+              "name": "IInteractiveSshWebSocket",
+              "operations": [
+                "WS /api/v1/devices/{device_id}/ssh"
+              ],
+              "evidence": [
+                {
+                  "repo": "website",
+                  "ref": "ad95634ca7c10f22591c4b8a7e8267da388d74ed",
+                  "path": "src/features/devices/components/SshConsoleTab.tsx",
+                  "pattern": "new WebSocket(appConfig.endpoints.sshConsole(deviceId))"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/devices/router.py",
+                  "pattern": "/{device_id}/ssh"
+                }
+              ],
+              "notes": "Interactive SSH console belongs to devices/ssh_console.py; separate from Netmiko configuration adapter."
+            },
+            {
+              "id": "W07",
+              "from": "CW",
+              "to": "CA",
+              "name": "IDeviceDetailHttp",
+              "operations": [
+                "GET /api/v1/devices/{device_id}"
+              ],
+              "evidence": [
+                {
+                  "repo": "website",
+                  "ref": "ad95634ca7c10f22591c4b8a7e8267da388d74ed",
+                  "path": "src/features/config/ConfigEditorPage.tsx",
+                  "pattern": "getDeviceDetailApiV1DevicesDeviceIdGetOptions"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+                  "path": "app/features/devices/router.py",
+                  "pattern": "async def get_device_detail("
+                }
+              ],
+              "notes": ""
+            }
+          ]
+        },
+        {
+          "id": "AuthPair",
+          "name": "Identity pair: website auth-audit-ui 3e4d85c / backend audit-writer b862c60",
+          "nodes": [
+            {
+              "id": "AW",
+              "role": "web",
+              "type": "IdentityAuditWebClient"
+            },
+            {
+              "id": "AA",
+              "role": "api",
+              "type": "IdentityAuditHttpBoundary"
+            }
+          ],
+          "contracts": [
+            {
+              "id": "W08",
+              "from": "AW",
+              "to": "AA",
+              "name": "ISessionHttp",
+              "operations": [
+                "/api/auth/login, me, logout, change-password"
+              ],
+              "evidence": [
+                {
+                  "repo": "website",
+                  "ref": "3e4d85cbc94bcaab6fd6f4e1d9cd41ce56659251",
+                  "path": "src/features/authentication/actions.ts",
+                  "pattern": "/api/auth/login"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/authentication/router.py",
+                  "pattern": "\"/login\""
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "W09",
+              "from": "AW",
+              "to": "AA",
+              "name": "IUserAdminHttp",
+              "operations": [
+                "GET/POST /api/admin/users",
+                "PATCH /api/admin/users/{user_id}"
+              ],
+              "evidence": [
+                {
+                  "repo": "website",
+                  "ref": "3e4d85cbc94bcaab6fd6f4e1d9cd41ce56659251",
+                  "path": "src/features/users/UsersPage.tsx",
+                  "pattern": "/api/admin/users"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/authentication/admin_router.py",
+                  "pattern": "\"/users\""
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "id": "W10",
+              "from": "AW",
+              "to": "AA",
+              "name": "IAuditReadHttp",
+              "operations": [
+                "GET /api/audit-logs"
+              ],
+              "evidence": [
+                {
+                  "repo": "website",
+                  "ref": "3e4d85cbc94bcaab6fd6f4e1d9cd41ce56659251",
+                  "path": "src/features/audit/AuditPage.tsx",
+                  "pattern": "/api/audit-logs"
+                },
+                {
+                  "repo": "backend",
+                  "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+                  "path": "app/features/audit_trail/router.py",
+                  "pattern": "\"/audit-logs\""
+                }
+              ],
+              "notes": ""
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Each frame is a separate client/server contract mapping under the configured API base URL.",
+        "All contracts have source call sites; matching paths alone do not prove runtime interoperability.",
+        "The Configuration HTTP boundary includes config routers and the devices detail / SSH endpoints.",
+        "No binding joins the three frames. No CIS UI or Dashboard data service is invented."
+      ]
+    }
+  ]
+}

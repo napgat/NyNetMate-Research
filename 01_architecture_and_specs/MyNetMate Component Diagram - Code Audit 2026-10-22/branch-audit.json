@@ -1,0 +1,597 @@
+{
+  "audit_date": "2026-10-22",
+  "timezone": "Asia/Bangkok",
+  "repositories": [
+    {
+      "repo": "mynetmate",
+      "head": "84e088bb8d5bb1a5540f2ae8116dddb44f57af39",
+      "branch": "codex/travel-checkpoint-20261003",
+      "dirty": [
+        "?? network-discovery/"
+      ],
+      "refs": [
+        {
+          "ref": "refs/heads/codex/travel-checkpoint-20261003",
+          "sha": "84e088bb8d5bb1a5540f2ae8116dddb44f57af39",
+          "tree": "d61cf35b3628c4b4abcea70e29e4501a7c6818ca",
+          "date": "2026-10-03"
+        },
+        {
+          "ref": "refs/heads/main",
+          "sha": "33e10d32b9457139d1001d018e051d80557860f5",
+          "tree": "32d790089eec34371f8a1911aa583a1227996a87",
+          "date": "2026-09-02"
+        },
+        {
+          "ref": "refs/remotes/origin/codex/root-compose",
+          "sha": "6c260a110ae4c828a3a4eb2bb7149e2dbc8d1fff",
+          "tree": "182f34a7d13890fe73a64a2f8735075a15d9d67f",
+          "date": "2026-09-24"
+        },
+        {
+          "ref": "refs/remotes/origin/codex/travel-checkpoint-20261003",
+          "sha": "84e088bb8d5bb1a5540f2ae8116dddb44f57af39",
+          "tree": "d61cf35b3628c4b4abcea70e29e4501a7c6818ca",
+          "date": "2026-10-03"
+        },
+        {
+          "ref": "refs/remotes/origin/dependabot/submodules/backend-44b580f",
+          "sha": "e79b6e55c681c59220800e44f5899a19890f94b8",
+          "tree": "6bf86002f7170793b43c642ac6e8ad240ecb5771",
+          "date": "2026-09-11"
+        },
+        {
+          "ref": "refs/remotes/origin/fix/selinux-compose-mount",
+          "sha": "4355c802e235648243ea8b2a5192ed97727d16ae",
+          "tree": "d4dd91e1354cd0574d11499b0f3cebcef139fc39",
+          "date": "2026-10-16"
+        },
+        {
+          "ref": "refs/remotes/origin/main",
+          "sha": "20809e49f8094987659323fdc60acce78120ad07",
+          "tree": "182f34a7d13890fe73a64a2f8735075a15d9d67f",
+          "date": "2026-09-24"
+        }
+      ],
+      "remote_heads": [
+        {
+          "sha": "6c260a110ae4c828a3a4eb2bb7149e2dbc8d1fff",
+          "ref": "refs/heads/codex/root-compose"
+        },
+        {
+          "sha": "84e088bb8d5bb1a5540f2ae8116dddb44f57af39",
+          "ref": "refs/heads/codex/travel-checkpoint-20261003"
+        },
+        {
+          "sha": "4355c802e235648243ea8b2a5192ed97727d16ae",
+          "ref": "refs/heads/fix/selinux-compose-mount"
+        },
+        {
+          "sha": "20809e49f8094987659323fdc60acce78120ad07",
+          "ref": "refs/heads/main"
+        }
+      ]
+    },
+    {
+      "repo": "mynetmate/backend",
+      "head": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "branch": "feature/11-audit-writer",
+      "dirty": [],
+      "refs": [
+        {
+          "ref": "refs/heads/chore/backend-docker-compose",
+          "sha": "bf441182912b6fac1df9e80e2f75d9cd07b76b7f",
+          "tree": "ac93deb155164beb451880836bd9bdc2c54d2fc5",
+          "date": "2026-09-24",
+          "features": [
+            "__init__.py",
+            "ai_assisted_config",
+            "cis_security_validation",
+            "config_generation",
+            "config_version_control",
+            "device_groups",
+            "devices",
+            "network_device_discovery"
+          ]
+        },
+        {
+          "ref": "refs/heads/feature/00-auth-runtime-wiring",
+          "sha": "aa0a20570364a183fdfeb677838ab5d57899dacd",
+          "tree": "58e25398fdcd371aa9dba4f1ee72736b8aaeab8e",
+          "date": "2026-10-01",
+          "features": [
+            "__init__.py",
+            "ai_assisted_config",
+            "authentication",
+            "cis_security_validation",
+            "config_generation",
+            "config_version_control",
+            "device_groups",
+            "devices",
+            "network_device_discovery"
+          ]
+        },
+        {
+          "ref": "refs/heads/feature/11-audit-writer",
+          "sha": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+          "tree": "f4b160d34fd459829d3ace0dbf0987c4a2181a0f",
+          "date": "2026-10-01",
+          "features": [
+            "__init__.py",
+            "ai_assisted_config",
+            "audit_trail",
+            "authentication",
+            "cis_security_validation",
+            "config_generation",
+            "config_version_control",
+            "device_groups",
+            "devices",
+            "network_device_discovery"
+          ]
+        },
+        {
+          "ref": "refs/heads/main",
+          "sha": "97716df28f23aebecf4f4bb049a474df54ccac9a",
+          "tree": "b84070abaaa918dd1b173a69f33f93da4b018f4d",
+          "date": "2026-08-30",
+          "features": [
+            "__init__.py",
+            "ai_assisted_config",
+            "cis_security_validation",
+            "config_generation",
+            "config_version_control",
+            "device_groups",
+            "devices",
+            "network_device_discovery"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/chore/backend-docker-compose",
+          "sha": "bf441182912b6fac1df9e80e2f75d9cd07b76b7f",
+          "tree": "ac93deb155164beb451880836bd9bdc2c54d2fc5",
+          "date": "2026-09-24",
+          "features": [
+            "__init__.py",
+            "ai_assisted_config",
+            "cis_security_validation",
+            "config_generation",
+            "config_version_control",
+            "device_groups",
+            "devices",
+            "network_device_discovery"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/feat-inventory-discovery-backend",
+          "sha": "38028de2112213eb655d3aaea7e302f0a1a4e01c",
+          "tree": "362e56b9a8babc47317eaa3ef1a8598685ba3788",
+          "date": "2026-09-18",
+          "features": [
+            "__init__.py",
+            "ai_assisted_config",
+            "cis_security_validation",
+            "config_generation",
+            "config_version_control",
+            "device_groups",
+            "devices",
+            "network_device_discovery"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/feature/00-auth-runtime-wiring",
+          "sha": "aa0a20570364a183fdfeb677838ab5d57899dacd",
+          "tree": "58e25398fdcd371aa9dba4f1ee72736b8aaeab8e",
+          "date": "2026-10-01",
+          "features": [
+            "__init__.py",
+            "ai_assisted_config",
+            "authentication",
+            "cis_security_validation",
+            "config_generation",
+            "config_version_control",
+            "device_groups",
+            "devices",
+            "network_device_discovery"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/feature/05-config-generation",
+          "sha": "964992a099ed774ec2288d6054ffe1a8b8e00180",
+          "tree": "350f0689a5d3935d715deb562cea72f51375b2a2",
+          "date": "2026-10-08",
+          "features": [
+            "__init__.py",
+            "ai_assisted_config",
+            "cis_security_validation",
+            "config_generation",
+            "config_version_control",
+            "device_groups",
+            "devices",
+            "network_device_discovery"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/feature/08-cis-security-validation",
+          "sha": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+          "tree": "66bdd9f147b3cf8ea0e4b0224e62b7330f7037c9",
+          "date": "2026-10-17",
+          "features": [
+            "__init__.py",
+            "ai_assisted_config",
+            "cis_security_validation",
+            "config_generation",
+            "config_version_control",
+            "device_groups",
+            "devices",
+            "network_device_discovery"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/feature/11-audit-writer",
+          "sha": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+          "tree": "f4b160d34fd459829d3ace0dbf0987c4a2181a0f",
+          "date": "2026-10-01",
+          "features": [
+            "__init__.py",
+            "ai_assisted_config",
+            "audit_trail",
+            "authentication",
+            "cis_security_validation",
+            "config_generation",
+            "config_version_control",
+            "device_groups",
+            "devices",
+            "network_device_discovery"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/fix/04-network-discovery",
+          "sha": "b2387b6a50350745dde2c66334e0af1f9c819733",
+          "tree": "394d13e4eb78de8c7e35add071dd605c05bffe5e",
+          "date": "2026-09-30",
+          "features": [
+            "__init__.py",
+            "ai_assisted_config",
+            "cis_security_validation",
+            "config_generation",
+            "config_version_control",
+            "device_groups",
+            "devices",
+            "network_device_discovery"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/main",
+          "sha": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+          "tree": "350f0689a5d3935d715deb562cea72f51375b2a2",
+          "date": "2026-10-22",
+          "features": [
+            "__init__.py",
+            "ai_assisted_config",
+            "cis_security_validation",
+            "config_generation",
+            "config_version_control",
+            "device_groups",
+            "devices",
+            "network_device_discovery"
+          ]
+        }
+      ],
+      "remote_heads": [
+        {
+          "sha": "aa0a20570364a183fdfeb677838ab5d57899dacd",
+          "ref": "refs/heads/feature/00-auth-runtime-wiring"
+        },
+        {
+          "sha": "964992a099ed774ec2288d6054ffe1a8b8e00180",
+          "ref": "refs/heads/feature/05-config-generation"
+        },
+        {
+          "sha": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+          "ref": "refs/heads/feature/08-cis-security-validation"
+        },
+        {
+          "sha": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+          "ref": "refs/heads/feature/11-audit-writer"
+        },
+        {
+          "sha": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+          "ref": "refs/heads/main"
+        }
+      ]
+    },
+    {
+      "repo": "mynetmate/website",
+      "head": "3e4d85cbc94bcaab6fd6f4e1d9cd41ce56659251",
+      "branch": "feature/00-auth-audit-ui",
+      "dirty": [],
+      "refs": [
+        {
+          "ref": "refs/heads/00-auth-foundation",
+          "sha": "7760bcc3c7e9e462f9c962fd546e11754293f6a1",
+          "tree": "5ec9ca28853b303146f5a9d2d4576e3260f4bd38",
+          "date": "2026-09-09",
+          "features": [
+            "devices",
+            "home",
+            "topology"
+          ]
+        },
+        {
+          "ref": "refs/heads/chore/frontend-docker",
+          "sha": "c487bd153a88b4dda2bf0c6af3269417777a31eb",
+          "tree": "0a44cdf6b3e1d9d220cc8834358e815e4905af24",
+          "date": "2026-09-24",
+          "features": [
+            "devices",
+            "home",
+            "topology"
+          ]
+        },
+        {
+          "ref": "refs/heads/feature/00-auth-audit-ui",
+          "sha": "3e4d85cbc94bcaab6fd6f4e1d9cd41ce56659251",
+          "tree": "a41ea810fe7dfa3838dc2def9eaa87bc75876670",
+          "date": "2026-10-01",
+          "features": [
+            "audit",
+            "authentication",
+            "devices",
+            "home",
+            "topology",
+            "users"
+          ]
+        },
+        {
+          "ref": "refs/heads/main",
+          "sha": "aa367a897b6a3d1ff0261d04cdbde0c7d2f507b4",
+          "tree": "33c511af4da62c2f901e13b16e2fee07968fbd08",
+          "date": "2026-08-31",
+          "features": [
+            "home",
+            "topology"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/chore/frontend-docker",
+          "sha": "c487bd153a88b4dda2bf0c6af3269417777a31eb",
+          "tree": "0a44cdf6b3e1d9d220cc8834358e815e4905af24",
+          "date": "2026-09-24",
+          "features": [
+            "devices",
+            "home",
+            "topology"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/codex/auth-foundation-checkpoint-20261003",
+          "sha": "7760bcc3c7e9e462f9c962fd546e11754293f6a1",
+          "tree": "5ec9ca28853b303146f5a9d2d4576e3260f4bd38",
+          "date": "2026-09-09",
+          "features": [
+            "devices",
+            "home",
+            "topology"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/feat-inventory-discovery-frontend",
+          "sha": "19d7d9b9fe55fe2ea5f7063d844295c3d2421c0e",
+          "tree": "98a34d3cd2d034fdeb88ec35690d531de17066f5",
+          "date": "2026-09-18",
+          "features": [
+            "devices",
+            "home",
+            "topology"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/feature/00-auth-audit-ui",
+          "sha": "3e4d85cbc94bcaab6fd6f4e1d9cd41ce56659251",
+          "tree": "a41ea810fe7dfa3838dc2def9eaa87bc75876670",
+          "date": "2026-10-01",
+          "features": [
+            "audit",
+            "authentication",
+            "devices",
+            "home",
+            "topology",
+            "users"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/feature/02-device-inventory",
+          "sha": "f3fe0a899fd51472d7bb6302b3e7216959ae580c",
+          "tree": "25cac0930b6271bc2efbb8db784a8d8b06191810",
+          "date": "2026-09-04",
+          "features": [
+            "devices",
+            "home",
+            "topology"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/feature/05-config-generation-ui",
+          "sha": "ad95634ca7c10f22591c4b8a7e8267da388d74ed",
+          "tree": "fe7d0b987a729abb48b560c7ccf2b5482fab2517",
+          "date": "2026-10-08",
+          "features": [
+            "config",
+            "devices",
+            "home",
+            "topology"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/fix/04-network-discovery",
+          "sha": "167eb8809727af1680437b712000a733dee3cfa8",
+          "tree": "c8a9c3309f4ee09cc3dc9cd25900cc6c51215340",
+          "date": "2026-09-30",
+          "features": [
+            "devices",
+            "home",
+            "topology"
+          ]
+        },
+        {
+          "ref": "refs/remotes/origin/main",
+          "sha": "28ac37ba3d878cdbd0bdc6209cfca95bfb5c964e",
+          "tree": "c8a9c3309f4ee09cc3dc9cd25900cc6c51215340",
+          "date": "2026-10-01",
+          "features": [
+            "devices",
+            "home",
+            "topology"
+          ]
+        }
+      ],
+      "remote_heads": [
+        {
+          "sha": "7760bcc3c7e9e462f9c962fd546e11754293f6a1",
+          "ref": "refs/heads/codex/auth-foundation-checkpoint-20261003"
+        },
+        {
+          "sha": "19d7d9b9fe55fe2ea5f7063d844295c3d2421c0e",
+          "ref": "refs/heads/feat-inventory-discovery-frontend"
+        },
+        {
+          "sha": "3e4d85cbc94bcaab6fd6f4e1d9cd41ce56659251",
+          "ref": "refs/heads/feature/00-auth-audit-ui"
+        },
+        {
+          "sha": "f3fe0a899fd51472d7bb6302b3e7216959ae580c",
+          "ref": "refs/heads/feature/02-device-inventory"
+        },
+        {
+          "sha": "ad95634ca7c10f22591c4b8a7e8267da388d74ed",
+          "ref": "refs/heads/feature/05-config-generation-ui"
+        },
+        {
+          "sha": "167eb8809727af1680437b712000a733dee3cfa8",
+          "ref": "refs/heads/fix/04-network-discovery"
+        },
+        {
+          "sha": "28ac37ba3d878cdbd0bdc6209cfca95bfb5c964e",
+          "ref": "refs/heads/main"
+        }
+      ]
+    },
+    {
+      "repo": "mynetmate/docs",
+      "head": "3d48827b5b99117cac71e4a043a0b09b894ad6e4",
+      "branch": "feature/00-auth-schema-location",
+      "dirty": [],
+      "refs": [
+        {
+          "ref": "refs/heads/codex/docs-naphat-feature-sync",
+          "sha": "31b0ea24f5af0aaca5423603ef60cac21012bf66",
+          "tree": "09d9c83c5eb41f09d0cbd3fe2096ac1e94fc03ee",
+          "date": "2026-09-04"
+        },
+        {
+          "ref": "refs/heads/feature/00-auth-schema-location",
+          "sha": "3d48827b5b99117cac71e4a043a0b09b894ad6e4",
+          "tree": "1596f6bb56cdf72c2d20bb30b667a61c4017790b",
+          "date": "2026-10-01"
+        },
+        {
+          "ref": "refs/heads/main",
+          "sha": "4840f3812eb07efc38eb6f98af900f8224a1e553",
+          "tree": "1105990155d23c5d6f84a7dde238c114e4704ae5",
+          "date": "2026-09-24"
+        },
+        {
+          "ref": "refs/remotes/origin/docs-king",
+          "sha": "ed86d05cc4f38d58914aaf620d52e9ac6a0427fb",
+          "tree": "c51b613ec1c8946ba5e8d33097ba5fdf9d3413b4",
+          "date": "2026-09-17"
+        },
+        {
+          "ref": "refs/remotes/origin/docs/uml-sequence-diagrams",
+          "sha": "789c9b6849b850c95dc634b3cc094c67a403b836",
+          "tree": "c971ca302998fe476f4f9e27a8c59442c96cb704",
+          "date": "2026-10-16"
+        },
+        {
+          "ref": "refs/remotes/origin/feat-inventory-discovery-schema",
+          "sha": "d1d9a27d2880747937acf8dfa6467241f134d7aa",
+          "tree": "b76325868d90e6747c8f6d67245b9dc2fc8c0d3f",
+          "date": "2026-09-18"
+        },
+        {
+          "ref": "refs/remotes/origin/feature/00-auth-schema-location",
+          "sha": "3d48827b5b99117cac71e4a043a0b09b894ad6e4",
+          "tree": "1596f6bb56cdf72c2d20bb30b667a61c4017790b",
+          "date": "2026-10-01"
+        },
+        {
+          "ref": "refs/remotes/origin/main",
+          "sha": "850d3a53e93f003b2801b7cf421192bf2ab07611",
+          "tree": "0d99d26901d6b2fa262867d9736aec8dd8a291b1",
+          "date": "2026-10-08"
+        }
+      ],
+      "remote_heads": [
+        {
+          "sha": "ed86d05cc4f38d58914aaf620d52e9ac6a0427fb",
+          "ref": "refs/heads/docs-king"
+        },
+        {
+          "sha": "789c9b6849b850c95dc634b3cc094c67a403b836",
+          "ref": "refs/heads/docs/uml-sequence-diagrams"
+        },
+        {
+          "sha": "d1d9a27d2880747937acf8dfa6467241f134d7aa",
+          "ref": "refs/heads/feat-inventory-discovery-schema"
+        },
+        {
+          "sha": "850d3a53e93f003b2801b7cf421192bf2ab07611",
+          "ref": "refs/heads/main"
+        }
+      ]
+    },
+    {
+      "repo": "mynetmate/network-discovery",
+      "head": "04bf232cdcd10c356c334acce13c47d981aeb30f",
+      "branch": "main",
+      "dirty": [],
+      "refs": [
+        {
+          "ref": "refs/heads/main",
+          "sha": "04bf232cdcd10c356c334acce13c47d981aeb30f",
+          "tree": "c55ef653364d64139310090f92c7f600ca9d3872",
+          "date": "2026-08-26"
+        },
+        {
+          "ref": "refs/remotes/origin/main",
+          "sha": "04bf232cdcd10c356c334acce13c47d981aeb30f",
+          "tree": "c55ef653364d64139310090f92c7f600ca9d3872",
+          "date": "2026-08-26"
+        },
+        {
+          "ref": "refs/remotes/origin/python-core",
+          "sha": "26f5a35ab1481459f41f7858785096cc27b56ee2",
+          "tree": "a6204ae7eef8f0629653a1dbcab7c0df326d9a19",
+          "date": "2026-09-04"
+        }
+      ],
+      "remote_heads": [
+        {
+          "sha": "59ee94f6f6bd59dfc18020929dad894f58ab5b62",
+          "ref": "refs/heads/main"
+        }
+      ]
+    }
+  ],
+  "discovery_remote_audit": {
+    "repo": "https://github.com/Mynetmate/oxian.git",
+    "ref": "refs/heads/main",
+    "sha": "59ee94f6f6bd59dfc18020929dad894f58ab5b62",
+    "method": "temporary bare clone outside protected teammate directory"
+  },
+  "renderer": {
+    "name": "PlantUML native",
+    "version": "1.2026.9",
+    "mode": "local"
+  }
+}

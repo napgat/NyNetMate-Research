@@ -1,0 +1,42 @@
+@startuml
+title Authorization and sessions\nbackend audit-writer @ b862c60
+top to bottom direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 18
+skinparam titleFontSize 19
+skinparam legendFontSize 18
+skinparam nodesep 20
+skinparam ranksep 24
+skinparam padding 8
+skinparam componentBackgroundColor white
+skinparam componentBorderColor #222222
+component "Authorization and sessions" as Assembly {
+ component "auth :\nAuthentication\nService" as Auth {
+  portout " " as R_A04
+  portin " " as P_A07
+ }
+ component "bootstrap :\nUserProvisioning" as Bootstrap {
+  portout " " as R_A05
+ }
+ component "reader :\nAuditReadModule" as Reader {
+  portout " " as R_A06
+  portout " " as R_A07
+ }
+ component "database :\nDatabaseRuntime" as Database {
+  portin " " as P_A04
+  portin " " as P_A05
+  portin " " as P_A06
+ }
+ R_A04 -(0- P_A04 : A04: \nIAsyncSession\nFactory
+ R_A05 -(0- P_A05 : A05: \nIAsyncSession\nFactory
+ R_A06 -(0- P_A06 : A06: \nIAsyncSession\nFactory
+ R_A07 -(0- P_A07 : A07: \nIAuthorize
+}
+legend bottom left
+ Socket: required. Ball: provided.
+ Square: port. See CONTRACTS.md.
+endlegend
+@enduml
+

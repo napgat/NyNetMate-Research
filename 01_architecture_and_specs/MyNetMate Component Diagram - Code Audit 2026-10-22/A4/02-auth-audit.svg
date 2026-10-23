@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="DESCRIPTION" style="width:890px;height:1260px;background:#FFFFFF;" width="160mm" height="226.52mm" viewBox="0 0 890 1260" zoomAndPan="magnify" preserveAspectRatio="none" contentStyleType="text/css">
+  <?plantuml 1.2026.9?>
+  <defs />
+  <g font-family="sans-serif" lengthAdjust="spacing">
+    <g class="title" data-source-line="1">
+      <text x="330.374" y="37.724" fill="#000" font-size="19" textLength="222.712" font-weight="700">Authentication and audit</text>
+      <text x="296.776" y="61.622" fill="#000" font-size="19" textLength="289.908" font-weight="700">backend audit-writer @ b862c60</text>
+    </g>
+    <!--cluster Assembly-->
+    <g class="cluster" data-qualified-name="Assembly" id="ent0001" data-source-line="14">
+      <rect x="70.46" y="91.797" width="806" height="1068" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="856.46" y="96.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="854.46" y="98.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="854.46" y="102.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="367.965" y="131.482" fill="#000" font-size="18" textLength="210.99" font-weight="700">Authentication and audit</text>
+    </g>
+    <!--cluster Auth-->
+    <g class="cluster" data-qualified-name="Assembly.Auth" id="ent0002" data-source-line="15">
+      <rect x="285.46" y="371.797" width="166" height="244" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="431.46" y="376.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="429.46" y="378.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="429.46" y="382.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="343.965" y="411.482" fill="#000" font-size="18" textLength="48.99" font-weight="700">auth :</text>
+      <text x="305.464" y="434.123" fill="#000" font-size="18" textLength="125.991" font-weight="700">Authentication</text>
+      <text x="336.433" y="456.764" fill="#000" font-size="18" textLength="64.055" font-weight="700">Service</text>
+    </g>
+    <!--cluster Bootstrap-->
+    <g class="cluster" data-qualified-name="Assembly.Bootstrap" id="ent0006" data-source-line="20">
+      <rect x="490.46" y="502.797" width="197" height="113" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="667.46" y="507.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="665.46" y="509.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="665.46" y="513.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="541.965" y="542.482" fill="#000" font-size="18" textLength="93.99" font-weight="700">bootstrap :</text>
+      <text x="514.442" y="565.123" fill="#000" font-size="18" textLength="149.036" font-weight="700">UserProvisioning</text>
+    </g>
+    <!--cluster Adapter-->
+    <g class="cluster" data-qualified-name="Assembly.Adapter" id="ent0009" data-source-line="24">
+      <rect x="522.46" y="758.797" width="204" height="146" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="706.46" y="763.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="704.46" y="765.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="704.46" y="769.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="586.452" y="798.482" fill="#000" font-size="18" textLength="76.017" font-weight="700">adapter :</text>
+      <text x="546.971" y="821.123" fill="#000" font-size="18" textLength="154.978" font-weight="700">AuthAuditAdapter</text>
+      <text x="592.964" y="843.764" fill="#000" font-size="18" textLength="62.991" font-weight="700">Module</text>
+    </g>
+    <!--cluster Writer-->
+    <g class="cluster" data-qualified-name="Assembly.Writer" id="ent0013" data-source-line="29">
+      <rect x="497.46" y="1025.797" width="240" height="118" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="717.46" y="1030.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="715.46" y="1032.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="715.46" y="1036.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="587.454" y="1065.482" fill="#000" font-size="18" textLength="60.012" font-weight="700">writer :</text>
+      <text x="529.477" y="1088.123" fill="#000" font-size="18" textLength="175.966" font-weight="700">AuditAppendModule</text>
+    </g>
+    <!--cluster Reader-->
+    <g class="cluster" data-qualified-name="Assembly.Reader" id="ent0015" data-source-line="32">
+      <rect x="153.46" y="148.797" width="203" height="102" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="336.46" y="153.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="334.46" y="155.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="334.46" y="159.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="221.944" y="188.482" fill="#000" font-size="18" textLength="66.032" font-weight="700">reader :</text>
+      <text x="178.464" y="211.123" fill="#000" font-size="18" textLength="152.991" font-weight="700">AuditReadModule</text>
+    </g>
+    <!--cluster Database-->
+    <g class="cluster" data-qualified-name="Assembly.Database" id="ent0018" data-source-line="36">
+      <rect x="105.46" y="758.797" width="178" height="129" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="263.46" y="763.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="261.46" y="765.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="261.46" y="769.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="149.943" y="798.482" fill="#000" font-size="18" textLength="89.033" font-weight="700">database :</text>
+      <text x="118.439" y="821.123" fill="#000" font-size="18" textLength="152.042" font-weight="700">DatabaseRuntime</text>
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Auth.R_A01" id="ent0003" data-source-line="16">
+      <text x="430.96" y="648.482" fill="#000" font-size="18"> </text>
+      <rect x="427.46" y="609.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Auth.R_A04" id="ent0004" data-source-line="17">
+      <text x="360.96" y="648.482" fill="#000" font-size="18"> </text>
+      <rect x="357.46" y="609.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Auth.P_A07" id="ent0005" data-source-line="18">
+      <text x="300.96" y="341.842" fill="#000" font-size="18"> </text>
+      <rect x="297.46" y="365.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Bootstrap.R_A02" id="ent0007" data-source-line="21">
+      <text x="666.96" y="648.482" fill="#000" font-size="18"> </text>
+      <rect x="663.46" y="609.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Bootstrap.R_A05" id="ent0008" data-source-line="22">
+      <text x="594.96" y="648.482" fill="#000" font-size="18"> </text>
+      <rect x="591.46" y="609.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Adapter.R_A03" id="ent0010" data-source-line="25">
+      <text x="614.96" y="937.482" fill="#000" font-size="18"> </text>
+      <rect x="611.46" y="898.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Adapter.P_A01" id="ent0011" data-source-line="26">
+      <text x="537.96" y="728.842" fill="#000" font-size="18"> </text>
+      <rect x="534.46" y="752.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Adapter.P_A02" id="ent0012" data-source-line="27">
+      <text x="614.96" y="728.842" fill="#000" font-size="18"> </text>
+      <rect x="611.46" y="752.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Writer.P_A03" id="ent0014" data-source-line="30">
+      <text x="614.96" y="995.842" fill="#000" font-size="18"> </text>
+      <rect x="611.46" y="1019.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Reader.R_A06" id="ent0016" data-source-line="33">
+      <text x="168.96" y="283.482" fill="#000" font-size="18"> </text>
+      <rect x="165.46" y="244.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Reader.R_A07" id="ent0017" data-source-line="34">
+      <text x="245.96" y="283.482" fill="#000" font-size="18"> </text>
+      <rect x="242.46" y="244.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Database.P_A04" id="ent0019" data-source-line="37">
+      <text x="179.96" y="728.842" fill="#000" font-size="18"> </text>
+      <rect x="176.46" y="752.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Database.P_A05" id="ent0020" data-source-line="38">
+      <text x="239.96" y="728.842" fill="#000" font-size="18"> </text>
+      <rect x="236.46" y="752.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Database.P_A06" id="ent0021" data-source-line="39">
+      <text x="143.96" y="728.842" fill="#000" font-size="18"> </text>
+      <rect x="140.46" y="752.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_A01 to P_A01-->
+    <g class="link" data-entity-1="ent0003" data-entity-2="ent0011" id="lnk22" data-source-line="41" data-link-type="association">
+      <path d="M437.72,622.017 C440.84,626.087 444.96,632.007 447.46,637.797 C465.39,679.257 439.55,703.867 470.46,736.797 C487.83,755.297 520.79,757.707 534.37,757.877" style="stroke:#181818;stroke-width:1;" fill="none" id="R_A01-P_A01" />
+      <text x="538.487" y="683.482" fill="#000" font-size="18" textLength="37.028">A01:</text>
+      <text x="486.46" y="706.123" fill="#000" font-size="18" textLength="146.083">IRecordAuthEvent</text>
+      <path d="M461.324,683.589 A10,10 0 0 0 447.186 683.264" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="454.093" cy="690.496" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_A02 to P_A02-->
+    <g class="link" data-entity-1="ent0007" data-entity-2="ent0012" id="lnk23" data-source-line="42" data-link-type="association">
+      <path d="M670.33,621.907 C673.02,639.587 679.68,699.097 654.46,736.797 C647.16,747.727 632.12,753.607 623.64,756.177" style="stroke:#181818;stroke-width:1;" fill="none" id="R_A02-P_A02" />
+      <text x="740.487" y="683.482" fill="#000" font-size="18" textLength="37.028">A02:</text>
+      <text x="688.46" y="706.123" fill="#000" font-size="18" textLength="146.083">IRecordAuthEvent</text>
+      <path d="M680.295,665.156 A10,10 0 0 0 666.173 664.41" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="672.861" cy="671.844" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_A03 to P_A03-->
+    <g class="link" data-entity-1="ent0010" data-entity-2="ent0014" id="lnk24" data-source-line="43" data-link-type="association">
+      <path d="M617.46,910.907 C617.46,930.397 617.46,999.887 617.46,1019.567" style="stroke:#181818;stroke-width:1;" fill="none" id="R_A03-P_A03" />
+      <text x="656.953" y="961.482" fill="#000" font-size="18" textLength="37.028">A03:</text>
+      <text x="633.46" y="984.123" fill="#000" font-size="18" textLength="89.016">AuditWriter</text>
+      <path d="M624.531,958.095 A10,10 0 0 0 610.389 958.095" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="617.46" cy="965.166" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_A04 to P_A04-->
+    <g class="link" data-entity-1="ent0004" data-entity-2="ent0019" id="lnk25" data-source-line="44" data-link-type="association">
+      <path d="M357.34,616.837 C320.86,617.127 133.28,619.497 116.46,637.797 C86.7,670.197 88.02,703.227 116.46,736.797 C130.44,753.297 144.51,736.467 164.46,744.797 C169.02,746.697 173.52,749.947 176.88,752.727" style="stroke:#181818;stroke-width:1;" fill="none" id="R_A04-P_A04" />
+      <text x="170.473" y="672.482" fill="#000" font-size="18" textLength="37.028">A04:</text>
+      <text x="132.46" y="695.123" fill="#000" font-size="18" textLength="118.055">IAsyncSession</text>
+      <text x="161.481" y="717.764" fill="#000" font-size="18" textLength="60.012">Factory</text>
+      <path d="M236.973,627.239 A10,10 0 0 0 236.204 613.118" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="229.528" cy="620.563" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_A05 to P_A05-->
+    <g class="link" data-entity-1="ent0008" data-entity-2="ent0020" id="lnk26" data-source-line="45" data-link-type="association">
+      <path d="M591.38,617.507 C572.54,619.667 513.52,626.267 464.46,629.797 C454.87,630.487 298.86,631.637 291.46,637.797 C256.75,666.707 292.45,698.517 268.46,736.797 C263.53,744.667 254.61,750.897 248.61,754.467" style="stroke:#181818;stroke-width:1;" fill="none" id="R_A05-P_A05" />
+      <text x="345.473" y="672.482" fill="#000" font-size="18" textLength="37.028">A05:</text>
+      <text x="307.46" y="695.123" fill="#000" font-size="18" textLength="118.055">IAsyncSession</text>
+      <text x="336.481" y="717.764" fill="#000" font-size="18" textLength="60.012">Factory</text>
+      <path d="M384.404,638.617 A10,10 0 0 0 384.011 624.481" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="377.139" cy="631.746" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_A06 to P_A06-->
+    <g class="link" data-entity-1="ent0016" data-entity-2="ent0021" id="lnk27" data-source-line="46" data-link-type="association">
+      <path d="M168.59,256.967 C158.71,275.017 126.03,337.107 112.46,392.797 C76.23,541.597 6,610.397 92.46,736.797 C103.48,752.907 128.81,756.657 140.44,757.537" style="stroke:#181818;stroke-width:1;" fill="none" id="R_A06-P_A06" />
+      <text x="166.473" y="427.482" fill="#000" font-size="18" textLength="37.028">A06:</text>
+      <text x="128.46" y="450.123" fill="#000" font-size="18" textLength="118.055">IAsyncSession</text>
+      <text x="157.481" y="472.764" fill="#000" font-size="18" textLength="60.012">Factory</text>
+      <path d="M64.869,567.799 A10,10 0 0 0 51.053 564.779" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="56.451" cy="573.197" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_A07 to P_A07-->
+    <g class="link" data-entity-1="ent0017" data-entity-2="ent0005" id="lnk28" data-source-line="47" data-link-type="association">
+      <path d="M250.83,256.907 C259.83,276.397 291.95,345.887 301.05,365.567" style="stroke:#181818;stroke-width:1;" fill="none" id="R_A07-P_A07" />
+      <text x="327.967" y="307.482" fill="#000" font-size="18" textLength="37.028">A07:</text>
+      <text x="308.46" y="330.123" fill="#000" font-size="18" textLength="81.044">IAuthorize</text>
+      <path d="M279.354,301.78 A10,10 0 0 0 266.517 307.714" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="275.903" cy="311.166" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="legend" data-source-line="49">
+      <rect x="12" y="1179.797" width="311.92" height="61.219" fill="#DDD" style="stroke:#000;stroke-width:1;" rx="7.5" ry="7.5" />
+      <text x="25" y="1207.33" fill="#000" font-size="14" textLength="213.24">Socket = required; ball = provided.</text>
+      <text x="25" y="1224.939" fill="#000" font-size="14" textLength="285.92">Square = port; contract IDs: CONTRACTS.md</text>
+    </g>
+    <?plantuml-src XLJVJzim47xFNt62bxs0Ijgch6ZI0Wo9Xp7KCEsbqkJ4rsAHsC5sG1tYV-TifoHqgKYbgFdk--wNVMU5BH7InjwZjA9WLYW9J79W3HTsANDMFE3sy-XP2uiQlaD-ciH5Cegigi4go9MrgW8kD1REGsGUXAoPPXKKgggL9EUPtL2afYhZdjNSCwwUXLp3YfK6UnQEAzQKzaf9UyCgX8n9aw4Mgs5E9luXd9psZDPLrfc-zanISJHOGppfWPh91mUEHpsmPfoxx4w7AZgdtgorQYI_KANIy7nFtHaaAirH1z9Xx9yFsLZSTNLubRfVzEu23lQTqG4m0wanMENb1buYw6aOQM2-b1-rIqcDV1851gdZa0ngfQrgI0KUN_nDHoV3yAI5XToYjuJE8dZz43rNoXghMUrI-6rGtshr90nbG2trilDtnfu4uc5ukXkASLQxczdMchh6f05Rof-ADsLRRClR4suyMDZ981hlvj0EXq_1XQzh6fnUx3_1_ZBeRRphJIFZFMyB-kpvMWJhdZAIOVY_0-BCifmPT54ks_-BXkv95Q9iiJqv3r-3wI2Q-DZ-Ji7Hbz5HQ2pCWTvpMChh1HOq9UxmVZnHSe4RTzpOS-Fzt7777Nlks75zyqBd0stIqIQUDl4kKxEHHOR6-FcuOeLLUXCKqqunzOhfPugaKoHUaNocc7MAcLVCWe9AL9hsL_GQbRXsYxXTjIMkgEvCqNQsy0qqFZQqVFaPvAmi2QZTg77anqHwR9X6Xz6fdD7vIvgumiBrfPd3nQ-RkqLwSPSTLpmY_o7A6m00?>
+  </g>
+</svg>

@@ -1,6 +1,6 @@
 # 🤖 MyNetMate — Master AI Agent Context & Navigation Map
 
-> **Project:** MyNetMate (CEPP Capstone Project CEPP68-33, KMITL)  
+> **Project:** MyNetMate (Computer Engineering Project 1, KMITL)
 > **Purpose:** Canonical project context, navigation map, implementation snapshot, and rules for AI coding agents
 > **Last verified:** 2026-09-03
 
@@ -9,6 +9,16 @@
 ## 1. Project Overview
 
 **MyNetMate** คือ Web Application สำหรับ Network Management และ Configuration Automation สำหรับวิศวกรเครือข่าย พัฒนาเป็น Capstone Project ของทีม 4 คน
+
+### รายวิชาและช่วงงานปัจจุบัน
+
+บริบทที่ผู้ใช้ยืนยันเมื่อ 2026-10-22:
+
+- **CEPP = Computer Engineering Prepare Project** เป็นรายวิชาในเทอมที่ผ่านมาแล้ว เอกสาร Proposal และโฟลเดอร์ `04_project_management/Document Project CEPP/` เป็นเอกสารจากช่วงเตรียมโครงงาน
+- **เทอมปัจจุบันคือ Computer Engineering Project 1 (Project 1)** เริ่มจัดทำรูปเล่มปริญญานิพนธ์ควบคู่กับการพัฒนาแอปพลิเคชัน MyNetMate แล้ว ไม่ใช่ช่วง Prepare Project
+- เมื่อกล่าวถึงงานปัจจุบัน ให้ใช้บริบท Project 1 และอย่าอนุมานจากชื่อโฟลเดอร์หรือรหัส CEPP เดิมว่าเป็นรายวิชาปัจจุบัน ชื่อรายวิชาและรหัสบนปก/ไฟล์ฉบับส่งต้องยึดข้อมูลที่ยืนยันสำหรับ Project 1
+- การเริ่มพัฒนาแอปใน Project 1 เป็นบริบทการทำงาน ไม่ใช่หลักฐานว่าฟีเจอร์เสร็จแล้ว และไม่เปลี่ยน MVP scope อัตโนมัติ
+- **Project 1/Project 2 เป็นรายวิชา ส่วน P1/P2 เป็นลำดับความสำคัญของฟีเจอร์** ห้ามใช้แทนกัน หรือถือว่าต้องรอ Project 2 จึงเริ่มพัฒนาแอปได้
 
 ### Core philosophy
 
@@ -163,8 +173,8 @@ Critical demo flow:
 - [AI or No-AI Decision](<02_feature/05_Configuration Management(Aom)/Decision AI or NoAI in Project.md>)
 - [Restore Strategy](<02_feature/10_Configuration Deployment(Aom)/แนวคิด Restore Strategy.md>)
 - [Cut Features and Rationale](<02_feature/10_Configuration Deployment(Aom)/Cutting Your Own Legs.md>)
-- [Proposal](<04_project_management/Document Project/CEPP68-33 Proposal.md>)
-- [Gantt chart](<04_project_management/Document Project/gantt_chart.md>)
+- [Proposal](<04_project_management/Document Project CEPP/CEPP68-33 Proposal.md>)
+- [Gantt chart](<04_project_management/Document Project CEPP/gantt_chart.md>)
 - [Frontend Config Builder mockup](<mynetmate/docs/Feature Design/02_Device Inventory Management(Tee)/Mockup จากภาพพี่ออม.md>)
 
 ---

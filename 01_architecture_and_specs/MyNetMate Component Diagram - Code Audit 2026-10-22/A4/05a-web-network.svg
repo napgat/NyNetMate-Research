@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="DESCRIPTION" style="width:681px;height:533px;background:#FFFFFF;" width="160mm" height="125.23mm" viewBox="0 0 681 533" zoomAndPan="magnify" preserveAspectRatio="none" contentStyleType="text/css">
+  <?plantuml 1.2026.9?>
+  <defs />
+  <g font-family="sans-serif" lengthAdjust="spacing">
+    <g class="title" data-source-line="1">
+      <text x="233.001" y="37.724" fill="#000" font-size="19" textLength="207.998" font-weight="700">Network web contracts</text>
+      <text x="175.927" y="61.622" fill="#000" font-size="19" textLength="322.146" font-weight="700">website 28ac37b / backend 166e2ee</text>
+    </g>
+    <!--cluster Assembly-->
+    <g class="cluster" data-qualified-name="Assembly" id="ent0001" data-source-line="14">
+      <rect x="7" y="91.797" width="660" height="331" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="647" y="96.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="645" y="98.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="645" y="102.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="238.475" y="131.482" fill="#000" font-size="18" textLength="197.051" font-weight="700">Network web contracts</text>
+    </g>
+    <!--cluster NW-->
+    <g class="cluster" data-qualified-name="Assembly.NW" id="ent0002" data-source-line="15">
+      <rect x="23" y="273.797" width="229" height="88" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="232" y="278.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="230" y="280.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="230" y="284.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="114.499" y="313.482" fill="#000" font-size="18" textLength="46.002" font-weight="700">web :</text>
+      <text x="57.994" y="336.123" fill="#000" font-size="18" textLength="159.012" font-weight="700">NetworkWebClient</text>
+    </g>
+    <!--cluster NA-->
+    <g class="cluster" data-qualified-name="Assembly.NA" id="ent0005" data-source-line="19">
+      <rect x="462" y="273.797" width="189" height="88" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="631" y="278.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="629" y="280.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="629" y="284.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="537.999" y="313.482" fill="#000" font-size="18" textLength="37.002" font-weight="700">api :</text>
+      <text x="503.001" y="336.123" fill="#000" font-size="18" textLength="106.998" font-weight="700">NetworkHttp</text>
+      <text x="514.497" y="358.764" fill="#000" font-size="18" textLength="84.006" font-weight="700">Boundary</text>
+    </g>
+    <g class="entity" data-qualified-name="Assembly.NW.R_W01" id="ent0003" data-source-line="16">
+      <text x="249.5" y="376.482" fill="#000" font-size="18"> </text>
+      <rect x="246" y="337.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.NW.R_W02" id="ent0004" data-source-line="17">
+      <text x="249.5" y="261.842" fill="#000" font-size="18"> </text>
+      <rect x="246" y="285.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.NA.P_W01" id="ent0006" data-source-line="20">
+      <text x="459.5" y="376.482" fill="#000" font-size="18"> </text>
+      <rect x="456" y="337.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.NA.P_W02" id="ent0007" data-source-line="21">
+      <text x="459.5" y="261.842" fill="#000" font-size="18"> </text>
+      <rect x="456" y="285.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_W01 to P_W01-->
+    <g class="link" data-entity-1="ent0003" data-entity-2="ent0006" id="lnk8" data-source-line="23" data-link-type="association">
+      <path d="M255.5,349.827 C258.68,356.597 264.87,367.227 274,371.797 C339.99,404.787 374.01,404.787 440,371.797 C449.13,367.227 455.32,356.597 458.5,349.827" style="stroke:#181818;stroke-width:1;" fill="none" id="R_W01-P_W01" />
+      <text x="333.523" y="307.482" fill="#000" font-size="18" textLength="42.012">W01:</text>
+      <text x="290" y="330.123" fill="#000" font-size="18" textLength="134.06">IDeviceInventory</text>
+      <text x="340.524" y="352.764" fill="#000" font-size="18" textLength="33.012">Http</text>
+      <path d="M349.929,389.468 A10,10 0 0 0 349.929 403.61" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="357" cy="396.539" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_W02 to P_W02-->
+    <g class="link" data-entity-1="ent0004" data-entity-2="ent0007" id="lnk9" data-source-line="24" data-link-type="association">
+      <path d="M257.37,285.597 C261.14,280.817 267.08,274.567 274,271.797 C342.5,244.397 371.5,244.397 440,271.797 C446.92,274.567 452.86,280.817 456.63,285.597" style="stroke:#181818;stroke-width:1;" fill="none" id="R_W02-P_W02" />
+      <text x="333.515" y="187.482" fill="#000" font-size="18" textLength="42.012">W02:</text>
+      <text x="292" y="210.123" fill="#000" font-size="18" textLength="130.043">IDiscoveryEvent</text>
+      <text x="328.013" y="232.764" fill="#000" font-size="18" textLength="58.017">Stream</text>
+      <path d="M349.929,244.176 A10,10 0 0 0 349.929 258.318" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="357" cy="251.247" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="legend" data-source-line="26">
+      <rect x="12" y="442.797" width="319.098" height="71.281" fill="#DDD" style="stroke:#000;stroke-width:1;" rx="7.5" ry="7.5" />
+      <text x="25" y="474.482" fill="#000" font-size="18" textLength="255.138">Socket: required. Ball: provided.</text>
+      <text x="25" y="497.123" fill="#000" font-size="18" textLength="293.098">Square: port. See CONTRACTS.md.</text>
+    </g>
+    <?plantuml-src RLBDRjim3BxxAOZkialJn2swrBSasx1Uqg4ka8k1GRReH8XCkHITm1twxfFjhdK1-s10_Fv8YMB48cnHpewFSCOS2aV2gX2VKJXw8mZnKXNNttAuWbmLHoGDYzjRZ14ZYwM0E62pFmXemrY8SHJvew5QiQg2NLKxGf9Ksf3KL3OUeVwWj3iRsaEfhCSHeh5KZPMVePkjgX1IHJv5DkKq9pKl28lb29HkiW_eRWHPt8SXfcNaD7gi8PwFYgpes1TlHiLQQTrrlfoQTXqkQi-k8RrnrZ6S3-4Y9ucEDV90-XBtN_GEmiNaoro0yh3o7glSjl0tWf6W8oOPlUbsc6-i2K0lsUuwCjIEnJM12ttrySzklfWknn6yVd9NjHcv_nAfCrftKofkXuZLUuIX_rQ_HmcVgqD0tm5SVfrV3bH88FmJoEZ-EvvCWVTq2l6Esuowp44HVoZYNX4F2kCBTq9kVtIQZ59XL5Nq6Wsl3haJSTqEb191wi8-ImACpqrONZs3jR8sWPhToUXm3fJdHZ4cVVCpI15Xyx1zUbnjdj9P5GZ1St3-1m00?>
+  </g>
+</svg>

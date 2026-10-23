@@ -1,0 +1,58 @@
+@startuml
+title MyNetMate - Authentication / Audit component assembly\nbackend feature/11-audit-writer @ b862c60 | application-owned contracts
+left to right direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 13
+skinparam nodesep 35
+skinparam ranksep 55
+skinparam padding 10
+skinparam componentBackgroundColor #F7FBFF
+skinparam componentBorderColor #315A78
+skinparam noteBackgroundColor #FFFBEA
+component "Authentication / Audit (selected internal structure)" as AuthSystem {
+ component "auth : AuthenticationService" as Auth {
+  portout " " as R_A01
+  portout " " as R_A04
+  portin " " as P_A07
+ }
+ component "bootstrap : UserProvisioning" as Bootstrap {
+  portout " " as R_A02
+  portout " " as R_A05
+ }
+ component "adapter : AuthAuditAdapterModule" as Adapter {
+  portout " " as R_A03
+  portin " " as P_A01
+  portin " " as P_A02
+ }
+ component "writer : AuditAppendModule" as Writer {
+  portin " " as P_A03
+ }
+ component "reader : AuditReadModule" as Reader {
+  portout " " as R_A06
+  portout " " as R_A07
+ }
+ component "database : DatabaseRuntime" as Database {
+  portin " " as P_A04
+  portin " " as P_A05
+  portin " " as P_A06
+ }
+ R_A01 -(0- P_A01 : A01: IRecordAuthEvent
+ R_A02 -(0- P_A02 : A02: IRecordAuthEvent
+ R_A03 -(0- P_A03 : A03: AuditWriter
+ R_A04 -(0- P_A04 : A04: IAsyncSessionFactory
+ R_A05 -(0- P_A05 : A05: IAsyncSessionFactory
+ R_A06 -(0- P_A06 : A06: IAsyncSessionFactory
+ R_A07 -(0- P_A07 : A07: IAuthorize
+}
+legend bottom left
+ Square = UML Port (name suppressed). Socket = required; ball = provided.
+ Each assembly joins two simple ports for ONE named interface.
+ role : ComponentType denotes a part; types are logical software-module abstractions.
+ Contract IDs map to operations and immutable source evidence in README / CONTRACTS.md.
+ Writer receives the caller-owned db session in AuditWriter; it does NOT call a session factory.
+ The writer adds and flushes an AuditLog; the caller owns commit / rollback.
+ HTTP routers and permission-boundary internals are omitted; see the separate web-contract view.
+endlegend
+@enduml

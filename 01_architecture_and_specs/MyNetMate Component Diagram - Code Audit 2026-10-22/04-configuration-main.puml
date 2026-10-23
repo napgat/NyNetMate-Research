@@ -1,0 +1,60 @@
+@startuml
+title MyNetMate - Configuration component assembly\nbackend main @ 166e2ee | source-backed module boundaries | no device commands executed
+left to right direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 13
+skinparam nodesep 35
+skinparam ranksep 55
+skinparam padding 10
+skinparam componentBackgroundColor #F7FBFF
+skinparam componentBorderColor #315A78
+skinparam noteBackgroundColor #FFFBEA
+component "Configuration Management (selected internal structure)" as ConfigSystem {
+ component "versions : ConfigVersionModule" as Versions {
+  portout " " as R_C01
+  portout " " as R_C07
+  portin " " as P_C03
+ }
+ component "drift : ConfigDriftModule" as Drift {
+  portout " " as R_C02
+  portout " " as R_C03
+ }
+ component "planning : ConfigPlanningModule" as Planning {
+  portout " " as R_C04
+  portout " " as R_C05
+  portout " " as R_C06
+  portin " " as P_C01
+  portin " " as P_C02
+ }
+ component "render : TemplateRenderModule" as Render {
+  portin " " as P_C04
+ }
+ component "diff : RemediationModule" as Diff {
+  portin " " as P_C05
+ }
+ component "ssh : NetmikoAdapter" as SSH {
+  portin " " as P_C06
+  portin " " as P_C07
+ }
+ R_C01 -(0- P_C01 : C01: IConfigPlanning
+ R_C02 -(0- P_C02 : C02: ILiveConfigPlanning
+ R_C03 -(0- P_C03 : C03: IRecordConfigVersion
+ R_C04 -(0- P_C04 : C04: IConfigRendering
+ R_C05 -(0- P_C05 : C05: IRemediationPlanning
+ R_C06 -(0- P_C06 : C06: IRunningConfigRead
+ R_C07 -(0- P_C07 : C07: IConfigDeployIO
+}
+legend bottom left
+ Square = UML Port (name suppressed). Socket = required; ball = provided.
+ Each assembly joins two simple ports for ONE named interface.
+ role : ComponentType denotes a part; types are logical software-module abstractions.
+ Contract IDs map to operations and immutable source evidence in README / CONTRACTS.md.
+ Render uses Jinja2; Remediation uses hier_config; SSH adapter uses Netmiko. They are NOT one component.
+ db sessions are operation parameters; factory / ORM plumbing is omitted, not inferred.
+ Main contains SSH push paths but no binding to the CIS gate in the inspected CIS branch.
+ This is a code structure view, not a deployment approval, hardware-support claim or execution trace.
+endlegend
+@enduml
+

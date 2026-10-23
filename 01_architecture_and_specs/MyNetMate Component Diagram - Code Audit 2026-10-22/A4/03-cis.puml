@@ -1,0 +1,49 @@
+@startuml
+title CIS validation\nbackend cis-validation @ 0f65dd8
+top to bottom direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 18
+skinparam titleFontSize 19
+skinparam legendFontSize 18
+skinparam nodesep 20
+skinparam ranksep 24
+skinparam padding 8
+skinparam componentBackgroundColor white
+skinparam componentBorderColor #222222
+component "CIS validation" as Assembly {
+ component "http :\nSecurityHttp\nBoundary" as HTTP {
+  portout " " as R_S01
+  portout " " as R_S02
+  portout " " as R_S03
+ }
+ component "security :\nSecurityValidation" as Security {
+  portout " " as R_S04
+  portout " " as R_S05
+  portin " " as P_S01
+ }
+ component "engine :\nRuleEngineModule" as Engine {
+  portin " " as P_S04
+ }
+ component "actor :\nHeaderIdentity\nModule" as Actor {
+  portin " " as P_S02
+ }
+ component "audit :\nLogAuditModule" as Audit {
+  portin " " as P_S05
+ }
+ component "database :\nDatabaseRuntime" as Database {
+  portin " " as P_S03
+ }
+ R_S01 -(0- P_S01 : S01: \nISecurity\nOperations
+ R_S02 -(0- P_S02 : S02: \nIActorRole\nDependency
+ R_S03 -(0- P_S03 : S03: \nIRequestSession\nDependency
+ R_S04 -(0- P_S04 : S04: \nIConfigRule\nEvaluation
+ R_S05 -(0- P_S05 : S05: \nIBranchAuditRecord
+}
+legend bottom left
+ Socket: required. Ball: provided.
+ Square: port. See CONTRACTS.md.
+endlegend
+@enduml
+

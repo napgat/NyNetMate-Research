@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1220" viewBox="0 0 1440 1220" role="img" aria-labelledby="title description">
+  <title id="title">D&amp;M P1: อายุผลตรวจ 15 นาทีและตัวกรองรายการอุปกรณ์</title>
+  <desc id="description">Wireframe ตัวอย่าง Active 7 ตัวจากจำนวนรวม 10 ตัว ข้อมูลเก่า 1 ตัวและยังไม่เคยตรวจ 1 ตัว การกด Unreachable เปิดรายการ Active ที่ติดต่อไม่ได้ พร้อมตัวกรองใน URL ภาพเป็นแบบออกแบบ ไม่ใช่หน้าที่พัฒนาเสร็จ</desc>
+  <defs>
+    <style>
+      text { font-family: Tahoma, 'Noto Sans Thai', sans-serif; fill: #202020; font-size: 18px; }
+      .heading { font-size: 27px; font-weight: bold; }
+      .section { font-size: 21px; font-weight: bold; }
+      .small { font-size: 15px; fill: #555; }
+      .url { font-family: Consolas, monospace; font-size: 15px; }
+      .number { font-size: 36px; text-decoration: underline; }
+      .panel { fill: #fff; stroke: #777; stroke-width: 1.5; }
+      .muted { fill: #f1f1f1; stroke: #aaa; }
+      .button { fill: #ededed; stroke: #555; }
+      .rule { stroke: #bbb; stroke-width: 1; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L9,5 L0,10" fill="none" stroke="#333" stroke-width="1.5"/>
+    </marker>
+  </defs>
+  <rect width="1440" height="1220" fill="#fff"/>
+  <text x="24" y="37" class="heading">D&amp;M P1 / อายุผลตรวจและการกดไปหน้ารายการอุปกรณ์</text>
+  <text x="24" y="65" class="small">แบบออกแบบ 2026-10-22 · ข้อมูลตัวอย่างตาม Contract · ยังไม่ใช่หน้าระบบที่พัฒนาเสร็จ</text>
+
+  <rect x="24" y="88" width="880" height="866" class="panel"/>
+  <rect x="936" y="88" width="480" height="866" class="panel"/>
+  <text x="48" y="131" class="heading">Dashboard / ภาพรวมระบบ</text>
+  <text x="48" y="160" class="small">สร้างสรุป ณ 22 ต.ค. 2026 เวลา 10:00:00</text>
+  <rect x="706" y="112" width="174" height="43" class="button"/>
+  <text x="793" y="140" text-anchor="middle">โหลดสรุปใหม่</text>
+
+  <text x="48" y="199" class="section">อุปกรณ์ทั้งหมดที่ยังไม่เลิกจัดการ</text>
+  <rect x="48" y="217" width="832" height="116" class="panel"/>
+  <path d="M256,217 V333 M464,217 V333 M672,217 V333" class="rule"/>
+  <text x="68" y="248">ทั้งหมด</text>
+  <text x="68" y="295" class="number">10</text>
+  <text x="276" y="248">Active</text>
+  <text x="276" y="295" class="number">7</text>
+  <text x="484" y="248">ยังไม่ได้จัดการ</text>
+  <text x="484" y="295" class="number">1</text>
+  <text x="692" y="248">กำลังซ่อม</text>
+  <text x="692" y="295" class="number">2</text>
+  <text x="48" y="359" class="section">ผลการติดต่อเฉพาะ Active 7 ตัว</text>
+  <rect x="48" y="377" width="832" height="116" class="panel"/>
+  <path d="M325,377 V493 M603,377 V493" class="rule"/>
+  <rect x="326" y="378" width="276" height="114" fill="#eee"/>
+  <text x="68" y="409">ติดต่อได้</text>
+  <text x="68" y="457" class="number">5</text>
+  <text x="346" y="409">ติดต่อไม่ได้</text>
+  <text x="346" y="457" class="number">1</text>
+  <text x="623" y="409">ยังไม่ทราบ</text>
+  <text x="623" y="457" class="number">1</text>
+
+  <rect x="48" y="520" width="832" height="140" class="muted"/>
+  <text x="68" y="551" class="section">อายุผลตรวจ · เกณฑ์ 15 นาที</text>
+  <text x="68" y="584">ข้อมูลเก่า 1 ตัว  |  ยังไม่เคยตรวจ 1 ตัว</text>
+  <text x="68" y="615" class="small">ช่วงเวลาตรวจ 09:40–09:59 · ประเมินอายุ ณ 10:00:00</text>
+  <text x="68" y="642" class="small">ข้อความประกอบ ไม่มีลิงก์กรอง · ไม่เพิ่มจำนวนรวมและไม่เปลี่ยน Reachability</text>
+
+  <rect x="48" y="690" width="832" height="150" fill="#fafafa" stroke="#999" stroke-dasharray="5 4"/>
+  <text x="68" y="724" class="section">พื้นที่ส่วนอื่นตาม UI Design เดิม</text>
+  <text x="68" y="761">Config / Critical / กิจกรรมล่าสุด / สถานะระบบ / ทางลัดตามสิทธิ์</text>
+  <text x="68" y="796" class="small">ภาพขยายนี้เจาะจงกติกาส่วนอุปกรณ์ ไม่แทนรายละเอียดทั้งหน้า</text>
+  <text x="48" y="875" class="small">ตัวเลขขีดเส้นใต้กดเปิดรายการได้ · อายุผลตรวจเป็นข้อความประกอบ</text>
+  <text x="48" y="907" class="small">โหลดสรุปใหม่ = อ่านฐานข้อมูลและประเมินอายุใหม่ ไม่ใช่ตรวจ SNMP ใหม่</text>
+
+  <text x="960" y="131" class="heading">Device Inventory</text>
+  <text x="960" y="163" class="small">พื้นที่รับตัวกรองจาก D&amp;M</text>
+  <rect x="960" y="191" width="432" height="91" class="muted"/>
+  <text x="976" y="220" class="url">/devices?management_state=active</text>
+  <text x="976" y="250" class="url">&amp;reachability=unreachable</text>
+  <text x="960" y="318" class="section">เงื่อนไขที่เลือก</text>
+  <rect x="960" y="336" width="120" height="40" class="button"/>
+  <text x="1020" y="362" text-anchor="middle">Active</text>
+  <rect x="1092" y="336" width="164" height="40" class="button"/>
+  <text x="1174" y="362" text-anchor="middle">Unreachable</text>
+  <text x="960" y="414">ตัวอย่างรายการที่ตรงเงื่อนไข: 1 ตัว</text>
+  <rect x="960" y="433" width="432" height="120" class="panel"/>
+  <text x="976" y="466">Router-06</text>
+  <text x="976" y="498">Active · ติดต่อไม่ได้ · ตรวจล่าสุด 09:58</text>
+  <text x="976" y="530" class="small">ผลตรวจยังใหม่ ณ 10:00 แม้อุปกรณ์ติดต่อไม่ได้</text>
+  <rect x="960" y="576" width="182" height="43" class="button"/>
+  <text x="1051" y="604" text-anchor="middle">ล้างตัวกรอง</text>
+  <text x="1160" y="604" class="url">→ /devices</text>
+  <path d="M960,647 H1392" class="rule"/>
+  <text x="960" y="680" class="section">พฤติกรรมที่ต้องพัฒนา</text>
+  <text x="960" y="718">• เริ่มหน้าแรก ไม่พกตัวกรองเดิมมาซ้อน</text>
+  <text x="960" y="755">• เปลี่ยนตัวกรองแล้ว URL เปลี่ยนตาม</text>
+  <text x="960" y="792">• Reload / Back คืนค่าตาม URL</text>
+  <text x="960" y="829">• รายการใช้ข้อมูลล่าสุด จึงเปลี่ยนได้ตามเวลา</text>
+  <text x="960" y="881" class="small">Backend รองรับตัวกรองแล้ว</text>
+  <text x="960" y="907" class="small">การรับ URL ใน Frontend ยังต้องเชื่อมและทดสอบ</text>
+  <path d="M464,493 V506 H918 V237 H948" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="24" y="978" width="1392" height="216" class="muted"/>
+  <text x="48" y="1015" class="section">กติกาที่ใช้ร่วมกันระหว่าง Contract, Wireframe และเกณฑ์ทดสอบ</text>
+  <text x="48" y="1054">อายุ 900 วินาที = ยังใหม่ · อายุ 901 วินาที = ข้อมูลเก่า · ไม่มีเวลาตรวจ = ยังไม่เคยตรวจ</text>
+  <text x="48" y="1091">ทั้งหมด 10 = Active 7 + Unmanaged 1 + Maintenance 2 · Retired ไม่รวมในตัวเลขบน Dashboard</text>
+  <text x="48" y="1128">Active 7 = Reachable 5 + Unreachable 1 + Unknown 1 · ข้อมูลเก่า 1 / ไม่เคยตรวจ 1 ซ้อนอยู่ใน Active เดิม</text>
+  <text x="48" y="1165">ภาพเป็นตัวอย่างการออกแบบ · ไม่เรียก SNMP/Collection จากการเปิด Dashboard หรือกดตัวเลข</text>
+</svg>

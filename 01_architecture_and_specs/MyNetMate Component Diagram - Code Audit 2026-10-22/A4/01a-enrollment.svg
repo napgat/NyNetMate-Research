@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="DESCRIPTION" style="width:744px;height:511px;background:#FFFFFF;" width="160mm" height="109.89mm" viewBox="0 0 744 511" zoomAndPan="magnify" preserveAspectRatio="none" contentStyleType="text/css">
+  <?plantuml 1.2026.9?>
+  <defs />
+  <g font-family="sans-serif" lengthAdjust="spacing">
+    <g class="title" data-source-line="1">
+      <text x="286.665" y="37.724" fill="#000" font-size="19" textLength="163.671" font-weight="700">Device enrollment</text>
+      <text x="253.619" y="61.622" fill="#000" font-size="19" textLength="229.763" font-weight="700">backend main @ 166e2ee</text>
+    </g>
+    <!--cluster Assembly-->
+    <g class="cluster" data-qualified-name="Assembly" id="ent0001" data-source-line="14">
+      <rect x="7" y="91.797" width="723" height="309" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="710" y="96.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="708" y="98.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="708" y="102.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="290.972" y="131.482" fill="#000" font-size="18" textLength="155.057" font-weight="700">Device enrollment</text>
+    </g>
+    <!--cluster Devices-->
+    <g class="cluster" data-qualified-name="Assembly.Devices" id="ent0002" data-source-line="15">
+      <rect x="23" y="262.797" width="238" height="88" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="241" y="267.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="239" y="269.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="239" y="273.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="103.478" y="302.482" fill="#000" font-size="18" textLength="77.045" font-weight="700">devices :</text>
+      <text x="57.968" y="325.123" fill="#000" font-size="18" textLength="168.064" font-weight="700">DeviceManagement</text>
+    </g>
+    <!--cluster Collection-->
+    <g class="cluster" data-qualified-name="Assembly.Collection" id="ent0005" data-source-line="19">
+      <rect x="473" y="257.797" width="241" height="88" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="694" y="262.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="692" y="264.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="692" y="268.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="545.995" y="297.482" fill="#000" font-size="18" textLength="95.01" font-weight="700">collection :</text>
+      <text x="514.491" y="320.123" fill="#000" font-size="18" textLength="158.019" font-weight="700">NetworkCollection</text>
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Devices.R_N01" id="ent0003" data-source-line="16">
+      <text x="258.5" y="365.482" fill="#000" font-size="18"> </text>
+      <rect x="255" y="326.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Devices.P_N02" id="ent0004" data-source-line="17">
+      <text x="258.5" y="250.842" fill="#000" font-size="18"> </text>
+      <rect x="255" y="274.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Collection.R_N02" id="ent0006" data-source-line="20">
+      <text x="470.5" y="245.842" fill="#000" font-size="18"> </text>
+      <rect x="467" y="269.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Collection.P_N01" id="ent0007" data-source-line="21">
+      <text x="470.5" y="360.482" fill="#000" font-size="18"> </text>
+      <rect x="467" y="321.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_N01 to P_N01-->
+    <g class="link" data-entity-1="ent0003" data-entity-2="ent0007" id="lnk8" data-source-line="23" data-link-type="association">
+      <path d="M267.21,338.757 C271.11,342.727 276.81,347.607 283,349.797 C353.39,374.717 382.35,379.167 451,349.797 C458.38,346.637 464.4,339.477 468.07,334.177" style="stroke:#181818;stroke-width:1;" fill="none" id="R_N01-P_N01" />
+      <text x="345.521" y="307.482" fill="#000" font-size="18" textLength="38.021">N01:</text>
+      <text x="299" y="330.123" fill="#000" font-size="18" textLength="136.063">ITargetCollection</text>
+      <path d="M360.743,362.927 A10,10 0 0 0 360.424 377.065" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="367.653" cy="370.156" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_N02 to P_N02-->
+    <g class="link" data-entity-1="ent0006" data-entity-2="ent0004" id="lnk9" data-source-line="24" data-link-type="association">
+      <path d="M466.86,274.537 C462.63,273.567 456.47,272.317 451,271.797 C376.66,264.777 356.14,256.787 283,271.797 C277.4,272.947 271.46,275.647 267.33,277.797" style="stroke:#181818;stroke-width:1;" fill="none" id="R_N02-P_N02" />
+      <text x="345.518" y="199.482" fill="#000" font-size="18" textLength="38.021">N02:</text>
+      <text x="326.498" y="222.123" fill="#000" font-size="18" textLength="81.062">ISnapshot</text>
+      <text x="323" y="244.764" fill="#000" font-size="18" textLength="88.058">Application</text>
+      <path d="M373.315,270.9 A10,10 0 0 0 373.914 256.77" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="366.55" cy="263.536" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="legend" data-source-line="26">
+      <rect x="12" y="420.797" width="319.098" height="71.281" fill="#DDD" style="stroke:#000;stroke-width:1;" rx="7.5" ry="7.5" />
+      <text x="25" y="452.482" fill="#000" font-size="18" textLength="255.138">Socket: required. Ball: provided.</text>
+      <text x="25" y="475.123" fill="#000" font-size="18" textLength="293.098">Square: port. See CONTRACTS.md.</text>
+    </g>
+    <?plantuml-src RL9BQnin4BxlhnZIIoynjYWXtLDjXq8FTKFMHqCPhsRNmbgD8it6927_lRAss1ji7GJw7lFGZ1Yn10_qOce2Se6jxSZ9ncsntfFJqA5ny0DcTtUaY0fBZO0m1DFk1BG9L8jXLyIzSHu3Tb1pvzcb69Myfj1zPzM8ZJlKV32kXGPjf16ZgS7UoazsiiAEe48NAmgckQwfp1l1x7v4oh6LC_LzH5bgKo_NROurHVAWfYCmeDjdyDi8zAZriVBxQzqkqd-rWNkdbsmvm65dXAuAEMWAW-YBogSuaN1pCOeRm0Zp6AdRsbTuBs0arbaSeToumVSR7RPqiZtyvvCBF0VXFfaWKqz_LzFP9VoOO5N0nwSqTIfbcFCnquham66_F87PU7wUigN56ILJ5-ZZK4BAbOk1sw_Jsm644j9TmiRzMcDeISxH1x4wYrKMgook7FguuxI-S--jgJ4xFefX_h1b4JvkGoC5L9mMN4e8zDodDTOJMA2r9VZ0BqQdTv8yznYep6LFe2A2vP_L-cc-N5UJBWbIp27oFm00?>
+  </g>
+</svg>

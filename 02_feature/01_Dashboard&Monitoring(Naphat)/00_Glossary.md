@@ -2,9 +2,9 @@
 
 > **วัตถุประสงค์:** เป็นคำศัพท์กลางสำหรับเอกสาร Feature, Database Schema, Component Diagram, API Contract, UI และ Acceptance Test ของ Dashboard & Monitoring (D&M)
 >
-> **หลักการใช้งาน:** หากคำเดียวกันถูกใช้ต่างความหมายในเอกสารเก่า ให้ใช้ความหมายในไฟล์นี้ร่วมกับมติล่าสุดใน [`P2_Operational_Monitoring/MVP D&M.md`](P2_Operational_Monitoring/MVP%20D%26M.md)
+> **หลักการใช้งาน:** P1 ใช้ [Device/API Contract ปัจจุบัน](P1_Core/04_API%20Contracts.md); แนวคิด Operational Monitoring เชิงลึกใช้ [`P2_Operational_Monitoring/MVP D&M.md`](P2_Operational_Monitoring/MVP%20D%26M.md) ไม่ถือว่าเอกสาร P2 เป็นคำยืนยันขอบเขต P1
 >
-> **ข้อจำกัด:** ไฟล์นี้กำหนดความหมายเชิงแนวคิด ยังไม่กำหนดชื่อตาราง ชื่อ Column หรือค่า Enum ฉบับ Physical Database
+> **ข้อจำกัด:** เนื้อหา Operational Snapshot/Collection ในไฟล์นี้เป็นแนวคิด P2 เว้นแต่ระบุเป็น P1 ชัดเจน; Field/Enum ของ Inventory สำหรับ P1 ด้านล่างตรวจจากโค้ดเมื่อ 2026-10-22 ไม่ได้หมายความว่า D&M Implement แล้ว
 
 ---
 
@@ -12,7 +12,7 @@
 
 | คำศัพท์        | คำแปล/คำเรียกภาษาไทย           | ความหมายที่ใช้ใน MyNetMate                                                                                                |
 | -------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| **D&M**        | Dashboard & Monitoring         | Feature สำหรับแสดงภาพรวมและสถานะการทำงานล่าสุดของ Network โดยผู้ใช้เป็นผู้สั่งเก็บข้อมูล                                  |
+| **D&M**        | Dashboard & Monitoring         | P1 อ่านและสรุปข้อมูลจาก Feature เจ้าของข้อมูล; การสั่งเก็บ Operational Snapshot ของ D&M เป็นแนวคิด P2 |
 | **Dashboard**  | หน้าสรุป                       | หน้ารวมข้อมูลสำคัญเพื่อให้ผู้ใช้รู้ว่าควรเริ่มตรวจที่ใด ไม่ใช่หน้ารวมรายละเอียดทุก Port หรือทุก Route                     |
 | **Monitoring** | การติดตามสถานะ                 | ใน D&M MVP หมายถึงการดู Current Operational Snapshot ไม่ได้หมายถึง Continuous Monitoring หรือ Real-time Monitoring        |
 | **MVP**        | ผลิตภัณฑ์ขั้นต่ำที่ใช้งานได้   | ขอบเขต Feature ขั้นต่ำที่ต้องทำงานร่วมกันและแสดงคุณค่าหลักของ D&M ได้จริง                                                 |
@@ -62,6 +62,23 @@
 
 > **ข้อควรระวัง:** ไม่ควรใช้คำว่า `Online` แทน Reachable เพราะคำว่า Online อาจถูกตีความว่าอุปกรณ์และ Network Service ทุกส่วนทำงานปกติ
 
+#### การใช้ใน P1 ตาม Inventory ปัจจุบัน
+
+`reachability` รับ `reachable`, `unreachable`, `unknown` ตาม Owner เท่านั้น ปัจจุบัน Health service อ่าน SNMP `sysUpTime`; หากไม่มีค่าคืนเป็น `unreachable` แต่เมื่อ Credential ใช้ไม่ได้หรือเกิด Exception จะคืน `unknown` และการบันทึก Snapshot ที่เก็บจากอุปกรณ์สำเร็จก็ตั้ง `reachable` ได้ D&M ไม่สลับไปตัดสินด้วย ICMP หรือกำหนดว่าต้องไม่ตอบ 3 ครั้งเอง
+
+### 4.1a Management State — สถานะการจัดการ (P1)
+
+เป็นคนละแกนกับ Reachability ตาม Field `management_state`:
+
+| ค่า | ความหมายที่ใช้แสดง |
+| --- | --- |
+| `active` | อยู่ระหว่างจัดการ; ใช้เป็นขอบเขตนับ Reachability ใน D&M P1 |
+| `unmanaged` | ยังไม่ได้จัดการโดยตรง; อาจมีเพียงหลักฐานจากเพื่อนบ้าน ไม่เท่ากับติดต่อไม่ได้ |
+| `maintenance` | อยู่ระหว่างบำรุงรักษา; แสดงจำนวนแยก ไม่รวมใน Unreachable ของ Active |
+| `retired` | เลิกจัดการแล้ว; ไม่รวมใน Summary เริ่มต้น แต่ข้อมูลอาจยังอยู่เพื่ออ้างอิง |
+
+สถานะการจัดการเปลี่ยนได้โดยไม่ล้างผล Reachability เก่า จึงห้ามใช้ Maintenance เป็นคำพ้องของ Offline หรือเอาป้ายทั้งสองแกนมาบวกเป็นจำนวนรวม กฎนับฝั่ง D&M คือ `total = active + unmanaged + maintenance` และจำนวน Reachable/Unreachable/Unknown รวมกันเท่ากับ Active ดู [API Contract](P1_Core/04_API%20Contracts.md)
+
 ### 4.2 Collection Status
 
 **Collection Status** หมายถึงสถานะของกระบวนการอ่านและแปลงข้อมูล ไม่ใช่สถานะของอุปกรณ์จริง
@@ -98,7 +115,7 @@ Operational State ต้องแสดงเป็น Actual State ที่ม
 |---|---|
 | **Fresh** | ข้อมูลยังไม่เกิน Freshness Threshold |
 | **Stale** | ข้อมูลเกิน Freshness Threshold ต้องแสดงเวลาที่เก็บและคำเตือน |
-| **Unknown Freshness** | ยังไม่มี Successful Collection จึงไม่มีเวลาที่ใช้ประเมิน |
+| **Unknown Freshness** | ไม่มีเวลาอ้างอิงที่ใช้ได้; P1 เวลา `null` แสดงว่ายังไม่เคยตรวจ โดยใช้เกณฑ์ 900 วินาทีที่ยืนยันแล้ว ส่วน P2 ใช้เวลาของ Successful Snapshot ตามชนิดข้อมูล |
 
 ### 4.5 กฎความสัมพันธ์ของสถานะ
 
@@ -117,8 +134,11 @@ Unknown ≠ Failed
 | ------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
 | **Latest Collection Attempt**  | ความพยายาม Collection ครั้งล่าสุด อาจสำเร็จหรือล้มเหลว                                                            |
 | **Last Successful Collection** | Collection ครั้งล่าสุดที่อ่านและ Parse ข้อมูลสำคัญสำเร็จ                                                          |
-| **`last_collected_at`**        | เวลาอ้างอิงของข้อมูล Operational ที่เก็บสำเร็จ ไม่ควรเปลี่ยนเป็นเวลาของรอบที่ล้มเหลว                              |
-| **Freshness Threshold**        | ระยะเวลาสูงสุดที่ยอมให้ Snapshot ถูกถือว่ายัง Fresh                                                               |
+| **`reachability_checked_at` (P1 Inventory)** | เวลาบันทึกผลตรวจการติดต่อครั้งล่าสุด รวมผลที่ไม่สำเร็จ/ประเมินไม่ได้; เป็น `null` ได้ ใช้อ้างอายุผล Reachability |
+| **`last_seen_at` (P1 Inventory)** | เวลาติดต่อสำเร็จล่าสุด อาจมาจาก Health หรือ Snapshot สำเร็จ ไม่ถูกอัปเดตเมื่อผล Health เป็น Unreachable/Unknown |
+| **`last_collected_at` (P1 Inventory)** | เวลาอัปเดตข้อมูล Inventory/Collection; แถว Unmanaged จากหลักฐานเพื่อนบ้านก็มีค่าได้ จึงไม่ใช่หลักฐานว่าเก็บข้อมูลจากอุปกรณ์นั้นสำเร็จเสมอ |
+| **`generated_at` (D&M Summary ที่จะพัฒนา)** | เวลาสร้าง Summary แยกจากเวลาตรวจอุปกรณ์; การเปิดหน้าใหม่ไม่ทำให้ผลตรวจอุปกรณ์ใหม่ขึ้น |
+| **Freshness Threshold**        | อายุสูงสุดที่ถือว่าข้อมูลยังใหม่; ผู้ใช้ยืนยัน P1 ที่ 15 นาที (900 วินาที) เมื่อ 2026-10-22 โดยอายุเท่ากับ 900 ยังใหม่และเกิน 900 จึงเก่า ส่วน P2 กำหนดตามชนิด Snapshot แยกต่างหาก |
 | **Last Known State**           | Successful Snapshot ล่าสุดที่ยังแสดงเพื่ออ้างอิงเมื่อรอบใหม่ล้มเหลว ต้องติดป้ายว่าเป็นข้อมูลเดิมและแสดง Freshness |
 | **Latest Attempt Error**       | ข้อมูลสรุปความล้มเหลวของ Collection Attempt ล่าสุด ไม่ใช่ Operational State ของอุปกรณ์                            |
 
@@ -358,6 +378,6 @@ Topology Conflict ≠ Interface Down
 - Freshness Threshold ต่อชนิดข้อมูล
 - Operational Finding Persistence
 - Snapshot History และ Retention
-- Reachability Method เมื่ออุปกรณ์ปิด ICMP
+- Reachability Method เพิ่มเติมใน P2; P1 อ่านผล SNMP Health/Snapshot ของ Inventory ตาม API Contract แล้ว ไม่รอการเลือก ICMP ใหม่
 - สิทธิ์ Manual Refresh ของ Admin, Operator และ Viewer
 

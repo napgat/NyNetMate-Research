@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "paper": "A4 portrait",
+  "paperWidthMm": 210,
+  "paperHeightMm": 297,
+  "contentWidthMm": 160,
+  "contentHeightMm": 230,
+  "minimumFontPt": 9.5,
+  "contractCoverage": "Each canonical contract exactly once across panels.",
+  "panels": [
+    {
+      "file": "A4/01a-enrollment",
+      "title": "Device enrollment",
+      "sourceFile": "01-components-across-branches",
+      "contractIds": [
+        "N01",
+        "N02"
+      ],
+      "direction": "left to right",
+      "revision": "backend main @ 166e2ee"
+    },
+    {
+      "file": "A4/01b-discovery",
+      "title": "Discovery and SNMP collection",
+      "sourceFile": "01-components-across-branches",
+      "contractIds": [
+        "N03",
+        "N04",
+        "N05"
+      ],
+      "direction": "top to bottom",
+      "revision": "backend main @ 166e2ee"
+    },
+    {
+      "file": "A4/02a-audit-events",
+      "title": "Authentication audit events",
+      "sourceFile": "02-auth-audit-binding",
+      "contractIds": [
+        "A01",
+        "A02",
+        "A03"
+      ],
+      "direction": "top to bottom",
+      "revision": "backend audit-writer @ b862c60"
+    },
+    {
+      "file": "A4/02b-auth-sessions",
+      "title": "Authorization and sessions",
+      "sourceFile": "02-auth-audit-binding",
+      "contractIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A07"
+      ],
+      "direction": "top to bottom",
+      "revision": "backend audit-writer @ b862c60"
+    },
+    {
+      "file": "A4/03-cis",
+      "title": "CIS validation",
+      "sourceFile": "03-cis-branch-boundaries",
+      "contractIds": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05"
+      ],
+      "direction": "top to bottom",
+      "revision": "backend cis-validation @ 0f65dd8"
+    },
+    {
+      "file": "A4/04a-config-planning",
+      "title": "Versions, drift and planning",
+      "sourceFile": "04-configuration-main",
+      "contractIds": [
+        "C01",
+        "C02",
+        "C03"
+      ],
+      "direction": "top to bottom",
+      "revision": "backend main @ 166e2ee"
+    },
+    {
+      "file": "A4/04b-config-adapters",
+      "title": "Rendering, diff and device I/O",
+      "sourceFile": "04-configuration-main",
+      "contractIds": [
+        "C04",
+        "C05",
+        "C06",
+        "C07"
+      ],
+      "direction": "left to right",
+      "revision": "backend main @ 166e2ee"
+    },
+    {
+      "file": "A4/05a-web-network",
+      "title": "Network web contracts",
+      "sourceFile": "05-web-contract-pairs",
+      "contractIds": [
+        "W01",
+        "W02"
+      ],
+      "direction": "left to right",
+      "revision": "website 28ac37b / backend 166e2ee"
+    },
+    {
+      "file": "A4/05b-web-configuration",
+      "title": "Configuration web contracts",
+      "sourceFile": "05-web-contract-pairs",
+      "contractIds": [
+        "W03",
+        "W04",
+        "W05",
+        "W06",
+        "W07"
+      ],
+      "direction": "left to right",
+      "revision": "website ad95634 / backend 166e2ee"
+    },
+    {
+      "file": "A4/05c-web-identity",
+      "title": "Identity and audit web contracts",
+      "sourceFile": "05-web-contract-pairs",
+      "contractIds": [
+        "W08",
+        "W09",
+        "W10"
+      ],
+      "direction": "left to right",
+      "revision": "website 3e4d85c / backend b862c60"
+    }
+  ]
+}

@@ -1,10 +1,18 @@
 # 🌐 MyNetMate — Project Knowledge Vault
 
-MyNetMate คือ Capstone Project CEPP68-33 ของ KMITL สำหรับ **Network Management และ Configuration Automation** โดยมุ่งช่วยวิศวกรเครือข่ายจัดการอุปกรณ์ สร้างและตรวจสอบ Configuration และลดความเสี่ยงก่อนนำคำสั่งไปใช้จริง
+MyNetMate คือโครงงานในรายวิชา **Computer Engineering Project 1** ของ KMITL สำหรับ **Network Management และ Configuration Automation** โดยมุ่งช่วยวิศวกรเครือข่ายจัดการอุปกรณ์ สร้างและตรวจสอบ Configuration และลดความเสี่ยงก่อนนำคำสั่งไปใช้จริง
 
 > **แนวคิดหลัก:** ใช้ AI เมื่อต้องการ “ความเข้าใจ” และใช้ Rule/Jinja2 Template เมื่อต้องการ “ความถูกต้อง”
 
 เอกสารนี้เป็นหน้าเริ่มต้นของ Knowledge Vault ส่วน Source Code ของทีมอยู่ใน [`mynetmate/`](mynetmate/)
+
+## รายวิชาและช่วงงานปัจจุบัน
+
+ผู้ใช้ยืนยันเมื่อ **2026-10-22** ว่า **CEPP ย่อมาจาก Computer Engineering Prepare Project** เป็นรายวิชาในเทอมที่ผ่านมาแล้ว ส่วนเทอมปัจจุบันคือ **Computer Engineering Project 1 (Project 1)** ซึ่งเริ่มทำรูปเล่มปริญญานิพนธ์ควบคู่กับการพัฒนาแอปพลิเคชัน MyNetMate
+
+โฟลเดอร์ `04_project_management/Document Project CEPP/` และ Proposal เดิมเก็บเอกสารจากช่วงเตรียมโครงงาน ชื่อ CEPP เดิมไม่ได้ระบุรายวิชาปัจจุบัน ชื่อรายวิชาและรหัสบนปก/ไฟล์ฉบับส่งให้ยึดข้อมูลที่ยืนยันสำหรับ Project 1
+
+**Project 1/Project 2 เป็นรายวิชา ส่วน P1/P2 เป็นลำดับความสำคัญของฟีเจอร์** การเริ่มพัฒนาใน Project 1 ไม่ได้เปลี่ยน MVP scope หรือยืนยันว่าฟีเจอร์เสร็จแล้ว สถานะ implementation ด้านล่างยังอ้างอิงวันที่ตรวจ Source Code ที่ระบุ
 
 ## Current Status
 
@@ -114,8 +122,8 @@ Project/
 
 ### Project and research
 
-- [Proposal](<04_project_management/Document Project/CEPP68-33 Proposal.md>)
-- [Gantt chart](<04_project_management/Document Project/gantt_chart.md>)
+- [Proposal](<04_project_management/Document Project CEPP/CEPP68-33 Proposal.md>)
+- [Gantt chart](<04_project_management/Document Project CEPP/gantt_chart.md>)
 - [Advisor feedback](<04_project_management/Advisor Teacher/>)
 - [Course requirements](<04_project_management/วิชา CE Project 1 และ 2/>)
 - [Technology evaluations](03_tech_evaluations/)

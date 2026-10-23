@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="DESCRIPTION" style="width:396px;height:975px;background:#FFFFFF;" width="93.42mm" height="230mm" viewBox="0 0 396 975" zoomAndPan="magnify" preserveAspectRatio="none" contentStyleType="text/css">
+  <?plantuml 1.2026.9?>
+  <defs />
+  <g font-family="sans-serif" lengthAdjust="spacing">
+    <g class="title" data-source-line="1">
+      <text x="52.487" y="37.724" fill="#000" font-size="19" textLength="284.026" font-weight="700">Discovery and SNMP collection</text>
+      <text x="79.619" y="61.622" fill="#000" font-size="19" textLength="229.763" font-weight="700">backend main @ 166e2ee</text>
+    </g>
+    <!--cluster Assembly-->
+    <g class="cluster" data-qualified-name="Assembly" id="ent0001" data-source-line="14">
+      <rect x="7" y="91.797" width="375" height="773" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="362" y="96.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="360" y="98.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="360" y="102.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="59.961" y="131.482" fill="#000" font-size="18" textLength="269.077" font-weight="700">Discovery and SNMP collection</text>
+    </g>
+    <!--cluster Collection-->
+    <g class="cluster" data-qualified-name="Assembly.Collection" id="ent0002" data-source-line="15">
+      <rect x="67" y="148.797" width="195" height="102" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="242" y="153.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="240" y="155.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="240" y="159.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="116.995" y="188.482" fill="#000" font-size="18" textLength="95.01" font-weight="700">collection :</text>
+      <text x="85.491" y="211.123" fill="#000" font-size="18" textLength="158.019" font-weight="700">NetworkCollection</text>
+    </g>
+    <!--cluster Collector-->
+    <g class="cluster" data-qualified-name="Assembly.Collector" id="ent0005" data-source-line="19">
+      <rect x="60" y="393.797" width="115" height="219" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="155" y="398.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="153" y="400.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="153" y="404.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="74.491" y="433.482" fill="#000" font-size="18" textLength="86.019" font-weight="700">collector :</text>
+      <text x="76.991" y="456.123" fill="#000" font-size="18" textLength="81.018" font-weight="700">Inventory</text>
+      <text x="73.999" y="478.764" fill="#000" font-size="18" textLength="87.003" font-weight="700">Collection</text>
+    </g>
+    <!--cluster Oxian-->
+    <g class="cluster" data-qualified-name="Assembly.Oxian" id="ent0008" data-source-line="23">
+      <rect x="43" y="733.797" width="168" height="115" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="191" y="738.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="189" y="740.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="189" y="744.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="97.996" y="773.482" fill="#000" font-size="18" textLength="58.008" font-weight="700">oxian :</text>
+      <text x="71.493" y="796.123" fill="#000" font-size="18" textLength="111.015" font-weight="700">OxianPython</text>
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Collection.R_N03" id="ent0003" data-source-line="16">
+      <text x="82.5" y="283.482" fill="#000" font-size="18"> </text>
+      <rect x="79" y="244.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Collection.R_N04" id="ent0004" data-source-line="17">
+      <text x="148.5" y="283.482" fill="#000" font-size="18"> </text>
+      <rect x="145" y="244.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Collector.R_N05" id="ent0006" data-source-line="20">
+      <text x="80.5" y="645.482" fill="#000" font-size="18"> </text>
+      <rect x="77" y="606.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Collector.P_N03" id="ent0007" data-source-line="21">
+      <text x="75.5" y="363.842" fill="#000" font-size="18"> </text>
+      <rect x="72" y="387.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Oxian.P_N04" id="ent0009" data-source-line="24">
+      <text x="190.5" y="703.842" fill="#000" font-size="18"> </text>
+      <rect x="187" y="727.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Oxian.P_N05" id="ent0010" data-source-line="25">
+      <text x="128.5" y="703.842" fill="#000" font-size="18"> </text>
+      <rect x="125" y="727.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_N03 to P_N03-->
+    <g class="link" data-entity-1="ent0003" data-entity-2="ent0007" id="lnk11" data-source-line="27" data-link-type="association">
+      <path d="M84.75,256.817 C83.66,278.697 79.35,365.637 78.25,387.687" style="stroke:#181818;stroke-width:1;" fill="none" id="R_N03-P_N03" />
+      <text x="117.009" y="307.482" fill="#000" font-size="18" textLength="38.021">N03:</text>
+      <text x="99" y="330.123" fill="#000" font-size="18" textLength="79.04">IInventory</text>
+      <text x="99" y="352.764" fill="#000" font-size="18" textLength="79.04">Collection</text>
+      <path d="M88.917,315.476 A10,10 0 0 0 74.792 314.775" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="81.504" cy="322.188" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_N04 to P_N04-->
+    <g class="link" data-entity-1="ent0004" data-entity-2="ent0009" id="lnk12" data-source-line="28" data-link-type="association">
+      <path d="M157.19,252.507 C167.64,254.087 188.57,258.897 198,272.797 C227.97,316.967 203,339.417 203,392.797 C203,392.797 203,392.797 203,613.797 C203,657.407 204.19,668.627 198,711.797 C197.21,717.287 195.66,723.447 194.5,727.667" style="stroke:#181818;stroke-width:1;" fill="none" id="R_N04-P_N04" />
+      <text x="263.007" y="446.482" fill="#000" font-size="18" textLength="38.021">N04:</text>
+      <text x="219" y="469.123" fill="#000" font-size="18" textLength="131.036">IOxianDiscovery</text>
+      <path d="M210.071,413.351 A10,10 0 0 0 195.929 413.351" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="203" cy="420.422" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_N05 to P_N05-->
+    <g class="link" data-entity-1="ent0006" data-entity-2="ent0010" id="lnk13" data-source-line="29" data-link-type="association">
+      <path d="M77.39,619.077 C73.64,623.007 69.05,628.717 67,634.797 C56.06,667.217 46.92,684.077 67,711.797 C80.58,730.547 111.44,732.857 124.72,732.937" style="stroke:#181818;stroke-width:1;" fill="none" id="R_N05-P_N05" />
+      <text x="110.51" y="669.482" fill="#000" font-size="18" textLength="38.021">N05:</text>
+      <text x="83" y="692.123" fill="#000" font-size="18" textLength="98.042">ISnmpClient</text>
+      <path d="M63.091,668.707 A10,10 0 0 0 49.015 667.336" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="55.368" cy="675.059" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="legend" data-source-line="31">
+      <rect x="12" y="884.797" width="319.098" height="71.281" fill="#DDD" style="stroke:#000;stroke-width:1;" rx="7.5" ry="7.5" />
+      <text x="25" y="916.482" fill="#000" font-size="18" textLength="255.138">Socket: required. Ball: provided.</text>
+      <text x="25" y="939.123" fill="#000" font-size="18" textLength="293.098">Square: port. See CONTRACTS.md.</text>
+    </g>
+    <?plantuml-src VLFFRvim5BxpLporbrqQfHbK7QUsJ9Ds68tg7YDDJloIM35-r9XaREh_lXUJ1Y9vuu3mz-Dz_W1xxGt2LzsiQ8-k0saLYFB775Pa3Awy9hkmIxdQ8HELr1OUuFRk3cU8YQSQFC6IlASAb7QzFcbssjRIoOg7L3LPj5xuZcFQoin6RBELYWxQRc0jJOCZHk5QjiP_8-jBMI48QHk1Jg_Z6g5_8zpUZqX_h3LGNqQKmGrtYTiiAMomXjbq13ffTm5CHs0jbJhk_3xMzedVryPHQrL1XXmSjjfZL4XEeUj5rxDm9MSIhlxxMQv0Dl3OD5WjJGT_4XWP1nNa2rkYFv3R5PVMONaqGqtEKyjU2EpBptBwEGwd2Rp7qhW3XtstUmR9TGiR3sJPF_Ao4ym_sGcTzxkuZADVMePUpyU7UUUtfu2mFW-_d996qIpC3btXvjFqfW-47FYU0vU9jkaTwU18WoCDZh29yuVhfTaWpO8q2r9XgxemcWEIzwJ_BJyEay6rJq0GdpkVWyEtba-Nci2JD2Q7sj5UArwpvAsL3lFGRG824OhdylNbiNWLaue5FBEV_1S0?>
+  </g>
+</svg>

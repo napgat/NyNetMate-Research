@@ -1,0 +1,39 @@
+@startuml
+title Authentication audit events\nbackend audit-writer @ b862c60
+top to bottom direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 18
+skinparam titleFontSize 19
+skinparam legendFontSize 18
+skinparam nodesep 20
+skinparam ranksep 24
+skinparam padding 8
+skinparam componentBackgroundColor white
+skinparam componentBorderColor #222222
+component "Authentication audit events" as Assembly {
+ component "auth :\nAuthentication\nService" as Auth {
+  portout " " as R_A01
+ }
+ component "bootstrap :\nUserProvisioning" as Bootstrap {
+  portout " " as R_A02
+ }
+ component "adapter :\nAuthAuditAdapter\nModule" as Adapter {
+  portout " " as R_A03
+  portin " " as P_A01
+  portin " " as P_A02
+ }
+ component "writer :\nAuditAppendModule" as Writer {
+  portin " " as P_A03
+ }
+ R_A01 -(0- P_A01 : A01: \nIRecordAuthEvent
+ R_A02 -(0- P_A02 : A02: \nIRecordAuthEvent
+ R_A03 -(0- P_A03 : A03: \nAuditWriter
+}
+legend bottom left
+ Socket: required. Ball: provided.
+ Square: port. See CONTRACTS.md.
+endlegend
+@enduml
+

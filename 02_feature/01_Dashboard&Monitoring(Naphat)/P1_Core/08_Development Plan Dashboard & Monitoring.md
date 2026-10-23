@@ -4,6 +4,8 @@
 >
 > **หลักตัดสินขอบเขต:** ยึด [MVP Scope ของโครงการ](../../MyNetMate%20Weight%20Feature%20List%20%28AI%20คิด%29.md) และ [UI Design ของ D&M P1](07_UI%20Design%20Dashboard%20P1.md) งาน Monitoring เชิงลึกอยู่ P2 และเริ่มหลัง P1 ใช้งานได้จริง
 
+> **อัปเดต 2026-10-22 — Device Contract:** ตรวจ Field/Enum/เวลาจาก Backend `feature/11-audit-writer@b862c60` และปรับเอกสาร D&M แล้ว ผู้ใช้ยืนยันเกณฑ์ Freshness 15 นาที (900 วินาที) และแบบ URL ตัวกรองหน้าอุปกรณ์แล้ว สูตรนับ/DTO/Wireframe/เกณฑ์ทดสอบเป็นแบบพร้อมนำไปพัฒนา ส่วนการรับ URL หน้าเว็บและ Aggregation ยังไม่ใช่ Implementation หรือผลทดสอบ
+
 ## ผลลัพธ์ปลายทางที่ต้องการ
 
 ผู้ใช้เข้าสู่ระบบแล้วเห็นหน้า Dashboard ที่สรุปจำนวน/สถานะอุปกรณ์ จำนวน Config ผลตรวจ Critical กิจกรรมล่าสุด และสถานะระบบ กดไปยังหน้าของ Feature เจ้าของข้อมูลได้ตามสิทธิ์ โดยแยก **ศูนย์**, **ยังไม่มีข้อมูล**, **อ่านข้อมูลไม่ได้** และ **ข้อมูลเก่า** ออกจากกันอย่างชัดเจน หน้า Dashboard ไม่สั่งตรวจอุปกรณ์ ไม่สแกน Security และไม่อ้างว่าเป็นข้อมูล Real-time
@@ -17,7 +19,7 @@
 | **0. ยืนยันฐานงาน** | ตรวจ Scope, เอกสาร D&M, Source code และสถานะ Git ของแต่ละ Repository; แยก Planned/Prototype/Implemented/Tested | รายการสิ่งที่มีจริงและสิ่งที่ยังขาด ไม่ใช้เอกสารออกแบบแทนหลักฐานว่าโค้ดเสร็จ | เริ่มแล้ว; Frontend ปัจจุบันยังเป็นหน้า Dashboard placeholder |
 | **1. ปิดแบบ UI และ Flow** | ทบทวนการ์ด, ลำดับสายตา, สิ่งที่เกิดเมื่อกด, Drawer ของ D&M, สิทธิ์ และข้อความ Loading/Empty/Error/Stale ใน [UI Design](07_UI%20Design%20Dashboard%20P1.md) กับทีม/อาจารย์ | ทีมยอมรับหน้าที่จะแสดงและจุดที่กดได้; ไม่มี Flow ที่ล้ำเข้า P2 หรือออกแบบหน้าของเพื่อนแทน | มีร่างครบ; ยังรอยืนยันจุดเชื่อมต่อ |
 | **2. ปิดสัญญาข้อมูลกับ Feature เจ้าของ** | ยืนยันนิยามตัวเลข Field เวลา สถานะ และ Route ตามรายการด้านล่าง; บันทึกเจ้าของข้อมูลและตัวอย่างข้อมูลจริง/จำลอง | ทุก Metric มี Source of Truth, สูตรนับ, เวลาอ้างอิง, กรณี No Data/Failure และปลายทางที่กดแล้วไม่พาไป 404 | Audit ยืนยันแล้ว; ที่เหลือบางส่วนยัง Pending |
-| **3. ทำเอกสารออกแบบให้ตรงกัน** | ปรับ [Glossary](../00_Glossary.md), [Component Diagram](03_Component%20Diagram.md), [API Contracts](04_API%20Contracts.md), [Acceptance Tests](05_Acceptance%20Tests%20และ%20Success%20Metrics.md) ตามมติระยะ 2; ระบุ DTO, สิทธิ์, Pagination และข้อผิดพลาด | เอกสารทั้งสี่ใช้คำ/สถานะ/Route เดียวกัน; ไม่มี `site_id` หรือ Enum เก่าที่ไม่มี Contract รองรับ | ยังต้องปรับหลังปิด Contract |
+| **3. ทำเอกสารออกแบบให้ตรงกัน** | ปรับ [Glossary](../00_Glossary.md), [Component Diagram](03_Component%20Diagram.md), [API Contracts](04_API%20Contracts.md), [Acceptance Tests](05_Acceptance%20Tests%20และ%20Success%20Metrics.md) ตามมติระยะ 2; ระบุ DTO, สิทธิ์, Pagination และข้อผิดพลาด | เอกสารใช้คำ/สถานะ/Route เดียวกัน; ไม่มีตัวกรองหรือ Enum ที่ยังไม่รับเป็น D&M Contract | ปิดแบบส่วน Device รวมเกณฑ์ 900 วินาที/URL/Wireframe แล้ว; Config/Security/Settings ยังมี Pending ของตน |
 | **4. พัฒนา API ฝั่ง D&M** | ทำบริการสรุปแบบ **อ่านข้อมูลจากเจ้าของ** และ API สำหรับ Summary, Recent Activity, System Health; ตรวจสิทธิ์และปกปิดข้อมูลที่ Backend | API คืนข้อมูลจริงหรือสถานะไม่พร้อมอย่างตรงไปตรงมา; ไม่สร้างตาราง Summary/Findings ซ้ำใน P1; ไม่เรียก AI เพื่อคำนวณ Metric | ยังไม่ยืนยันว่ามี implementation ครบ |
 | **5. พัฒนาหน้า Dashboard** | แทนหน้า placeholder ด้วย UI ตามแบบ; เชื่อม API, ทำสถานะ Loading/Empty/Error/Stale, คำอธิบายเวลา, Drawer, ทางลัดและการแสดงตามสิทธิ์ | ผู้ใช้ทั้ง 3 Role เห็นข้อมูลที่ได้รับอนุญาต; ข้อมูลขาดบางส่วนไม่ทำให้ทั้งหน้าพัง; ใช้ได้บนจอเล็กและคีย์บอร์ด | ยังไม่เริ่มตามแบบใหม่นี้ |
 | **6. เชื่อม Flow ข้าม Feature** | เชื่อมการกดไป Device Inventory, Configuration, Security และ Full Audit เฉพาะ Route/Filter ที่เจ้าของยืนยัน; หากปลายทางยังไม่พร้อมให้ซ่อนหรือบอกว่าไม่พร้อม | กดแล้วไปยังรายการที่สัมพันธ์กับตัวเลขจริง หรือระบุข้อจำกัดชัดเจน; ไม่แอบอ้างว่า Pre-filter สำเร็จ | รอ Route/Filter บางส่วน |
@@ -28,7 +30,7 @@
 
 | เจ้าของข้อมูล | คำตอบที่ D&M ต้องได้รับ |
 | --- | --- |
-| Device Inventory | นิยาม Reachability เทียบกับ Maintenance; อุปกรณ์ที่ยังไม่เคยตรวจ; Field และความหมายของเวลาตรวจล่าสุด; วิธีนับ; Route และตัวกรองรายการอุปกรณ์ |
+| Device Inventory | ปิดแบบ Field/Enum/เวลา สูตรนับ เกณฑ์ 900 วินาทีและ URL ตัวกรองแล้ว; เหลือการพัฒนา Frontend รับ/เปลี่ยนตัวกรองจาก URL และทดสอบข้อมูลจริง |
 | Configuration | “จำนวน Config” หมายถึงรายการใดและนับจากสถานะใด; Route รายการ/Builder; สิทธิ์ทางลัด |
 | Security & Validation | “Critical” นับผลตรวจล่าสุดอย่างไร รวม/ไม่รวม Override อย่างไร; กรณียังไม่เคยสแกน; Route และ Filter ผลตรวจ |
 | Authentication & Audit | ใช้ Contract ที่ยืนยันแล้วสำหรับ Positive Allowlist 5 Event, DTO, Cursor, Redaction และสิทธิ์; ทวนกับ Schema/โค้ดก่อนเชื่อมจริง |
@@ -52,6 +54,6 @@
 
 ## ขั้นตอนถัดไปทันที
 
-1. ส่ง UI Design และตารางคำถามระยะ 2 ให้เจ้าของแต่ละ Feature ตอบเฉพาะข้อมูลที่ D&M ต้องใช้
+1. ส่ง Device Contract/Wireframe ที่ปิดแบบแล้วให้ทีม Inventory ใช้เชื่อม URL; ถามเฉพาะ Pending ของ Config/Security/Settings ที่ยังต้องใช้ ไม่ถามค่าอายุข้อมูล 15 นาทีซ้ำ
 2. รวบรวมคำตอบเป็น Decision/Contract เดียว แล้วแก้ API Contract และ Acceptance Tests ให้ตรงกัน
 3. เมื่อผ่านสองข้อแรก จึงเริ่มงาน Backend/Frontend โดยแยกงานที่ทำด้วย Mock ได้ออกจากงานที่ต้องใช้ข้อมูลจริง

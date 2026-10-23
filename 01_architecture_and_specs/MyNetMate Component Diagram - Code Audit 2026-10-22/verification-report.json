@@ -1,0 +1,887 @@
+{
+  "modelVersion": 2,
+  "diagrams": [
+    {
+      "file": "01-components-across-branches",
+      "contracts": 5,
+      "bindings": 5
+    },
+    {
+      "file": "02-auth-audit-binding",
+      "contracts": 7,
+      "bindings": 7
+    },
+    {
+      "file": "03-cis-branch-boundaries",
+      "contracts": 5,
+      "bindings": 5
+    },
+    {
+      "file": "04-configuration-main",
+      "contracts": 7,
+      "bindings": 7
+    },
+    {
+      "file": "05-web-contract-pairs",
+      "contracts": 10,
+      "bindings": 10
+    }
+  ],
+  "evidenceChecks": 72,
+  "sourceObjectsRead": 40,
+  "evidence": [
+    {
+      "contract": "N01",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/devices/service.py",
+      "pattern": "await collection_service.collect_target(",
+      "lines": [
+        70
+      ],
+      "passed": true
+    },
+    {
+      "contract": "N01",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/network_device_discovery/service.py",
+      "pattern": "async def collect_target(",
+      "lines": [
+        214
+      ],
+      "passed": true
+    },
+    {
+      "contract": "N02",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/network_device_discovery/service.py",
+      "pattern": "await device_service.apply_snapshot(",
+      "lines": [
+        230
+      ],
+      "passed": true
+    },
+    {
+      "contract": "N02",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/devices/service.py",
+      "pattern": "async def apply_snapshot(",
+      "lines": [
+        108
+      ],
+      "passed": true
+    },
+    {
+      "contract": "N03",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/network_device_discovery/service.py",
+      "pattern": "await collector.collect(",
+      "lines": [
+        223,
+        391
+      ],
+      "passed": true
+    },
+    {
+      "contract": "N03",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/devices/collector.py",
+      "pattern": "async def collect(",
+      "lines": [
+        92
+      ],
+      "passed": true
+    },
+    {
+      "contract": "N04",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/network_device_discovery/service.py",
+      "pattern": "from oxian_py import discover, discover_stream",
+      "lines": [
+        9
+      ],
+      "passed": true
+    },
+    {
+      "contract": "N04",
+      "repo": "oxian",
+      "ref": "59ee94f6f6bd59dfc18020929dad894f58ab5b62",
+      "path": "oxian_py/__init__.py",
+      "pattern": "discover_stream",
+      "lines": [
+        46,
+        77
+      ],
+      "passed": true
+    },
+    {
+      "contract": "N05",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/devices/collector.py",
+      "pattern": "from oxian_py.snmp.client import SnmpClient",
+      "lines": [
+        6
+      ],
+      "passed": true
+    },
+    {
+      "contract": "N05",
+      "repo": "oxian",
+      "ref": "59ee94f6f6bd59dfc18020929dad894f58ab5b62",
+      "path": "oxian_py/snmp/client.py",
+      "pattern": "class SnmpClient",
+      "lines": [
+        13
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A01",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/authentication/service.py",
+      "pattern": "AuthAuditAdapter(db, self._writer).record_auth_event(",
+      "lines": [
+        173,
+        193,
+        224,
+        263,
+        345,
+        363
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A01",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/authentication/audit_adapter.py",
+      "pattern": "async def record_auth_event(",
+      "lines": [
+        32
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A02",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/authentication/provisioning.py",
+      "pattern": "AuthAuditAdapter(db, self._writer).record_auth_event(",
+      "lines": [
+        179
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A02",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/authentication/audit_adapter.py",
+      "pattern": "async def record_auth_event(",
+      "lines": [
+        32
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A03",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/authentication/audit_adapter.py",
+      "pattern": "class AuditWriter(Protocol):",
+      "lines": [
+        19
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A03",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/authentication/runtime.py",
+      "pattern": "audit_writer=record_audit_event",
+      "lines": [
+        90
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A03",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/audit_trail/writer.py",
+      "pattern": "async def record_audit_event(",
+      "lines": [
+        22
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A04",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/authentication/runtime.py",
+      "pattern": "session_factory=async_session_factory",
+      "lines": [
+        88
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A04",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/core/database.py",
+      "pattern": "async_session_factory = async_sessionmaker(",
+      "lines": [
+        28
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A05",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/authentication/provisioning.py",
+      "pattern": "session_factory=async_session_factory",
+      "lines": [
+        201
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A05",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/core/database.py",
+      "pattern": "async_session_factory = async_sessionmaker(",
+      "lines": [
+        28
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A06",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/audit_trail/router.py",
+      "pattern": "session_factory=",
+      "lines": [
+        23
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A06",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/audit_trail/reader.py",
+      "pattern": "async with self._sessions() as db:",
+      "lines": [
+        75
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A06",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/core/database.py",
+      "pattern": "async_session_factory = async_sessionmaker(",
+      "lines": [
+        28
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A07",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/audit_trail/router.py",
+      "pattern": "authorizer=",
+      "lines": [
+        24
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A07",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/audit_trail/reader.py",
+      "pattern": "await self._authorizer(cookie_token, \"audit.read\")",
+      "lines": [
+        34
+      ],
+      "passed": true
+    },
+    {
+      "contract": "A07",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/authentication/service.py",
+      "pattern": "async def authorize(",
+      "lines": [
+        205
+      ],
+      "passed": true
+    },
+    {
+      "contract": "S01",
+      "repo": "backend",
+      "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+      "path": "app/features/cis_security_validation/router.py",
+      "pattern": "await security_service.scan(db, payload, actor)",
+      "lines": [
+        35
+      ],
+      "passed": true
+    },
+    {
+      "contract": "S01",
+      "repo": "backend",
+      "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+      "path": "app/features/cis_security_validation/service.py",
+      "pattern": "async def scan(",
+      "lines": [
+        107
+      ],
+      "passed": true
+    },
+    {
+      "contract": "S02",
+      "repo": "backend",
+      "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+      "path": "app/features/cis_security_validation/router.py",
+      "pattern": "Depends(OperatorOrAdmin)",
+      "lines": [
+        33,
+        54
+      ],
+      "passed": true
+    },
+    {
+      "contract": "S02",
+      "repo": "backend",
+      "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+      "path": "app/core/actor.py",
+      "pattern": "def require_roles(",
+      "lines": [
+        43
+      ],
+      "passed": true
+    },
+    {
+      "contract": "S03",
+      "repo": "backend",
+      "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+      "path": "app/features/cis_security_validation/router.py",
+      "pattern": "DbSession = Annotated[AsyncSession, Depends(get_db)]",
+      "lines": [
+        24
+      ],
+      "passed": true
+    },
+    {
+      "contract": "S03",
+      "repo": "backend",
+      "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+      "path": "app/core/database.py",
+      "pattern": "async def get_db(",
+      "lines": [
+        37
+      ],
+      "passed": true
+    },
+    {
+      "contract": "S04",
+      "repo": "backend",
+      "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+      "path": "app/features/cis_security_validation/service.py",
+      "pattern": "evaluate_config(payload.target_config, rules, vendor)",
+      "lines": [
+        118
+      ],
+      "passed": true
+    },
+    {
+      "contract": "S04",
+      "repo": "backend",
+      "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+      "path": "app/features/cis_security_validation/rule_engine.py",
+      "pattern": "def evaluate_config(",
+      "lines": [
+        162
+      ],
+      "passed": true
+    },
+    {
+      "contract": "S05",
+      "repo": "backend",
+      "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+      "path": "app/features/cis_security_validation/service.py",
+      "pattern": "await audit.record_audit_event(",
+      "lines": [
+        165
+      ],
+      "passed": true
+    },
+    {
+      "contract": "S05",
+      "repo": "backend",
+      "ref": "0f65dd8c966cb350771f00ca3cc8503fc8235636",
+      "path": "app/core/audit.py",
+      "pattern": "logger.info(",
+      "lines": [
+        22
+      ],
+      "passed": true
+    },
+    {
+      "contract": "C01",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_version_control/service.py",
+      "pattern": "await build_plan(db, payload)",
+      "lines": [
+        29
+      ],
+      "passed": true
+    },
+    {
+      "contract": "C01",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_generation/service.py",
+      "pattern": "async def build_plan(",
+      "lines": [
+        128
+      ],
+      "passed": true
+    },
+    {
+      "contract": "C02",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_version_control/drift.py",
+      "pattern": "await build_plan(db, ConfigGenerationRequest(",
+      "lines": [
+        89
+      ],
+      "passed": true
+    },
+    {
+      "contract": "C02",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_generation/service.py",
+      "pattern": "async def capture_live_config(",
+      "lines": [
+        176
+      ],
+      "passed": true
+    },
+    {
+      "contract": "C03",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_version_control/drift.py",
+      "pattern": "await config_version_service.record_version(",
+      "lines": [
+        146
+      ],
+      "passed": true
+    },
+    {
+      "contract": "C03",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_version_control/service.py",
+      "pattern": "async def record_version(",
+      "lines": [
+        66
+      ],
+      "passed": true
+    },
+    {
+      "contract": "C04",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_generation/service.py",
+      "pattern": "render_config(",
+      "lines": [
+        153,
+        160
+      ],
+      "passed": true
+    },
+    {
+      "contract": "C04",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_generation/render.py",
+      "pattern": "def render_config(",
+      "lines": [
+        23
+      ],
+      "passed": true
+    },
+    {
+      "contract": "C05",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_generation/service.py",
+      "pattern": "compute_remediation_plan(",
+      "lines": [
+        154
+      ],
+      "passed": true
+    },
+    {
+      "contract": "C05",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_generation/remediation.py",
+      "pattern": "def compute_remediation_plan(",
+      "lines": [
+        142
+      ],
+      "passed": true
+    },
+    {
+      "contract": "C06",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_generation/service.py",
+      "pattern": "netmiko_ops.capture_running_config",
+      "lines": [
+        179
+      ],
+      "passed": true
+    },
+    {
+      "contract": "C06",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_generation/netmiko_ops.py",
+      "pattern": "def capture_running_config(",
+      "lines": [
+        100
+      ],
+      "passed": true
+    },
+    {
+      "contract": "C07",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_version_control/service.py",
+      "pattern": "netmiko_ops.push_config",
+      "lines": [
+        37
+      ],
+      "passed": true
+    },
+    {
+      "contract": "C07",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_generation/netmiko_ops.py",
+      "pattern": "def push_config(",
+      "lines": [
+        169
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W01",
+      "repo": "website",
+      "ref": "28ac37ba3d878cdbd0bdc6209cfca95bfb5c964e",
+      "path": "src/features/devices/DeviceInventoryPage.tsx",
+      "pattern": "listDevicesApiV1DevicesGetOptions",
+      "lines": [
+        19,
+        62
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W01",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/devices/router.py",
+      "pattern": "prefix='/devices'",
+      "lines": [
+        13
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W02",
+      "repo": "website",
+      "ref": "28ac37ba3d878cdbd0bdc6209cfca95bfb5c964e",
+      "path": "src/features/topology/hooks/useNetworkScan.ts",
+      "pattern": "new EventSource(streamUrl)",
+      "lines": [
+        96
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W02",
+      "repo": "website",
+      "ref": "28ac37ba3d878cdbd0bdc6209cfca95bfb5c964e",
+      "path": "src/shared/config.ts",
+      "pattern": "/api/v1/network-discovery/scan/stream",
+      "lines": [
+        32
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W02",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/network_device_discovery/router.py",
+      "pattern": "/scan/stream",
+      "lines": [
+        21
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W03",
+      "repo": "website",
+      "ref": "ad95634ca7c10f22591c4b8a7e8267da388d74ed",
+      "path": "src/features/config/ConfigEditorPage.tsx",
+      "pattern": "generateApiV1ConfigsGeneratePostMutation",
+      "lines": [
+        26,
+        108
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W03",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_generation/router.py",
+      "pattern": "\"/generate\"",
+      "lines": [
+        28
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W04",
+      "repo": "website",
+      "ref": "ad95634ca7c10f22591c4b8a7e8267da388d74ed",
+      "path": "src/features/config/ConfigEditorPage.tsx",
+      "pattern": "createConfigVersionApiV1ConfigVersionsPostMutation",
+      "lines": [
+        24,
+        113
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W04",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_version_control/router.py",
+      "pattern": "async def create_config_version(",
+      "lines": [
+        59
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W05",
+      "repo": "website",
+      "ref": "ad95634ca7c10f22591c4b8a7e8267da388d74ed",
+      "path": "src/features/config/components/DriftPanel.tsx",
+      "pattern": "checkDeviceApiV1ConfigDriftDeviceIdCheckPostMutation",
+      "lines": [
+        6,
+        39
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W05",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/config_version_control/router.py",
+      "pattern": "async def check_device(",
+      "lines": [
+        37
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W06",
+      "repo": "website",
+      "ref": "ad95634ca7c10f22591c4b8a7e8267da388d74ed",
+      "path": "src/features/devices/components/SshConsoleTab.tsx",
+      "pattern": "new WebSocket(appConfig.endpoints.sshConsole(deviceId))",
+      "lines": [
+        44
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W06",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/devices/router.py",
+      "pattern": "/{device_id}/ssh",
+      "lines": [
+        16
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W07",
+      "repo": "website",
+      "ref": "ad95634ca7c10f22591c4b8a7e8267da388d74ed",
+      "path": "src/features/config/ConfigEditorPage.tsx",
+      "pattern": "getDeviceDetailApiV1DevicesDeviceIdGetOptions",
+      "lines": [
+        27,
+        365
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W07",
+      "repo": "backend",
+      "ref": "166e2eeedbc80c783ffa98c327ef9365fbb68e50",
+      "path": "app/features/devices/router.py",
+      "pattern": "async def get_device_detail(",
+      "lines": [
+        82
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W08",
+      "repo": "website",
+      "ref": "3e4d85cbc94bcaab6fd6f4e1d9cd41ce56659251",
+      "path": "src/features/authentication/actions.ts",
+      "pattern": "/api/auth/login",
+      "lines": [
+        33
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W08",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/authentication/router.py",
+      "pattern": "\"/login\"",
+      "lines": [
+        202
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W09",
+      "repo": "website",
+      "ref": "3e4d85cbc94bcaab6fd6f4e1d9cd41ce56659251",
+      "path": "src/features/users/UsersPage.tsx",
+      "pattern": "/api/admin/users",
+      "lines": [
+        24,
+        73,
+        101
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W09",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/authentication/admin_router.py",
+      "pattern": "\"/users\"",
+      "lines": [
+        22,
+        27
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W10",
+      "repo": "website",
+      "ref": "3e4d85cbc94bcaab6fd6f4e1d9cd41ce56659251",
+      "path": "src/features/audit/AuditPage.tsx",
+      "pattern": "/api/audit-logs",
+      "lines": [
+        31
+      ],
+      "passed": true
+    },
+    {
+      "contract": "W10",
+      "repo": "backend",
+      "ref": "b862c60d01d4c4bd5a93a176bd3d97f1c97a4eb4",
+      "path": "app/features/audit_trail/router.py",
+      "pattern": "\"/audit-logs\"",
+      "lines": [
+        20
+      ],
+      "passed": true
+    }
+  ],
+  "renders": [
+    {
+      "file": "01-components-across-branches",
+      "syntax": "passed",
+      "svg": "parsed",
+      "png": "signature checked",
+      "sourceHash": "A12BAE43495CF387C6D359AE28260C1140BF944200A5F9C7B6792BE84CC0C996"
+    },
+    {
+      "file": "02-auth-audit-binding",
+      "syntax": "passed",
+      "svg": "parsed",
+      "png": "signature checked",
+      "sourceHash": "156560376D942D0940293FBEFDE3568C0E15E04721E05FB5DC5B54399659D2E3"
+    },
+    {
+      "file": "03-cis-branch-boundaries",
+      "syntax": "passed",
+      "svg": "parsed",
+      "png": "signature checked",
+      "sourceHash": "1B1E70FC962276A8B930A64B7A70F284BEDCA3D7CFC630F28D5FD7A5D72ECA06"
+    },
+    {
+      "file": "04-configuration-main",
+      "syntax": "passed",
+      "svg": "parsed",
+      "png": "signature checked",
+      "sourceHash": "5B5F1F5C7C5423D9FC6C2978842DFAB92DFE64B51FCD0E76211C6C0E5ABB22CC"
+    },
+    {
+      "file": "05-web-contract-pairs",
+      "syntax": "passed",
+      "svg": "parsed",
+      "png": "signature checked",
+      "sourceHash": "0D6C781F78343BBFCCEAE65B9ABD7C0ABEDC29991CAEEC5216D1D832B2133CB7"
+    }
+  ],
+  "failures": [],
+  "passed": true,
+  "limits": [
+    "Static source trace and local rendering only; not an E2E / device test.",
+    "Port and connector consistency checks are not a UML metamodel conformance engine.",
+    "Component boundaries and interface compatibility require the accompanying manual review."
+  ]
+}

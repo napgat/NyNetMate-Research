@@ -1,0 +1,37 @@
+@startuml
+title Versions, drift and planning\nbackend main @ 166e2ee
+top to bottom direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 18
+skinparam titleFontSize 19
+skinparam legendFontSize 18
+skinparam nodesep 20
+skinparam ranksep 24
+skinparam padding 8
+skinparam componentBackgroundColor white
+skinparam componentBorderColor #222222
+component "Versions, drift and planning" as Assembly {
+ component "versions :\nConfigVersion\nModule" as Versions {
+  portout " " as R_C01
+  portin " " as P_C03
+ }
+ component "drift :\nConfigDriftModule" as Drift {
+  portout " " as R_C02
+  portout " " as R_C03
+ }
+ component "planning :\nConfigPlanning\nModule" as Planning {
+  portin " " as P_C01
+  portin " " as P_C02
+ }
+ R_C01 -(0- P_C01 : C01: \nIConfigPlanning
+ R_C02 -(0- P_C02 : C02: \nILiveConfig\nPlanning
+ R_C03 -(0- P_C03 : C03: \nIRecordConfig\nVersion
+}
+legend bottom left
+ Socket: required. Ball: provided.
+ Square: port. See CONTRACTS.md.
+endlegend
+@enduml
+

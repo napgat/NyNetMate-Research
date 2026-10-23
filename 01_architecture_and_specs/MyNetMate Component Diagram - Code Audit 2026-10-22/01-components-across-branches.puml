@@ -1,0 +1,49 @@
+@startuml
+title MyNetMate - Network Management components\nbackend main @ 166e2ee | selected internal contracts | no cross-branch assembly
+left to right direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 13
+skinparam nodesep 35
+skinparam ranksep 55
+skinparam padding 10
+skinparam componentBackgroundColor #F7FBFF
+skinparam componentBorderColor #315A78
+skinparam noteBackgroundColor #FFFBEA
+component "Network Management" as NetworkSystem {
+ component "devices : DeviceManagement" as Devices {
+  portout " " as R_N01
+  portout " " as P_N02
+ }
+ component "collection : NetworkCollection" as Collection {
+  portin " " as R_N02
+  portout " " as R_N03
+  portout " " as R_N04
+  portin " " as P_N01
+ }
+ component "collector : InventoryCollection" as Collector {
+  portout " " as R_N05
+  portin " " as P_N03
+  note "InventoryCollector.collect()\ncollector.py" as CollectorImplementation
+ }
+ component "oxian : OxianPython" as Oxian {
+  portin " " as P_N04
+  portin " " as P_N05
+ }
+ R_N01 -(0- P_N01 : N01: ITargetCollection
+ R_N02 -(0- P_N02 : N02: ISnapshotApplication
+ R_N03 -(0- P_N03 : N03: IInventoryCollection
+ R_N04 -(0- P_N04 : N04: IOxianDiscovery
+ R_N05 -(0- P_N05 : N05: ISnmpClient
+}
+legend bottom left
+ Square = UML Port (name suppressed). Socket = required; ball = provided.
+ Each assembly joins two simple ports for ONE named interface.
+ role : ComponentType denotes a part; types are logical software-module abstractions.
+ Contract IDs map to operations and immutable source evidence in README / CONTRACTS.md.
+ Both directions between Devices and Collection are real service contracts, not request/response arrows.
+ HTTP routes, SQLAlchemy sessions and health/topology internals are deliberately omitted.
+ Discovery is permitted only in an isolated lab; this work performed no network or device I/O.
+endlegend
+@enduml

@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="DESCRIPTION" style="width:701px;height:951px;background:#FFFFFF;" width="160mm" height="217.06mm" viewBox="0 0 701 951" zoomAndPan="magnify" preserveAspectRatio="none" contentStyleType="text/css">
+  <?plantuml 1.2026.9?>
+  <defs />
+  <g font-family="sans-serif" lengthAdjust="spacing">
+    <g class="title" data-source-line="1">
+      <text x="284.224" y="37.724" fill="#000" font-size="19" textLength="125.634" font-weight="700">CIS validation</text>
+      <text x="194.702" y="61.622" fill="#000" font-size="19" textLength="304.677" font-weight="700">backend cis-validation @ 0f65dd8</text>
+    </g>
+    <!--cluster Assembly-->
+    <g class="cluster" data-qualified-name="Assembly" id="ent0001" data-source-line="14">
+      <rect x="7" y="91.797" width="676" height="749" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="663" y="96.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="661" y="98.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="661" y="102.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="285.489" y="131.482" fill="#000" font-size="18" textLength="119.021" font-weight="700">CIS validation</text>
+    </g>
+    <!--cluster HTTP-->
+    <g class="cluster" data-qualified-name="Assembly.HTTP" id="ent0002" data-source-line="15">
+      <rect x="256" y="148.797" width="140" height="124" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="376" y="153.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="374" y="155.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="374" y="159.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="303.513" y="188.482" fill="#000" font-size="18" textLength="44.974" font-weight="700">http :</text>
+      <text x="272.492" y="211.123" fill="#000" font-size="18" textLength="107.016" font-weight="700">SecurityHttp</text>
+      <text x="283.997" y="233.764" fill="#000" font-size="18" textLength="84.006" font-weight="700">Boundary</text>
+    </g>
+    <!--cluster Security-->
+    <g class="cluster" data-qualified-name="Assembly.Security" id="ent0006" data-source-line="20">
+      <rect x="23" y="415.797" width="183" height="151" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="186" y="420.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="184" y="422.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="184" y="426.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="74.483" y="455.482" fill="#000" font-size="18" textLength="80.033" font-weight="700">security :</text>
+      <text x="35.979" y="478.123" fill="#000" font-size="18" textLength="157.043" font-weight="700">SecurityValidation</text>
+    </g>
+    <!--cluster Engine-->
+    <g class="cluster" data-qualified-name="Assembly.Engine" id="ent0010" data-source-line="25">
+      <rect x="23" y="709.797" width="226" height="115" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="229" y="714.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="227" y="716.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="227" y="720.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="101.499" y="749.482" fill="#000" font-size="18" textLength="69.003" font-weight="700">engine :</text>
+      <text x="55" y="772.123" fill="#000" font-size="18" textLength="162" font-weight="700">RuleEngineModule</text>
+    </g>
+    <!--cluster Actor-->
+    <g class="cluster" data-qualified-name="Assembly.Actor" id="ent0012" data-source-line="28">
+      <rect x="312.25" y="415.797" width="151" height="137" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="443.25" y="420.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="441.25" y="422.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="441.25" y="426.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="360.245" y="455.482" fill="#000" font-size="18" textLength="55.011" font-weight="700">actor :</text>
+      <text x="325.233" y="478.123" fill="#000" font-size="18" textLength="125.033" font-weight="700">HeaderIdentity</text>
+      <text x="356.254" y="500.764" fill="#000" font-size="18" textLength="62.991" font-weight="700">Module</text>
+    </g>
+    <!--cluster Audit-->
+    <g class="cluster" data-qualified-name="Assembly.Audit" id="ent0014" data-source-line="31">
+      <rect x="309.5" y="709.797" width="167" height="115" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="456.5" y="714.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="454.5" y="716.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="454.5" y="720.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="366.004" y="749.482" fill="#000" font-size="18" textLength="53.991" font-weight="700">audit :</text>
+      <text x="322.02" y="772.123" fill="#000" font-size="18" textLength="141.961" font-weight="700">LogAuditModule</text>
+    </g>
+    <!--cluster Database-->
+    <g class="cluster" data-qualified-name="Assembly.Database" id="ent0016" data-source-line="34">
+      <rect x="505.5" y="415.797" width="178" height="126" fill="#FFF" style="stroke:#222;stroke-width:1;" rx="2.5" ry="2.5" />
+      <rect x="663.5" y="420.797" width="15" height="10" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="661.5" y="422.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <rect x="661.5" y="426.797" width="4" height="2" fill="#FFF" style="stroke:#222;stroke-width:1;" />
+      <text x="549.983" y="455.482" fill="#000" font-size="18" textLength="89.033" font-weight="700">database :</text>
+      <text x="518.479" y="478.123" fill="#000" font-size="18" textLength="152.042" font-weight="700">DatabaseRuntime</text>
+    </g>
+    <g class="entity" data-qualified-name="Assembly.HTTP.R_S01" id="ent0003" data-source-line="16">
+      <text x="271.5" y="305.482" fill="#000" font-size="18"> </text>
+      <rect x="268" y="266.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.HTTP.R_S02" id="ent0004" data-source-line="17">
+      <text x="323.5" y="305.482" fill="#000" font-size="18"> </text>
+      <rect x="320" y="266.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.HTTP.R_S03" id="ent0005" data-source-line="18">
+      <text x="375.5" y="305.482" fill="#000" font-size="18"> </text>
+      <rect x="372" y="266.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Security.R_S04" id="ent0007" data-source-line="21">
+      <text x="133.5" y="599.482" fill="#000" font-size="18"> </text>
+      <rect x="130" y="560.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Security.R_S05" id="ent0008" data-source-line="22">
+      <text x="185.5" y="599.482" fill="#000" font-size="18"> </text>
+      <rect x="182" y="560.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Security.P_S01" id="ent0009" data-source-line="23">
+      <text x="143.5" y="385.842" fill="#000" font-size="18"> </text>
+      <rect x="140" y="409.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Engine.P_S04" id="ent0011" data-source-line="26">
+      <text x="133.5" y="679.842" fill="#000" font-size="18"> </text>
+      <rect x="130" y="703.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Actor.P_S02" id="ent0013" data-source-line="29">
+      <text x="334.5" y="385.842" fill="#000" font-size="18"> </text>
+      <rect x="331" y="409.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Audit.P_S05" id="ent0015" data-source-line="32">
+      <text x="329.5" y="679.842" fill="#000" font-size="18"> </text>
+      <rect x="326" y="703.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="entity" data-qualified-name="Assembly.Database.P_S03" id="ent0017" data-source-line="35">
+      <text x="526.5" y="385.842" fill="#000" font-size="18"> </text>
+      <rect x="523" y="409.797" width="12" height="12" fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_S01 to P_S01-->
+    <g class="link" data-entity-1="ent0003" data-entity-2="ent0009" id="lnk18" data-source-line="37" data-link-type="association">
+      <path d="M267.6,273.957 C253.94,274.627 221.57,278.007 202,294.797 C164.31,327.127 150.35,390.327 146.91,409.287" style="stroke:#181818;stroke-width:1;" fill="none" id="R_S01-P_S01" />
+      <text x="241.01" y="329.482" fill="#000" font-size="18" textLength="37.028">S01:</text>
+      <text x="227.013" y="352.123" fill="#000" font-size="18" textLength="70.022">ISecurity</text>
+      <text x="218" y="374.764" fill="#000" font-size="18" textLength="88.049">Operations</text>
+      <path d="M211.971,295.559 A10,10 0 0 0 202.762 284.826" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="202" cy="294.797" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_S02 to P_S02-->
+    <g class="link" data-entity-1="ent0004" data-entity-2="ent0013" id="lnk19" data-source-line="38" data-link-type="association">
+      <path d="M326.39,278.817 C328.1,300.697 334.88,387.637 336.6,409.687" style="stroke:#181818;stroke-width:1;" fill="none" id="R_S02-P_S02" />
+      <text x="380.522" y="329.482" fill="#000" font-size="18" textLength="37.028">S02:</text>
+      <text x="359.521" y="352.123" fill="#000" font-size="18" textLength="84.032">IActorRole</text>
+      <text x="351" y="374.764" fill="#000" font-size="18" textLength="101.074">Dependency</text>
+      <path d="M337.991,336.589 A10,10 0 0 0 323.892 337.688" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="331.491" cy="344.188" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_S03 to P_S03-->
+    <g class="link" data-entity-1="ent0005" data-entity-2="ent0017" id="lnk20" data-source-line="39" data-link-type="association">
+      <path d="M384.35,273.397 C400.88,272.697 445.85,273.027 473,294.797 C512.1,326.147 525.22,391.127 528.25,409.727" style="stroke:#181818;stroke-width:1;" fill="none" id="R_S03-P_S03" />
+      <text x="588.026" y="329.482" fill="#000" font-size="18" textLength="37.028">S03:</text>
+      <text x="541" y="352.123" fill="#000" font-size="18" textLength="136.081">IRequestSession</text>
+      <text x="558.503" y="374.764" fill="#000" font-size="18" textLength="101.074">Dependency</text>
+      <path d="M471.907,284.857 A10,10 0 0 0 463.06 295.89" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="473" cy="294.797" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_S04 to P_S04-->
+    <g class="link" data-entity-1="ent0007" data-entity-2="ent0011" id="lnk21" data-source-line="40" data-link-type="association">
+      <path d="M136,572.817 C136,594.697 136,681.637 136,703.687" style="stroke:#181818;stroke-width:1;" fill="none" id="R_S04-P_S04" />
+      <text x="178.011" y="623.482" fill="#000" font-size="18" textLength="37.028">S04:</text>
+      <text x="152" y="646.123" fill="#000" font-size="18" textLength="94.052">IConfigRule</text>
+      <text x="156.997" y="668.764" fill="#000" font-size="18" textLength="84.059">Evaluation</text>
+      <path d="M143.071,631.117 A10,10 0 0 0 128.929 631.117" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="136" cy="638.188" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <!--link R_S05 to P_S05-->
+    <g class="link" data-entity-1="ent0008" data-entity-2="ent0015" id="lnk22" data-source-line="41" data-link-type="association">
+      <path d="M194.06,567.837 C208.31,568.237 244.48,571.057 267,588.797 C307.58,620.757 326.18,685.307 330.81,703.767" style="stroke:#181818;stroke-width:1;" fill="none" id="R_S05-P_S05" />
+      <text x="401.528" y="634.482" fill="#000" font-size="18" textLength="37.028">S05:</text>
+      <text x="342" y="657.123" fill="#000" font-size="18" textLength="161.086">IBranchAuditRecord</text>
+      <path d="M265.821,578.867 A10,10 0 0 0 257.07 589.976" fill="none" style="stroke:#181818;stroke-width:1.5;" />
+      <ellipse cx="267" cy="588.797" rx="6" ry="6" fill="#FFF" style="stroke:#181818;stroke-width:1.5;" />
+    </g>
+    <g class="legend" data-source-line="43">
+      <rect x="12" y="860.797" width="319.098" height="71.281" fill="#DDD" style="stroke:#000;stroke-width:1;" rx="7.5" ry="7.5" />
+      <text x="25" y="892.482" fill="#000" font-size="18" textLength="255.138">Socket: required. Ball: provided.</text>
+      <text x="25" y="915.123" fill="#000" font-size="18" textLength="293.098">Square: port. See CONTRACTS.md.</text>
+    </g>
+    <?plantuml-src TLHHRzem47xFhpXrBti1qG0Jusd0Ee6qjLM2zXHfCl4bM3XsQZkjsDJ_tei3JM0f3v7ztNsVFz_XSy99XDKcXcSc1MTEQ9Me7KiFg3YamWvQ7Bx1AFiovNmME5s2qx3Jpka2k32OrXc1FGXLCiCAI7LHQeNAnUv89rI533jHksTSlmYLGyQanKw4OyOgwNvevUvPWH0pPMCq8klFYSLVXDjP9-Zg6xMXhvsGn9nkrKzJcgF54i9H1pHC7JmuwO0buxnsFkkxxP8gbnjTARxIKXjusGk7lOdQS3HDqgVG_uBt8DnSTkG6c8M5jLZiv17-1T39t3jNmZnHCQQL4UwufdsYbhK5PewUkTvk7siMbDeuNH49F1xzYKUt_N3O3uy3UBqutPvExJhuVUdx37_aOD8FJq-mK6VqiR5xQG1LBXJMnqULn3k_-wKvhJsd0TwFlXIRN8knr54xI6kDZBgpuOIIyqHr51S-frym_4-muiBLWZzrlgZNNI4VwnUQNWjHFTcEMN_HxwTrL96xeX4xOn_eDNtp_OR1vz6WgINCWRvpIDJctAH4FPHeVFDiGmXRGkW9eIVuCaHQ8ld1afuLglJOCCOjO-mPOy-8yAb2wsAqrW-PQzgafKqyRU9fAwqoaTVDJTGTFOdAcsieqvOozPIffopftQPxNzy8KtfemMlGlFtpn9AOkG1YJMFEpS6GCnfXV0XB9kKSIgEV1QSzfJnLpE3SbtH8VsMQbG_tssYnsiR3WX98ir5-0m00?>
+  </g>
+</svg>
